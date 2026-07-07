@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // IMPORTANT: Import nativeFetch FIRST to preserve native fetch before any pollution
 import { withNativeFetch } from "../util/nativeFetch.js";
 import { GoogleGenAI } from "@google/genai";

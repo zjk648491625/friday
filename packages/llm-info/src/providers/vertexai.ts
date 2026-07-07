@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AllMediaTypes, ModelProvider } from "../types.js";
 
 export const Gemini: ModelProvider = {

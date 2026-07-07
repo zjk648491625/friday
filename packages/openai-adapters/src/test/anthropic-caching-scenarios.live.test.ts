@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Battle test suite for Anthropic prompt caching.
  *
@@ -914,7 +915,7 @@ describe.skipIf(!API_KEY)(
                 content: exchanges[i],
               });
             }
-            continue;
+            friday;
           }
 
           // Push user message

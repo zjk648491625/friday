@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
-  title: Continue Hub IDE API
+  title: Friday Hub IDE API
   description: |
-    API for Continue IDE to fetch assistants and other related information.
-    These endpoints are primarily used by the Continue IDE extensions for VS Code and JetBrains.
+    API for Friday IDE to fetch assistants and other related information.
+    These endpoints are primarily used by the Friday IDE extensions for VS Code and JetBrains.
   version: 1.0.0
   contact:
-    name: Continue Dev Team
-    url: https://continue.dev
+    name: Friday AI Team
+    url: https://friday.dev
 servers:
-  - url: https://api.continue.dev
+  - url: https://api.friday.dev
     description: Production server
   - url: http://localhost:3001
     description: Local development server
@@ -27,7 +27,7 @@ paths:
       parameters:
         - name: alwaysUseProxy
           in: query
-          description: Whether to always use the Continue-managed proxy for model requests
+          description: Whether to always use the Friday-managed proxy for model requests
           required: false
           schema:
             type: string
@@ -138,7 +138,7 @@ paths:
             type: string
         - name: alwaysUseProxy
           in: query
-          description: Whether to always use the Continue-managed proxy for model requests
+          description: Whether to always use the Friday-managed proxy for model requests
           required: false
           schema:
             type: string
@@ -514,4 +514,4 @@ components:
         API keys must be prefixed with "con_" and provided in the Authorization header.
         Example: `Authorization: Bearer con_your_api_key_here`
 
-        API keys can be generated in the Continue Hub web interface under account settings.
+        API keys can be generated in the Friday Hub web interface under account settings.

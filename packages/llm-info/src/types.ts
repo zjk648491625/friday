@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export type UseCase = "chat" | "autocomplete" | "rerank" | "embed";
 
 export type ParameterType = "string" | "number" | "boolean";

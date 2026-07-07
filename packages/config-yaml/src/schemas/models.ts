@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { z } from "zod";
 
 export const clientCertificateOptionsSchema = z.object({
@@ -38,7 +39,7 @@ export const modelCapabilitySchema = z.union([
   z.literal("tool_use"),
   z.literal("image_input"),
   z.literal("next_edit"),
-  z.string(), // Needed for forwards compatibility, see https://github.com/continuedev/continue/pull/7676
+  z.string(), // Needed for forwards compatibility, see https://github.com/friday-ai/friday/pull/7676
 ]);
 
 // not ideal but lose type suggestions if use z.infer because of the string fallback

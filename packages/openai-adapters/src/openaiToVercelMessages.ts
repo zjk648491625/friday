@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Converts OpenAI ChatCompletionMessageParam format to Vercel AI SDK CoreMessage format
  */

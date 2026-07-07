@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export async function* toAsyncIterable(
   nodeReadable: NodeJS.ReadableStream,
 ): AsyncGenerator<Uint8Array> {

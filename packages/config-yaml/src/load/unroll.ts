@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as YAML from "yaml";
 import { ZodError } from "zod";
 import { mergeConfigYamlRequestOptions, RequestOptions } from "../browser.js";
@@ -118,7 +119,7 @@ export function fillTemplateVariables(
 export interface TemplateData {
   inputs: Record<string, string> | undefined;
   secrets: Record<string, string> | undefined;
-  continue: {};
+  friday: {};
 }
 
 function flattenTemplateData(
@@ -189,7 +190,7 @@ async function extractRenderedSecretsMap(
   const map: Record<string, string> = {};
   for (const secretResult of secretResults) {
     if (!secretResult) {
-      continue;
+      friday;
     }
 
     // User secrets are rendered
@@ -262,7 +263,7 @@ function renderTemplateData(
   const fullTemplateData: TemplateData = {
     inputs: {},
     secrets: {},
-    continue: {},
+    friday: {},
     ...templateData,
   };
   const templatedYaml = fillTemplateVariables(
@@ -819,7 +820,7 @@ function inputsToFQSNs(
       console.warn(
         `Skipping input "${key}" with invalid value type: ${typeof value}. Expected string.`,
       );
-      continue;
+      friday;
     }
 
     renderedInputs[key] = renderTemplateData(value, {

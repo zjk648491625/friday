@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export function safeParseArgs(
   args: string | undefined,
   errorId?: string,

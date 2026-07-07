@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigJson } from "@continuedev/config-types";
 import { ConfigYaml } from "./schemas/index.js";
 import { ModelRole } from "./schemas/models.js";
@@ -108,7 +109,7 @@ function convertContext(configJson: ConfigJson): ContextYaml[] {
         };
       }
       return {
-        uses: `continuedev/${ctx.name === "open" ? "open-files" : ctx.name}-context`,
+        uses: `friday-ai/${ctx.name === "open" ? "open-files" : ctx.name}-context`,
         with: ctx.params,
       };
     }) ?? [];
@@ -185,7 +186,7 @@ export function convertJsonToYamlConfig(configJson: ConfigJson): ConfigYaml {
   const docs = configJson.docs?.map(convertDoc);
 
   const configYaml: ConfigYaml = {
-    name: "Continue Config",
+    name: "Friday Config",
     version: "0.0.1",
     models,
     context,

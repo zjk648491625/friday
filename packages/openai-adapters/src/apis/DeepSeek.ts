@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@continuedev/fetch";
 import { ChatCompletionChunk, Model } from "openai/resources/index";
 import { DeepseekConfig } from "../types.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { Registry } from "./interfaces/index.js";

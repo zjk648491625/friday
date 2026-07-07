@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import z from "zod";
 
 // This is the schema for an entry in e.g. Claude Desktop, Claude code mcp config

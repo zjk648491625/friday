@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PackageIdentifier } from "../browser.js";
 import {
   createMarkdownWithFrontmatter,

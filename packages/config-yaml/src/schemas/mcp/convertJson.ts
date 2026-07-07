@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type {
   HttpMcpServer,
   MCPServer,
@@ -44,7 +45,7 @@ export function convertYamlEnvToJsonEnv(
 }
 
 /**
- * Convert from JSON schema (used in Claude Desktop) to YAML schema (used in Continue)
+ * Convert from JSON schema (used in Claude Desktop) to YAML schema (used in Friday)
  */
 export function convertJsonMcpConfigToYamlMcpConfig(
   name: string,
@@ -59,7 +60,7 @@ export function convertJsonMcpConfigToYamlMcpConfig(
   if ("command" in jsonConfig) {
     if (jsonConfig.envFile) {
       warnings.push(
-        `envFile is not supported in Continue MCP configuration (server "${name}"). Environment variables from file will not be used.`,
+        `envFile is not supported in Friday MCP configuration (server "${name}"). Environment variables from file will not be used.`,
       );
     }
 
@@ -104,7 +105,7 @@ export function convertJsonMcpConfigToYamlMcpConfig(
 }
 
 /**
- * Convert from YAML schema (used in Continue) to JSON schema (e.g. used in Claude Desktop)
+ * Convert from YAML schema (used in Friday) to JSON schema (e.g. used in Claude Desktop)
  */
 export function convertYamlMcpConfigToJsonMcpConfig(yamlConfig: MCPServer): {
   name: string;

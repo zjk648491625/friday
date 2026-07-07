@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PackageIdentifier } from "../browser.js";
 import { getRuleName, markdownToRule } from "./markdownToRule.js";
 
@@ -139,7 +140,7 @@ This is a test rule.`;
       ]);
     });
 
-    it("should not prepend when inside .continue", () => {
+    it("should not prepend when inside .friday", () => {
       const content = `---
 globs: ".git"
 name: glob pattern testing
@@ -153,9 +154,9 @@ name: glob pattern testing
         content,
         {
           uriType: "file",
-          fileUri: "file:///Documents/myproject/.continue/rules/rule1.md",
+          fileUri: "file:///Documents/myproject/.friday/rules/rule1.md",
         },
-        "/Documents/myproject/.continue/",
+        "/Documents/myproject/.friday/",
       );
       expect(result.globs).toBe(".git");
     });

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "@jest/globals";
 import { AssistantUnrolled } from "../schemas/index.js";
 import { mergeUnrolledAssistants } from "./merge.js";

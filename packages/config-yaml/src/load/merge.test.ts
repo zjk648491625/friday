@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "@jest/globals";
 import type { RequestOptions } from "../schemas/models.js";
 import { mergeConfigYamlRequestOptions } from "./merge.js";

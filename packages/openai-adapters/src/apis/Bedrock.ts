@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   BedrockRuntimeClient,
   ContentBlock,
@@ -501,7 +502,7 @@ export class BedrockApi implements BaseLlmApi {
               content: delta.text,
               model: body.model,
             });
-            continue;
+            friday;
           }
 
           // Handle thinking content (if reasoning enabled)
@@ -509,7 +510,7 @@ export class BedrockApi implements BaseLlmApi {
             // TODO reasoning
             // Reasoning is not directly supported in OpenAI format,
             // but we could add it as a special message
-            continue;
+            friday;
           }
 
           // Handle tool use

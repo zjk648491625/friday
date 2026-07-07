@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { toolUsageEventAllSchema } from "./index.js";
 
 export const toolUsageEventSchema_0_2_0 = toolUsageEventAllSchema.pick({

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createDeepSeek } from "@ai-sdk/deepseek";

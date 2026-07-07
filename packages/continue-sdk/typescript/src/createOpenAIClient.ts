@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   AssistantUnrolled,
-  ContinueProperties,
+  FridayProperties,
 } from "@continuedev/config-yaml";
 import fetch, { Response } from "node-fetch";
 import OpenAI from "openai";
@@ -20,23 +21,23 @@ interface OpenAIClientOptions extends Record<string, any> {
   organizationId?: string | null;
 
   /**
-   * Whether to always use the Continue-managed proxy for model requests
+   * Whether to always use the Friday-managed proxy for model requests
    */
   alwaysUseProxy?: boolean;
 
   /**
-   * API key for Continue Hub
+   * API key for Friday Hub
    */
   apiKey?: string;
 
   /**
-   * Base URL for the Continue API
+   * Base URL for the Friday API
    */
   baseURL?: string;
 }
 
 /**
- * Create and configure an OpenAI client that uses Continue Hub for authentication
+ * Create and configure an OpenAI client that uses Friday Hub for authentication
  *
  * @param options - OpenAI client options with assistant models
  * @returns Configured OpenAI client
@@ -45,7 +46,7 @@ export function createOpenAIClient({
   models: assistantModels,
   organizationId,
   apiKey,
-  baseURL = "https://api.continue.dev/",
+  baseURL = "https://api.friday.dev/",
 }: OpenAIClientOptions): OpenAI {
   return new OpenAI({
     apiKey,
@@ -80,7 +81,7 @@ export function createOpenAIClient({
             );
           }
 
-          const continueProperties: ContinueProperties = {
+          const fridayProperties: FridayProperties = {
             apiKeyLocation: modelConfig.apiKeyLocation,
             envSecretLocations: modelConfig.envSecretLocations,
             orgScopeId: organizationId ?? null,
@@ -89,7 +90,7 @@ export function createOpenAIClient({
           // Update the request with the modified body
           modifiedInit.body = JSON.stringify({
             ...body,
-            continueProperties,
+            fridayProperties,
           });
         } catch (e) {
           // If parsing fails, proceed with the original body

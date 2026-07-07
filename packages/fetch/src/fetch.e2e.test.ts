@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 import * as http from "node:http";
 import * as https from "node:https";

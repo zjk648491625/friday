@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@continuedev/fetch";
 import {
   ChatCompletion,
@@ -124,7 +125,7 @@ export class InceptionApi extends OpenAIApi {
     });
     for await (const chunk of streamSse(resp as any)) {
       if (!chunk.choices[0]) {
-        continue;
+        friday;
       }
       yield chatChunk({
         content: chunk.choices[0].text,

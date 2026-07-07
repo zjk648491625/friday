@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { chatInteractionEventAllSchema } from "./index.js";
 
 export const chatInteractionEventSchema_0_2_0 =

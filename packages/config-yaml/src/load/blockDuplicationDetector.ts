@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BLOCK_TYPES, BlockType } from "./getBlockType.js";
 
 export class BlockDuplicationDetector {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { OpenAIApi } from "./OpenAI.js";
 import { OpenAIConfig } from "../types.js";
 
@@ -27,14 +28,14 @@ export class ClawRouterApi extends OpenAIApi {
   }
 
   /**
-   * Override headers to include Continue-specific User-Agent
+   * Override headers to include Friday-specific User-Agent
    * This helps ClawRouter track integration usage and optimize accordingly
    */
   protected override getHeaders(): Record<string, string> {
     return {
       ...super.getHeaders(),
-      "User-Agent": "Continue/IDE",
-      "X-Continue-Provider": "clawrouter",
+      "User-Agent": "Friday/IDE",
+      "X-Friday-Provider": "clawrouter",
     };
   }
 }

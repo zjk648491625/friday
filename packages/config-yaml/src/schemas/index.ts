@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as z from "zod";
 import { commonModelSlugs } from "./commonSlugs.js";
 import { dataSchema } from "./data/index.js";
@@ -207,7 +208,7 @@ export const blockSchema = baseConfigYamlSchema.and(
 
 export type Block = z.infer<typeof blockSchema>;
 
-export const continueCommandSchema = z.object({
+export const fridayCommandSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   prompt: z.string(),
@@ -247,7 +248,7 @@ export const configSchema = z.object({
   models: z.array(modelSchema).optional(),
   defaultModel: z.string().optional(),
   defaultRecentMessages: z.number().optional(),
-  commands: z.array(continueCommandSchema).optional(),
+  commands: z.array(fridayCommandSchema).optional(),
   tools: z.array(toolSchema).optional(),
   contextProviders: z.array(z.any()).optional(),
   langMarkers: z.array(languageMarkerSchema).optional(),

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export function appendPathToUrlIfNotPresent(
   urlString: string,
   pathWithoutSlash: string,

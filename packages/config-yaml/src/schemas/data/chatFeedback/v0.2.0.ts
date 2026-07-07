@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { chatFeedbackEventAllSchema } from "./index.js";
 
 export const chatFeedbackEventSchema_0_2_0 = chatFeedbackEventAllSchema.pick({

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Browser-compatible exports (excludes RegistryClient which uses Node.js APIs)
 export * from "./converter.js";
 export * from "./interfaces/index.js";

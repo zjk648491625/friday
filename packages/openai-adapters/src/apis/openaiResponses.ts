@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { CompletionUsage } from "openai/resources/index.js";
 import {
   ChatCompletion,
@@ -119,7 +120,7 @@ function collectMessageContentParts(
   for (const part of content) {
     const converted = convertMessageContentPart(part);
     if (!converted) {
-      continue;
+      friday;
     }
     parts.push(converted);
   }
@@ -173,7 +174,7 @@ function collectAssistantContentParts(
         | ChatCompletionContentPartRefusal
         | { type: "output_text"; text: string };
       if (!part) {
-        continue;
+        friday;
       }
 
       const partType = part.type;
@@ -293,7 +294,7 @@ export function toResponsesInput(
   for (const message of messages) {
     if (message.role === "tool") {
       if (!message.tool_call_id) {
-        continue;
+        friday;
       }
       const rawContent = extractToolResultContent(message.content);
       inputItems.push({
@@ -301,33 +302,33 @@ export function toResponsesInput(
         call_id: message.tool_call_id,
         output: rawContent,
       });
-      continue;
+      friday;
     }
 
     if (message.role === "system" || message.role === "developer") {
       const contentParts = collectMessageContentParts(message.content);
       if (contentParts.length === 0) {
-        continue;
+        friday;
       }
       inputItems.push({
         type: "message",
         role: "developer",
         content: contentParts,
       });
-      continue;
+      friday;
     }
 
     if (message.role === "user") {
       const contentParts = collectMessageContentParts(message.content);
       if (contentParts.length === 0) {
-        continue;
+        friday;
       }
       inputItems.push({
         type: "message",
         role: "user",
         content: contentParts,
       });
-      continue;
+      friday;
     }
 
     if (message.role === "assistant") {
@@ -370,7 +371,7 @@ export function toResponsesInput(
           }
         });
       }
-      continue;
+      friday;
     }
   }
 

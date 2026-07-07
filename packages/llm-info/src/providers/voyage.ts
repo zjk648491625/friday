@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelProvider } from "../types.js";
 
 export const Voyage: ModelProvider = {

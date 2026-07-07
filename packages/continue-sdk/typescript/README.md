@@ -2,7 +2,7 @@
 
 > **⚠️ EXPERIMENTAL: This package is in early development and subject to frequent breaking changes without notice.**
 
-This SDK provides a drop-in replacement for OpenAI libraries to easily integrate with Continue assistants.
+This SDK provides a drop-in replacement for OpenAI libraries to easily integrate with Friday assistants.
 
 ## Installation
 
@@ -12,14 +12,14 @@ npm install @continuedev/sdk
 
 ## Usage
 
-The SDK provides a `Continue.from()` method that initializes an assistant and returns a client you can use as a drop-in replacement for the OpenAI SDK:
+The SDK provides a `Friday.from()` method that initializes an assistant and returns a client you can use as a drop-in replacement for the OpenAI SDK:
 
 ```typescript
-import { Continue } from "@continuedev/sdk";
+import { Friday } from "@continuedev/sdk";
 
-// Initialize the Continue client with your API key and assistant
-const { client, assistant } = await Continue.from({
-  apiKey: process.env.CONTINUE_API_KEY,
+// Initialize the Friday client with your API key and assistant
+const { client, assistant } = await Friday.from({
+  apiKey: process.env.FRIDAY_API_KEY,
   assistant: "owner-slug/assistant-slug", // The assistant identifier
 });
 
@@ -35,41 +35,41 @@ const response = await client.chat.completions.create({
 console.log(response.choices[0].message.content);
 ```
 
-You can also use the SDK without specifying an assistant to just get the Continue API client:
+You can also use the SDK without specifying an assistant to just get the Friday API client:
 
 ```typescript
-import { Continue } from "@continuedev/sdk";
+import { Friday } from "@continuedev/sdk";
 
-// Initialize just the Continue API client
-const { api } = await Continue.from({
-  apiKey: process.env.CONTINUE_API_KEY,
+// Initialize just the Friday API client
+const { api } = await Friday.from({
+  apiKey: process.env.FRIDAY_API_KEY,
 });
 
-// Make calls to the Continue API
+// Make calls to the Friday API
 const assistants = await api.listAssistants({});
 ```
 
 ## API Reference
 
-### Continue.from(options)
+### Friday.from(options)
 
-Creates a Continue instance with a pre-configured OpenAI client and assistant.
+Creates a Friday instance with a pre-configured OpenAI client and assistant.
 
 #### Options
 
-- `apiKey` (string, required): Your Continue API key
+- `apiKey` (string, required): Your Friday API key
 - `assistant` (string, optional): The assistant identifier in the format `owner-slug/assistant-slug`
 - `organizationId` (string, optional): Optional organization ID
-- `baseURL` (string, optional): Base URL for the Continue API (defaults to `https://api.continue.dev/`)
+- `baseURL` (string, optional): Base URL for the Friday API (defaults to `https://api.friday.dev/`)
 
 #### Returns
 
 When `assistant` is provided, returns an object containing:
 
-- `api`: The Continue API client for direct API access
-- `client`: An OpenAI-compatible client configured to use the Continue API
+- `api`: The Friday API client for direct API access
+- `client`: An OpenAI-compatible client configured to use the Friday API
 - `assistant`: The assistant configuration with utility methods
 
 When assistant is not provided, returns an object containing:
 
-- `api`: The Continue API client for direct API access
+- `api`: The Friday API client for direct API access

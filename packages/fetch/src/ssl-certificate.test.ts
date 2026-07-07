@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -215,7 +216,7 @@ MIIDOriginalCert1234567890abcdefghijklmnopqrstuvwxyz
     test("should handle non-existent certificate files gracefully", async () => {
       const nonExistentPath = path.join(tempDir, "does-not-exist.pem");
 
-      // Should not throw but should continue with system certificates only
+      // Should not throw but should friday with system certificates only
       const options = await getAgentOptions({ caBundlePath: nonExistentPath });
 
       expect(options.ca).toBeDefined();

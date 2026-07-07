@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@continuedev/fetch";
 import { OpenAI } from "openai/index";
 import {
@@ -236,7 +237,7 @@ export class WatsonXApi implements BaseLlmApi {
 
     for await (const value of streamSse(response as any)) {
       if (!value.choices?.[0]) {
-        continue;
+        friday;
       }
       yield value;
     }

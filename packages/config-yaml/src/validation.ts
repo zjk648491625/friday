@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigYaml, configYamlSchema } from "./schemas/index.js";
 
 export interface ConfigValidationError {
@@ -89,7 +90,7 @@ export function validateConfigYaml(
       ) {
         errors.push({
           fatal: false,
-          message: `${model.model} is not trained for tab-autocomplete, and will result in low-quality suggestions. See the docs to learn more about why: https://docs.continue.dev/features/tab-autocomplete#i-want-better-completions-should-i-use-gpt-4`,
+          message: `${model.model} is not trained for tab-autocomplete, and will result in low-quality suggestions. See the docs to learn more about why: https://docs.friday.dev/features/tab-autocomplete#i-want-better-completions-should-i-use-gpt-4`,
         });
       }
     }

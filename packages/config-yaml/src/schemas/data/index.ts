@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { z } from "zod";
 import { requestOptionsSchema } from "../models.js";
 import { autocompleteEventAllSchema } from "./autocomplete/index.js";

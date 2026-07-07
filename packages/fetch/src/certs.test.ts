@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 import { beforeEach, expect, test, vi } from "vitest";
 import { CertsCache, getCertificateContent } from "./certs.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BLOCK_TYPES, RequestOptions } from "../browser.js";
 import { AssistantUnrolled, ConfigYaml } from "../schemas/index.js";
 import { BlockDuplicationDetector } from "./blockDuplicationDetector.js";

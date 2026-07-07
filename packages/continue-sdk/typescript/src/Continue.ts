@@ -1,13 +1,14 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { decodePackageSlug } from "@continuedev/config-yaml";
 import type { OpenAI } from "openai";
 import { Configuration, DefaultApi } from "../api/dist/index.js";
 import { Assistant } from "./Assistant.js";
 import { createOpenAIClient } from "./createOpenAIClient.js";
 
-export interface ContinueClientOptions {
+export interface FridayClientOptions {
   /**
    * The assistant identifier in the format owner-slug/package-slug
-   * If not provided, only the Continue API client will be returned
+   * If not provided, only the Friday API client will be returned
    */
   assistant?: string;
 
@@ -17,7 +18,7 @@ export interface ContinueClientOptions {
    * API keys must be prefixed with "con_" and provided in the Authorization header.
    * Example: `Authorization: Bearer con_your_api_key_here`
    *
-   * API keys can be generated in the Continue Hub web interface under account settings.
+   * API keys can be generated in the Friday Hub web interface under account settings.
    */
   apiKey: string;
 
@@ -29,19 +30,19 @@ export interface ContinueClientOptions {
   organizationId?: string;
 
   /**
-   * Base URL for the Continue API
+   * Base URL for the Friday API
    */
   baseURL?: string;
 }
 
-export type ContinueClient = {
+export type FridayClient = {
   /**
-   * The Continue API client
+   * The Friday API client
    */
   api: DefaultApi;
 
   /**
-   * The OpenAI client configured to use the Continue API
+   * The OpenAI client configured to use the Friday API
    */
   client: OpenAI;
 
@@ -52,51 +53,51 @@ export type ContinueClient = {
   assistant: Assistant;
 };
 
-export type ContinueClientBase = {
+export type FridayClientBase = {
   /**
-   * The Continue API client
+   * The Friday API client
    */
   api: DefaultApi;
 };
 
-export class Continue {
+export class Friday {
   /**
-   * Create a Continue instance with a specific assistant
+   * Create a Friday instance with a specific assistant
    *
    * When you provide an assistant name, this returns a full client with:
-   * - Continue API access
+   * - Friday API access
    * - A configured OpenAI-compatible client
    * - Assistant configuration and helper methods
    *
    * @param options - Configuration including your API key and assistant name
-   * @returns Full Continue environment with API client, LLM client, and assistant config
+   * @returns Full Friday environment with API client, LLM client, and assistant config
    */
   static async from(
-    options: ContinueClientOptions & { assistant: string },
-  ): Promise<ContinueClient>;
+    options: FridayClientOptions & { assistant: string },
+  ): Promise<FridayClient>;
 
   /**
-   * Create a simple Continue API client
+   * Create a simple Friday API client
    *
-   * When you don't specify an assistant, this returns just the Continue API client
+   * When you don't specify an assistant, this returns just the Friday API client
    * for making direct API calls.
    *
    * @param options - Configuration including your API key
-   * @returns Just the Continue API client
+   * @returns Just the Friday API client
    */
   static async from(
-    options: ContinueClientOptions & { assistant?: undefined },
-  ): Promise<ContinueClientBase>;
+    options: FridayClientOptions & { assistant?: undefined },
+  ): Promise<FridayClientBase>;
 
   /**
    * Internal implementation
    */
   static async from(
-    options: ContinueClientOptions,
-  ): Promise<ContinueClientBase | ContinueClient> {
-    const baseURL = options.baseURL || "https://api.continue.dev/";
+    options: FridayClientOptions,
+  ): Promise<FridayClientBase | FridayClient> {
+    const baseURL = options.baseURL || "https://api.friday.dev/";
 
-    const continueClient = new DefaultApi(
+    const fridayClient = new DefaultApi(
       new Configuration({
         basePath: baseURL,
         accessToken: options.apiKey
@@ -106,7 +107,7 @@ export class Continue {
     );
 
     if (!options.assistant) {
-      return { api: continueClient };
+      return { api: fridayClient };
     }
 
     const { ownerSlug, packageSlug } = decodePackageSlug(options.assistant);
@@ -116,7 +117,7 @@ export class Continue {
       );
     }
 
-    const assistants = await continueClient.listAssistants({
+    const assistants = await fridayClient.listAssistants({
       organizationId: options.organizationId,
       alwaysUseProxy: "true",
     });
@@ -139,7 +140,7 @@ export class Continue {
     });
 
     return {
-      api: continueClient,
+      api: fridayClient,
       client,
       assistant,
     };

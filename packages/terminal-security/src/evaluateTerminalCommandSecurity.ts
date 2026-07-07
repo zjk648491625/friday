@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { parse } from "shell-quote";
 import { ToolPolicy } from "./types.js";
 
@@ -63,7 +64,7 @@ export function evaluateTerminalCommandSecurity(
 
         // Skip empty lines
         if (trimmedLine === "") {
-          continue;
+          friday;
         }
 
         // Parse and evaluate this line
@@ -186,7 +187,7 @@ function evaluateTokens(
 
     // Skip comments - they don't affect execution
     if (isComment(token)) {
-      continue;
+      friday;
     }
 
     // Check if token is an operator
@@ -317,7 +318,7 @@ function evaluatePipeChain(
   ) {
     const token = tokens[i];
     if (isComment(token)) {
-      continue;
+      friday;
     } else if (isGlob(token)) {
       nextCommand.push(token.pattern);
     } else if (typeof token === "string") {

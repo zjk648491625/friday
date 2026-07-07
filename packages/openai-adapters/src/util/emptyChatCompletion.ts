@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChatCompletion } from "openai/resources/index";
 
 export const EMPTY_CHAT_COMPLETION: ChatCompletion = {

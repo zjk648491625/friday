@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   Base64ImageSource,
   ErrorResponse,
@@ -73,7 +74,7 @@ export function getAnthropicHeaders(
   // Warn if Azure endpoint is used with Anthropic-style key
   if (isAzure && apiKey.startsWith("sk-ant-")) {
     console.warn(
-      "[Continue] Azure endpoint detected but API key appears to be a standard Anthropic key (sk-ant-*). " +
+      "[Friday] Azure endpoint detected but API key appears to be a standard Anthropic key (sk-ant-*). " +
         "Azure endpoints require Azure API keys from your AI Foundry resource.",
     );
   }
@@ -103,7 +104,7 @@ export function addCacheControlToLastTwoUserMessages(messages: MessageParam[]) {
     if (msg.role === "user") {
       userMessages++;
       if (typeof msg.content === "string") {
-        continue;
+        friday;
       }
       for (let j = msg.content.length - 1; j >= 0; j--) {
         const part = msg.content[j];

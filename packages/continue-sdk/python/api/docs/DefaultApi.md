@@ -1,6 +1,6 @@
 # openapi_client.DefaultApi
 
-All URIs are relative to *https://api.continue.dev*
+All URIs are relative to *https://api.friday.dev*
 
 | Method                                                                             | HTTP request                                         | Description                                       |
 | ---------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------- |
@@ -33,10 +33,10 @@ from openapi_client.models.get_assistant200_response import GetAssistant200Respo
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -55,7 +55,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     api_instance = openapi_client.DefaultApi(api_client)
     owner_slug = 'owner_slug_example' # str | Slug of the user or organization that owns the agent
     package_slug = 'package_slug_example' # str | Slug of the agent package
-    always_use_proxy = 'always_use_proxy_example' # str | Whether to always use the Continue-managed proxy for model requests (optional)
+    always_use_proxy = 'always_use_proxy_example' # str | Whether to always use the Friday-managed proxy for model requests (optional)
     organization_id = 'organization_id_example' # str | ID of the organization to scope agents to. If not provided, personal agents are returned. (optional)
 
     try:
@@ -73,7 +73,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 | -------------------- | ------- | ------------------------------------------------------------------------------------------------- | ---------- |
 | **owner_slug**       | **str** | Slug of the user or organization that owns the agent                                          |
 | **package_slug**     | **str** | Slug of the agent package                                                                     |
-| **always_use_proxy** | **str** | Whether to always use the Continue-managed proxy for model requests                               | [optional] |
+| **always_use_proxy** | **str** | Whether to always use the Friday-managed proxy for model requests                               | [optional] |
 | **organization_id**  | **str** | ID of the organization to scope agents to. If not provided, personal agents are returned. | [optional] |
 
 ### Return type
@@ -119,10 +119,10 @@ from openapi_client.models.get_free_trial_status200_response import GetFreeTrial
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -194,10 +194,10 @@ from openapi_client.models.get_models_add_on_checkout_url200_response import Get
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -275,10 +275,10 @@ from openapi_client.models.get_policy200_response import GetPolicy200Response
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -350,10 +350,10 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -425,10 +425,10 @@ from openapi_client.models.list_assistants200_response_inner import ListAssistan
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -445,7 +445,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.DefaultApi(api_client)
-    always_use_proxy = 'always_use_proxy_example' # str | Whether to always use the Continue-managed proxy for model requests (optional)
+    always_use_proxy = 'always_use_proxy_example' # str | Whether to always use the Friday-managed proxy for model requests (optional)
     organization_id = 'organization_id_example' # str | ID of the organization to scope agents to. If not provided, personal agents are returned. (optional)
 
     try:
@@ -461,7 +461,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 | Name                 | Type    | Description                                                                                       | Notes      |
 | -------------------- | ------- | ------------------------------------------------------------------------------------------------- | ---------- |
-| **always_use_proxy** | **str** | Whether to always use the Continue-managed proxy for model requests                               | [optional] |
+| **always_use_proxy** | **str** | Whether to always use the Friday-managed proxy for model requests                               | [optional] |
 | **organization_id**  | **str** | ID of the organization to scope agents to. If not provided, personal agents are returned. | [optional] |
 
 ### Return type
@@ -506,10 +506,10 @@ from openapi_client.models.list_organizations200_response import ListOrganizatio
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -581,10 +581,10 @@ from openapi_client.models.sync_secrets_request import SyncSecretsRequest
 from openapi_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://api.continue.dev
+# Defining the host is optional and defaults to https://api.friday.dev
 # See configuration.py for a list of all supported configuration parameters.
 configuration = openapi_client.Configuration(
-    host = "https://api.continue.dev"
+    host = "https://api.friday.dev"
 )
 
 # The client must configure the authentication and authorization parameters

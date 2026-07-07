@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LlmInfo } from "../types.js";
 
 export const OsLlms: Omit<LlmInfo, "provider">[] = [

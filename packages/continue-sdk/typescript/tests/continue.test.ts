@@ -1,20 +1,21 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test } from "@jest/globals";
 import dotenv from "dotenv";
-import { Continue } from "../src/Continue.js";
+import { Friday } from "../src/Friday.js";
 
 dotenv.config();
 
 /**
  * This test is `.skip`'d for now becasue it requires a real API key
- * and a real assistant to be set up in the Continue Hub.
+ * and a real assistant to be set up in the Friday Hub.
  *
  * The primary use case for now is to aid in local iteration on the SDK.
  */
-test.skip("should make a real API call to the Continue service", async () => {
-  const apiKey = process.env.CONTINUE_API_KEY;
+test.skip("should make a real API call to the Friday service", async () => {
+  const apiKey = process.env.FRIDAY_API_KEY;
 
   if (!apiKey) {
-    throw new Error("CONTINUE_API_KEY not found in environment variables");
+    throw new Error("FRIDAY_API_KEY not found in environment variables");
   }
 
   /*
@@ -26,7 +27,7 @@ test.skip("should make a real API call to the Continue service", async () => {
   const assistantSlug = "peter-parker/assistant1";
   const modelName = "claude-3-7-sonnet-latest";
 
-  const { client, assistant } = await Continue.from({
+  const { client, assistant } = await Friday.from({
     apiKey,
     assistant: assistantSlug,
     baseURL: "http://localhost:3001",

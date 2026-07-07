@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",

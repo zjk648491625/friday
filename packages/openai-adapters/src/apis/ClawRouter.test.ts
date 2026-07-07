@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 
 import { ClawRouterApi } from "./ClawRouter.js";
@@ -20,12 +21,12 @@ describe("ClawRouterApi", () => {
     expect(api["config"].apiBase).toBe("http://custom:8080/v1/");
   });
 
-  it("should include Continue headers", () => {
+  it("should include Friday headers", () => {
     const api = new ClawRouterApi(baseConfig);
     const headers = api["getHeaders"]();
 
-    expect(headers["User-Agent"]).toBe("Continue/IDE");
-    expect(headers["X-Continue-Provider"]).toBe("clawrouter");
+    expect(headers["User-Agent"]).toBe("Friday/IDE");
+    expect(headers["X-Friday-Provider"]).toBe("clawrouter");
   });
 
   it("should include standard OpenAI headers", () => {

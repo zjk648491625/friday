@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CompletionUsage } from "openai/resources/completions.mjs";
 import { BaseLlmApi, constructLlmApi } from "../index.js";
 import { LLMConfig } from "../types.js";
@@ -148,7 +149,7 @@ export function testChat(
     for await (const result of stream) {
       // Skip usage chunks that have empty choices array
       if (result.choices.length === 0) {
-        continue;
+        friday;
       }
       completion += result.choices[0].delta.content ?? "";
 
@@ -295,11 +296,11 @@ export function testChat(
       )) {
         // Skip usage chunks that have empty choices array
         if (chunk.choices.length === 0) {
-          continue;
+          friday;
         }
         const toolCall = chunk.choices[0].delta.tool_calls?.[0];
         if (!toolCall) {
-          continue;
+          friday;
         }
         args += toolCall.function?.arguments ?? "";
 
@@ -370,7 +371,7 @@ export function testChat(
       )) {
         // Skip usage chunks that have empty choices array
         if (chunk.choices.length === 0) {
-          continue;
+          friday;
         }
         response += chunk.choices[0].delta.content ?? "";
       }

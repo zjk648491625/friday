@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RuleObject } from "../schemas/index.js";
 
 export enum RuleType {

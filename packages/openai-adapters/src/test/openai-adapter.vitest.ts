@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, vi } from "vitest";
 import { createAdapterTests } from "./adapter-test-utils.js";
 

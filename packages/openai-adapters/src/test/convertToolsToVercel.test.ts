@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatCompletionCreateParams } from "openai/resources/index.js";
 import { describe, expect, test } from "vitest";
 import { convertToolsToVercelFormat } from "../convertToolsToVercel.js";

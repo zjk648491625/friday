@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PackageIdentifier } from "../interfaces/slugs.js";
 import {
   fillTemplateVariables,
@@ -145,12 +146,12 @@ name: Test
 version: 1.0.0
 data:
   apiKey: \${{ inputs.apiKey }}
-  environment: \${{ continue.environment }}
+  environment: \${{ friday.environment }}
   customVar: \${{ other.variable }}
 `;
     const result = replaceInputsWithSecrets(yamlContent);
     expect(result).toContain("\${{ secrets.apiKey }}");
-    expect(result).toContain("\${{ continue.environment }}");
+    expect(result).toContain("\${{ friday.environment }}");
     expect(result).toContain("\${{ other.variable }}");
     expect(result).not.toContain("\${{ inputs.apiKey }}");
   });

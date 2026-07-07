@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { SecretLocation, SecretResult, SecretType } from "./SecretResult.js";
 import {
   FQSN,

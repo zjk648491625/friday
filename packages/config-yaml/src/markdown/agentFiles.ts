@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as YAML from "yaml";
 import z from "zod";
 import { parseMarkdownRule } from "./markdownToRule.js";

@@ -1,8 +1,9 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Continue Hub IDE API
- * API for Continue IDE to fetch assistants and other related information. These endpoints are primarily used by the Continue IDE extensions for VS Code and JetBrains.
+ * Friday Hub IDE API
+ * API for Friday IDE to fetch assistants and other related information. These endpoints are primarily used by the Friday IDE extensions for VS Code and JetBrains.
  *
  * The version of the OpenAPI document: 1.0.0
  *

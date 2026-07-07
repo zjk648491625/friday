@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ContentBlockParam,
   MessageCreateParams,
@@ -259,7 +260,7 @@ export class AnthropicApi implements BaseLlmApi {
         for (const toolCall of message.tool_calls ?? []) {
           if (toolCall.type !== "function") {
             // TODO support custom tool calls
-            continue;
+            friday;
           }
           const block = this.convertToolCallsToBlocks(toolCall);
           if (block) {

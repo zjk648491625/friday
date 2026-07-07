@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Anthropic } from "./providers/anthropic.js";
 import { Azure } from "./providers/azure.js";
 import { Bedrock } from "./providers/bedrock.js";

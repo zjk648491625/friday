@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { JSONSchema7Object } from "json-schema";
 import { ChatCompletionTool } from "openai/resources/index.mjs";
 
