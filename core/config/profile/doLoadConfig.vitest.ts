@@ -1,7 +1,7 @@
 // Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it, vi } from "vitest";
 
-import type { PackageIdentifier } from "@continuedev/config-yaml";
+import type { PackageIdentifier } from "@friday-ai/config-yaml";
 
 // Mock heavy dependencies before importing doLoadConfig
 const stubConfig = {

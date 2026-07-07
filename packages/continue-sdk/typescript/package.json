@@ -1,5 +1,5 @@
 {
-  "name": "@continuedev/sdk",
+  "name": "@friday-ai/sdk",
   "version": "0.0.13",
   "description": "SDK for Friday.dev",
   "main": "dist/src/index.js",

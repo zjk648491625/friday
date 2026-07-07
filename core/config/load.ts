@@ -9,7 +9,7 @@ import {
   ConfigValidationError,
   mergeConfigYamlRequestOptions,
   ModelRole,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import * as JSONC from "comment-json";
 
 import {

@@ -2,7 +2,7 @@
 import fs from "fs";
 import os from "os";
 
-import { ModelConfig } from "@continuedev/config-yaml";
+import { ModelConfig } from "@friday-ai/config-yaml";
 import {
   FridayConfig,
   ExperimentalModelRoles,

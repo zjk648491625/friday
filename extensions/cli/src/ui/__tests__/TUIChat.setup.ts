@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import type { AssistantUnrolled } from "@continuedev/config-yaml";
+import type { AssistantUnrolled } from "@friday-ai/config-yaml";
 import { vi } from "vitest";
 
 import { MockApiClient } from "./mocks/MockApiClient.js";

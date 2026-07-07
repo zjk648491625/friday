@@ -8,7 +8,7 @@ import {
   HttpMcpServer,
   SseMcpServer,
   StdioMcpServer,
-} from "node_modules/@continuedev/config-yaml/dist/schemas/mcp/index.js";
+} from "node_modules/@friday-ai/config-yaml/dist/schemas/mcp/index.js";
 
 import { MCPConnectionInfo } from "./types.js";
 

@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { streamResponse } from "@continuedev/fetch";
+import { streamResponse } from "@friday-ai/fetch";
 import { SlashCommand } from "../../../index.js";
 import { removeQuotesAndEscapes } from "../../../util/index.js";
 

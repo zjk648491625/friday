@@ -4,7 +4,7 @@ import {
   ChatCompletionMessageParam,
 } from "openai/resources/index";
 
-import { streamSse } from "@continuedev/fetch";
+import { streamSse } from "@friday-ai/fetch";
 import {
   ResponseCreateParamsBase,
   ResponseInputItem,

@@ -3,8 +3,8 @@ import {
   ConfigResult,
   DevDataLogEvent,
   ModelRole,
-} from "@continuedev/config-yaml";
-import { ToolPolicy } from "@continuedev/terminal-security";
+} from "@friday-ai/config-yaml";
+import { ToolPolicy } from "@friday-ai/terminal-security";
 
 import {
   AutocompleteInput,

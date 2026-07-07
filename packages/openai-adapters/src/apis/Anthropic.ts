@@ -11,7 +11,7 @@ import {
   Tool,
   ToolUseBlock,
 } from "@anthropic-ai/sdk/resources";
-import { streamSse } from "@continuedev/fetch";
+import { streamSse } from "@friday-ai/fetch";
 import { OpenAI } from "openai/index";
 import {
   ChatCompletion,

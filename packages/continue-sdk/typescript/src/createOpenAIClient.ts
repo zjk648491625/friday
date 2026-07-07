@@ -2,7 +2,7 @@
 import {
   AssistantUnrolled,
   FridayProperties,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import fetch, { Response } from "node-fetch";
 import OpenAI from "openai";
 

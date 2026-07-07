@@ -1,6 +1,6 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ModelConfig } from "@continuedev/config-yaml";
-import { BaseLlmApi } from "@continuedev/openai-adapters";
+import { ModelConfig } from "@friday-ai/config-yaml";
+import { BaseLlmApi } from "@friday-ai/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
 import { convertFromUnifiedHistoryWithSystemMessage } from "core/util/messageConversion.js";
 import * as dotenv from "dotenv";

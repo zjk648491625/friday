@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ToolPolicy } from "@continuedev/terminal-security";
+import { ToolPolicy } from "@friday-ai/terminal-security";
 import {
   ChevronDownIcon,
   ChevronRightIcon,

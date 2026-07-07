@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ConfigResult } from "@continuedev/config-yaml";
+import { ConfigResult } from "@friday-ai/config-yaml";
 
 import { FridayConfig, IDE, ILLMLogger } from "../../index.js";
 import { ProfileDescription } from "../ProfileLifecycleManager.js";

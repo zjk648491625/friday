@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { AssistantUnrolled } from "@continuedev/config-yaml";
+import { AssistantUnrolled } from "@friday-ai/config-yaml";
 
 export type AssistantConfig = AssistantUnrolled;
 

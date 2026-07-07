@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { streamSse } from "@continuedev/fetch";
+import { streamSse } from "@friday-ai/fetch";
 import { GoogleGenAI } from "@google/genai";
 import { AuthClient, GoogleAuth, JWT, auth } from "google-auth-library";
 import {

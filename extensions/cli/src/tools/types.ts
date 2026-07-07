@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import type { ToolPolicy } from "@continuedev/terminal-security";
+import type { ToolPolicy } from "@friday-ai/terminal-security";
 
 // JSON Schema compatible parameter definition
 export interface ParameterSchema {

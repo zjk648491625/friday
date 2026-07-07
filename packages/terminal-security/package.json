@@ -1,5 +1,5 @@
 {
-  "name": "@continuedev/terminal-security",
+  "name": "@friday-ai/terminal-security",
   "version": "1.0.0",
   "description": "Terminal command security evaluation for Friday",
   "main": "dist/index.js",

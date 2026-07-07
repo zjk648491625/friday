@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { allModelProviders } from "@continuedev/llm-info";
+import { allModelProviders } from "@friday-ai/llm-info";
 import { LLMOptions } from "../../index.js";
 import OpenAI from "./OpenAI.js";
 

@@ -1,6 +1,6 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ModelConfig } from "@continuedev/config-yaml";
-import { BaseLlmApi } from "@continuedev/openai-adapters";
+import { ModelConfig } from "@friday-ai/config-yaml";
+import { BaseLlmApi } from "@friday-ai/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
 import type { ChatCompletionTool } from "openai/resources/chat/completions.mjs";
 

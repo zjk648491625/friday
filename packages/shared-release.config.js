@@ -2,7 +2,7 @@
 export default function createReleaseConfig(packageName) {
   return {
     branches: ["main"],
-    tagFormat: `@continuedev/${packageName}@\${version}`,
+    tagFormat: `@friday-ai/${packageName}@\${version}`,
     plugins: [
       [
         "@semantic-release/commit-analyzer",

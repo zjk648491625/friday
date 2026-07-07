@@ -1,4 +1,4 @@
-# @continuedev/sdk
+# @friday-ai/sdk
 
 > **⚠️ EXPERIMENTAL: This package is in early development and subject to frequent breaking changes without notice.**
 
@@ -21,7 +21,7 @@ Each package includes:
 
 End users should install the published packages directly:
 
-- For TypeScript/JavaScript: `npm install @continuedev/sdk`
+- For TypeScript/JavaScript: `npm install @friday-ai/sdk`
 - For Python: `pip install friday-ai`
 - For other languages: Check back for new language support
 

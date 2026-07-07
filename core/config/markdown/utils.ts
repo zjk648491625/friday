@@ -2,7 +2,7 @@
 import {
   RULE_FILE_EXTENSION,
   sanitizeRuleName,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import { joinPathsToUri } from "../../util/uri";
 
 function createRelativeRuleFilePathParts(ruleName: string): string[] {

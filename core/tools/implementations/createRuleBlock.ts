@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { createRuleMarkdown } from "@continuedev/config-yaml";
+import { createRuleMarkdown } from "@friday-ai/config-yaml";
 import { ToolImpl } from ".";
 import { RuleWithSource } from "../..";
 import { createRuleFilePath } from "../../config/markdown/utils";

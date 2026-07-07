@@ -21,7 +21,7 @@ irm https://raw.githubusercontent.com/friday-ai/friday/main/extensions/cli/scrip
 Or install with npm if you have Node.js 20+:
 
 ```bash
-npm i -g @continuedev/cli
+npm i -g @friday-ai/cli
 ```
 
 ## Usage

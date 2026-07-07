@@ -146,7 +146,7 @@ export class UpdateService extends BaseService<UpdateServiceState> {
       });
 
       // Install the update
-      const { stdout, stderr } = await execAsync("npm i -g @continuedev/cli");
+      const { stdout, stderr } = await execAsync("npm i -g @friday-ai/cli");
       logger.debug("Update output:", { stdout, stderr });
 
       if (stderr) {

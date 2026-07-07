@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { Friday, FridayClient } from "@continuedev/sdk";
+import { Friday, FridayClient } from "@friday-ai/sdk";
 import chalk from "chalk";
 
 import { env } from "./env.js";

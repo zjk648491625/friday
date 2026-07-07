@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { streamSse } from "@continuedev/fetch";
+import { streamSse } from "@friday-ai/fetch";
 import { Chunk, CompletionOptions, LLMOptions } from "../../index.js";
 import { osModelsEditPrompt } from "../templates/edit.js";
 

@@ -7,8 +7,8 @@ import {
   PlatformClient,
   SecretResult,
   SecretType,
-} from "@continuedev/config-yaml";
-import { DefaultApiInterface } from "@continuedev/sdk/dist/api";
+} from "@friday-ai/config-yaml";
+import { DefaultApiInterface } from "@friday-ai/sdk/dist/api";
 import * as dotenv from "dotenv";
 
 import { env } from "./env.js";

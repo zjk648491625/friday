@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import type { ToolPolicy } from "@continuedev/terminal-security";
+import type { ToolPolicy } from "@friday-ai/terminal-security";
 
 import { ALL_BUILT_IN_TOOLS } from "src/tools/allBuiltIns.js";
 

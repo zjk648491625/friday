@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ConfigYaml, parseConfigYaml } from "@continuedev/config-yaml";
+import { ConfigYaml, parseConfigYaml } from "@friday-ai/config-yaml";
 import {
   ArrowPathIcon,
   ChevronDownIcon,

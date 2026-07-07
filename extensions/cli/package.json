@@ -1,5 +1,5 @@
 {
-  "name": "@continuedev/cli",
+  "name": "@friday-ai/cli",
   "version": "0.0.0-dev",
   "description": "Friday CLI",
   "main": "dist/index.js",
@@ -22,7 +22,7 @@
     "build": "npm run build:validate && npm run build:bundle",
     "start": "node dist/cn.js",
     "dev": "tsx src/index.ts",
-    "repomix:sdk": "npx repomix node_modules/@continuedev/sdk --ignore **/api,cli-repomix.xml -o sdk-repomix.xml",
+    "repomix:sdk": "npx repomix node_modules/@friday-ai/sdk --ignore **/api,cli-repomix.xml -o sdk-repomix.xml",
     "repomix:cli": "npx repomix --ignore sdk-repomix.xml -o cli-repomix.xml",
     "lint": "tsc --noEmit && eslint .",
     "lint:fix": "eslint . --fix",
@@ -51,10 +51,10 @@
     "js-yaml": "^4.1.1"
   },
   "devDependencies": {
-    "@continuedev/config-yaml": "file:../../packages/config-yaml",
-    "@continuedev/openai-adapters": "file:../../packages/openai-adapters",
-    "@continuedev/sdk": "^0.0.13",
-    "@continuedev/terminal-security": "file:../../packages/terminal-security",
+    "@friday-ai/config-yaml": "file:../../packages/config-yaml",
+    "@friday-ai/openai-adapters": "file:../../packages/openai-adapters",
+    "@friday-ai/sdk": "^0.0.13",
+    "@friday-ai/terminal-security": "file:../../packages/terminal-security",
     "@modelcontextprotocol/sdk": "^1.24.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/exporter-metrics-otlp-grpc": "^0.203.0",

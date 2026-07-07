@@ -1,4 +1,4 @@
-# @continuedev/sdk
+# @friday-ai/sdk
 
 > **⚠️ EXPERIMENTAL: This package is in early development and subject to frequent breaking changes without notice.**
 
@@ -7,7 +7,7 @@ This SDK provides a drop-in replacement for OpenAI libraries to easily integrate
 ## Installation
 
 ```bash
-npm install @continuedev/sdk
+npm install @friday-ai/sdk
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install @continuedev/sdk
 The SDK provides a `Friday.from()` method that initializes an assistant and returns a client you can use as a drop-in replacement for the OpenAI SDK:
 
 ```typescript
-import { Friday } from "@continuedev/sdk";
+import { Friday } from "@friday-ai/sdk";
 
 // Initialize the Friday client with your API key and assistant
 const { client, assistant } = await Friday.from({
@@ -38,7 +38,7 @@ console.log(response.choices[0].message.content);
 You can also use the SDK without specifying an assistant to just get the Friday API client:
 
 ```typescript
-import { Friday } from "@continuedev/sdk";
+import { Friday } from "@friday-ai/sdk";
 
 // Initialize just the Friday API client
 const { api } = await Friday.from({

@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { FimCreateParamsStreaming } from "@continuedev/openai-adapters/dist/apis/base";
+import { FimCreateParamsStreaming } from "@friday-ai/openai-adapters/dist/apis/base";
 import {
   ChatCompletion,
   ChatCompletionAssistantMessageParam,

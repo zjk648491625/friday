@@ -1,7 +1,7 @@
 // Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-lines */
 
-import { type AssistantConfig } from "@continuedev/sdk";
+import { type AssistantConfig } from "@friday-ai/sdk";
 import { Box, Text, useApp, useInput } from "ink";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 

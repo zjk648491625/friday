@@ -8,7 +8,7 @@ import {
   parseAgentFile,
   parseAgentFileRules,
   parseAgentFileTools,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 
 import { getErrorString } from "src/util/error.js";
 

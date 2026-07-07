@@ -5,10 +5,10 @@ import {
   ModelConfig,
   parseAgentFileRules,
   parseAgentFileTools,
-} from "@continuedev/config-yaml";
-import { BaseLlmApi } from "@continuedev/openai-adapters";
-import { AssistantConfig } from "@continuedev/sdk";
-import { DefaultApiInterface } from "@continuedev/sdk/dist/api/dist/index.js";
+} from "@friday-ai/config-yaml";
+import { BaseLlmApi } from "@friday-ai/openai-adapters";
+import { AssistantConfig } from "@friday-ai/sdk";
+import { DefaultApiInterface } from "@friday-ai/sdk/dist/api/dist/index.js";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 
 import type { AuthConfig } from "../auth/workos.js";

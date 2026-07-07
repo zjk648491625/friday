@@ -1,6 +1,6 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { RequestOptions } from "@continuedev/config-types";
-import { fetchwithRequestOptions, patchedFetch } from "@continuedev/fetch";
+import { RequestOptions } from "@friday-ai/config-types";
+import { fetchwithRequestOptions, patchedFetch } from "@friday-ai/fetch";
 import {
   ChatCompletionChunk,
   CompletionUsage,

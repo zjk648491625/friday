@@ -44,7 +44,7 @@ export function mockLLMResponse(response: string) {
     completion: async () => response,
   };
 
-  vi.doMock("@continuedev/openai-adapters", () => ({
+  vi.doMock("@friday-ai/openai-adapters", () => ({
     constructLlmApi: () => mockApi,
     BaseLlmApi: MockBaseLlmApi,
     LLMConfig: {},
@@ -92,7 +92,7 @@ export function mockLLMStreamResponse(chunks: string[]) {
     completion: async () => chunks.join(""),
   };
 
-  vi.doMock("@continuedev/openai-adapters", () => ({
+  vi.doMock("@friday-ai/openai-adapters", () => ({
     constructLlmApi: () => mockApi,
     BaseLlmApi: MockBaseLlmApi,
     LLMConfig: {},
@@ -123,7 +123,7 @@ export function mockLLMError(errorMessage: string) {
     },
   };
 
-  vi.doMock("@continuedev/openai-adapters", () => ({
+  vi.doMock("@friday-ai/openai-adapters", () => ({
     constructLlmApi: () => mockApi,
     BaseLlmApi: MockBaseLlmApi,
     LLMConfig: {},
@@ -136,5 +136,5 @@ export function mockLLMError(errorMessage: string) {
  * Clear all LLM mocks
  */
 export function clearLLMMocks() {
-  vi.unmock("@continuedev/openai-adapters");
+  vi.unmock("@friday-ai/openai-adapters");
 }

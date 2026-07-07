@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { FQSN, SecretResult, SecretType } from "@continuedev/config-yaml";
+import { FQSN, SecretResult, SecretType } from "@friday-ai/config-yaml";
 import {
   afterEach,
   beforeEach,

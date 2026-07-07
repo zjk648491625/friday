@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ModelConfig } from "@continuedev/config-yaml";
+import { ModelConfig } from "@friday-ai/config-yaml";
 import type { ChatHistoryItem } from "core/index.js";
 import { useMemo } from "react";
 

@@ -1,4 +1,4 @@
-import { ConfigResult } from "@continuedev/config-yaml";
+import { ConfigResult } from "@friday-ai/config-yaml";
 import type {
   BrowserSerializedContinueConfig,
   ContextItemWithId,

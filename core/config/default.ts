@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ConfigYaml } from "@continuedev/config-yaml";
+import { ConfigYaml } from "@friday-ai/config-yaml";
 
 export const defaultConfig: ConfigYaml = {
   name: "Main Config",

@@ -1,7 +1,7 @@
 // Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 
-import { FQSN, SecretResult, SecretType } from "@continuedev/config-yaml";
+import { FQSN, SecretResult, SecretType } from "@friday-ai/config-yaml";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { CLIPlatformClient } from "./CLIPlatformClient.js";

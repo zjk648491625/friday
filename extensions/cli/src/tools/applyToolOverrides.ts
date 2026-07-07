@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import type { ToolOverrideConfig } from "@continuedev/config-yaml";
+import type { ToolOverrideConfig } from "@friday-ai/config-yaml";
 import type { ChatCompletionTool } from "openai/resources.mjs";
 
 /**

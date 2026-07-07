@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ConfigValidationError } from "@continuedev/config-yaml";
+import { ConfigValidationError } from "@friday-ai/config-yaml";
 import { IDE, RuleWithSource } from "..";
 import { joinPathsToUri } from "../util/uri";
 export const SYSTEM_PROMPT_DOT_FILE = ".fridayrules";

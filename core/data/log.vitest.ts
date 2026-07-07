@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { DevDataLogEvent } from "@continuedev/config-yaml";
+import { DevDataLogEvent } from "@friday-ai/config-yaml";
 import fs from "fs";
 import path from "path";
 import {
@@ -17,7 +17,7 @@ import { getDevDataFilePath } from "../util/paths";
 import { DataLogger } from "./log";
 
 // Only mock fetch, not fs
-vi.mock("@continuedev/fetch");
+vi.mock("@friday-ai/fetch");
 
 const TEST_EVENT: DevDataLogEvent = {
   name: "tokensGenerated",

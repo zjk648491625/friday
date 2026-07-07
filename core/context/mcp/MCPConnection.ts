@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import {
   decodeSecretLocation,
   getTemplateVariables,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import {
   SSEClientTransport,
   SseError,

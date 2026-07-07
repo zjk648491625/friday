@@ -17,7 +17,7 @@ import {
 } from "../test/testDir.js";
 import { getIndexSqlitePath } from "../util/paths.js";
 
-import { ConfigResult } from "@continuedev/config-yaml";
+import { ConfigResult } from "@friday-ai/config-yaml";
 import CodebaseContextProvider from "../context/providers/CodebaseContextProvider.js";
 import { FridayConfig } from "../index.js";
 import { localPathToUri } from "../util/pathToUri.js";

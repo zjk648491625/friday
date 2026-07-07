@@ -5,7 +5,7 @@ import {
   PackageIdentifier,
   RegistryClient,
   unrollAssistantFromContent,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import { IDE } from "../..";
 import { LocalPlatformClient } from "./LocalPlatformClient";
 

@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { BaseLlmApi, isResponsesModel } from "@continuedev/openai-adapters";
+import { BaseLlmApi, isResponsesModel } from "@friday-ai/openai-adapters";
 import type { ChatCompletionCreateParamsStreaming } from "openai/resources.mjs";
 
 import { error, warn } from "../logging.js";

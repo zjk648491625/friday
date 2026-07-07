@@ -15,7 +15,7 @@ import {
   AskSageToolCall,
   AskSageResponse,
   AskSageTokenResponse,
-} from "@continuedev/openai-adapters";
+} from "@friday-ai/openai-adapters";
 
 // Extended options for AskSage
 interface AskSageCompletionOptions extends CompletionOptions {

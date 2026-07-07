@@ -10,7 +10,7 @@ import {
   AgentFile,
   ModelConfig,
   parseAgentFile,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 
 import { logger } from "./util/logger.js";
 

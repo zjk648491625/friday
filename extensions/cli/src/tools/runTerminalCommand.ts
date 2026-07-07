@@ -5,7 +5,7 @@ import fs from "fs";
 import {
   evaluateTerminalCommandSecurity,
   type ToolPolicy,
-} from "@continuedev/terminal-security";
+} from "@friday-ai/terminal-security";
 
 import { backgroundJobService } from "../services/BackgroundJobService.js";
 import { services } from "../services/index.js";

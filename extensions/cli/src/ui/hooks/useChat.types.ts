@@ -1,6 +1,6 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { AssistantUnrolled, ModelConfig } from "@continuedev/config-yaml";
-import { BaseLlmApi } from "@continuedev/openai-adapters";
+import { AssistantUnrolled, ModelConfig } from "@friday-ai/config-yaml";
+import { BaseLlmApi } from "@friday-ai/openai-adapters";
 import type { Session } from "core/index.js";
 
 import { QuestionRequestedEvent } from "../../services/QuizService.js";

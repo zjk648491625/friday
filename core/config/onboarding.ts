@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ConfigYaml } from "@continuedev/config-yaml";
+import { ConfigYaml } from "@friday-ai/config-yaml";
 
 export const LOCAL_ONBOARDING_PROVIDER_TITLE = "Ollama";
 export const LOCAL_ONBOARDING_FIM_MODEL = "qwen2.5-coder:1.5b-base";

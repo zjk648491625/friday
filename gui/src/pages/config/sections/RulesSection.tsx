@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { parseConfigYaml } from "@continuedev/config-yaml";
+import { parseConfigYaml } from "@friday-ai/config-yaml";
 import {
   ArrowsPointingOutIcon,
   BookmarkIcon as BookmarkOutline,

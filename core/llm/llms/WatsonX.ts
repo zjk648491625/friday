@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { streamResponse, streamSse } from "@continuedev/fetch";
+import { streamResponse, streamSse } from "@friday-ai/fetch";
 import {
   AssistantChatMessage,
   ChatMessage,

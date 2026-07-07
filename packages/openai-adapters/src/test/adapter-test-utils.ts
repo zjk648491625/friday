@@ -149,7 +149,7 @@ export async function runAdapterTest(testCase: AdapterTestCase) {
   vi.stubGlobal("fetch", mockFetch);
 
   // For non-OpenAI adapters, mock the fetch package
-  const fetchPackage = await import("@continuedev/fetch");
+  const fetchPackage = await import("@friday-ai/fetch");
   if (fetchPackage.fetchwithRequestOptions) {
     vi.mocked(fetchPackage.fetchwithRequestOptions).mockImplementation(
       mockFetch as any,

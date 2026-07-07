@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { decodePackageIdentifier } from "@continuedev/config-yaml";
+import { decodePackageIdentifier } from "@friday-ai/config-yaml";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { isStringRule } from "src/hubLoader.js";
@@ -12,8 +12,8 @@ vi.mock("src/hubLoader.js", () => ({
   isStringRule: vi.fn(),
 }));
 
-vi.mock("@continuedev/config-yaml", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@continuedev/config-yaml")>()),
+vi.mock("@friday-ai/config-yaml", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@friday-ai/config-yaml")>()),
   decodePackageIdentifier: vi.fn((id) => ({
     type: "slug" as const,
     slug: id,

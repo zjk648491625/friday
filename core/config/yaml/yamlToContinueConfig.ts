@@ -4,7 +4,7 @@ import {
   mergeConfigYamlRequestOptions,
   RequestOptions,
   Rule,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import {
   InternalMcpOptions,
   InternalSseMcpOptions,

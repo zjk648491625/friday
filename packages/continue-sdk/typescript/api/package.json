@@ -1,7 +1,7 @@
 {
-  "name": "@continuedev/hub-api",
+  "name": "@friday-ai/hub-api",
   "version": "0.0.1",
-  "description": "OpenAPI client for @continuedev/hub-api",
+  "description": "OpenAPI client for @friday-ai/hub-api",
   "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",

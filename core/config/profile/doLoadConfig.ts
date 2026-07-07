@@ -6,7 +6,7 @@ import {
   ConfigResult,
   ConfigValidationError,
   PackageIdentifier,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 
 import {
   FridayConfig,

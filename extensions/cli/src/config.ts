@@ -1,14 +1,14 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { AssistantUnrolled, ModelConfig } from "@continuedev/config-yaml";
+import { AssistantUnrolled, ModelConfig } from "@friday-ai/config-yaml";
 import {
   BaseLlmApi,
   constructLlmApi,
   LLMConfig,
-} from "@continuedev/openai-adapters";
+} from "@friday-ai/openai-adapters";
 import {
   Configuration,
   DefaultApi,
-} from "@continuedev/sdk/dist/api/dist/index.js";
+} from "@friday-ai/sdk/dist/api/dist/index.js";
 
 import { AuthConfig } from "./auth/workos.js";
 import { env } from "./env.js";

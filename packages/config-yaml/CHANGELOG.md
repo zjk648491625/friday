@@ -1,4 +1,4 @@
-## [1.0.95](https://github.com/friday-ai/friday/compare/@continuedev/config-yaml@1.0.94...@continuedev/config-yaml@1.0.95) (2025-06-22)
+## [1.0.95](https://github.com/friday-ai/friday/compare/@friday-ai/config-yaml@1.0.94...@friday-ai/config-yaml@1.0.95) (2025-06-22)
 
 ### Bug Fixes
 

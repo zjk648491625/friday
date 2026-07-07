@@ -2,7 +2,7 @@
 import {
   ConfigValidationError,
   markdownToRule,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import { IDE, RuleWithSource } from "../..";
 import { walkDirs } from "../../indexing/walkDir";
 import { RULES_MARKDOWN_FILENAME } from "../../llm/rules/constants";

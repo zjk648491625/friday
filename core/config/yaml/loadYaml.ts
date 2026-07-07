@@ -13,7 +13,7 @@ import {
   RegistryClient,
   unrollAssistant,
   validateConfigYaml,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { dirname } from "node:path";
 

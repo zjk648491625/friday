@@ -5,7 +5,7 @@ import {
   createPromptMarkdown,
   createRuleMarkdown,
   sanitizeRuleName,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import * as YAML from "yaml";
 import { IDE } from "../..";
 import { getFridayGlobalPath } from "../../util/paths";

@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { Prompt } from "@continuedev/config-yaml";
+import { Prompt } from "@friday-ai/config-yaml";
 import { SlashCommandWithSource } from "../..";
 
 export function convertPromptBlockToSlashCommand(

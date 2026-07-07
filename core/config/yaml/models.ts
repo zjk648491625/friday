@@ -2,7 +2,7 @@
 import {
   mergeConfigYamlRequestOptions,
   ModelConfig,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 
 import { FridayConfig, ILLMLogger, LLMOptions } from "../..";
 import { BaseLLM } from "../../llm";

@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { decodePackageSlug } from "@continuedev/config-yaml";
+import { decodePackageSlug } from "@friday-ai/config-yaml";
 import type { OpenAI } from "openai";
 import { Configuration, DefaultApi } from "../api/dist/index.js";
 import { Assistant } from "./Assistant.js";

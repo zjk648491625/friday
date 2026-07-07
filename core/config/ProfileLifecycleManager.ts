@@ -3,7 +3,7 @@ import {
   ConfigResult,
   ConfigValidationError,
   FullSlug,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 
 import {
   BrowserSerializedFridayConfig,

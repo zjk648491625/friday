@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { ModelRole } from "@continuedev/config-yaml";
+import { ModelRole } from "@friday-ai/config-yaml";
 
 import { FridayConfig, ILLM } from "..";
 import { LLMConfigurationStatuses } from "../llm/constants";

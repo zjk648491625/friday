@@ -4,7 +4,7 @@ import {
   PlatformClient,
   SecretResult,
   SecretType,
-} from "@continuedev/config-yaml";
+} from "@friday-ai/config-yaml";
 import * as dotenv from "dotenv";
 import { IDE } from "../..";
 import { getFridayDotEnv } from "../../util/paths";

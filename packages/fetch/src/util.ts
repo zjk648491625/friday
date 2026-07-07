@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Rebranded from Continue
-import { RequestOptions } from "@continuedev/config-types";
+import { RequestOptions } from "@friday-ai/config-types";
 
 /**
  * Gets the proxy settings from environment variables
