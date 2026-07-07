@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useState, useEffect, useContext } from "react";
 import { isJetBrains } from "../util";
 import { useWebviewListener } from "./useWebviewListener";

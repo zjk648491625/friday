@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ToWebviewProtocol } from "core/protocol";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -5,8 +6,8 @@ import { useWebviewListener } from "./useWebviewListener";
 
 const openGUITypes: (keyof ToWebviewProtocol)[] = [
   "highlightedCode",
-  "focusContinueInput",
-  "focusContinueInputWithoutClear",
+  "focusFridayInput",
+  "focusFridayInputWithoutClear",
   "newSession",
 ];
 

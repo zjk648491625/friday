@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "core";
 import { ModelProviderTags } from "../../../components/modelSelection/utils";
 import { InputDescriptor } from "./providers";

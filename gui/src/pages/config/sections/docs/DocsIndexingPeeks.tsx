@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IndexingStatus } from "core";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";

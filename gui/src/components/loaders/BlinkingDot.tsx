@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import styled, { css, keyframes } from "styled-components";
 
 const DEFAULT_DIAMETER = 6;

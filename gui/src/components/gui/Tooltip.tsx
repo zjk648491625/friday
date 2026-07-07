@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { cloneElement, CSSProperties, ReactElement, useId } from "react";
 import ReactDOM from "react-dom";
 import { ITooltip, Tooltip } from "react-tooltip";

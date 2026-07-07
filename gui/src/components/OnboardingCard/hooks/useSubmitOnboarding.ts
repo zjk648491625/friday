@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { OnboardingModes } from "core/protocol/core";
 import { useContext } from "react";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";

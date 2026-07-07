@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 interface OllamaCompletedStepProps {

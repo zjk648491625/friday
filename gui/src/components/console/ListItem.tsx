@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMInteraction } from "../../hooks/useLLMLog";
 import useLLMSummary from "../../hooks/useLLMSummary";
 import StatusIcon from "./StatusIcon";

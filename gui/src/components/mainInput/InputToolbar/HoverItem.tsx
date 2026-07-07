@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import styled from "styled-components";
 
 const HoverItem = styled.span<{ isActive?: boolean; px?: number }>`

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Input, SecondaryButton } from "..";

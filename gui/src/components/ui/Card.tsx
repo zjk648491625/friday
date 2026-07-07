@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { cn } from "../../util/cn";
 
 interface CardProps extends React.ComponentProps<"div"> {

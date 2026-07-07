@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // @ts-ignore
 import DOMPurify from "dompurify";
 import { useMemo } from "react";

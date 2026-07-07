@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { act } from "@testing-library/react";
 import { addAndSelectMockLlm } from "../../../util/test/config";
 import { renderWithProviders } from "../../../util/test/render";
@@ -10,7 +11,7 @@ import { Chat } from "../Chat";
 
 test("should render input box", async () => {
   await renderWithProviders(<Chat />);
-  await getElementByTestId("continue-input-box-main-editor-input");
+  await getElementByTestId("friday-input-box-main-editor-input");
 });
 
 test("should be able to toggle modes", async () => {

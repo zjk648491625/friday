@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export interface Rectangle {
   top: number;
   left: number;
@@ -60,7 +61,7 @@ export const searchWithinContainer = (
   );
 
   while (walker.nextNode()) {
-    if (walker.currentNode.nodeType === Node.ELEMENT_NODE) continue;
+    if (walker.currentNode.nodeType === Node.ELEMENT_NODE) friday;
     textNodes.push(walker.currentNode as Text);
   }
 

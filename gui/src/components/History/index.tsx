@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BaseSessionMetadata } from "core";
 import MiniSearch from "minisearch";
 import React, {
@@ -220,8 +221,8 @@ export function History() {
           Chat history is saved to{" "}
           <span className="italic">
             {platform === "windows"
-              ? "%USERPROFILE%/.continue"
-              : "~/.continue/sessions"}
+              ? "%USERPROFILE%/.friday"
+              : "~/.friday/sessions"}
           </span>
         </span>
       </div>

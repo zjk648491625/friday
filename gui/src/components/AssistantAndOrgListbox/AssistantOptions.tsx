@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useAuth } from "../../context/Auth";
 import { AssistantOption } from "./AssistantOption";
 

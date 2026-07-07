@@ -1,15 +1,16 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigResult, ConfigValidationError } from "@continuedev/config-yaml";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BrowserSerializedContinueConfig } from "core";
+import { BrowserSerializedFridayConfig } from "core";
 import { DEFAULT_CONTEXT_LENGTH } from "core/llm/constants";
 
 export type ConfigState = {
   configError: ConfigValidationError[] | undefined;
-  config: BrowserSerializedContinueConfig;
+  config: BrowserSerializedFridayConfig;
   loading: boolean;
 };
 
-export const EMPTY_CONFIG: BrowserSerializedContinueConfig = {
+export const EMPTY_CONFIG: BrowserSerializedFridayConfig = {
   slashCommands: [],
   contextProviders: [],
   tools: [],
@@ -51,7 +52,7 @@ export const configSlice = createSlice({
       state,
       {
         payload: result,
-      }: PayloadAction<ConfigResult<BrowserSerializedContinueConfig>>,
+      }: PayloadAction<ConfigResult<BrowserSerializedFridayConfig>>,
     ) => {
       const { config, errors } = result;
       if (!errors || errors.length === 0) {
@@ -73,7 +74,7 @@ export const configSlice = createSlice({
     },
     updateConfig: (
       state,
-      { payload: config }: PayloadAction<BrowserSerializedContinueConfig>,
+      { payload: config }: PayloadAction<BrowserSerializedFridayConfig>,
     ) => {
       state.config = config;
     },

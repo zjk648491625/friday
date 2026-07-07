@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { KeyIcon } from "@heroicons/react/24/outline";
 import { OnboardingModes } from "core/protocol/core";
 import OllamaLogo from "../../svg/OllamaLogo";

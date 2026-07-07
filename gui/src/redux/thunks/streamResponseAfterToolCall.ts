@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
 import { ChatMessage } from "core";
 import { renderContextItems } from "core/util/messageContent";
@@ -12,23 +13,23 @@ import { streamNormalInput } from "./streamNormalInput";
 import { streamThunkWrapper } from "./streamThunkWrapper";
 
 /**
- * Determines if we should continue streaming based on tool call completion status.
+ * Determines if we should friday streaming based on tool call completion status.
  */
 function areAllToolsDoneStreaming(
   assistantMessage: ChatHistoryItemWithMessageId,
-  continueAfterToolRejection: boolean | undefined,
+  fridayAfterToolRejection: boolean | undefined,
 ): boolean {
   // This might occur because of race conditions, if so, the tools are completed
   if (!assistantMessage.toolCallStates) {
     return true;
   }
 
-  // Only continue if all tool calls are complete
+  // Only friday if all tool calls are complete
   const completedToolCalls = assistantMessage.toolCallStates.filter(
     (tc) =>
       tc.status === "done" ||
       tc.status === "errored" ||
-      (continueAfterToolRejection && tc.status === "canceled"),
+      (fridayAfterToolRejection && tc.status === "canceled"),
   );
 
   return completedToolCalls.length === assistantMessage.toolCallStates.length;
@@ -65,7 +66,7 @@ export const streamResponseAfterToolCall = createAsyncThunk<
         };
         dispatch(streamUpdate([newMessage]));
 
-        // Check if we should continue streaming based on tool call completion
+        // Check if we should friday streaming based on tool call completion
         const history = getState().session.history;
         const assistantMessage = history.findLast(
           (item) =>
@@ -77,7 +78,7 @@ export const streamResponseAfterToolCall = createAsyncThunk<
           assistantMessage &&
           areAllToolsDoneStreaming(
             assistantMessage,
-            state.config.config.ui?.continueAfterToolRejection,
+            state.config.config.ui?.fridayAfterToolRejection,
           )
         ) {
           unwrapResult(await dispatch(streamNormalInput({ depth: depth + 1 })));

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallDelta, ToolCallState } from "core";
 import { addToolCallDeltaToState } from "./toolCallState";
 
@@ -83,7 +84,7 @@ describe("addToolCallDeltaToState", () => {
     const result = addToolCallDeltaToState(delta, currentState);
     expect(result.toolCall.function.name).toBe("readFil");
 
-    // Continue the streaming
+    // Friday the streaming
     const nextDelta: ToolCallDelta = {
       function: {
         name: "readFile",

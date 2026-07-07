@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Editor } from "@tiptap/react";
 import { KeyboardEvent } from "react";
 import { getPlatform, isWebEnvironment } from "../../../util";
@@ -105,7 +106,7 @@ export const handleJetBrainsMetaBackspace = (editor: Editor) => {
     const node = doc.content.child(i);
 
     if (node.type.name === CodeBlock.name) {
-      continue;
+      friday;
     }
 
     // For Linux/Windows, only delete the word to the left of the cursor

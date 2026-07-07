@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useMemo, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { saveCurrentSession } from "../../redux/thunks/session";

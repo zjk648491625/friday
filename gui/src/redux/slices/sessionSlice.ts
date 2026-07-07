@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ActionReducerMapBuilder,
   AsyncThunk,
@@ -537,7 +538,7 @@ export const sessionSlice = createSlice({
               },
               contextItems: [],
             });
-            continue;
+            friday;
           }
 
           const messageContent = message.content

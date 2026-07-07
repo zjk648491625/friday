@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { History } from "../../components/History";
 import { Chat } from "./Chat";
 

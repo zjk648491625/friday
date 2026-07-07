@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { validateMultiEdit } from "core/edit/searchAndReplace/multiEditValidation";
 import { executeMultiFindAndReplace } from "core/edit/searchAndReplace/performReplace";
 import { validateSearchAndReplaceFilepath } from "core/edit/searchAndReplace/validateArgs";

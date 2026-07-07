@@ -1,4 +1,5 @@
-import { ContinueErrorReason } from "core/util/errors";
+// Modified by Friday AI Team - Rebranded from Continue
+import { FridayErrorReason } from "core/util/errors";
 import * as ideUtils from "core/util/ideUtils";
 import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { applyForEditTool } from "../../redux/thunks/handleApplyStateUpdate";
@@ -64,7 +65,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingFilepath,
+          reason: FridayErrorReason.FindAndReplaceMissingFilepath,
         }),
       );
     });
@@ -79,7 +80,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingOldString,
+          reason: FridayErrorReason.FindAndReplaceMissingOldString,
         }),
       );
     });
@@ -94,7 +95,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingNewString,
+          reason: FridayErrorReason.FindAndReplaceMissingNewString,
         }),
       );
     });
@@ -110,7 +111,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
+          reason: FridayErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
         }),
       );
     });
@@ -130,7 +131,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FileNotFound,
+          reason: FridayErrorReason.FileNotFound,
         }),
       );
     });
@@ -179,7 +180,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceOldStringNotFound,
+          reason: FridayErrorReason.FindAndReplaceOldStringNotFound,
         }),
       );
     });
@@ -223,7 +224,7 @@ describe("singleFindAndReplaceImpl", () => {
         singleFindAndReplaceImpl(args, "tool-call-id", mockExtras),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMultipleOccurrences,
+          reason: FridayErrorReason.FindAndReplaceMultipleOccurrences,
         }),
       );
     });

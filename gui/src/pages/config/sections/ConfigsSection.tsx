@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { useContext } from "react";
 import { AssistantIcon } from "../../../components/AssistantAndOrgListbox/AssistantIcon";

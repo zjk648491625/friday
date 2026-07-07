@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { providers } from "../pages/AddNewModel/configs/providers";
 
 export interface ErrorAnalysis {
@@ -144,7 +145,7 @@ export function analyzeError(
 
   // Missing authentication header (no API key configured)
   if (errorText.includes("missing bearer or basic authentication")) {
-    helpUrl = "https://docs.continue.dev/reference#models";
+    helpUrl = "https://docs.friday.dev/reference#models";
     customErrorMessage =
       'No API key was sent with the request. Add "apiKey" to your model config.';
   }
@@ -161,7 +162,7 @@ export function analyzeError(
   // 402 Insufficient Balance
   if (statusCode === 402 || errorText.includes("insufficient balance")) {
     const providerLabel = providerName || "your provider";
-    customErrorMessage = `Your ${providerLabel} account appears to be out of credits. Add more credits to your account to continue using this model.`;
+    customErrorMessage = `Your ${providerLabel} account appears to be out of credits. Add more credits to your account to friday using this model.`;
   }
 
   return {

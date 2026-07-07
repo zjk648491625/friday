@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { mergeAttributes, Node } from "@tiptap/core";
 import { PluginKey } from "@tiptap/pm/state";
 import Suggestion from "@tiptap/suggestion";

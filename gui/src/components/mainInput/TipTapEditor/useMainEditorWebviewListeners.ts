@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Editor } from "@tiptap/react";
 import { InputModifiers } from "core";
 import { rifWithContentsToContextItem } from "core/commands/util";
@@ -38,7 +39,7 @@ export function useMainEditorWebviewListeners({
   const isInEdit = useAppSelector((state) => state.session.isInEdit);
 
   useWebviewListener(
-    "isContinueInputFocused",
+    "isFridayInputFocused",
     async () => {
       return !!editorFocusedRef.current;
     },
@@ -60,7 +61,7 @@ export function useMainEditorWebviewListeners({
   });
 
   useWebviewListener(
-    "focusContinueInput",
+    "focusFridayInput",
     async () => {
       dispatch(clearCodeToEdit());
 
@@ -82,7 +83,7 @@ export function useMainEditorWebviewListeners({
   );
 
   useWebviewListener(
-    "focusContinueInputWithoutClear",
+    "focusFridayInputWithoutClear",
     async () => {
       setTimeout(() => {
         editor?.commands.focus("end");
@@ -92,7 +93,7 @@ export function useMainEditorWebviewListeners({
   );
 
   useWebviewListener(
-    "focusContinueInputWithNewSession",
+    "focusFridayInputWithNewSession",
     async () => {
       await dispatch(
         saveCurrentSession({
@@ -167,7 +168,7 @@ export function useMainEditorWebviewListeners({
   );
 
   useWebviewListener(
-    "isContinueInputFocused",
+    "isFridayInputFocused",
     async () => {
       return !!editorFocusedRef.current;
     },
@@ -175,7 +176,7 @@ export function useMainEditorWebviewListeners({
   );
 
   useWebviewListener(
-    "focusContinueSessionId",
+    "focusFridaySessionId",
     async (data) => {
       if (!data.sessionId) return;
 

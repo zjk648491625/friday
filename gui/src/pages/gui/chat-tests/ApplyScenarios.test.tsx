@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { act } from "@testing-library/react";
 import { renderWithProviders } from "../../../util/test/render";
 import {

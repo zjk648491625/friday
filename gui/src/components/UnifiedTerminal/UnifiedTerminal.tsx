@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Anser, { AnserJsonEntry } from "anser";
 import { ToolCallState } from "core";

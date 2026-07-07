@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ApplyState,
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   ToolCallState,
 } from "core";
 import { describe, expect, it, vi } from "vitest";
@@ -22,7 +23,7 @@ vi.mock("../redux/store", () => ({
   },
 }));
 
-const EMPTY_CONFIG_WITH_TEST_MODEL_SELECTED: BrowserSerializedContinueConfig = {
+const EMPTY_CONFIG_WITH_TEST_MODEL_SELECTED: BrowserSerializedFridayConfig = {
   ...EMPTY_CONFIG,
   selectedModelByRole: {
     ...EMPTY_CONFIG.selectedModelByRole,

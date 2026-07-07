@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChatHistoryItem } from "core";
 import { renderChatMessage, stripImages } from "core/util/messageContent";
 import { useEffect, useState } from "react";
@@ -62,12 +63,12 @@ export default function StepContainer(props: StepContainerProps) {
     dispatch(deleteMessage(props.index));
   }
 
-  function onContinueGeneration() {
+  function onFridayGeneration() {
     window.postMessage(
       {
         messageType: "userInput",
         data: {
-          input: "Continue your response exactly where you left off:",
+          input: "Friday your response exactly where you left off:",
         },
       },
       "*",
@@ -111,7 +112,7 @@ export default function StepContainer(props: StepContainerProps) {
           <ResponseActions
             isTruncated={isTruncated}
             onDelete={onDelete}
-            onContinueGeneration={onContinueGeneration}
+            onFridayGeneration={onFridayGeneration}
             index={props.index}
             item={props.item}
             isLast={props.isLast}

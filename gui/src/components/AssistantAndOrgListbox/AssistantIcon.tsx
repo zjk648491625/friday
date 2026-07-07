@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ComputerDesktopIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { ProfileDescription } from "core/config/ProfileLifecycleManager";
 import { isLocalProfile } from "../../util";

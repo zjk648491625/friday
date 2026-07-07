@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import Layout from "./components/Layout";
 import { MainEditorProvider } from "./components/mainInput/TipTapEditor";

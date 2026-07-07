@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { screen } from "@testing-library/dom";
 import { MockIdeMessenger } from "../../context/MockIdeMessenger";
 import { renderWithProviders } from "../../util/test/render";

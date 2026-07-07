@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 interface ToggleProps {

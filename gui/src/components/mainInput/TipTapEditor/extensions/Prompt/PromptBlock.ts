@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { mergeAttributes, Node } from "@tiptap/core";
 import { Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { ReactNodeViewRenderer } from "@tiptap/react";

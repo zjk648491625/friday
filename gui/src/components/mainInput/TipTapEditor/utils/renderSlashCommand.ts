@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { MessagePart, RangeInFile, SlashCommandDescWithSource } from "core";
 import { stripImages } from "core/util/messageContent";
 

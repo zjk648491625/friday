@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { JSONContent } from "@tiptap/core";
 import { InputModifiers } from "core";
 import { describe, expect, it, vi } from "vitest";

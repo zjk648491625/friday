@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IndexingStatus } from "core";
 

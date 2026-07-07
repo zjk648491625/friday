@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
@@ -9,7 +10,7 @@ import { ThunkApiType } from "../store";
 import { streamResponseAfterToolCall } from "./streamResponseAfterToolCall";
 
 const DEFAULT_USER_REJECTION_MESSAGE = `The user skipped the tool call.
-If the tool call is optional or non-critical to the main goal, skip it and continue with the next step.
+If the tool call is optional or non-critical to the main goal, skip it and friday with the next step.
 If the tool call is essential, try an alternative approach.
 If no alternatives exist, offer to pause here.`;
 
@@ -19,10 +20,10 @@ export const cancelToolCallThunk = createAsyncThunk<
   ThunkApiType
 >("chat/cancelToolCall", async ({ toolCallId }, { dispatch, getState }) => {
   const state = getState();
-  const continueAfterToolRejection =
-    state.config.config.ui?.continueAfterToolRejection;
+  const fridayAfterToolRejection =
+    state.config.config.ui?.fridayAfterToolRejection;
 
-  if (continueAfterToolRejection) {
+  if (fridayAfterToolRejection) {
     // Update tool call output with rejection message
     dispatch(
       updateToolCallOutput({

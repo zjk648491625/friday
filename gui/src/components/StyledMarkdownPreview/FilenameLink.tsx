@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RangeInFile } from "core";
 import { findUriInDirs, getUriPathBasename } from "core/util/uri";
 import { useContext } from "react";

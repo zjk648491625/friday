@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { screen, waitFor } from "@testing-library/dom";
 import { act } from "@testing-library/react";
 import { Editor } from "@tiptap/core";

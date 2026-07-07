@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useContext } from "react";
 import styled from "styled-components";
 import { IdeMessengerContext } from "../../../../context/IdeMessenger";

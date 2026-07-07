@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ApplyState, ApplyToFilePayload } from "core";
 import { EDIT_MODE_STREAM_ID } from "core/edit/constants";
@@ -130,7 +131,7 @@ export const handleApplyStateUpdate = createAsyncThunk<
                     contextItems: [
                       {
                         name: "Edit Failed",
-                        content: `Failed to edit ${applyState.filepath}. To continue working with the file, read it again to see the most up-to-date contents`,
+                        content: `Failed to edit ${applyState.filepath}. To friday working with the file, read it again to see the most up-to-date contents`,
                         description: "",
                         hidden: true,
                       },

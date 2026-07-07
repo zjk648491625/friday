@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // export const Select = styled.select`
 //   padding: 8px 12px;
 //   border-radius: ${defaultBorderRadius};

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { SlashCommandDescWithSource } from "core";
 import { beforeEach, describe, it, vi } from "vitest";
 import {

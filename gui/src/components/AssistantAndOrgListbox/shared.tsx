@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigValidationError } from "@continuedev/config-yaml";
 import {
   ArrowTopRightOnSquareIcon,

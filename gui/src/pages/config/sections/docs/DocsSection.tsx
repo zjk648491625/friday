@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { parseConfigYaml } from "@continuedev/config-yaml";
 import { IndexingStatus } from "core";
 import { useMemo } from "react";

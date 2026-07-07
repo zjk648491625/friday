@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createSelector } from "@reduxjs/toolkit";
 import { Tool } from "core";
 import { BUILT_IN_GROUP_NAME } from "core/tools/builtIn";

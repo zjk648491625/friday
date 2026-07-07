@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import React from "react";
 import { Button } from "../../../components/ui/Button";
 import { cn } from "../../../util/cn";

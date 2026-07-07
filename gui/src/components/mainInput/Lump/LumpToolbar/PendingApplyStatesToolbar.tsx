@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ApplyState } from "core";
 import { getUriPathBasename } from "core/util/uri";
 import AcceptRejectDiffButtons from "../../../AcceptRejectDiffButtons";

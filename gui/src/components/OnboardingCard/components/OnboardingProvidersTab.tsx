@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { OnboardingModes } from "core/protocol/core";
 import { FormProvider, useForm } from "react-hook-form";
 import { AddModelForm } from "../../../forms/AddModelForm";

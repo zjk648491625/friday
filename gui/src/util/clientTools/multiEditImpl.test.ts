@@ -1,4 +1,5 @@
-import { ContinueErrorReason } from "core/util/errors";
+// Modified by Friday AI Team - Rebranded from Continue
+import { FridayErrorReason } from "core/util/errors";
 import * as ideUtils from "core/util/ideUtils";
 import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { applyForEditTool } from "../../redux/thunks/handleApplyStateUpdate";
@@ -53,7 +54,7 @@ describe("multiEditImpl GUI specific", () => {
         ),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingFilepath,
+          reason: FridayErrorReason.FindAndReplaceMissingFilepath,
         }),
       );
     });
@@ -72,7 +73,7 @@ describe("multiEditImpl GUI specific", () => {
         ),
       ).rejects.toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FileNotFound,
+          reason: FridayErrorReason.FileNotFound,
         }),
       );
     });

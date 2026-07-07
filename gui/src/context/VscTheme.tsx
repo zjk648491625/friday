@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createContext, useContext, useState } from "react";
 import { useWebviewListener } from "../hooks/useWebviewListener";
 import { parseHexColor } from "../styles/utils";

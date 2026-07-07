@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { screen, waitFor } from "@testing-library/react";
 import { ToolCallState } from "core";
 import { renderWithProviders } from "../../util/test/render";

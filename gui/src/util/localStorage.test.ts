@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { setLocalStorage } from "./localStorage";
 
 describe("localStorage Test", () => {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IndexingProgressUpdate } from "core";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -66,7 +67,7 @@ function IndexingProgress() {
               "Your index appears corrupted. We recommend clearing and rebuilding it, " +
               "which may take time for large codebases.\n\n" +
               "For a faster rebuild without clearing data, press 'Shift + Command + P' to open " +
-              "the Command Palette, and type out 'Continue: Force Codebase Re-Indexing'"
+              "the Command Palette, and type out 'Friday: Force Codebase Re-Indexing'"
             }
             onConfirm={() => {
               ideMessenger.post("index/forceReIndex", {

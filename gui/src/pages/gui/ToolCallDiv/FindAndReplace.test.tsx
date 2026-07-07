@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ApplyState } from "core";
 import { EditOperation } from "core/tools/definitions/multiEdit";

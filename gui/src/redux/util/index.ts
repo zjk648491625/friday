@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ContextItem, ToolCallState, ToolStatus } from "core";
 import { IIdeMessenger } from "../../context/IdeMessenger";
 import { ChatHistoryItemWithMessageId } from "../slices/sessionSlice";

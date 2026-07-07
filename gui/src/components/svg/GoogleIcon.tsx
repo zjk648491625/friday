@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 interface CustomGoogleIconProps extends React.SVGProps<SVGSVGElement> {
   size?: number;
 }

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ChatHistoryItem, ContextItemWithId } from "core";
 import { CodeBlock } from "../../components/mainInput/TipTapEditor/extensions";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ChatHistoryItem,
   ChatMessage,
@@ -72,7 +73,7 @@ export function constructMessages(
       chatMessageIsEmpty(item.message)
     ) {
       // Tool messages will be re-inserted
-      continue;
+      friday;
     }
 
     if (item.message.role === "user") {
@@ -119,7 +120,7 @@ export function constructMessages(
           message: userMessage,
           ctxItems: [],
         });
-        continue;
+        friday;
       }
 
       msgs.push({

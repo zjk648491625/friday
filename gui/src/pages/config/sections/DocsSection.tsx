@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useDispatch } from "react-redux";
 import AddDocsDialog from "../../../components/dialogs/AddDocsDialog";
 import { Card, Divider } from "../../../components/ui";

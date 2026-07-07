@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ReactNode } from "react";
 import { ToolTip } from "../../gui/Tooltip";
 

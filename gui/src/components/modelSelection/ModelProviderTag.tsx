@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { defaultBorderRadius } from "..";
 import { MODEL_PROVIDER_TAG_COLORS, ModelProviderTags } from "./utils";
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import React, { useContext, useEffect, useRef, useState } from "react";
 import useIsOSREnabled from "../hooks/useIsOSREnabled";
 import { IdeMessengerContext } from "../context/IdeMessenger";

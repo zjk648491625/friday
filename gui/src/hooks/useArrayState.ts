@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useState } from "react";
 
 function useArrayState<T>(initialValue: T[]) {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { screen } from "@testing-library/react";
 import { NodeViewProps } from "@tiptap/react";
 import { ContextItemWithId } from "core";

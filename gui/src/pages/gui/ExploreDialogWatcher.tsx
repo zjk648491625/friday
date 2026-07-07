@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useWebviewListener } from "../../hooks/useWebviewListener";
 import { useAppDispatch } from "../../redux/hooks";
 import { setIsExploreDialogOpen } from "../../redux/slices/uiSlice";
@@ -14,9 +15,9 @@ const useTutorialListener = (onTutorialClosed: () => void) => {
     const isTutorial = uris.some((uri) => {
       const lowercaseUri = uri.toLowerCase();
       return (
-        lowercaseUri.endsWith("continue_tutorial.py") ||
-        lowercaseUri.endsWith("continue_tutorial.java") ||
-        lowercaseUri.endsWith("continue_tutorial.ts")
+        lowercaseUri.endsWith("friday_tutorial.py") ||
+        lowercaseUri.endsWith("friday_tutorial.java") ||
+        lowercaseUri.endsWith("friday_tutorial.ts")
       );
     });
 

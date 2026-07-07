@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { JSONContent } from "@tiptap/react";
 import { useState } from "react";
 import { getLocalStorage, setLocalStorage } from "../util/localStorage";

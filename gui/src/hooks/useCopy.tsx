@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useState, useContext, useCallback } from "react";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 import { isJetBrains } from "../util";

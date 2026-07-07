@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { ChatHistoryItem } from "core";

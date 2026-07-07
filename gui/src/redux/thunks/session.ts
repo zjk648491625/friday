@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
 import { BaseSessionMetadata, ChatMessage, Session } from "core";
 import { NEW_SESSION_TITLE } from "core/util/constants";
@@ -82,7 +83,7 @@ export const updateSession = createAsyncThunk<void, Session, ThunkApiType>(
 );
 
 /*
- this is only used for the custom focusContinueSessionId command at the moment
+ this is only used for the custom focusFridaySessionId command at the moment
 */
 export const loadSession = createAsyncThunk<
   void,

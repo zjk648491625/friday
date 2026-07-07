@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RangeInFileWithContents, SymbolWithRange } from "core";
 
 const terminalLanguages = ["bash", "sh"];

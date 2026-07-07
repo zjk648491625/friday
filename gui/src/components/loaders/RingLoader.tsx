@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { vscForeground } from "..";

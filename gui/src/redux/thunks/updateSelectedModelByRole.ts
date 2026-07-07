@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelRole } from "@continuedev/config-yaml";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ProfileDescription } from "core/config/ProfileLifecycleManager";

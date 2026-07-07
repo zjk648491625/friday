@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ArrowPathIcon,
   ArrowTopRightOnSquareIcon,
@@ -26,9 +27,9 @@ interface AddModelFormProps {
 }
 
 const MODEL_PROVIDERS_URL =
-  "https://docs.continue.dev/customize/model-providers";
+  "https://docs.friday.dev/customize/model-providers";
 const CODESTRAL_URL = "https://console.mistral.ai/codestral";
-const CONTINUE_SETUP_URL = "https://docs.continue.dev/setup/overview";
+const FRIDAY_SETUP_URL = "https://docs.friday.dev/setup/overview";
 
 export function AddModelForm({ onDone }: AddModelFormProps) {
   const [selectedProvider, setSelectedProvider] = useState<ProviderInfo>(

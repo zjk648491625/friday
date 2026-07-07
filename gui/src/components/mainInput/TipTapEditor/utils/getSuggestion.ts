@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Editor, ReactRenderer } from "@tiptap/react";
 import {
   ContextProviderDescription,
@@ -169,7 +170,7 @@ export function getContextProviderDropdownOptions(
         action: () => {
           ideMessenger.post(
             "openUrl",
-            "https://docs.continue.dev/customization/context-providers#built-in-context-providers",
+            "https://docs.friday.dev/customization/context-providers#built-in-context-providers",
           );
         },
         description: "",

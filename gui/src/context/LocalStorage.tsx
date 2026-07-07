@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getLocalStorage } from "../util/localStorage";
 

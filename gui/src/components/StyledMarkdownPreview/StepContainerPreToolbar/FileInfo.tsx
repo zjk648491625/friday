@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getLastNPathParts } from "core/util/uri";
 import { MouseEventHandler } from "react";
 import FileIcon from "../../FileIcon";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ArrowsPointingInIcon,
   BarsArrowDownIcon,
@@ -13,7 +14,7 @@ import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 
 export interface ResponseActionsProps {
   isTruncated: boolean;
-  onContinueGeneration: () => void;
+  onFridayGeneration: () => void;
   index: number;
   onDelete: () => void;
   item: ChatHistoryItem;
@@ -21,7 +22,7 @@ export interface ResponseActionsProps {
 }
 
 export default function ResponseActions({
-  onContinueGeneration,
+  onFridayGeneration,
   index,
   item,
   isTruncated,
@@ -72,8 +73,8 @@ export default function ResponseActions({
       {isTruncated && (
         <HeaderButtonWithToolTip
           tabIndex={-1}
-          text="Continue generation"
-          onClick={onContinueGeneration}
+          text="Friday generation"
+          onClick={onFridayGeneration}
         >
           <BarsArrowDownIcon className="text-description-muted h-3.5 w-3.5" />
         </HeaderButtonWithToolTip>

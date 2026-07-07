@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BarsArrowUpIcon } from "@heroicons/react/24/outline";
 import { chatMessageIsEmpty } from "core/llm/messages";
 import { findLastIndex } from "core/util/findLast";

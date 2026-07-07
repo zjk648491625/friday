@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Tool, ToolCallState } from "core";
 import Mustache from "mustache";
 import { getStatusIntro } from "./utils";
@@ -56,7 +57,7 @@ export function ToolCallStatusMessage({
       className="text-description line-clamp-4 min-w-0 break-words"
       data-testid="tool-call-title"
     >
-      {`Continue ${intro} ${message}`}
+      {`Friday ${intro} ${message}`}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CodeBracketIcon } from "@heroicons/react/24/outline";
 import { ToolbarButtonWithTooltip } from "../../../components/StyledMarkdownPreview/StepContainerPreToolbar/ToolbarButtonWithTooltip";
 

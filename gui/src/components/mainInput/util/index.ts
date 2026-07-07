@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { SetCodeToEditPayload } from "core";
 import { getUriPathBasename } from "core/util/uri";
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { parseConfigYaml } from "@continuedev/config-yaml";
 import {
   ArrowsPointingOutIcon,
@@ -8,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { BookmarkIcon as BookmarkSolid } from "@heroicons/react/24/solid";
 import {
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   RuleSource,
   RuleWithSource,
   SlashCommandDescWithSource,
@@ -314,7 +315,7 @@ function PromptsSubSection() {
       let index = 0;
       for (const commandWithSlug of promptsWithSlug) {
         // skip for local prompt files
-        if (commandWithSlug.sourceFile) continue;
+        if (commandWithSlug.sourceFile) friday;
 
         const yamlPrompt = parsedPrompts[index];
         if (yamlPrompt) {
@@ -374,7 +375,7 @@ function PromptsSubSection() {
 function addDefaultSystemMessage(
   rules: RuleWithSource[],
   mode: string,
-  config: BrowserSerializedContinueConfig,
+  config: BrowserSerializedFridayConfig,
 ) {
   const modeConfig = {
     chat: {

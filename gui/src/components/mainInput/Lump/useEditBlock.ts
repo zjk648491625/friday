@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelDescription, RuleMetadata } from "core";
 import { DEFAULT_SYSTEM_MESSAGES_URL } from "core/llm/defaultSystemMessages";
 import { useContext } from "react";

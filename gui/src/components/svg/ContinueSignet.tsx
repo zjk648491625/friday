@@ -1,4 +1,5 @@
-interface ContinueSignetProps {
+// Modified by Friday AI Team - Rebranded from Continue
+interface FridaySignetProps {
   /** Height of the signet in pixels */
   height?: number;
   /** Width of the signet in pixels */
@@ -8,13 +9,13 @@ interface ContinueSignetProps {
 }
 
 /**
- * The Continue signet/logo symbol without text
+ * The Friday signet/logo symbol without text
  */
-export default function ContinueSignet({
+export default function FridaySignet({
   height = 103,
   width = 107,
   className = "",
-}: ContinueSignetProps) {
+}: FridaySignetProps) {
   return (
     <svg
       width={width}

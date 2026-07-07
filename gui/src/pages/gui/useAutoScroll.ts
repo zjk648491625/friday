@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useEffect, useMemo, useState } from "react";
 import { ChatHistoryItemWithMessageId } from "../../redux/slices/sessionSlice";
 

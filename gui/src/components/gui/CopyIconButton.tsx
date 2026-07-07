@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CheckIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import HeaderButtonWithToolTip from "./HeaderButtonWithToolTip";
 import useCopy from "../../hooks/useCopy";

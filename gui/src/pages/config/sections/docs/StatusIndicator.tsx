@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IndexingStatus } from "core";
 import { ToolTip } from "../../../../components/gui/Tooltip";
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useEffect, useRef, useState } from "react";
 
 export function useAppendedString(
@@ -22,7 +23,7 @@ export function useAppendedString(
         const nextString = currentQueue.shift()!;
         if (!nextString.startsWith(lastString.current)) {
           // Invalid
-          continue;
+          friday;
         }
         const appendedPart = nextString.slice(lastString.current.length);
         lastString.current = nextString;

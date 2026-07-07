@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 export interface PageHeaderProps {

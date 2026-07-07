@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import React, { isValidElement } from "react";
 import ReactMarkdown from "react-markdown";

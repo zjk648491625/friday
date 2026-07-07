@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { FromWebviewProtocol } from "core/protocol";
 import type { SuccessWebviewSingleMessage } from "core/protocol/util";
 import { useContext, useEffect, useState } from "react";

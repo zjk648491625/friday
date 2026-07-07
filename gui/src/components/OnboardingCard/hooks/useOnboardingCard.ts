@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { OnboardingModes } from "core/protocol/core";
 import { useNavigate } from "react-router-dom";
 import { OnboardingCardState } from "..";

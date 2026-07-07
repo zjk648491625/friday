@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ArrowTopRightOnSquareIcon,
   ChevronRightIcon,
@@ -34,11 +35,11 @@ function IndexingProgressErrorText({ update }: IndexingProgressErrorTextProps) {
           Add an Embeddings model to enable codebase indexing. See the docs for
           examples:
           <a
-            href="https://docs.continue.dev/walkthroughs/codebase-embeddings#embeddings-providers"
+            href="https://docs.friday.dev/walkthroughs/codebase-embeddings#embeddings-providers"
             target="_blank"
             className="cursor-pointer text-inherit underline hover:text-inherit"
           >
-            https://docs.continue.dev/walkthroughs/codebase-embeddings#embeddings-providers
+            https://docs.friday.dev/walkthroughs/codebase-embeddings#embeddings-providers
           </a>
         </span>
       </div>

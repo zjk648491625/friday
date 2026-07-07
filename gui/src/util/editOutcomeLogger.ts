@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ApplyState,
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   ToolCallState,
 } from "core";
 import { IIdeMessenger } from "../context/IdeMessenger";
@@ -11,7 +12,7 @@ import { ChatHistoryItemWithMessageId } from "../redux/slices/sessionSlice";
  */
 function extractModelInfo(
   history: ChatHistoryItemWithMessageId[],
-  config: BrowserSerializedContinueConfig,
+  config: BrowserSerializedFridayConfig,
   toolCallState: ToolCallState,
 ): {
   modelProvider: string;
@@ -150,7 +151,7 @@ function extractCodeChanges(applyState: ApplyState): {
  */
 export function assembleEditOutcomeData(
   history: ChatHistoryItemWithMessageId[],
-  config: BrowserSerializedContinueConfig,
+  config: BrowserSerializedFridayConfig,
   toolCallState: ToolCallState,
   applyState: ApplyState,
   accepted: boolean,
@@ -185,7 +186,7 @@ export function assembleEditOutcomeData(
  */
 export async function logAgentModeEditOutcome(
   history: ChatHistoryItemWithMessageId[],
-  config: BrowserSerializedContinueConfig,
+  config: BrowserSerializedFridayConfig,
   toolCallState: ToolCallState,
   applyState: ApplyState,
   accepted: boolean,

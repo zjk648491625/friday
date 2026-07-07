@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { extractCommand } from "./commandExtractor";
 
 describe("extractCommand", () => {

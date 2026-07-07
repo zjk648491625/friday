@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Editor } from "@tiptap/react";
 import { KeyboardEvent, useRef } from "react";
 import { isJetBrains, isMetaEquivalentKeyPressed } from "../../../../util";

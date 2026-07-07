@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { EnhancedStore } from "@reduxjs/toolkit";
-import { BrowserSerializedContinueConfig, ModelDescription } from "core";
+import { BrowserSerializedFridayConfig, ModelDescription } from "core";
 import { copyOf } from "core/util";
 import { MockIdeMessenger } from "../../context/MockIdeMessenger";
 
@@ -8,8 +9,8 @@ interface TestConfigUpdateParams {
   ideMessenger: MockIdeMessenger;
   newProfileId?: string;
   editConfig?: (
-    current: BrowserSerializedContinueConfig,
-  ) => BrowserSerializedContinueConfig;
+    current: BrowserSerializedFridayConfig,
+  ) => BrowserSerializedFridayConfig;
 }
 
 export function triggerConfigUpdate({

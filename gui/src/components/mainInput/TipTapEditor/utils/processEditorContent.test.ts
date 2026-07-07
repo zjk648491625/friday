@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { JSONContent } from "@tiptap/react";
 import { ContextItemWithId } from "core";
 import { expect, test, vi } from "vitest";

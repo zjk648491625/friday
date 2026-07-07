@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /*
 Currently double dollar latext with new lines causes truncation error
 So this pseudo-remark plugin removes internal newlines with double dollar signs

@@ -1,14 +1,15 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { vscForeground } from "..";
 
-interface ContinueLogoProps {
+interface FridayLogoProps {
   height?: number;
   width?: number;
 }
 
-export default function ContinueLogo({
+export default function FridayLogo({
   height = 987,
   width = 299,
-}: ContinueLogoProps) {
+}: FridayLogoProps) {
   return (
     <svg
       width={width}

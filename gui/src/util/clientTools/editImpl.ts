@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { resolveRelativePathInDir } from "core/util/ideUtils";
 import { v4 as uuid } from "uuid";
 import { applyForEditTool } from "../../redux/thunks/handleApplyStateUpdate";

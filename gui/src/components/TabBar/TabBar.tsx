@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

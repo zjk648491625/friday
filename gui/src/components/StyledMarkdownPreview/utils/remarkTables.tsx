@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { visit } from "unist-util-visit";
 
 /*

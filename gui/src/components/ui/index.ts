@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export { Button } from "./Button";
 export { Card } from "./Card";
 export { Divider } from "./Divider";

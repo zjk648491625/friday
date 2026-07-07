@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { calculateRequestCost } from "core/llm/utils/calculateRequestCost";
 import React, { useMemo, useState } from "react";
 import { LLMLog } from "../../hooks/useLLMLog";

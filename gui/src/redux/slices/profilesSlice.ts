@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SlashCommandDescWithSource } from "core";
 import { ProfileDescription } from "core/config/ProfileLifecycleManager";

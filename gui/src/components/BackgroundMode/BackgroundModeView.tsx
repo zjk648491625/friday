@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { AgentsList } from "./AgentsList";
 
