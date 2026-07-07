@@ -1,9 +1,10 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import ignore, { Ignore } from "ignore";
 
 import type { FileType, IDE } from "..";
 
 import { joinPathsToUri } from "../util/uri";
-import { getGlobalContinueIgArray } from "./continueignore";
+import { getGlobalFridayIgArray } from "./fridayignore";
 import { defaultIgnoreFileAndDir, gitIgArrayFromFile } from "./ignore";
 
 export interface WalkerOptions {
@@ -91,7 +92,7 @@ class DFSWalker {
     let section = Date.now();
     const defaultAndGlobalIgnores = ignore()
       .add(this.options.overrideDefaultIgnores ?? defaultIgnoreFileAndDir)
-      .add(getGlobalContinueIgArray());
+      .add(getGlobalFridayIgArray());
     ignoreFileTime += Date.now() - section;
 
     const rootContext: WalkContext = {
@@ -179,7 +180,7 @@ class DFSWalker {
           // If called from the root, a symlink either links to a real file in this repository,
           // and therefore will be walked OR it links to something outside of the repository and
           // we do not want to index it
-          continue;
+          friday;
         }
         const walkableEntry = {
           name: entry[0],
@@ -194,13 +195,13 @@ class DFSWalker {
           relPath = `${relPath}/`;
         } else {
           if (this.options.include === "dirs") {
-            continue;
+            friday;
           }
         }
         let shouldIgnore = false;
         for (const ig of ignoreContexts) {
           if (shouldIgnore) {
-            continue;
+            friday;
           }
           // remove the directory name and path separator from the match path, unless this an ignore file
           // in the root directory
@@ -215,7 +216,7 @@ class DFSWalker {
           ignoreTime += Date.now() - section;
         }
         if (shouldIgnore) {
-          continue;
+          friday;
         }
 
         if (this.entryIsDirectory(entry)) {
@@ -307,10 +308,10 @@ export async function getIgnoreContext(
     .map(([name, _]) => name);
 
   // Find ignore files and get ignore arrays from their contexts
-  // These are done separately so that .continueignore can override .gitignore
+  // These are done separately so that .fridayignore can override .gitignore
   const gitIgnoreFile = dirFiles.find((name) => name === ".gitignore");
-  const continueIgnoreFile = dirFiles.find(
-    (name) => name === ".continueignore",
+  const fridayIgnoreFile = dirFiles.find(
+    (name) => name === ".fridayignore",
   );
 
   const getGitIgnorePatterns = async () => {
@@ -320,9 +321,9 @@ export async function getIgnoreContext(
     }
     return [];
   };
-  const getContinueIgnorePatterns = async () => {
-    if (continueIgnoreFile) {
-      const contents = await ide.readFile(`${currentDir}/.continueignore`);
+  const getFridayIgnorePatterns = async () => {
+    if (fridayIgnoreFile) {
+      const contents = await ide.readFile(`${currentDir}/.fridayignore`);
       return gitIgArrayFromFile(contents);
     }
     return [];
@@ -330,7 +331,7 @@ export async function getIgnoreContext(
 
   const ignoreArrays = await Promise.all([
     getGitIgnorePatterns(),
-    getContinueIgnorePatterns(),
+    getFridayIgnorePatterns(),
   ]);
 
   if (ignoreArrays[0].length === 0 && ignoreArrays[1].length === 0) {
@@ -340,8 +341,8 @@ export async function getIgnoreContext(
   // Note precedence here!
   const ignoreContext = ignore()
     .add(ignoreArrays[0]) // gitignore
-    .add(defaultAndGlobalIgnores) // default file/folder ignores followed by global .continueignore - this is combined for speed
-    .add(ignoreArrays[1]); // local .continueignore
+    .add(defaultAndGlobalIgnores) // default file/folder ignores followed by global .fridayignore - this is combined for speed
+    .add(ignoreArrays[1]); // local .fridayignore
 
   return ignoreContext;
 }

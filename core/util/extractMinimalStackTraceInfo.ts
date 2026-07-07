@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * It's helpful to know what functions errors occur in, but absolute
  * file paths are sensitive information, so we want to remove them.

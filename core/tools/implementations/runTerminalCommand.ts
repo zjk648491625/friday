@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import iconv from "iconv-lite";
 import childProcess from "node:child_process";
 import os from "node:os";
-import { ContinueError, ContinueErrorReason } from "../../util/errors";
+import { FridayError, FridayErrorReason } from "../../util/errors";
 
 // Default timeout for terminal commands (2 minutes)
 const DEFAULT_TOOL_TIMEOUT_MS = 120_000;
@@ -449,8 +450,8 @@ export const runTerminalCommandImpl: ToolImpl = async (args, extras) => {
                 if (code === 0) {
                   resolve({ stdout, stderr });
                 } else {
-                  const error = new ContinueError(
-                    ContinueErrorReason.CommandExecutionFailed,
+                  const error = new FridayError(
+                    FridayErrorReason.CommandExecutionFailed,
                     `Command failed with exit code ${code}`,
                   );
                   (error as any).stderr = stderr;

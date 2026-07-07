@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { NEXT_EDIT_MODELS } from "../llm/constants.js";
 import { BaseNextEditModelProvider } from "./providers/BaseNextEditProvider.js";
 import { InstinctProvider } from "./providers/InstinctNextEditProvider.js";

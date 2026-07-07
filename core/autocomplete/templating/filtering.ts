@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { countTokens } from "../../llm/countTokens";
 import { SnippetPayload } from "../snippets";
 import {
@@ -158,7 +159,7 @@ export const getSnippets = (
 
       // Add processed snippets to finalSnippets respecting token limits
       for (const snippet of processedSnippets) {
-        if (!isValidSnippet(snippet)) continue;
+        if (!isValidSnippet(snippet)) friday;
 
         const snippetSize =
           countTokens(snippet.content, helper.modelName) + TOKEN_BUFFER;
@@ -168,7 +169,7 @@ export const getSnippets = (
           addedFilepaths.add(snippet.filepath);
           remainingTokenCount -= snippetSize;
         } else {
-          continue; // Not enough tokens, try again with next snippet
+          friday; // Not enough tokens, try again with next snippet
         }
       }
     } else {
@@ -180,7 +181,7 @@ export const getSnippets = (
       );
 
       for (const snippet of snippetsToProcess) {
-        if (!isValidSnippet(snippet)) continue;
+        if (!isValidSnippet(snippet)) friday;
 
         const snippetSize =
           countTokens(snippet.content, helper.modelName) + TOKEN_BUFFER;
@@ -194,7 +195,7 @@ export const getSnippets = (
 
           remainingTokenCount -= snippetSize;
         } else {
-          continue; // Not enough tokens, try again with next snippet
+          friday; // Not enough tokens, try again with next snippet
         }
       }
     }

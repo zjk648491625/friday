@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AutocompleteLanguageInfo } from "../constants/AutocompleteLanguageInfo";
 import { HelperVars } from "../util/HelperVars";
 

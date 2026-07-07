@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelRole } from "@continuedev/config-yaml";
 
-import { ContinueConfig, ILLM } from "..";
+import { FridayConfig, ILLM } from "..";
 import { LLMConfigurationStatuses } from "../llm/constants";
 import {
   GlobalContext,
@@ -8,10 +9,10 @@ import {
 } from "../util/GlobalContext";
 
 export function rectifySelectedModelsFromGlobalContext(
-  continueConfig: ContinueConfig,
+  fridayConfig: FridayConfig,
   profileId: string,
-): ContinueConfig {
-  const configCopy = { ...continueConfig };
+): FridayConfig {
+  const configCopy = { ...fridayConfig };
 
   const globalContext = new GlobalContext();
   const currentSelectedModels = globalContext.get("selectedModelsByProfileId");
@@ -35,7 +36,7 @@ export function rectifySelectedModelsFromGlobalContext(
     const currentSelection = currentForProfile[role] ?? null;
 
     if (currentSelection) {
-      const match = continueConfig.modelsByRole[role].find(
+      const match = fridayConfig.modelsByRole[role].find(
         (m) => m.title === currentSelection,
       );
       if (match) {
@@ -43,8 +44,8 @@ export function rectifySelectedModelsFromGlobalContext(
       }
     }
 
-    if (!newModel && continueConfig.modelsByRole[role].length > 0) {
-      newModel = continueConfig.modelsByRole[role][0];
+    if (!newModel && fridayConfig.modelsByRole[role].length > 0) {
+      newModel = fridayConfig.modelsByRole[role][0];
     }
 
     if (!(currentSelection === (newModel?.title ?? null))) {
@@ -56,7 +57,7 @@ export function rectifySelectedModelsFromGlobalContext(
       role === "apply" &&
       newModel?.getConfigurationStatus() !== LLMConfigurationStatuses.VALID
     ) {
-      continue;
+      friday;
     }
 
     configCopy.selectedModelByRole[role] = newModel;

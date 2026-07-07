@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Entry point for the Transformers.js library. Only the exports from this file
  * are available to the end user, and are grouped as follows:

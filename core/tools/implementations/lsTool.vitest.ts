@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test, vi } from "vitest";
 import { ToolExtras } from "../..";
 import * as walkDirModule from "../../indexing/walkDir";
@@ -37,7 +38,7 @@ test("resolveLsToolDirPath preserves forward slashes", () => {
 });
 
 test("resolveLsToolDirPath preserves hidden directory paths", () => {
-  expect(resolveLsToolDirPath(".continue/rules")).toBe(".continue/rules");
+  expect(resolveLsToolDirPath(".friday/rules")).toBe(".friday/rules");
 });
 
 test("resolveLsToolDirPath preserves hidden directory name only", () => {

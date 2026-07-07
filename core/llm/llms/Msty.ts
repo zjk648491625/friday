@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMOptions } from "../../index.js";
 
 import Ollama from "./Ollama.js";

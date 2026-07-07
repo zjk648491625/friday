@@ -1,13 +1,14 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigValidationError } from "@continuedev/config-yaml";
 
-import { ModelDescription, SerializedContinueConfig } from "../";
+import { ModelDescription, SerializedFridayConfig } from "../";
 
 /**
- * Validates a SerializedContinueConfig object to ensure all properties are correctly formed.
+ * Validates a SerializedFridayConfig object to ensure all properties are correctly formed.
  * @param config The configuration object to validate.
  * @returns An array of error messages if there are any. Otherwise, the config is valid.
  */
-export function validateConfig(config: SerializedContinueConfig) {
+export function validateConfig(config: SerializedFridayConfig) {
   const errors: ConfigValidationError[] = [];
 
   // Validate chat models
@@ -64,7 +65,7 @@ export function validateConfig(config: SerializedContinueConfig) {
       ) {
         errors.push({
           fatal: false,
-          message: `${modelDescription.model} is not trained for tab-autocomplete, and will result in low-quality suggestions. See the docs to learn more about why: https://docs.continue.dev/features/tab-autocomplete#i-want-better-completions-should-i-use-gpt-4`,
+          message: `${modelDescription.model} is not trained for tab-autocomplete, and will result in low-quality suggestions. See the docs to learn more about why: https://docs.friday.dev/features/tab-autocomplete#i-want-better-completions-should-i-use-gpt-4`,
         });
       }
     }
@@ -142,7 +143,7 @@ export function validateConfig(config: SerializedContinueConfig) {
   // Validate other boolean flags
   const booleanFlags: Array<
     keyof Pick<
-      SerializedContinueConfig,
+      SerializedFridayConfig,
       "allowAnonymousTelemetry" | "disableIndexing" | "disableSessionTitles"
     >
   > = ["allowAnonymousTelemetry", "disableIndexing", "disableSessionTitles"];

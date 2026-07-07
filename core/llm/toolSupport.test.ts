@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // core/llm/toolSupport.test.ts
 import { PROVIDER_TOOL_SUPPORT, isRecommendedAgentModel } from "./toolSupport";
 

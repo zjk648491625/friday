@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Recursively retrieves the root cause of an error by traversing through its `cause` property.
  *
@@ -11,17 +12,17 @@ export function getRootCause(err: any): any {
   return err;
 }
 
-export class ContinueError extends Error {
-  reason: ContinueErrorReason;
+export class FridayError extends Error {
+  reason: FridayErrorReason;
 
-  constructor(reason: ContinueErrorReason, message?: string) {
+  constructor(reason: FridayErrorReason, message?: string) {
     super(message);
     this.reason = reason;
-    this.name = "ContinueError";
+    this.name = "FridayError";
   }
 }
 
-export enum ContinueErrorReason {
+export enum FridayErrorReason {
   // Find and Replace validation errors
   FindAndReplaceIdenticalOldAndNewStrings = "find_and_replace_identical_old_and_new_strings",
   FindAndReplaceMissingOldString = "find_and_replace_missing_old_string",

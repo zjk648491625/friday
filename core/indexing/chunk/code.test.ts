@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChunkWithoutID } from "../..";
 import { cleanupAsyncEncoders, countTokensAsync } from "../../llm/countTokens";
 import { codeChunker } from "./code";

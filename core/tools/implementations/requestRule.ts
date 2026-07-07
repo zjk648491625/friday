@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
-import { ContinueError, ContinueErrorReason } from "../../util/errors";
+import { FridayError, FridayErrorReason } from "../../util/errors";
 import { getStringArg } from "../parseArgs";
 
 export const requestRuleImpl: ToolImpl = async (args, extras) => {
@@ -9,8 +10,8 @@ export const requestRuleImpl: ToolImpl = async (args, extras) => {
   const rule = extras.config.rules.find((r) => r.name === name);
 
   if (!rule || !rule.sourceFile) {
-    throw new ContinueError(
-      ContinueErrorReason.RuleNotFound,
+    throw new FridayError(
+      FridayErrorReason.RuleNotFound,
       `Rule with name "${name}" not found or has no file path`,
     );
   }

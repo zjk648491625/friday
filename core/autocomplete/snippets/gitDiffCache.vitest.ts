@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, expect, test, vi } from "vitest";
 import { GitDiffCache } from "./gitDiffCache";
 

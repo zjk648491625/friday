@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it } from "vitest";
 import { getInitialToolCallParseState, ToolCallParseState } from "../types";
 import { handleToolCallBuffer } from "./parseSystemToolCall";

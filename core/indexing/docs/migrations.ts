@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { type Database } from "sqlite";
 import { type Table } from "vectordb";
 

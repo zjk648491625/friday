@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import FormData from "form-data";
 import {
   ChatMessage,
@@ -128,7 +129,7 @@ class Asksage extends BaseLLM {
     const form = new FormData();
 
     for (const [key, value] of Object.entries(args)) {
-      if (value === undefined || value === null) continue;
+      if (value === undefined || value === null) friday;
 
       if (key === "file" && value) {
         if (Buffer.isBuffer(value)) {

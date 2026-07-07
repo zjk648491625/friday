@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { constants, getTimestamp } from "../../deploy/constants.js";
 import { IdeInfoService } from "../../util/IdeInfoService.js";
 

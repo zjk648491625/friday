@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigResult } from "@continuedev/config-yaml";
 import { open, type Database } from "sqlite";
 import sqlite3 from "sqlite3";
 
 import {
   Chunk,
-  ContinueConfig,
+  FridayConfig,
   DocsIndexingDetails,
   IDE,
   IdeInfo,
@@ -126,8 +127,8 @@ const docConfigsAreEqualExceptTitleAndFavicon = (
 const siteIndexingConfigsAreEqual = (
   siteConfig1: SiteIndexingConfig,
   siteConfig2: SiteIndexingConfig,
-  contConfig1: ContinueConfig | undefined,
-  contConfig2: ContinueConfig,
+  contConfig1: FridayConfig | undefined,
+  contConfig2: FridayConfig,
 ) => {
   return (
     docConfigsAreEqual(siteConfig1, siteConfig2) &&
@@ -141,8 +142,8 @@ const siteIndexingConfigsAreEqual = (
 const siteIndexingConfigsAreEqualExceptTitleAndFavicon = (
   siteConfig1: SiteIndexingConfig,
   siteConfig2: SiteIndexingConfig,
-  contConfig1: ContinueConfig | undefined,
-  contConfig2: ContinueConfig,
+  contConfig1: FridayConfig | undefined,
+  contConfig2: FridayConfig,
 ) => {
   return (
     docConfigsAreEqualExceptTitleAndFavicon(siteConfig1, siteConfig2) &&
@@ -177,7 +178,7 @@ export default class DocsService {
   private docsIndexingQueue = new Set<string>();
   private lanceTableNamesSet = new Set<string>();
 
-  private config!: ContinueConfig;
+  private config!: FridayConfig;
   private sqliteDb?: Database;
 
   private ideInfoPromise: Promise<IdeInfo>;
@@ -365,7 +366,7 @@ export default class DocsService {
 
   private async handleConfigUpdate({
     config: newConfig,
-  }: ConfigResult<ContinueConfig>) {
+  }: ConfigResult<FridayConfig>) {
     if (newConfig) {
       const oldConfig = this.config;
       this.config = newConfig; // IMPORTANT - need to set up top, other methods below use this without passing it in
@@ -503,7 +504,7 @@ export default class DocsService {
     // This particular failure will not mark as a failed config in global context
     // Since SiteIndexingConfig is likely to be valid
     try {
-      await provider.embed(["continue-test-run"]);
+      await provider.embed(["friday-test-run"]);
     } catch (e) {
       if (e instanceof LLMError) {
         // Report the error to the IDE
@@ -750,7 +751,7 @@ export default class DocsService {
       void this.ide.showToast(
         "error",
         "Set up an embeddings model to use the @docs context provider. See: " +
-          "https://docs.continue.dev/customize/model-roles/embeddings",
+          "https://docs.friday.dev/customize/model-roles/embeddings",
       );
       return [];
     }
@@ -925,8 +926,8 @@ export default class DocsService {
    * Sync with no embeddings provider change
    */
   private async syncDocs(
-    oldConfig: ContinueConfig | undefined,
-    newConfig: ContinueConfig,
+    oldConfig: FridayConfig | undefined,
+    newConfig: FridayConfig,
     forceReindex: boolean,
   ) {
     try {
@@ -952,7 +953,7 @@ export default class DocsService {
             (d) => d.startUrl === doc.startUrl,
           );
 
-          // TODO: Changes to the docs config made while Continue isn't running won't be caught
+          // TODO: Changes to the docs config made while Friday isn't running won't be caught
           if (
             oldConfigDoc &&
             !siteIndexingConfigsAreEqual(
@@ -979,7 +980,7 @@ export default class DocsService {
             if (forceReindex) {
               changedDocs.push(doc);
             } else {
-              // This is a temperary fix to catch the changes to the docs config that were made when Continue isn't running
+              // This is a temperary fix to catch the changes to the docs config that were made when Friday isn't running
               // We only update title and faviconUrl here
               await this.updateMetadataInSqlite(doc);
               // if get's here, not changed, no update needed, mark as complete

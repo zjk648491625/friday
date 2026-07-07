@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export const capitalizeFirstLetter = (val: string) => {
   if (val.length === 0) {
     return "";

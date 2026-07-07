@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const FUNCTIONS = [
   {
     nodeType: "function_declaration with a param and a return type",

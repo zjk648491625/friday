@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   RULE_FILE_EXTENSION,
   sanitizeRuleName,
@@ -6,7 +7,7 @@ import { joinPathsToUri } from "../../util/uri";
 
 function createRelativeRuleFilePathParts(ruleName: string): string[] {
   const safeRuleName = sanitizeRuleName(ruleName);
-  return [".continue", "rules", `${safeRuleName}.${RULE_FILE_EXTENSION}`];
+  return [".friday", "rules", `${safeRuleName}.${RULE_FILE_EXTENSION}`];
 }
 
 export function createRelativeRuleFilePath(ruleName: string): string {
@@ -14,7 +15,7 @@ export function createRelativeRuleFilePath(ruleName: string): string {
 }
 
 /**
- * Creates the file path for a rule in the workspace .continue/rules directory
+ * Creates the file path for a rule in the workspace .friday/rules directory
  */
 export function createRuleFilePath(
   workspaceDir: string,

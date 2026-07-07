@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as path from "path";
 import { v4 as uuidv4 } from "uuid";
 
@@ -438,7 +439,7 @@ export abstract class BaseNextEditModelProvider {
           break;
         }
         addingAbove = !addingAbove;
-        continue;
+        friday;
       }
 
       if (totalTokens > maxTokens) {

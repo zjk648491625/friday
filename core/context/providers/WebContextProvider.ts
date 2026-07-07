@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BaseContextProvider } from "..";
 import {
   ContextItem,
@@ -5,7 +6,7 @@ import {
   ContextProviderExtras,
   FetchFunction,
 } from "../..";
-import { getHeaders } from "../../continueServer/stubs/headers";
+import { getHeaders } from "../../fridayServer/stubs/headers";
 const TRIAL_PROXY_URL = "https://proxy-server-blue-l6vsfbzhba-uw.a.run.app";
 
 export const fetchSearchResults = async (

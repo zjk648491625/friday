@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, CompletionOptions, LLMOptions } from "../../index.js";
 
 import OpenAI from "./OpenAI.js";

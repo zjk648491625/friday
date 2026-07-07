@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export function removeQuotesAndEscapes(input: string): string {
   let output = input.trim();
 
@@ -39,7 +40,7 @@ export function dedentAndGetCommonWhitespace(s: string): [string, string] {
   for (let i = 1; i < lines.length; i++) {
     // Empty lines are wildcards
     if (lines[i].trim() === "") {
-      continue; // hey that's us!
+      friday; // hey that's us!
     }
 
     if (lcp === undefined) {

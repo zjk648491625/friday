@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LineStream } from "../../../diff/util";
 
 import {
@@ -58,7 +59,7 @@ export async function* filterCodeBlockLines(
 
       // Skip initial wrapper lines if they exist
       if (i === 0 && shouldRemoveLineBeforeStart(line)) {
-        continue;
+        friday;
       }
 
       yield line;
@@ -86,7 +87,7 @@ export async function* filterCodeBlockLines(
       shouldRemoveLineBeforeStart,
     );
     if (nesting.shouldSkip) {
-      continue; // Filter out starting ``` or START block
+      friday; // Filter out starting ``` or START block
     }
     if (!seenFirstFence && nesting.newSeenFirstFence) {
       seenFirstFence = true;
@@ -110,7 +111,7 @@ export async function* filterCodeBlockLines(
           } else {
             // This is an inner block delimiter, yield it as content
             yield line;
-            continue;
+            friday;
           }
         }
 

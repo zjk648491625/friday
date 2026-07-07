@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BaseContextProvider } from "../";
 import { ContextProviderName } from "../../";
 
@@ -38,7 +39,7 @@ import WebContextProvider from "./WebContextProvider";
  * - `CodeOutlineContextProvider`
  * - `CodeHighlightsContextProvider`
  *
- * See this issue for details: https://github.com/continuedev/continue/issues/1365
+ * See this issue for details: https://github.com/friday-ai/friday/issues/1365
  */
 export const Providers: (typeof BaseContextProvider)[] = [
   FileContextProvider,

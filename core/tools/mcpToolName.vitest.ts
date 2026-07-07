@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test } from "vitest";
 import { MCPServerStatus, MCPTool } from "..";
 import { getMCPToolName } from "./mcpToolName";

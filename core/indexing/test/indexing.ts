@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { jest } from "@jest/globals";
 
 import { IndexTag } from "../..";
-import { IContinueServerClient } from "../../continueServer/interface";
+import { IFridayServerClient } from "../../fridayServer/interface";
 import { ChunkCodebaseIndex } from "../chunk/ChunkCodebaseIndex";
 import { CodebaseIndex, RefreshIndexResults } from "../types";
 
@@ -32,15 +33,15 @@ export const mockTag: IndexTag = {
 
 export const mockTagString = tagToString(mockTag);
 
-export const testContinueServerClient = {
+export const testFridayServerClient = {
   connected: false,
   getFromIndexCache: jest.fn(),
-} as unknown as IContinueServerClient;
+} as unknown as IFridayServerClient;
 
-const mockContinueServerClient = {
+const mockFridayServerClient = {
   connected: false,
   getFromIndexCache: jest.fn(),
-} as unknown as IContinueServerClient;
+} as unknown as IFridayServerClient;
 
 const mockResults: RefreshIndexResults = {
   compute: [],
@@ -56,7 +57,7 @@ const mockMarkComplete = jest
 export async function insertMockChunks() {
   const index = new ChunkCodebaseIndex(
     testIde.readFile.bind(testIde),
-    mockContinueServerClient,
+    mockFridayServerClient,
     1000,
   );
 

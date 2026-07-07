@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { TextDecoder, TextEncoder } from "util";
 
 import fetch, { Request, Response } from "node-fetch";

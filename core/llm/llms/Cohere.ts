@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@continuedev/fetch";
 import {
   ChatMessage,
@@ -21,7 +22,7 @@ class Cohere extends BaseLLM {
     const messages = [];
     for (const m of msgs) {
       if (!m.content) {
-        continue;
+        friday;
       }
       switch (m.role) {
         case "user":
@@ -182,7 +183,7 @@ class Cohere extends BaseLLM {
       for (const content of data.message.content) {
         if (content.thinking) {
           yield { role: "thinking", content: content.thinking };
-          continue;
+          friday;
         }
         yield { role: "assistant", content: content.text };
       }

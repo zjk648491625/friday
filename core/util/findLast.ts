@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export function findLastIndex<T = any>(
   arr: T[],
   criterion: (item: T) => boolean,

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   MCPServer,
   mergeConfigYamlRequestOptions,
@@ -12,7 +13,7 @@ import {
   RuleWithSource,
 } from "../..";
 
-export function convertYamlRuleToContinueRule(rule: Rule): RuleWithSource {
+export function convertYamlRuleToFridayRule(rule: Rule): RuleWithSource {
   if (typeof rule === "string") {
     return {
       rule: rule,

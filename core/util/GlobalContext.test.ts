@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // core/util/GlobalContext.test.ts
 import fs from "node:fs";
 import { GlobalContext } from "./GlobalContext";

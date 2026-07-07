@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import ignore from "ignore";
 
 import type { FileType, IDE, SlashCommand } from "../../..";
-import { getGlobalContinueIgArray } from "../../../indexing/continueignore";
+import { getGlobalFridayIgArray } from "../../../indexing/fridayignore";
 import { DEFAULT_IGNORE, gitIgArrayFromFile } from "../../../indexing/ignore";
 import { renderChatMessage } from "../../../util/messageContent";
 import {
@@ -54,7 +55,7 @@ const OnboardSlashCommand: SlashCommand = {
 };
 
 async function getEntriesFilteredByIgnore(dir: string, ide: IDE) {
-  const ig = ignore().add(DEFAULT_IGNORE).add(getGlobalContinueIgArray());
+  const ig = ignore().add(DEFAULT_IGNORE).add(getGlobalFridayIgArray());
   const entries = await ide.listDir(dir);
 
   const ignoreUri = joinPathsToUri(dir, ".gitignore");

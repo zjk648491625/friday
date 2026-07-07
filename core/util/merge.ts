@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigMergeType } from "../index.js";
 
 type JsonObject = { [key: string]: any };
@@ -17,7 +18,7 @@ export function mergeJson(
       if (!(key in copyOfFirst) || mergeBehavior === "overwrite") {
         // New value
         copyOfFirst[key] = secondValue;
-        continue;
+        friday;
       }
 
       const firstValue = copyOfFirst[key];

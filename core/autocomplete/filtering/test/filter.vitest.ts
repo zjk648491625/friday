@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
 import {
   addToTestDir,
@@ -23,7 +24,7 @@ describe("Autocomplete filtering tests", () => {
   beforeAll(async () => {
     tearDownTestDir();
     setUpTestDir();
-    addToTestDir([".continueignore"]);
+    addToTestDir([".fridayignore"]);
   });
 
   afterAll(async () => {

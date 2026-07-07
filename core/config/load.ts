@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { execSync } from "child_process";
 import * as fs from "fs";
 import os from "os";
@@ -12,11 +13,11 @@ import {
 import * as JSONC from "comment-json";
 
 import {
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   Config,
   ContextProviderWithParams,
-  ContinueConfig,
-  ContinueRcJson,
+  FridayConfig,
+  FridayRcJson,
   CustomContextProvider,
   EmbeddingsProviderDescription,
   IDE,
@@ -29,7 +30,7 @@ import {
   LLMOptions,
   ModelDescription,
   RerankerDescription,
-  SerializedContinueConfig,
+  SerializedFridayConfig,
   SlashCommandWithSource,
 } from "..";
 import { getLegacyBuiltInSlashCommandFromDescription } from "../commands/slash/built-in-legacy";
@@ -52,7 +53,7 @@ import {
   getConfigJsPath,
   getConfigJsPathForRemote,
   getConfigTsPath,
-  getContinueDotEnv,
+  getFridayDotEnv,
   getEsbuildBinaryPath,
 } from "../util/paths";
 import { localPathToUri } from "../util/pathToUri";
@@ -73,13 +74,13 @@ import { validateConfig } from "./validation.js";
 
 export function resolveSerializedConfig(
   filepath: string,
-): SerializedContinueConfig {
+): SerializedFridayConfig {
   let content = fs.readFileSync(filepath, "utf8");
-  const config = JSONC.parse(content) as unknown as SerializedContinueConfig;
+  const config = JSONC.parse(content) as unknown as SerializedFridayConfig;
   if (config.env && Array.isArray(config.env)) {
     const env = {
       ...process.env,
-      ...getContinueDotEnv(),
+      ...getFridayDotEnv(),
     };
 
     config.env.forEach((envVar) => {
@@ -92,7 +93,7 @@ export function resolveSerializedConfig(
     });
   }
 
-  return JSONC.parse(content) as unknown as SerializedContinueConfig;
+  return JSONC.parse(content) as unknown as SerializedFridayConfig;
 }
 
 const configMergeKeys = {
@@ -110,13 +111,13 @@ const configMergeKeys = {
 };
 
 function loadSerializedConfig(
-  workspaceConfigs: ContinueRcJson[],
+  workspaceConfigs: FridayRcJson[],
   ideSettings: IdeSettings,
   ideType: IdeType,
-  overrideConfigJson: SerializedContinueConfig | undefined,
+  overrideConfigJson: SerializedFridayConfig | undefined,
   ide: IDE,
-): ConfigResult<SerializedContinueConfig> {
-  let config: SerializedContinueConfig = overrideConfigJson!;
+): ConfigResult<SerializedFridayConfig> {
+  let config: SerializedFridayConfig = overrideConfigJson!;
   if (!config) {
     try {
       config = resolveSerializedConfig(getConfigJsonPath());
@@ -154,7 +155,7 @@ function loadSerializedConfig(
 }
 
 async function serializedToIntermediateConfig(
-  initial: SerializedContinueConfig,
+  initial: SerializedFridayConfig,
   ide: IDE,
 ): Promise<Config> {
   // DEPRECATED - load custom slash commands
@@ -232,7 +233,7 @@ async function intermediateToFinalConfig({
   ideInfo: IdeInfo;
   llmLogger: ILLMLogger;
   loadPromptFiles?: boolean;
-}): Promise<{ config: ContinueConfig; errors: ConfigValidationError[] }> {
+}): Promise<{ config: FridayConfig; errors: ConfigValidationError[] }> {
   const errors: ConfigValidationError[] = [];
   const workspaceDirs = await ide.getWorkspaceDirs();
   const getUriFromPath = (path: string) => {
@@ -452,7 +453,7 @@ async function intermediateToFinalConfig({
   }
   const newReranker = getRerankingILLM(config.reranker);
 
-  const continueConfig: ContinueConfig = {
+  const fridayConfig: FridayConfig = {
     ...config,
     contextProviders,
     tools: getBaseToolDefinitions(),
@@ -483,9 +484,9 @@ async function intermediateToFinalConfig({
 
   for (const cmd of config.slashCommands ?? []) {
     if ("source" in cmd) {
-      continueConfig.slashCommands.push(cmd);
+      fridayConfig.slashCommands.push(cmd);
     } else {
-      continueConfig.slashCommands.push({
+      fridayConfig.slashCommands.push({
         ...cmd,
         source: "config-ts-slash-command",
       });
@@ -493,7 +494,7 @@ async function intermediateToFinalConfig({
   }
 
   if (config.systemMessage) {
-    continueConfig.rules.unshift({
+    fridayConfig.rules.unshift({
       rule: config.systemMessage,
       source: "json-systemMessage",
     });
@@ -506,7 +507,7 @@ async function intermediateToFinalConfig({
     const mcpOptions: InternalMcpOptions[] = (
       config.experimental?.modelContextProtocolServers ?? []
     ).map((server, index) => ({
-      id: `continue-mcp-server-${index + 1}`,
+      id: `friday-mcp-server-${index + 1}`,
       name: `MCP Server`,
       requestOptions: mergeConfigYamlRequestOptions(
         server.transport.type !== "stdio"
@@ -527,14 +528,14 @@ async function intermediateToFinalConfig({
   }
 
   // Handle experimental modelRole config values for apply and edit
-  const inlineEditModel = getModelByRole(continueConfig, "inlineEdit")?.title;
+  const inlineEditModel = getModelByRole(fridayConfig, "inlineEdit")?.title;
   if (inlineEditModel) {
-    const match = continueConfig.modelsByRole.chat.find(
+    const match = fridayConfig.modelsByRole.chat.find(
       (m) => m.title === inlineEditModel,
     );
     if (match) {
-      continueConfig.selectedModelByRole.edit = match;
-      continueConfig.modelsByRole.edit = [match]; // The only option if inlineEdit role is set
+      fridayConfig.selectedModelByRole.edit = match;
+      fridayConfig.modelsByRole.edit = [match]; // The only option if inlineEdit role is set
     } else {
       errors.push({
         fatal: false,
@@ -544,16 +545,16 @@ async function intermediateToFinalConfig({
   }
 
   const applyBlockModel = getModelByRole(
-    continueConfig,
+    fridayConfig,
     "applyCodeBlock",
   )?.title;
   if (applyBlockModel) {
-    const match = continueConfig.modelsByRole.chat.find(
+    const match = fridayConfig.modelsByRole.chat.find(
       (m) => m.title === applyBlockModel,
     );
     if (match) {
-      continueConfig.selectedModelByRole.apply = match;
-      continueConfig.modelsByRole.apply = [match]; // The only option if applyCodeBlock role is set
+      fridayConfig.selectedModelByRole.apply = match;
+      fridayConfig.modelsByRole.apply = [match]; // The only option if applyCodeBlock role is set
     } else {
       errors.push({
         fatal: false,
@@ -565,16 +566,16 @@ async function intermediateToFinalConfig({
   // Add transformers JS to the embed models list if not already added
   if (
     ideInfo.ideType === "vscode" &&
-    !continueConfig.modelsByRole.embed.find(
+    !fridayConfig.modelsByRole.embed.find(
       (m) => m.providerName === "transformers.js",
     )
   ) {
-    continueConfig.modelsByRole.embed.push(
+    fridayConfig.modelsByRole.embed.push(
       new TransformersJsEmbeddingsProvider(),
     );
   }
 
-  return { config: continueConfig, errors };
+  return { config: fridayConfig, errors };
 }
 
 function llmToSerializedModelDescription(llm: ILLM): ModelDescription {
@@ -605,9 +606,9 @@ function llmToSerializedModelDescription(llm: ILLM): ModelDescription {
 }
 
 async function finalToBrowserConfig(
-  final: ContinueConfig,
+  final: FridayConfig,
   ide: IDE,
-): Promise<BrowserSerializedContinueConfig> {
+): Promise<BrowserSerializedFridayConfig> {
   return {
     completionOptions: final.completionOptions,
     slashCommands: final.slashCommands?.map(({ run, ...rest }) => ({
@@ -649,31 +650,31 @@ async function handleEsbuildInstallation(
   _ideType: IdeType,
 ): Promise<boolean> {
   // Only check when config.ts is going to be used; never auto-install.
-  const installCmd = "npm i esbuild@x.x.x --prefix ~/.continue";
+  const installCmd = "npm i esbuild@x.x.x --prefix ~/.friday";
 
   // Try to detect a user-installed esbuild (normal resolution)
   try {
     await import("esbuild");
     return true; // available
   } catch {
-    // Try resolving from ~/.continue/node_modules as a courtesy
+    // Try resolving from ~/.friday/node_modules as a courtesy
     try {
       const userEsbuild = path.join(
         os.homedir(),
-        ".continue",
+        ".friday",
         "node_modules",
         "esbuild",
       );
       const candidate = require.resolve("esbuild", { paths: [userEsbuild] });
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       require(candidate);
-      return true; // available via ~/.continue
+      return true; // available via ~/.friday
     } catch {
       // Not available → show friendly instructions and opt out of building
       await ide.showToast(
         "error",
         [
-          "config.ts has been deprecated and esbuild is no longer automatically installed by Continue.",
+          "config.ts has been deprecated and esbuild is no longer automatically installed by Friday.",
           "To use config.ts, install esbuild manually:",
           "",
           `    ${installCmd}`,
@@ -693,7 +694,7 @@ async function tryBuildConfigTs() {
     }
   } catch (e) {
     console.log(
-      `Build error. Please check your ~/.continue/config.ts file: ${e}`,
+      `Build error. Please check your ~/.friday/config.ts file: ${e}`,
     );
   }
 }
@@ -769,13 +770,13 @@ async function buildConfigTsandReadConfigJs(ide: IDE, ideType: IdeType) {
 }
 
 // Modified by Friday AI Team - Stripped uniqueId (local-only mode)
-async function loadContinueConfigFromJson(
+async function loadFridayConfigFromJson(
   ide: IDE,
   ideSettings: IdeSettings,
   ideInfo: IdeInfo,
   llmLogger: ILLMLogger,
-  overrideConfigJson: SerializedContinueConfig | undefined,
-): Promise<ConfigResult<ContinueConfig>> {
+  overrideConfigJson: SerializedFridayConfig | undefined,
+): Promise<ConfigResult<FridayConfig>> {
   const workspaceConfigs = await getWorkspaceRcConfigs(ide);
   // Serialized config
   let {
@@ -861,6 +862,6 @@ async function loadContinueConfigFromJson(
 
 export {
   finalToBrowserConfig,
-  loadContinueConfigFromJson,
-  type BrowserSerializedContinueConfig,
+  loadFridayConfigFromJson,
+  type BrowserSerializedFridayConfig,
 };

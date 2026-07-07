@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Mutex } from "async-mutex";
 import { spawn } from "child_process";
 import { LLMOptions, ModelInstaller } from "../../index.js";
@@ -22,7 +23,7 @@ class Docker extends OpenAI implements ModelInstaller {
   };
 
   private modelMap: Record<string, string> = {
-    // Map of "continue model name" to Docker model name
+    // Map of "friday model name" to Docker model name
     // Models can be pulled using: docker model pull <model_name>
     "llama3.3-70b": "ai/llama3.3:70B-Q4_K_M",
     "smollm2-360M-F4": "ai/smollm2:360M-Q4_K_M",

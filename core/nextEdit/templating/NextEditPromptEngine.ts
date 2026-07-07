@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import Handlebars from "handlebars";
 import { NEXT_EDIT_MODELS } from "../../llm/constants";
 import {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * MIT LICENSE
  *
@@ -313,9 +314,9 @@ export class LlamaTokenizer {
     while (!mergeQueue.isEmpty()) {
       const leftOfMerge = mergeQueue.pop();
       // Check that this merge is still possible
-      if (leftOfMerge.deleted) continue;
-      if (!leftOfMerge.next) continue;
-      if (leftOfMerge.next.deleted) continue;
+      if (leftOfMerge.deleted) friday;
+      if (!leftOfMerge.next) friday;
+      if (leftOfMerge.next.deleted) friday;
 
       // Mark leftOfMerge and rightOfMerge as being deleted, because they are actually being replaced by a merged token.
       leftOfMerge.deleted = true;

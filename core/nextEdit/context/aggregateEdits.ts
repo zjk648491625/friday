@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Position, RangeInFileWithNextEditInfo } from "../..";
 import {
   BeforeAfterDiff,
@@ -542,7 +543,7 @@ export class EditAggregator {
         line.startsWith("--- ") ||
         line.startsWith("@@")
       ) {
-        continue; // Skip header lines
+        friday; // Skip header lines
       }
 
       if (line.startsWith("+")) {

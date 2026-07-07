@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import { normalizeRepoUrl } from "./repoUrl";
 
@@ -104,8 +105,8 @@ describe("normalizeRepoUrl", () => {
     });
 
     it("should handle mixed case in shorthand format", () => {
-      expect(normalizeRepoUrl("ContinueDev/Continue")).toBe(
-        "https://github.com/continuedev/continue",
+      expect(normalizeRepoUrl("FridayDev/Friday")).toBe(
+        "https://github.com/friday-ai/friday",
       );
     });
   });
@@ -180,35 +181,35 @@ describe("normalizeRepoUrl", () => {
   });
 
   describe("real-world examples", () => {
-    it("should normalize Continue's repository from SSH", () => {
-      expect(normalizeRepoUrl("git@github.com:continuedev/continue.git")).toBe(
-        "https://github.com/continuedev/continue",
+    it("should normalize Friday's repository from SSH", () => {
+      expect(normalizeRepoUrl("git@github.com:friday-ai/friday.git")).toBe(
+        "https://github.com/friday-ai/friday",
       );
     });
 
-    it("should normalize Continue's repository from shorthand", () => {
-      expect(normalizeRepoUrl("continuedev/continue")).toBe(
-        "https://github.com/continuedev/continue",
+    it("should normalize Friday's repository from shorthand", () => {
+      expect(normalizeRepoUrl("friday-ai/friday")).toBe(
+        "https://github.com/friday-ai/friday",
       );
     });
 
-    it("should normalize Continue's repository from HTTPS", () => {
+    it("should normalize Friday's repository from HTTPS", () => {
       expect(
-        normalizeRepoUrl("https://github.com/continuedev/continue.git"),
-      ).toBe("https://github.com/continuedev/continue");
+        normalizeRepoUrl("https://github.com/friday-ai/friday.git"),
+      ).toBe("https://github.com/friday-ai/friday");
     });
 
     it("should match repositories regardless of input format", () => {
       const formats = [
-        "git@github.com:continuedev/continue.git",
-        "continuedev/continue",
-        "https://github.com/continuedev/continue",
-        "https://github.com/continuedev/continue.git",
-        "ssh://git@github.com/continuedev/continue.git",
-        "ContinueDev/Continue",
+        "git@github.com:friday-ai/friday.git",
+        "friday-ai/friday",
+        "https://github.com/friday-ai/friday",
+        "https://github.com/friday-ai/friday.git",
+        "ssh://git@github.com/friday-ai/friday.git",
+        "FridayDev/Friday",
       ];
 
-      const expected = "https://github.com/continuedev/continue";
+      const expected = "https://github.com/friday-ai/friday";
       formats.forEach((format) => {
         expect(normalizeRepoUrl(format)).toBe(expected);
       });

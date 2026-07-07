@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fileURLToPath } from "node:url";
 import path from "path";
 

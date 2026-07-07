@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import OpenAI from "./OpenAI.js";
 
 import type { CompletionOptions, LLMOptions } from "../../index.js";

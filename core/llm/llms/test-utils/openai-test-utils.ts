@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { ILLM } from "../../../index.js";
 import OpenAI from "../OpenAI.js";

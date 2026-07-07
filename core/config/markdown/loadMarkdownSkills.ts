@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ConfigValidationError,
   parseMarkdownRule,
@@ -8,7 +9,7 @@ import { walkDir } from "../../indexing/walkDir";
 import { localPathToUri } from "../../util/pathToUri";
 import { getGlobalFolderWithName } from "../../util/paths";
 import { findUriInDirs, joinPathsToUri } from "../../util/uri";
-import { getAllDotContinueDefinitionFiles } from "../loadLocalAssistants";
+import { getAllDotFridayDefinitionFiles } from "../loadLocalAssistants";
 
 const skillFrontmatterSchema = z.object({
   name: z.string().min(1),
@@ -49,7 +50,7 @@ export async function loadMarkdownSkills(ide: IDE) {
   try {
     const yamlAndMarkdownFileUris = [
       ...(
-        await getAllDotContinueDefinitionFiles(
+        await getAllDotFridayDefinitionFiles(
           ide,
           {
             includeGlobal: true,

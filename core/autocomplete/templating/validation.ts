@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   AutocompleteClipboardSnippet,
   AutocompleteCodeSnippet,
@@ -28,7 +29,7 @@ export const isValidSnippet = (snippet: AutocompleteSnippet): boolean => {
 
   if (
     (snippet as AutocompleteCodeSnippet).filepath?.startsWith(
-      "output:extension-output-Continue.continue",
+      "output:extension-output-Friday.friday",
     )
   ) {
     return false;

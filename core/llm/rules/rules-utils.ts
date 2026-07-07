@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RuleMetadata } from "../..";
 import { getLastNPathParts } from "../../util/uri";
 
@@ -10,7 +11,7 @@ export function getRuleDisplayName(rule: RuleMetadata): string {
 
 export function getRuleSourceDisplayName(rule: RuleMetadata): string {
   switch (rule.source) {
-    case ".continuerules":
+    case ".fridayrules":
       return "Project rules";
     case "default-chat":
       return "Default chat system message";

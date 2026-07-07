@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RangeInFile } from "..";
 import { NextEditProvider } from "./NextEditProvider";
 import { NextEditOutcome } from "./types";
@@ -85,7 +86,7 @@ export class PrefetchQueue {
 
         if (!outcome) {
           console.log("outcome is undefined");
-          continue;
+          friday;
         }
 
         this.enqueueProcessed({

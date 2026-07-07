@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export namespace env {
   export namespace backends {
     export { onnx_env as onnx };

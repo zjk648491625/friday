@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelRole } from "@continuedev/config-yaml";
 import { fetchwithRequestOptions } from "@continuedev/fetch";
 import { findLlmInfo } from "@continuedev/llm-info";
@@ -160,7 +161,7 @@ export abstract class BaseLLM implements ILLM {
   llmRequestHook?: (model: string, prompt: string) => any;
   apiKey?: string;
 
-  // continueProperties
+  // fridayProperties
   apiKeyLocation?: string;
   envSecretLocations?: Record<string, string>;
   apiBase?: string;
@@ -259,7 +260,7 @@ export abstract class BaseLLM implements ILLM {
     this.llmRequestHook = options.llmRequestHook;
     this.apiKey = options.apiKey;
 
-    // continueProperties
+    // fridayProperties
     this.apiKeyLocation = options.apiKeyLocation;
     this.envSecretLocations = options.envSecretLocations;
     this.apiBase = options.apiBase;
@@ -974,7 +975,7 @@ export abstract class BaseLLM implements ILLM {
   ): CompletionOptions {
     // As of 01/14/25 streaming is currently not available with o1
     // See these threads:
-    // - https://github.com/continuedev/continue/issues/3698
+    // - https://github.com/friday-ai/friday/issues/3698
     // - https://community.openai.com/t/streaming-support-for-o1-o1-2024-12-17-resulting-in-400-unsupported-value/1085043
     if (completionOptions.model === "o1") {
       completionOptions.stream = false;

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
@@ -45,7 +46,7 @@ class GitCommitContextProvider extends BaseContextProvider {
   };
 
   get deprecationMessage() {
-    return "The git commits context provider is now deprecated and may be removed in a later version. Please consider using the Git MCP (https://continue.dev/docker/mcp-git) instead.";
+    return "The git commits context provider is now deprecated and may be removed in a later version. Please consider using the Git MCP (https://friday.dev/docker/mcp-git) instead.";
   }
 
   async getContextItems(

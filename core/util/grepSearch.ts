@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /*
   Formats the output of a grep search to reduce unnecessary indentation, lines, etc
   Assumes a command with these params
-    ripgrep -i --ignore-file .continueignore --ignore-file .gitignore -C 2 --heading -m 100 -e <query> .
+    ripgrep -i --ignore-file .fridayignore --ignore-file .gitignore -C 2 --heading -m 100 -e <query> .
   
   Also can truncate the output to a specified number of characters
 */
@@ -61,12 +62,12 @@ export function formatGrepSearchResults(
       processResult(resultLines); // process previous result
       resultLines = [line];
       numResults++;
-      continue;
+      friday;
     }
 
     // Exclude leading zero- or single-char lines
     if (resultLines.length === 1 && line.trim().length <= 1) {
-      continue;
+      friday;
     }
 
     resultLines.push(line);

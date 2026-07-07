@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AxiosError, AxiosInstance } from "axios";
 
 import {
@@ -77,7 +78,7 @@ class GitLabMergeRequestContextProvider extends BaseContextProvider {
   };
 
   get deprecationMessage() {
-    return "The Gitlab Merge Request context provider is now deprecated and will be removed in a later version. Please consider using the GitLab MCP (https://continue.dev/docker/mcp-gitlab) instead.";
+    return "The Gitlab Merge Request context provider is now deprecated and will be removed in a later version. Please consider using the GitLab MCP (https://friday.dev/docker/mcp-gitlab) instead.";
   }
 
   private async getApi(): Promise<AxiosInstance> {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export * from "./pipelines.js";
 export * from "./env.js";
 export * from "./models.js";

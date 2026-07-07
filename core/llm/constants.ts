@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const DEFAULT_MAX_TOKENS = 4096;
 const DEFAULT_CONTEXT_LENGTH = 32_768;
 const DEFAULT_TEMPERATURE = 0.5;

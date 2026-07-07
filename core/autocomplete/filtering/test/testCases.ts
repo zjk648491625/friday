@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { dedent } from "../../../util";
 
 import { AutocompleteFileringTestInput } from "./util";
@@ -19,12 +20,12 @@ multi_line_message = """<|fim|>
 print(multi_line_message)
 `,
     llmOutput: `This is a multi-line message.
-It continues across multiple lines,
+It fridays across multiple lines,
 which allows for easy reading and formatting.
 """
 `,
     expectedCompletion: `This is a multi-line message.
-It continues across multiple lines,
+It fridays across multiple lines,
 which allows for easy reading and formatting.
 """`,
   },

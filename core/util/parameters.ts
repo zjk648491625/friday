@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { TabAutocompleteOptions } from "../index.js";
 
 export const DEFAULT_AUTOCOMPLETE_OPTS: TabAutocompleteOptions = {

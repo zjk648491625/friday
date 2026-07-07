@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { v4 as uuidv4 } from "uuid";
 
 // Utility function to get or generate UUID for LLM prompts

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { FQSN, SecretResult, SecretType } from "@continuedev/config-yaml";
 import {
   afterEach,
@@ -21,7 +22,7 @@ describe("LocalPlatformClient", () => {
         packageSlug: "test-package-slug",
       },
     ],
-    secretName: "TEST_CONTINUE_SECRET_KEY",
+    secretName: "TEST_FRIDAY_SECRET_KEY",
   };
   const testFQSN2: FQSN = {
     packageSlugs: [
@@ -50,7 +51,7 @@ describe("LocalPlatformClient", () => {
     () => {
       secretValue = Math.floor(Math.random() * 100) + "";
       envKeyValues = {
-        TEST_CONTINUE_SECRET_KEY: secretValue,
+        TEST_FRIDAY_SECRET_KEY: secretValue,
         TEST_WORKSPACE_SECRET_KEY: secretValue + "-workspace",
       };
       envKeyValuesString = Object.entries(envKeyValues)
@@ -74,17 +75,17 @@ describe("LocalPlatformClient", () => {
   });
 
   describe("searches for secrets in local .env files", () => {
-    let getContinueDotEnv: Mock;
+    let getFridayDotEnv: Mock;
     beforeEach(async () => {
       const utilPaths = await import("../../util/paths");
-      getContinueDotEnv = vi.fn(() => envKeyValues);
-      utilPaths.getContinueDotEnv = getContinueDotEnv;
+      getFridayDotEnv = vi.fn(() => envKeyValues);
+      utilPaths.getFridayDotEnv = getFridayDotEnv;
     });
 
-    test("should be able to get secrets from ~/.continue/.env files", async () => {
+    test("should be able to get secrets from ~/.friday/.env files", async () => {
       const localPlatformClient = new LocalPlatformClient(testIde);
       const resolvedFQSNs = await localPlatformClient.resolveFQSNs([testFQSN]);
-      expect(getContinueDotEnv).toHaveBeenCalled();
+      expect(getFridayDotEnv).toHaveBeenCalled();
       expect(resolvedFQSNs.length).toBe(1);
       expect(
         (resolvedFQSNs[0] as SecretResult & { value: unknown })?.value,
@@ -93,27 +94,27 @@ describe("LocalPlatformClient", () => {
   });
 
   describe("should be able to get secrets from workspace .env files", () => {
-    test("should get secrets from <workspace>/.continue/.env and <workspace>/.env", async () => {
+    test("should get secrets from <workspace>/.friday/.env and <workspace>/.env", async () => {
       const originalIdeFileExists = testIde.fileExists;
       testIde.fileExists = vi.fn(async (fileUri: string) =>
         fileUri.includes(".env") ? true : originalIdeFileExists(fileUri),
       );
 
       const originalIdeReadFile = testIde.readFile;
-      const randomValueForContinueDirDotEnv =
-        "continue-dir-" + Math.floor(Math.random() * 100);
+      const randomValueForFridayDirDotEnv =
+        "friday-dir-" + Math.floor(Math.random() * 100);
       const randomValueForWorkspaceDotEnv =
         "dotenv-" + Math.floor(Math.random() * 100);
 
       testIde.readFile = vi.fn(async (fileUri: string) => {
-        // fileUri should contain .continue/.env and not .env
-        if (fileUri.match(/.*\.continue\/\.env.*/gi)?.length) {
+        // fileUri should contain .friday/.env and not .env
+        if (fileUri.match(/.*\.friday\/\.env.*/gi)?.length) {
           return (
-            envKeyValuesString.split("\n")[0] + randomValueForContinueDirDotEnv
+            envKeyValuesString.split("\n")[0] + randomValueForFridayDirDotEnv
           );
         }
-        // filUri should contain .env and not .continue/.env
-        else if (fileUri.match(/.*(?<!\.continue\/)\.env.*/gi)?.length) {
+        // filUri should contain .env and not .friday/.env
+        else if (fileUri.match(/.*(?<!\.friday\/)\.env.*/gi)?.length) {
           return (
             envKeyValuesString.split("\n")[1] + randomValueForWorkspaceDotEnv
           );
@@ -131,39 +132,39 @@ describe("LocalPlatformClient", () => {
 
       expect(resolvedFQSNs.length).toBe(2);
 
-      const continueDirSecretValue = (
+      const fridayDirSecretValue = (
         resolvedFQSNs[0] as SecretResult & { value: unknown }
       )?.value;
       const dotEnvSecretValue = (
         resolvedFQSNs[1] as SecretResult & { value: unknown }
       )?.value;
-      expect(continueDirSecretValue).toContain(secretValue);
-      expect(continueDirSecretValue).toContain(randomValueForContinueDirDotEnv);
+      expect(fridayDirSecretValue).toContain(secretValue);
+      expect(fridayDirSecretValue).toContain(randomValueForFridayDirDotEnv);
       expect(dotEnvSecretValue).toContain(secretValue + "-workspace");
       expect(dotEnvSecretValue).toContain(randomValueForWorkspaceDotEnv);
     });
 
-    test("should first get secrets from <workspace>/.continue/.env and then <workspace>/.env", async () => {
+    test("should first get secrets from <workspace>/.friday/.env and then <workspace>/.env", async () => {
       const originalIdeFileExists = testIde.fileExists;
       testIde.fileExists = vi.fn(async (fileUri: string) =>
         fileUri.includes(".env") ? true : originalIdeFileExists(fileUri),
       );
 
-      const randomValueForContinueDirDotEnv =
-        "continue-dir-" + Math.floor(Math.random() * 100);
+      const randomValueForFridayDirDotEnv =
+        "friday-dir-" + Math.floor(Math.random() * 100);
       const randomValueForWorkspaceDotEnv =
         "dotenv-" + Math.floor(Math.random() * 100);
 
       const originalIdeReadFile = testIde.readFile;
       testIde.readFile = vi.fn(async (fileUri: string) => {
-        // fileUri should contain .continue/.env and not .env
-        if (fileUri.match(/.*\.continue\/\.env.*/gi)?.length) {
+        // fileUri should contain .friday/.env and not .env
+        if (fileUri.match(/.*\.friday\/\.env.*/gi)?.length) {
           return (
-            envKeyValuesString.split("\n")[0] + randomValueForContinueDirDotEnv
+            envKeyValuesString.split("\n")[0] + randomValueForFridayDirDotEnv
           );
         }
-        // filUri should contain .env and not .continue/.env
-        else if (fileUri.match(/.*(?<!\.continue\/)\.env.*/gi)?.length) {
+        // filUri should contain .env and not .friday/.env
+        else if (fileUri.match(/.*(?<!\.friday\/)\.env.*/gi)?.length) {
           return (
             envKeyValuesString.split("\n")[0] + randomValueForWorkspaceDotEnv
           );
@@ -178,10 +179,10 @@ describe("LocalPlatformClient", () => {
       expect(
         (resolvedFQSNs[0] as SecretResult & { value: unknown })?.value,
       ).toContain(secretValue);
-      // we check that workspace <workspace>.continue/.env does not override the <workspace>/.env secret
+      // we check that workspace <workspace>.friday/.env does not override the <workspace>/.env secret
       expect(
         (resolvedFQSNs[0] as SecretResult & { value: unknown })?.value,
-      ).toContain(randomValueForContinueDirDotEnv);
+      ).toContain(randomValueForFridayDirDotEnv);
       expect(
         (resolvedFQSNs[0] as SecretResult & { value: unknown })?.value,
       ).not.toContain(randomValueForWorkspaceDotEnv);
@@ -194,7 +195,7 @@ describe("LocalPlatformClient", () => {
     beforeEach(async () => {
       // Ensure secrets are not found in local .env files
       const utilPaths = await import("../../util/paths");
-      utilPaths.getContinueDotEnv = vi.fn(() => ({}));
+      utilPaths.getFridayDotEnv = vi.fn(() => ({}));
 
       // Ensure secrets are not found in workspace .env files
       testIde.fileExists = vi.fn(async () => false);
@@ -244,10 +245,10 @@ describe("LocalPlatformClient", () => {
       expect(resolvedFQSNs[0]).toBeUndefined();
     });
 
-    test("should prioritize local ~/.continue/.env file over process.env", async () => {
-      const localEnvFileValue = "secret-from-local-dot-continue-env";
+    test("should prioritize local ~/.friday/.env file over process.env", async () => {
+      const localEnvFileValue = "secret-from-local-dot-friday-env";
       const utilPaths = await import("../../util/paths");
-      utilPaths.getContinueDotEnv = vi.fn(() => ({
+      utilPaths.getFridayDotEnv = vi.fn(() => ({
         [testFQSN.secretName]: localEnvFileValue,
       }));
 
@@ -267,14 +268,14 @@ describe("LocalPlatformClient", () => {
     });
 
     test("should prioritize workspace .env files over process.env", async () => {
-      const workspaceContinueEnvValue = "secret-from-workspace-continue-env";
+      const workspaceFridayEnvValue = "secret-from-workspace-friday-env";
       testIde.fileExists = vi.fn(async (fileUri: string) =>
-        // Only mock existence for <workspace>/.continue/.env
-        fileUri.includes(".continue/.env"),
+        // Only mock existence for <workspace>/.friday/.env
+        fileUri.includes(".friday/.env"),
       );
       testIde.readFile = vi.fn(async (fileUri: string) => {
-        if (fileUri.includes(".continue/.env")) {
-          return `${testFQSN.secretName}=${workspaceContinueEnvValue}`;
+        if (fileUri.includes(".friday/.env")) {
+          return `${testFQSN.secretName}=${workspaceFridayEnvValue}`;
         }
         return "";
       });
@@ -289,7 +290,7 @@ describe("LocalPlatformClient", () => {
       const result = resolvedFQSNs[0];
       expect(result?.found).toBe(true);
       expect((result as SecretResult & { value: unknown })?.value).toBe(
-        workspaceContinueEnvValue,
+        workspaceFridayEnvValue,
       );
       // This should be LocalEnv because findSecretInEnvFiles returns LocalEnv for workspace files too
       expect(result?.secretLocation?.secretType).toBe(SecretType.LocalEnv);

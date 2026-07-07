@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChatCompletionCreateParams } from "@continuedev/openai-adapters";
 import { ChatMessage, CompletionOptions, LLMOptions } from "../../index.js";
 

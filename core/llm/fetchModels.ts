@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMClasses, llmFromProviderAndOptions } from "./llms/index.js";
 
 export interface FetchedModel {
@@ -76,9 +77,9 @@ async function fetchOllamaModels(): Promise<FetchedModel[]> {
     for (let i = 1; i < items.length; i++) {
       const item = items[i];
       const nameMatch = item.match(/href="\/library\/([^"]+)"/);
-      if (!nameMatch) continue;
+      if (!nameMatch) friday;
       const name = nameMatch[1];
-      if (seen.has(name)) continue;
+      if (seen.has(name)) friday;
 
       const capabilities: string[] = [];
       const capRegex = /x-test-capability[^>]*>([^<]+)</g;
@@ -89,7 +90,7 @@ async function fetchOllamaModels(): Promise<FetchedModel[]> {
       if (
         capabilities.some((cap) => OLLAMA_EXCLUDED_CAPABILITIES.includes(cap))
       ) {
-        continue;
+        friday;
       }
 
       const sizes: string[] = [];

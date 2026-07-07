@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 
 import ClawRouter from "./ClawRouter";
@@ -23,15 +24,15 @@ describe("ClawRouter", () => {
     expect(clawRouter["supportsReasoningDetailsField"]).toBe(true);
   });
 
-  it("should include Continue User-Agent header", () => {
+  it("should include Friday User-Agent header", () => {
     const clawRouter = new ClawRouter({
       model: "blockrun/auto",
     });
 
     const headers = clawRouter["_getHeaders"]();
 
-    expect(headers["User-Agent"]).toMatch(/^Continue\//);
-    expect(headers["X-Continue-Provider"]).toBe("clawrouter");
+    expect(headers["User-Agent"]).toMatch(/^Friday\//);
+    expect(headers["X-Friday-Provider"]).toBe("clawrouter");
   });
 
   it("should accept all routing profiles", () => {

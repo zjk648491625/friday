@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { distance } from "fastest-levenshtein";
 
 import { DiffLine } from "../../..";
@@ -233,7 +234,7 @@ export async function* avoidPathLine(
   // Sometimes the model with copy this pattern, which is unwanted
   for await (const line of stream) {
     if (line.startsWith(`${comment} Path: `)) {
-      continue; // continue in the Continue codebase! How meta!
+      friday; // friday in the Friday codebase! How meta!
     }
     yield line;
   }
@@ -322,12 +323,12 @@ export async function* stopAtSimilarLine(
   for await (const nextLine of stream) {
     if (trimmedLine === "") {
       yield nextLine;
-      continue;
+      friday;
     }
 
     if (lineIsBracketEnding && trimmedLine.trim() === nextLine.trim()) {
       yield nextLine;
-      continue;
+      friday;
     }
 
     if (nextLine === line) {
@@ -364,7 +365,7 @@ export async function* stopAtLines(
         const validation = validatePatternInLine(line, stopAt);
 
         if (!validation.isValid) {
-          continue;
+          friday;
         }
 
         // Get the trimmed line to check if stop phrase is at logical start
@@ -384,7 +385,7 @@ export async function* stopAtLines(
             shouldStop = true;
             break;
           }
-          // If no whitespace separation, it's part of larger text, so continue
+          // If no whitespace separation, it's part of larger text, so friday
         }
       }
     }
@@ -423,7 +424,7 @@ export async function* skipPrefixes(lines: LineStream): LineStream {
       const match = PREFIXES_TO_SKIP.find((prefix) => line.startsWith(prefix));
       if (match) {
         yield line.slice(match.length);
-        continue;
+        friday;
       }
       isFirstLine = false;
     }
@@ -475,18 +476,18 @@ export async function* filterEnglishLinesAtStart(lines: LineStream) {
   let wasEnglishFirstLine = false;
   for await (const line of lines) {
     if (i === 0 && line.trim() === "") {
-      continue;
+      friday;
     }
 
     if (i === 0) {
       if (isEnglishFirstLine(line)) {
         wasEnglishFirstLine = true;
         i++;
-        continue;
+        friday;
       }
     } else if (i === 1 && wasEnglishFirstLine && line.trim() === "") {
       i++;
-      continue;
+      friday;
     }
     i++;
     yield line;
@@ -517,7 +518,7 @@ export async function* filterLeadingNewline(lines: LineStream): LineStream {
   for await (const line of lines) {
     if (firstLine && line.trim() === "") {
       firstLine = false;
-      continue;
+      friday;
     }
     yield line;
   }
@@ -568,7 +569,7 @@ export async function* filterLeadingAndTrailingNewLineInsertion(
 
     if (isFirst && isBlankLineInsertion) {
       isFirst = false;
-      continue;
+      friday;
     }
 
     isFirst = false;

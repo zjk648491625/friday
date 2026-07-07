@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test, vi } from "vitest";
 import { DEFAULT_GIT_DIFF_LINE_LIMIT, viewDiffImpl } from "./viewDiff";
 

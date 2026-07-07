@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fetchwithRequestOptions } from "@continuedev/fetch";
 import { ChatMessage, IDE, PromptLog } from "..";
 import { ConfigHandler } from "../config/ConfigHandler";

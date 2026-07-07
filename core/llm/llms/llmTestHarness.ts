@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect, jest } from "@jest/globals";
 import { ILLM } from "../../index.js";
 

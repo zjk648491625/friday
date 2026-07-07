@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Helper function to read audio from a path/URL.
  * @param {string|URL} url The path/URL to load the audio from.

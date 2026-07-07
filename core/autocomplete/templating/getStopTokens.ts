@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CompletionOptions } from "../..";
 import { AutocompleteLanguageInfo } from "../constants/AutocompleteLanguageInfo";
 

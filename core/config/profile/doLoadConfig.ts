@@ -9,11 +9,11 @@ import {
 } from "@continuedev/config-yaml";
 
 import {
-  ContinueConfig,
+  FridayConfig,
   IDE,
   ILLMLogger,
   RuleWithSource,
-  SerializedContinueConfig,
+  SerializedFridayConfig,
   SlashCommandDescWithSource,
   Tool,
 } from "../../";
@@ -30,25 +30,25 @@ import { getConfigJsonPath, getConfigYamlPath } from "../../util/paths";
 import { localPathOrUriToPath } from "../../util/pathToUri";
 import { IdeInfoService } from "../../util/IdeInfoService";
 import { TTS } from "../../util/tts";
-import { getWorkspaceContinueRuleDotFiles } from "../getWorkspaceContinueRuleDotFiles";
-import { loadContinueConfigFromJson } from "../load";
+import { getWorkspaceFridayRuleDotFiles } from "../getWorkspaceFridayRuleDotFiles";
+import { loadFridayConfigFromJson } from "../load";
 import { CodebaseRulesCache } from "../markdown/loadCodebaseRules";
 import { loadMarkdownRules } from "../markdown/loadMarkdownRules";
 import { migrateJsonSharedConfig } from "../migrateSharedConfig";
 import { rectifySelectedModelsFromGlobalContext } from "../selectedModels";
-import { loadContinueConfigFromYaml } from "../yaml/loadYaml";
+import { loadFridayConfigFromYaml } from "../yaml/loadYaml";
 
 async function loadRules(ide: IDE) {
   const rules: RuleWithSource[] = [];
   const errors = [];
 
-  // Add rules from .continuerules files
-  const { rules: yamlRules, errors: continueRulesErrors } =
-    await getWorkspaceContinueRuleDotFiles(ide);
+  // Add rules from .fridayrules files
+  const { rules: yamlRules, errors: fridayRulesErrors } =
+    await getWorkspaceFridayRuleDotFiles(ide);
   rules.unshift(...yamlRules);
-  errors.push(...continueRulesErrors);
+  errors.push(...fridayRulesErrors);
 
-  // Add rules from markdown files in .continue/rules
+  // Add rules from markdown files in .friday/rules
   const { rules: markdownRules, errors: markdownRulesErrors } =
     await loadMarkdownRules(ide);
   rules.unshift(...markdownRules);
@@ -65,12 +65,12 @@ async function loadRules(ide: IDE) {
 export default async function doLoadConfig(options: {
   ide: IDE;
   llmLogger: ILLMLogger;
-  overrideConfigJson?: SerializedContinueConfig;
+  overrideConfigJson?: SerializedFridayConfig;
   overrideConfigYaml?: AssistantUnrolled;
   profileId: string;
   overrideConfigYamlByPath?: string;
   packageIdentifier: PackageIdentifier;
-}): Promise<ConfigResult<ContinueConfig>> {
+}): Promise<ConfigResult<FridayConfig>> {
   const {
     ide,
     llmLogger,
@@ -95,7 +95,7 @@ export default async function doLoadConfig(options: {
     overrideConfigYamlByPath || getConfigYamlPath(ideInfo.ideType),
   );
 
-  let newConfig: ContinueConfig | undefined;
+  let newConfig: FridayConfig | undefined;
   let errors: ConfigValidationError[] | undefined;
   let configLoadInterrupted = false;
   let configName: string | undefined;
@@ -109,7 +109,7 @@ export default async function doLoadConfig(options: {
     hasPreReadContent ||
     fs.existsSync(configYamlPath)
   ) {
-    const result = await loadContinueConfigFromYaml({
+    const result = await loadFridayConfigFromYaml({
       ide,
       ideSettings,
       ideInfo,
@@ -122,7 +122,7 @@ export default async function doLoadConfig(options: {
     configLoadInterrupted = result.configLoadInterrupted;
     configName = result.configName;
   } else {
-    const result = await loadContinueConfigFromJson(
+    const result = await loadFridayConfigFromJson(
       ide,
       ideSettings,
       ideInfo,

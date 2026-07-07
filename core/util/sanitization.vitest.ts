@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { execSync } from "child_process";
 import { describe, expect, it } from "vitest";
 import { normalizeRepoUrl } from "./repoUrl";
@@ -47,7 +48,7 @@ describe("sanitizeShellArgument", () => {
 
 describe("validateGitHubRepoUrl", () => {
   it("should accept valid repository names", () => {
-    expect(validateGitHubRepoUrl("continuedev/continue")).toBe(true);
+    expect(validateGitHubRepoUrl("friday-ai/friday")).toBe(true);
     expect(validateGitHubRepoUrl("owner/repo")).toBe(true);
     expect(validateGitHubRepoUrl("owner-name/repo-name")).toBe(true);
     expect(validateGitHubRepoUrl("https://github.com/owner/repo")).toBe(true);
@@ -276,7 +277,7 @@ describe("sanitizeShellArgument - integration tests", () => {
   it("should handle git stash message use case safely", () => {
     // This mirrors the actual usage in VsCodeMessenger.ts:269
     const agentId = "agent-123; rm -rf /";
-    const stashMessage = `Continue: Stashed before opening agent ${agentId}`;
+    const stashMessage = `Friday: Stashed before opening agent ${agentId}`;
     const sanitized = sanitizeShellArgument(stashMessage);
 
     // Simulate the git stash command (using echo as a safe substitute)
@@ -285,7 +286,7 @@ describe("sanitizeShellArgument - integration tests", () => {
 
     // The message should contain the full literal string including dangerous chars
     expect(result).toContain("agent-123; rm -rf /");
-    expect(result).toContain("Continue: Stashed before opening agent");
+    expect(result).toContain("Friday: Stashed before opening agent");
     // Verify it's one line (not executed as multiple commands)
     expect(result.split("\n").length).toBe(1);
   });

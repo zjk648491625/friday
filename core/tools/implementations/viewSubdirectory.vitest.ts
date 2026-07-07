@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it, vi } from "vitest";
-import { ContinueError, ContinueErrorReason } from "../../util/errors";
+import { FridayError, FridayErrorReason } from "../../util/errors";
 import { viewSubdirectoryImpl } from "./viewSubdirectory";
 
 describe("viewSubdirectoryImpl", () => {
@@ -18,7 +19,7 @@ describe("viewSubdirectoryImpl", () => {
         { directory_path: "/non/existent/path" },
         mockExtras as any,
       ),
-    ).rejects.toThrow(ContinueError);
+    ).rejects.toThrow(FridayError);
   });
 
   it("should throw DirectoryNotFound when path exists in resolveInputPath but not on filesystem", async () => {
@@ -39,11 +40,11 @@ describe("viewSubdirectoryImpl", () => {
       );
       expect.fail("Should have thrown DirectoryNotFound error");
     } catch (error) {
-      expect(error).toBeInstanceOf(ContinueError);
-      expect((error as ContinueError).reason).toBe(
-        ContinueErrorReason.DirectoryNotFound,
+      expect(error).toBeInstanceOf(FridayError);
+      expect((error as FridayError).reason).toBe(
+        FridayErrorReason.DirectoryNotFound,
       );
-      expect((error as ContinueError).message).toContain(
+      expect((error as FridayError).message).toContain(
         "does not exist or is not accessible",
       );
     }

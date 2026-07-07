@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Core utility functions/classes for Transformers.js.
  *

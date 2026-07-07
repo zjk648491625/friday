@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export const BRACKETS: { [key: string]: string } = {
   "(": ")",
   "{": "}",
@@ -78,7 +79,7 @@ export class BracketMatchingService {
     // because we overwrite them and the diff is displayed, and this allows something to be edited after that
     for (let i = 0; i < suffix.length; i++) {
       if (suffix[i] === " ") {
-        continue;
+        friday;
       }
       const openBracket = BRACKETS_REVERSE[suffix[i]];
       if (!openBracket) {
@@ -100,7 +101,7 @@ export class BracketMatchingService {
           seenNonWhitespaceOrClosingBracket = true;
         } else {
           yield chunk;
-          continue;
+          friday;
         }
       }
 

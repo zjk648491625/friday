@@ -1,9 +1,10 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   mergeConfigYamlRequestOptions,
   ModelConfig,
 } from "@continuedev/config-yaml";
 
-import { ContinueConfig, ILLMLogger, LLMOptions } from "../..";
+import { FridayConfig, ILLMLogger, LLMOptions } from "../..";
 import { BaseLLM } from "../../llm";
 import { LLMClasses } from "../../llm/llms";
 
@@ -55,7 +56,7 @@ async function modelConfigToBaseLLM({
 }: {
   model: ModelConfig;
   llmLogger: ILLMLogger;
-  config: ContinueConfig;
+  config: FridayConfig;
   isFromAutoDetect?: boolean;
 }): Promise<BaseLLM | undefined> {
   const cls = getModelClass(model);
@@ -152,7 +153,7 @@ async function autodetectModels({
   llm: BaseLLM;
   model: ModelConfig;
   llmLogger: ILLMLogger;
-  config: ContinueConfig;
+  config: FridayConfig;
 }): Promise<BaseLLM[]> {
   try {
     const modelNames = await llm.listModels();
@@ -189,7 +190,7 @@ export async function llmsFromModelConfig({
 }: {
   model: ModelConfig;
   llmLogger: ILLMLogger;
-  config: ContinueConfig;
+  config: FridayConfig;
 }): Promise<BaseLLM[]> {
   const baseLlm = await modelConfigToBaseLLM({
     model,

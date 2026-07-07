@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, SlashCommand } from "../../../index.js";
 import { renderChatMessage } from "../../../util/messageContent.js";
 

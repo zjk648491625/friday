@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { jest } from "@jest/globals";
 
 import { testIde } from "../../test/fixtures";
@@ -5,7 +6,7 @@ import {
   mockFileContents,
   mockFilename,
   mockPathAndCacheKey,
-  testContinueServerClient,
+  testFridayServerClient,
   updateIndexAndAwaitGenerator,
 } from "../test/indexing";
 import { addToTestDir } from "../../test/testDir";
@@ -31,7 +32,7 @@ describe("ChunkCodebaseIndex", () => {
   beforeAll(async () => {
     index = new ChunkCodebaseIndex(
       testIde.readFile.bind(testIde),
-      testContinueServerClient,
+      testFridayServerClient,
       1000,
     );
 

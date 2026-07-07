@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamLines } from "../../../diff/util.js";
 import { SlashCommand } from "../../../index.js";
 import { removeQuotesAndEscapes } from "../../../util/index.js";
@@ -43,7 +44,7 @@ Please write a shell command that will do what the user requested. Your output s
         line.startsWith("\\begin{") ||
         line.trim() === ""
       ) {
-        continue;
+        friday;
       }
 
       cmd = removeQuotesAndEscapes(line.trim());

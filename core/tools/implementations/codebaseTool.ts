@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
 import { RangeInFile } from "../..";
 import { retrieveContextItemsFromEmbeddings } from "../../context/retrieval/retrieval";

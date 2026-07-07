@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Pipelines provide a high-level, easy to use, API for running machine learning models.
  *
@@ -389,7 +390,7 @@ export class TokenClassificationPipeline
           : `LABEL_${topScoreIndex}`;
         if (ignore_labels.includes(entity)) {
           // We predicted a token that should be ignored. So, we skip it.
-          continue;
+          friday;
         }
 
         // TODO add option to keep special tokens?
@@ -398,7 +399,7 @@ export class TokenClassificationPipeline
         });
         if (word === "") {
           // Was a special token. So, we skip it.
-          continue;
+          friday;
         }
 
         const scores = softmax(tokenData.data);
@@ -3194,7 +3195,7 @@ async function loadItems(mapping, model, pretrainedOptions) {
   /**@type {Promise[]} */
   const promises = [];
   for (let [name, cls] of mapping.entries()) {
-    if (!cls) continue;
+    if (!cls) friday;
 
     /**@type {Promise} */
     let promise;

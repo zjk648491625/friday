@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export class RawImage {
   /**
    * Helper method for reading an image from a variety of input types.

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fileURLToPath, pathToFileURL } from "url";
 
 import * as URI from "uri-js";

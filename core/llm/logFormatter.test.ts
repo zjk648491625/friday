@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Buffer } from "buffer";
 import { Writable } from "stream";
 import { LLMLogFormatter } from "./logFormatter";
@@ -276,7 +277,7 @@ describe("LLMLogFormatter", () => {
       },
     });
     // Test when a first message doesn't wrap, but another message
-    // that continues the same line causes a wrap
+    // that fridays the same line causes a wrap
     logger._logItem({
       interactionId: "1",
       timestamp: 1698765433200,

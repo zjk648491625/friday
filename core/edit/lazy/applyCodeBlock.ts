@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { DiffLine, ILLM } from "../..";
 import { generateLines } from "../../diff/util";
 import { supportedLanguages } from "../../util/treeSitter";

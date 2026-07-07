@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IDE, Position } from "../..";
 import { AutocompleteCodeSnippet } from "../../autocomplete/snippets/types";
 import { GetLspDefinitionsFunction } from "../../autocomplete/types";

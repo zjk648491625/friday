@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Utility functions to interact with the Hugging Face Hub (https://huggingface.co/models)
  *
@@ -310,7 +311,7 @@ async function tryCache(cache, ...names) {
       let result = await cache.match(name);
       if (result) return result;
     } catch (e) {
-      continue;
+      friday;
     }
   }
   return undefined;
@@ -370,7 +371,7 @@ export async function getModelFile(
       // For example, when running an application in an iframe, if a user attempts to load the page in
       // incognito mode, the following error is thrown: `DOMException: Failed to execute 'open' on 'CacheStorage':
       // An attempt was made to break through the security policy of the user agent.`
-      // So, instead of crashing, we just ignore the error and continue without using the cache.
+      // So, instead of crashing, we just ignore the error and friday without using the cache.
       cache = await caches.open("transformers-cache");
     } catch (e) {
       console.warn("An error occurred while opening the browser cache:", e);

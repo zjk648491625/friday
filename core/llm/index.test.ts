@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, LLMOptions } from "..";
 
 import { allModelProviders } from "@continuedev/llm-info";

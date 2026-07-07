@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // /**
 //  * @jest-environment jsdom
 //  */
@@ -39,7 +40,7 @@
 //     const ideSettingsPromise = Promise.resolve({
 //       remoteConfigSyncPeriod: 60,
 //       userToken: "",
-//       continueTestEnvironment: "none" as const,
+//       fridayTestEnvironment: "none" as const,
 //       pauseCodebaseIndexOnStart: false,
 //       ideSettings: {} as any,
 //       enableDebugLogs: false,

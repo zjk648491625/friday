@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, test, vi } from "vitest";
 import { DiffLine } from "..";
 import { NEXT_EDIT_MODELS } from "../llm/constants";

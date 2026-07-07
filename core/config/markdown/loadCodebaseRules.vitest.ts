@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { markdownToRule } from "@continuedev/config-yaml";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { IDE } from "../..";
@@ -33,7 +34,7 @@ describe("loadCodebaseRules", () => {
       '---\nglobs: "**/*.{ts,tsx}"\n---\n# Redux Rules\nUse Redux Toolkit',
     "file:///workspace/src/components/rules.md":
       '---\nglobs: ["**/*.tsx", "**/*.jsx"]\n---\n# Component Rules\nUse functional components',
-    "file:///workspace/.continue/rules.md":
+    "file:///workspace/.friday/rules.md":
       "# Global Rules\nFollow project guidelines",
   };
 
@@ -59,11 +60,11 @@ describe("loadCodebaseRules", () => {
       source: "colocated-markdown",
       sourceFile: "file:///workspace/src/components/rules.md",
     },
-    "file:///workspace/.continue/rules.md": {
+    "file:///workspace/.friday/rules.md": {
       name: "Global Rules",
       rule: "Follow project guidelines",
       source: "colocated-markdown",
-      sourceFile: "file:///workspace/.continue/rules.md",
+      sourceFile: "file:///workspace/.friday/rules.md",
     },
   };
 
@@ -114,7 +115,7 @@ describe("loadCodebaseRules", () => {
       "file:///workspace/src/components/rules.md",
     );
     expect(mockIde.readFile).toHaveBeenCalledWith(
-      "file:///workspace/.continue/rules.md",
+      "file:///workspace/.friday/rules.md",
     );
 
     // Should convert all rules
@@ -132,7 +133,7 @@ describe("loadCodebaseRules", () => {
       mockConvertedRules["file:///workspace/src/components/rules.md"],
     );
     expect(rules).toContainEqual(
-      mockConvertedRules["file:///workspace/.continue/rules.md"],
+      mockConvertedRules["file:///workspace/.friday/rules.md"],
     );
 
     // Should not have errors
@@ -159,7 +160,7 @@ describe("loadCodebaseRules", () => {
       mockConvertedRules["file:///workspace/src/components/rules.md"],
     );
     expect(rules).toContainEqual(
-      mockConvertedRules["file:///workspace/.continue/rules.md"],
+      mockConvertedRules["file:///workspace/.friday/rules.md"],
     );
 
     // Should have one error

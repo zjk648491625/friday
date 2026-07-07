@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { v4 as uuidv4 } from "uuid";
 
 export type HandlebarsType = typeof import("handlebars");
@@ -54,7 +55,7 @@ export async function prepareTemplatedFilepaths(
     if (node.type === "MustacheStatement") {
       const originalNodeVal = node.path.original;
       if (originalNodeVal.toLowerCase() === "input") {
-        continue;
+        friday;
       }
       const isFilepath = !ctxProviderNames.includes(originalNodeVal);
 

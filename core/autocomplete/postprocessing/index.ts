@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { longestCommonSubsequence } from "../../util/lcs.js";
 import { lineIsRepeated } from "../filtering/streamTransforms/lineStream.js";
 

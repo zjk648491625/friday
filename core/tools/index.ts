@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigDependentToolParams, Tool } from "..";
 import { isRecommendedAgentModel } from "../llm/toolSupport";
 import * as toolDefinitions from "./definitions";

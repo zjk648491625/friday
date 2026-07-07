@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BLOCK_TYPES } from "@continuedev/config-yaml";
 import ignore from "ignore";
 import * as URI from "uri-js";
@@ -11,25 +12,25 @@ import { RULES_MARKDOWN_FILENAME } from "../llm/rules/constants";
 import { getGlobalFolderWithName } from "../util/paths";
 import { localPathToUri } from "../util/pathToUri";
 import { getUriPathBasename, joinPathsToUri } from "../util/uri";
-import { SYSTEM_PROMPT_DOT_FILE } from "./getWorkspaceContinueRuleDotFiles";
+import { SYSTEM_PROMPT_DOT_FILE } from "./getWorkspaceFridayRuleDotFiles";
 import { SUPPORTED_AGENT_FILES } from "./markdown";
-export function isContinueConfigRelatedUri(uri: string): boolean {
+export function isFridayConfigRelatedUri(uri: string): boolean {
   return (
-    uri.endsWith(".continuerc.json") ||
+    uri.endsWith(".fridayrc.json") ||
     uri.endsWith(".prompt") ||
     !!SUPPORTED_AGENT_FILES.find((file) => uri.endsWith(`/${file}`)) ||
     uri.endsWith(SYSTEM_PROMPT_DOT_FILE) ||
-    (uri.includes(".continue") &&
+    (uri.includes(".friday") &&
       (uri.endsWith(".yaml") ||
         uri.endsWith(".yml") ||
         uri.endsWith(".json"))) ||
     [...BLOCK_TYPES, "agents", "assistants", "configs"].some((blockType) =>
-      uri.includes(`.continue/${blockType}`),
+      uri.includes(`.friday/${blockType}`),
     )
   );
 }
 
-export function isContinueAgentConfigFile(uri: string): boolean {
+export function isFridayAgentConfigFile(uri: string): boolean {
   const isYaml = uri.endsWith(".yaml") || uri.endsWith(".yml");
   if (!isYaml) {
     return false;
@@ -37,9 +38,9 @@ export function isContinueAgentConfigFile(uri: string): boolean {
 
   const normalizedUri = URI.normalize(uri);
   return (
-    normalizedUri.includes(`/.continue/agents/`) ||
-    normalizedUri.includes(`/.continue/assistants/`) ||
-    normalizedUri.includes(`/.continue/configs/`)
+    normalizedUri.includes(`/.friday/agents/`) ||
+    normalizedUri.includes(`/.friday/assistants/`) ||
+    normalizedUri.includes(`/.friday/configs/`)
   );
 }
 
@@ -101,7 +102,7 @@ export interface LoadAssistantFilesOptions {
   fileExtType?: "yaml" | "markdown";
 }
 
-export function getDotContinueSubDirs(
+export function getDotFridaySubDirs(
   ide: IDE,
   options: LoadAssistantFilesOptions,
   workspaceDirs: string[],
@@ -109,14 +110,14 @@ export function getDotContinueSubDirs(
 ): string[] {
   let fullDirs: string[] = [];
 
-  // Workspace .continue/<subDirName>
+  // Workspace .friday/<subDirName>
   if (options.includeWorkspace) {
     fullDirs = workspaceDirs.map((dir) =>
-      joinPathsToUri(dir, ".continue", subDirName),
+      joinPathsToUri(dir, ".friday", subDirName),
     );
   }
 
-  // ~/.continue/<subDirName>
+  // ~/.friday/<subDirName>
   if (options.includeGlobal) {
     fullDirs.push(localPathToUri(getGlobalFolderWithName(subDirName)));
   }
@@ -125,10 +126,10 @@ export function getDotContinueSubDirs(
 }
 
 /**
- * This method searches in both ~/.continue and workspace .continue
- * for all YAML/Markdown files in the specified subdirectory, for example .continue/assistants or .continue/prompts
+ * This method searches in both ~/.friday and workspace .friday
+ * for all YAML/Markdown files in the specified subdirectory, for example .friday/assistants or .friday/prompts
  */
-export async function getAllDotContinueDefinitionFiles(
+export async function getAllDotFridayDefinitionFiles(
   ide: IDE,
   options: LoadAssistantFilesOptions,
   subDirName: string,
@@ -136,7 +137,7 @@ export async function getAllDotContinueDefinitionFiles(
   const workspaceDirs = await ide.getWorkspaceDirs();
 
   // Get all directories to check for assistant files
-  const fullDirs = getDotContinueSubDirs(
+  const fullDirs = getDotFridaySubDirs(
     ide,
     options,
     workspaceDirs,

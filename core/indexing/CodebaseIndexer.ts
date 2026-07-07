@@ -1,9 +1,10 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs/promises";
 
 import { ConfigHandler } from "../config/ConfigHandler.js";
 import {
   ContextIndexingType,
-  ContinueConfig,
+  FridayConfig,
   IDE,
   IndexingProgressUpdate,
   IndexTag,
@@ -16,7 +17,7 @@ import { getIndexSqlitePath, getLanceDbPath } from "../util/paths.js";
 import { findUriInDirs, getUriPathBasename } from "../util/uri.js";
 
 import { ConfigResult } from "@continuedev/config-yaml";
-import { ContinueServerClient } from "../continueServer/stubs/client";
+import { FridayServerClient } from "../fridayServer/stubs/client";
 import { LLMError } from "../llm/index.js";
 import { getRootCause } from "../util/errors.js";
 import { ChunkCodebaseIndex } from "./chunk/ChunkCodebaseIndex.js";
@@ -55,7 +56,7 @@ export class CodebaseIndexer {
   // We normally allow this to run in the background,
   // and only need to `await` it for tests.
   public initPromise: Promise<void>;
-  private config!: ContinueConfig;
+  private config!: FridayConfig;
   private indexingCancellationController: AbortController;
   private codebaseIndexingState: IndexingProgressUpdate;
   private readonly pauseToken: PauseToken;
@@ -158,11 +159,11 @@ export class CodebaseIndexer {
     if (!ideSettings) {
       return [];
     }
-    const continueServerClient = new ContinueServerClient(
+    const fridayServerClient = new FridayServerClient(
       ideSettings.remoteConfigServerUrl,
       ideSettings.userToken,
     );
-    if (!continueServerClient) {
+    if (!fridayServerClient) {
       return [];
     }
 
@@ -180,7 +181,7 @@ export class CodebaseIndexer {
       chunk: async () =>
         new ChunkCodebaseIndex(
           this.ide.readFile.bind(this.ide),
-          continueServerClient,
+          fridayServerClient,
           embeddingsModel.maxEmbeddingChunkSize,
         ),
       codeSnippets: async () => new CodeSnippetsCodebaseIndex(this.ide),
@@ -277,7 +278,7 @@ export class CodebaseIndexer {
       );
       // Don't update if nothing to update. Some of the indices might do unnecessary setup work
       if (this.totalIndexOps(results) + lastUpdated.length === 0) {
-        continue;
+        friday;
       }
 
       for await (const _ of index.update(
@@ -611,7 +612,7 @@ export class CodebaseIndexer {
                 (completedIndexCount + completedOps / totalOps) *
                 (1 / indexesToBuild.length);
             } catch (err) {
-              // Collect non-fatal errors as warnings and continue
+              // Collect non-fatal errors as warnings and friday
               const warningMsg =
                 err instanceof Error ? err.message : String(err);
               const friendlyName = this.getUserFriendlyIndexName(
@@ -620,7 +621,7 @@ export class CodebaseIndexer {
               warnings.push(`${friendlyName}: ${warningMsg}`);
               console.warn(`${friendlyName}: ${warningMsg}`, err);
 
-              // Complete this batch and continue with next
+              // Complete this batch and friday with next
               completedOps +=
                 subResult.compute.length +
                 subResult.del.length +
@@ -643,7 +644,7 @@ export class CodebaseIndexer {
           throw cause;
         }
 
-        // Collect planning errors as warnings and continue to next index
+        // Collect planning errors as warnings and friday to next index
         const errorMsg = err instanceof Error ? err.message : String(err);
         const friendlyName = this.getUserFriendlyIndexName(
           codebaseIndex.artifactId,
@@ -828,8 +829,8 @@ export class CodebaseIndexer {
   }
 
   private isIndexingConfigSame(
-    config1: ContinueConfig | undefined,
-    config2: ContinueConfig,
+    config1: FridayConfig | undefined,
+    config2: FridayConfig,
   ) {
     return embedModelsAreEqual(
       config1?.selectedModelByRole.embed,
@@ -839,7 +840,7 @@ export class CodebaseIndexer {
 
   private async handleConfigUpdate({
     config: newConfig,
-  }: ConfigResult<ContinueConfig>) {
+  }: ConfigResult<FridayConfig>) {
     if (newConfig) {
       const ideSettings = await this.ide.getIdeSettings();
       const pauseCodebaseIndexOnStart = ideSettings.pauseCodebaseIndexOnStart;

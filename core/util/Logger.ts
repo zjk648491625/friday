@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import winston from "winston";
 
 class LoggerClass {
@@ -14,7 +15,7 @@ class LoggerClass {
           const metaStr = Object.keys(meta).length
             ? ` ${JSON.stringify(meta)}`
             : "";
-          return `[@continuedev] ${level}: ${message}${metaStr}`;
+          return `[@friday-ai] ${level}: ${message}${metaStr}`;
         }),
       ),
       transports: [

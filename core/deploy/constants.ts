@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export const constants = {
   b: "1710787199603",
   c: "NfZFVegMpdyT3P5UmAggr7T7Hb6PlcbB",

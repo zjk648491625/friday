@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   BedrockRuntimeClient,
   ContentBlock,
@@ -167,14 +168,14 @@ class Bedrock extends BaseLLM {
               role: "assistant",
               content: contentBlockDelta.text,
             };
-            continue;
+            friday;
           }
           if (contentBlockDelta.reasoningContent?.text) {
             yield {
               role: "thinking",
               content: contentBlockDelta.reasoningContent.text,
             };
-            continue;
+            friday;
           }
           if (contentBlockDelta.reasoningContent?.signature) {
             yield {
@@ -182,7 +183,7 @@ class Bedrock extends BaseLLM {
               content: "",
               signature: contentBlockDelta.reasoningContent.signature,
             };
-            continue;
+            friday;
           }
         }
 
@@ -195,7 +196,7 @@ class Bedrock extends BaseLLM {
               content: "",
               redactedThinking: reasoningDelta.text,
             };
-            continue;
+            friday;
           }
         }
 
@@ -218,7 +219,7 @@ class Bedrock extends BaseLLM {
               },
             ],
           };
-          continue;
+          friday;
         }
 
         const contentBlockStart: ContentBlockStartEvent | undefined =
@@ -244,7 +245,7 @@ class Bedrock extends BaseLLM {
                   },
                 ],
               };
-              continue;
+              friday;
             }
           }
         }
@@ -478,7 +479,7 @@ class Bedrock extends BaseLLM {
                 console.warn(
                   `Bedrock: tool call missing id or name, skipping tool call: ${JSON.stringify(toolCall)}`,
                 );
-                continue;
+                friday;
               }
             }
           }
@@ -545,7 +546,7 @@ class Bedrock extends BaseLLM {
     }
   }
 
-  // Converts Continue message content (string/parts) to Bedrock ContentBlock format.
+  // Converts Friday message content (string/parts) to Bedrock ContentBlock format.
   // Unsupported/problematic image formats are skipped with a warning.
   private _convertMessageContentToBlocks(
     content: MessageContent,

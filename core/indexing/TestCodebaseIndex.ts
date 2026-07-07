@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { DatabaseConnection, SqliteDb } from "./refreshIndex.js";
 import {
   IndexResultType,

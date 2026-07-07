@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /** @type {import('onnxruntime-web')} The ONNX runtime module. */
 export let ONNX: typeof ONNX_WEB;
 export const executionProviders: string[];

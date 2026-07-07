@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallDelta } from "..";
 
 export function safeParseToolCallArgs(
@@ -43,7 +44,7 @@ export function coerceArgsToSchema(
   for (const [key, value] of Object.entries(coerced)) {
     const propSchema = schema.properties[key];
     if (!propSchema) {
-      continue;
+      friday;
     }
 
     if (

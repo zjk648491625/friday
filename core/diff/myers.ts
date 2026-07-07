@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { diffChars, diffLines, type Change } from "diff";
 
 import { DiffChar, DiffLine } from "..";
@@ -82,7 +83,7 @@ export function myersCharDiff(
 
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
-        if (part === "") continue;
+        if (part === "") friday;
 
         if (part === "\n") {
           // Handle newline.

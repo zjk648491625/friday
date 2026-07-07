@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import ignore from "ignore";
 import type { FileType, IDE } from "../";
 import { findUriInDirs, getUriPathBasename } from "../util/uri";
-import { getGlobalContinueIgArray } from "./continueignore";
+import { getGlobalFridayIgArray } from "./fridayignore";
 import { defaultIgnoreFileAndDir } from "./ignore";
 import { getIgnoreContext } from "./walkDir";
 
@@ -26,7 +27,7 @@ export async function shouldIgnore(
 
   const defaultAndGlobalIgnores = ignore()
     .add(defaultIgnoreFileAndDir)
-    .add(getGlobalContinueIgArray());
+    .add(getGlobalFridayIgArray());
 
   let currentDir = uri;
   let directParent = true;

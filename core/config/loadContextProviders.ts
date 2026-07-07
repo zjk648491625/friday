@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   AssistantUnrolledNonNullable,
   ConfigValidationError,
@@ -51,7 +52,7 @@ export function loadConfigContextProviders(
           fatal: false,
           message: `Unknown context provider ${config.provider}`,
         });
-        continue;
+        friday;
       }
       providers.push(
         new cls({

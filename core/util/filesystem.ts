@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 
 import { fileURLToPath } from "node:url";
@@ -74,7 +75,7 @@ class FileSystemIde implements IDE {
       remoteConfigServerUrl: undefined,
       remoteConfigSyncPeriod: 60,
       userToken: "",
-      continueTestEnvironment: "none",
+      fridayTestEnvironment: "none",
       pauseCodebaseIndexOnStart: false,
     };
   }

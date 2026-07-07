@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   DataDestination,
   ModelRole,
@@ -197,7 +198,7 @@ export interface ContextProviderDescription {
 export type FetchFunction = (url: string | URL, init?: any) => Promise<any>;
 
 export interface ContextProviderExtras {
-  config: ContinueConfig;
+  config: FridayConfig;
   fullInput: string;
   embeddingsProvider: ILLM | null;
   reranker: ILLM | null;
@@ -209,7 +210,7 @@ export interface ContextProviderExtras {
 }
 
 export interface LoadSubmenuItemsArgs {
-  config: ContinueConfig;
+  config: FridayConfig;
   ide: IDE;
   fetch: FetchFunction;
 }
@@ -663,7 +664,7 @@ export interface LLMOptions {
   llmRequestHook?: (model: string, prompt: string) => any;
   apiKey?: string;
 
-  // continueProperties
+  // fridayProperties
   apiKeyLocation?: string;
   envSecretLocations?: Record<string, string>;
   apiBase?: string;
@@ -814,7 +815,7 @@ export interface IdeSettings {
   remoteConfigServerUrl: string | undefined;
   remoteConfigSyncPeriod: number;
   userToken: string;
-  continueTestEnvironment: "none" | "production" | "staging" | "local";
+  fridayTestEnvironment: "none" | "production" | "staging" | "local";
   pauseCodebaseIndexOnStart: boolean;
 }
 
@@ -937,7 +938,7 @@ export interface IDE {
 
 // Slash Commands
 
-export interface ContinueSDK {
+export interface FridaySDK {
   ide: IDE;
   llm: ILLM;
   addContextItem: (item: ContextItemWithId) => void;
@@ -946,7 +947,7 @@ export interface ContinueSDK {
   params?: { [key: string]: any } | undefined;
   contextItems: ContextItemWithId[];
   selectedCode: RangeInFile[];
-  config: ContinueConfig;
+  config: FridayConfig;
   fetch: FetchFunction;
   completionOptions?: LLMFullCompletionOptions;
   abortController: AbortController;
@@ -961,11 +962,11 @@ export interface SlashCommandDescription {
 }
 
 export interface SlashCommand extends SlashCommandDescription {
-  run: (sdk: ContinueSDK) => AsyncGenerator<string | undefined>;
+  run: (sdk: FridaySDK) => AsyncGenerator<string | undefined>;
 }
 
 export interface SlashCommandWithSource extends SlashCommandDescription {
-  run?: (sdk: ContinueSDK) => AsyncGenerator<string | undefined>; // Optional - only needed for legacy
+  run?: (sdk: FridaySDK) => AsyncGenerator<string | undefined>; // Optional - only needed for legacy
   source: SlashCommandSource;
   sourceFile?: string;
   slug?: string;
@@ -1118,7 +1119,7 @@ export interface ToolExtras {
     toolCallId: string;
     contextItems: ContextItem[];
   }) => void;
-  config: ContinueConfig;
+  config: FridayConfig;
   codeBaseIndexer?: CodebaseIndexer;
 }
 
@@ -1445,14 +1446,14 @@ export type MCPServerStatus = InternalMcpOptions & {
   sourceFile?: string;
 };
 
-export interface ContinueUIConfig {
+export interface FridayUIConfig {
   codeBlockToolbarPosition?: "top" | "bottom";
   fontSize?: number;
   displayRawMarkdown?: boolean;
   showChatScrollbar?: boolean;
   codeWrap?: boolean;
   showSessionTabs?: boolean;
-  continueAfterToolRejection?: boolean;
+  fridayAfterToolRejection?: boolean;
 }
 
 export interface ContextMenuConfig {
@@ -1738,7 +1739,7 @@ export interface JSONModelDescription {
 }
 
 // config.json
-export interface SerializedContinueConfig {
+export interface SerializedFridayConfig {
   env?: string[];
   allowAnonymousTelemetry?: boolean;
   models: JSONModelDescription[];
@@ -1754,7 +1755,7 @@ export interface SerializedContinueConfig {
   embeddingsProvider?: EmbeddingsProviderDescription;
   tabAutocompleteModel?: JSONModelDescription | JSONModelDescription[];
   tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
-  ui?: ContinueUIConfig;
+  ui?: FridayUIConfig;
   reranker?: RerankerDescription;
   experimental?: ExperimentalConfig;
   analytics?: AnalyticsConfig;
@@ -1764,17 +1765,17 @@ export interface SerializedContinueConfig {
 
 export type ConfigMergeType = "merge" | "overwrite";
 
-export type ContinueRcJson = Partial<SerializedContinueConfig> & {
+export type FridayRcJson = Partial<SerializedFridayConfig> & {
   mergeBehavior: ConfigMergeType;
 };
 
 // config.ts - give users simplified interfaces
 export interface Config {
-  /** If set to true, Continue will collect anonymous usage data to improve the product. If set to false, we will collect nothing. Read here to learn more: https://docs.continue.dev/telemetry */
+  /** If set to true, Friday will collect anonymous usage data to improve the product. If set to false, we will collect nothing. Read here to learn more: https://docs.friday.dev/telemetry */
   allowAnonymousTelemetry?: boolean;
   /** Each entry in this array will originally be a JSONModelDescription, the same object from your config.json, but you may add CustomLLMs.
    * A CustomLLM requires you only to define an AsyncGenerator that calls the LLM and yields string updates. You can choose to define either `streamCompletion` or `streamChat` (or both).
-   * Continue will do the rest of the work to construct prompt templates, handle context items, prune context, etc.
+   * Friday will do the rest of the work to construct prompt templates, handle context items, prune context, etc.
    */
   models: (CustomLLM | JSONModelDescription)[];
   /** A system message to be followed by all of your models */
@@ -1786,18 +1787,18 @@ export interface Config {
   /** The list of slash commands that will be available in the sidebar */
   slashCommands?: (SlashCommand | SlashCommandWithSource)[];
   /** Each entry in this array will originally be a ContextProviderWithParams, the same object from your config.json, but you may add CustomContextProviders.
-   * A CustomContextProvider requires you only to define a title and getContextItems function. When you type '@title <query>', Continue will call `getContextItems(query)`.
+   * A CustomContextProvider requires you only to define a title and getContextItems function. When you type '@title <query>', Friday will call `getContextItems(query)`.
    */
   contextProviders?: (CustomContextProvider | ContextProviderWithParams)[];
-  /** If set to true, Continue will not index your codebase for retrieval */
+  /** If set to true, Friday will not index your codebase for retrieval */
   disableIndexing?: boolean;
-  /** If set to true, Continue will not make extra requests to the LLM to generate a summary title of each session. */
+  /** If set to true, Friday will not make extra requests to the LLM to generate a summary title of each session. */
   disableSessionTitles?: boolean;
-  /** An optional token to identify a user. Not used by Continue unless you write custom coniguration that requires such a token */
+  /** An optional token to identify a user. Not used by Friday unless you write custom coniguration that requires such a token */
   userToken?: string;
-  /** The provider used to calculate embeddings. If left empty, Continue will use transformers.js to calculate the embeddings with all-MiniLM-L6-v2 */
+  /** The provider used to calculate embeddings. If left empty, Friday will use transformers.js to calculate the embeddings with all-MiniLM-L6-v2 */
   embeddingsProvider?: EmbeddingsProviderDescription | ILLM;
-  /** The model that Continue will use for tab autocompletions. */
+  /** The model that Friday will use for tab autocompletions. */
   tabAutocompleteModel?:
     | CustomLLM
     | JSONModelDescription
@@ -1805,7 +1806,7 @@ export interface Config {
   /** Options for tab autocomplete */
   tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
   /** UI styles customization */
-  ui?: ContinueUIConfig;
+  ui?: FridayUIConfig;
   /** Options for the reranker */
   reranker?: RerankerDescription | ILLM;
   /** Experimental configuration */
@@ -1816,8 +1817,8 @@ export interface Config {
   data?: DataDestination[];
 }
 
-// in the actual Continue source code
-export interface ContinueConfig {
+// in the actual Friday source code
+export interface FridayConfig {
   allowAnonymousTelemetry?: boolean;
   // systemMessage?: string;
   completionOptions?: BaseCompletionOptions;
@@ -1828,7 +1829,7 @@ export interface ContinueConfig {
   disableIndexing?: boolean;
   userToken?: string;
   tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
-  ui?: ContinueUIConfig;
+  ui?: FridayUIConfig;
   experimental?: ExperimentalConfig;
   analytics?: AnalyticsConfig;
   docs?: SiteIndexingConfig[];
@@ -1840,7 +1841,7 @@ export interface ContinueConfig {
   data?: DataDestination[];
 }
 
-export interface BrowserSerializedContinueConfig {
+export interface BrowserSerializedFridayConfig {
   allowAnonymousTelemetry?: boolean;
   // systemMessage?: string;
   completionOptions?: BaseCompletionOptions;
@@ -1850,7 +1851,7 @@ export interface BrowserSerializedContinueConfig {
   disableIndexing?: boolean;
   disableSessionTitles?: boolean;
   userToken?: string;
-  ui?: ContinueUIConfig;
+  ui?: FridayUIConfig;
   experimental?: ExperimentalConfig;
   analytics?: AnalyticsConfig;
   docs?: SiteIndexingConfig[];
@@ -1915,7 +1916,7 @@ export type RuleSource =
   | "rules-block"
   | "colocated-markdown"
   | "json-systemMessage"
-  | ".continuerules"
+  | ".fridayrules"
   | "agentFile";
 
 export interface RuleMetadata {

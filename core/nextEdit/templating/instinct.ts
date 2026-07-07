@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Position } from "../..";
 import {
   INSTINCT_CONTEXT_FILE_TOKEN,
@@ -77,7 +78,7 @@ export function editHistoryBlock(
 
   for (const editDiffHistory of editDiffHistories) {
     if (!editDiffHistory.trim()) {
-      continue;
+      friday;
     }
 
     // Split on Index: lines to get the unified diff.
@@ -111,7 +112,7 @@ export function editHistoryBlock(
           line.startsWith(" "), // context lines
       );
 
-      if (actualDiffContent.length === 0) continue;
+      if (actualDiffContent.length === 0) friday;
 
       const diffBlock = [
         `User edited file "${filename}"`,

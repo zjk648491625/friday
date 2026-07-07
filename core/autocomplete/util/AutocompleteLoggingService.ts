@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { DataLogger } from "../../data/log";
 import { COUNT_COMPLETION_REJECTED_AFTER } from "../../util/parameters";
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import Fireworks from "./Fireworks.js";
 import { createOpenAISubclassTests } from "./test-utils/openai-test-utils.js";
 

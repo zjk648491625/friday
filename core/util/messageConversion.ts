@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Message conversion utilities for transitioning to unified ChatHistoryItem type.
  *

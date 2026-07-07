@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PromptTemplateFunction } from "../../..";
 import { dedent } from "../../../util";
 

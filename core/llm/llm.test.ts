@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as dotenv from "dotenv";
 
 import { AssistantChatMessage, CompletionOptions } from "..";
@@ -167,7 +168,7 @@ function testLLM(
           )) {
             const typedChunk = chunk as AssistantChatMessage;
             if (!typedChunk.toolCalls || typedChunk.toolCalls.length === 0) {
-              continue;
+              friday;
             }
             const toolCall = typedChunk.toolCalls[0];
             args += toolCall.function?.arguments ?? "";
@@ -249,7 +250,7 @@ describe("LLM", () => {
       apiKey: process.env.AZURE_OPENAI_API_KEY,
       model: "gpt-4o",
       apiVersion: "2024-05-01-preview",
-      apiBase: "https://continue-azure-openai-instance.openai.azure.com",
+      apiBase: "https://friday-azure-openai-instance.openai.azure.com",
       deployment: "azure-openai-deployment",
       apiType: "azure-openai",
     }),
@@ -259,7 +260,7 @@ describe("LLM", () => {
     new Azure({
       apiKey: process.env.AZURE_FOUNDRY_CODESTRAL_API_KEY,
       model: "Codestral-2501",
-      apiBase: "https://continue-foundry-resource.services.ai.azure.com",
+      apiBase: "https://friday-foundry-resource.services.ai.azure.com",
       env: { apiType: "azure-foundry", apiVersion: "2024-05-01-preview" },
     }),
     { testFim: false, skip: true, timeout: 20000 }, // Skipped - timing out in CI

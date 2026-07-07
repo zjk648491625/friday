@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "../..";
 import { filterLeadingNewline } from "../../autocomplete/filtering/streamTransforms/lineStream";
 import { streamLines } from "../../diff/util";

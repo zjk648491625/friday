@@ -1,8 +1,9 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigResult, ConfigValidationError } from "@continuedev/config-yaml";
 
 import {
-  BrowserSerializedContinueConfig,
-  ContinueConfig,
+  BrowserSerializedFridayConfig,
+  FridayConfig,
   IContextProvider,
   IDE,
   IdeSettings,
@@ -15,7 +16,7 @@ import EventEmitter from "node:events";
 import { Logger } from "../util/Logger.js";
 
 import {
-  getAllDotContinueDefinitionFiles,
+  getAllDotFridayDefinitionFiles,
   LoadAssistantFilesOptions,
 } from "./loadLocalAssistants.js";
 import LocalProfileLoader from "./profile/LocalProfileLoader.js";
@@ -26,7 +27,7 @@ import {
 
 export type { ProfileDescription };
 
-type ConfigUpdateFunction = (payload: ConfigResult<ContinueConfig>) => void;
+type ConfigUpdateFunction = (payload: ConfigResult<FridayConfig>) => void;
 
 export class ConfigHandler {
   private readonly globalContext = new GlobalContext();
@@ -160,7 +161,7 @@ export class ConfigHandler {
 
   async getLocalProfiles(options: LoadAssistantFilesOptions) {
     /**
-     * Users can define as many local agents as they want in a `.continue/agents` (or previous .continue/assistants) folder
+     * Users can define as many local agents as they want in a `.friday/agents` (or previous .friday/assistants) folder
      */
     const localProfiles: ProfileLifecycleManager[] = [];
 
@@ -172,9 +173,9 @@ export class ConfigHandler {
       const yamlOptions = { ...options, fileExtType: "yaml" } as const;
       const allFiles = (
         await Promise.all([
-          getAllDotContinueDefinitionFiles(this.ide, yamlOptions, "assistants"),
-          getAllDotContinueDefinitionFiles(this.ide, yamlOptions, "agents"),
-          getAllDotContinueDefinitionFiles(this.ide, yamlOptions, "configs"),
+          getAllDotFridayDefinitionFiles(this.ide, yamlOptions, "assistants"),
+          getAllDotFridayDefinitionFiles(this.ide, yamlOptions, "agents"),
+          getAllDotFridayDefinitionFiles(this.ide, yamlOptions, "configs"),
         ])
       ).flat();
       const profiles = allFiles.map((assistant) => {
@@ -283,7 +284,7 @@ export class ConfigHandler {
   }
 
   // Listeners setup - can listen to current profile updates
-  private notifyConfigListeners(result: ConfigResult<ContinueConfig>) {
+  private notifyConfigListeners(result: ConfigResult<FridayConfig>) {
     for (const listener of this.updateListeners) {
       listener(result);
     }
@@ -299,7 +300,7 @@ export class ConfigHandler {
   // Serialized for passing to GUI
   // Load for just awaiting current config load promise for the profile
   async getSerializedConfig(): Promise<
-    ConfigResult<BrowserSerializedContinueConfig>
+    ConfigResult<BrowserSerializedFridayConfig>
   > {
     await this.isInitialized;
     if (!this.currentProfile) {
@@ -314,7 +315,7 @@ export class ConfigHandler {
     );
   }
 
-  async loadConfig(): Promise<ConfigResult<ContinueConfig>> {
+  async loadConfig(): Promise<ConfigResult<FridayConfig>> {
     await this.isInitialized;
     if (!this.currentProfile) {
       return {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getLastNUriRelativePathParts } from "../../util/uri";
 import {
   AutocompleteClipboardSnippet,

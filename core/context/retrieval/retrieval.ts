@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { BranchAndDir, ContextItem, ContextProviderExtras } from "../../";
 import { getUriDescription } from "../../util/uri";
 import { INSTRUCTIONS_BASE_ITEM } from "../providers/utils";
@@ -18,7 +19,7 @@ export async function retrieveContextItemsFromEmbeddings(
   //   void extras.ide.showToast(
   //     "warning",
   //     "Set up an embeddings model to use this feature. Visit the docs to learn more: " +
-  //       "https://docs.continue.dev/customize/model-roles/embeddings",
+  //       "https://docs.friday.dev/customize/model-roles/embeddings",
   //   );
   //   return [];
   // }

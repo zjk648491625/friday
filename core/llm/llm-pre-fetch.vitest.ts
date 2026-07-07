@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fetchwithRequestOptions } from "@continuedev/fetch";
 import * as openAiAdapters from "@continuedev/openai-adapters";
 import * as dotenv from "dotenv";

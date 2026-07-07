@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
 import { fetchSearchResults } from "../../context/providers/WebContextProvider";
 import { getStringArg } from "../parseArgs";

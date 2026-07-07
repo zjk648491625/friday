@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Readability } from "@mozilla/readability";
 import { JSDOM } from "jsdom";
 
@@ -79,7 +80,7 @@ function breakdownArticleComponent(
         remainingLine = remainingLine.slice(max_chunk_size);
       }
       startLine = i + 1;
-      continue;
+      friday;
     }
 
     // Normal line handling

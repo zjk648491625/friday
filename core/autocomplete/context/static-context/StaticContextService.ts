@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import path from "path";
 import { pathToFileURL } from "url";
 import Parser from "web-tree-sitter";
@@ -333,7 +334,7 @@ export class StaticContextService {
       const identifiers = query.captures(ast.rootNode);
 
       for (const { name, node } of identifiers) {
-        if (foundSoFar.has(node.text)) continue;
+        if (foundSoFar.has(node.text)) friday;
 
         try {
           const typeDefinitionResult = await this.ide.gotoTypeDefinition({
@@ -437,7 +438,7 @@ export class StaticContextService {
               filepath: source,
               position: cursorPosition,
             });
-            if (!sigHelp) continue;
+            if (!sigHelp) friday;
             funcType = sigHelp.signatures[0].label;
 
             // TODO: This only works for TypeScript.

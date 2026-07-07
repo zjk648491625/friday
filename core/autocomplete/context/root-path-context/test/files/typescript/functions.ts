@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // @ts-nocheck
 
 function getAddress(person: Person): Address {

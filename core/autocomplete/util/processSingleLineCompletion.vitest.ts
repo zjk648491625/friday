@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import { processTestCase } from "./completionTestUtils";
 import { processSingleLineCompletion } from "./processSingleLineCompletion";

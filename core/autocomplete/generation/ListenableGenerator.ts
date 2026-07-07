@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export class ListenableGenerator<T> {
   private _source: AsyncGenerator<T>;
   private _buffer: T[] = [];

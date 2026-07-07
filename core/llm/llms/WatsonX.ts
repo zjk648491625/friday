@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamResponse, streamSse } from "@continuedev/fetch";
 import {
   AssistantChatMessage,
@@ -326,7 +327,7 @@ class WatsonX extends BaseLLM {
           if (!!chunk.toolCalls?.[0]?.function?.name) {
             accumulatedArgs = "";
             toolName = chunk.toolCalls[0].function.name;
-            continue;
+            friday;
           }
           if (!!toolName) {
             if (value?.choices?.[0]?.finish_reason === "tool_calls") {
@@ -348,7 +349,7 @@ class WatsonX extends BaseLLM {
             } else {
               if (!!chunk.toolCalls?.[0]?.function?.arguments)
                 accumulatedArgs += chunk.toolCalls?.[0]?.function?.arguments;
-              continue;
+              friday;
             }
           }
           yield chunk;

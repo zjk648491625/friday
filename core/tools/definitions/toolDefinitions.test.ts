@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "@jest/globals";
 import { ConfigDependentToolParams, GetTool, Tool } from "../..";
 import * as toolDefinitions from "./index";

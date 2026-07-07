@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolPolicy } from "@continuedev/terminal-security";
 import { Tool } from "../..";
 import { ResolvedPath, resolveInputPath } from "../../util/pathResolver";

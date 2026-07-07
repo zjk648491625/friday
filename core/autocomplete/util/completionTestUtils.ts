@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export interface CompletionTestCase {
   original: string; // Text with |cur| and |till| markers
   completion: string; // Text to insert/overwrite

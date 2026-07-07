@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ContextItem } from "../..";
 
 export const INSTRUCTIONS_BASE_ITEM: ContextItem = {

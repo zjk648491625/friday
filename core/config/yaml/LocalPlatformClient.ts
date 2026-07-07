@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   FQSN,
   PlatformClient,
@@ -6,14 +7,14 @@ import {
 } from "@continuedev/config-yaml";
 import * as dotenv from "dotenv";
 import { IDE } from "../..";
-import { getContinueDotEnv } from "../../util/paths";
+import { getFridayDotEnv } from "../../util/paths";
 import { joinPathsToUri } from "../../util/uri";
 
 export class LocalPlatformClient implements PlatformClient {
   constructor(private readonly ide: IDE) {}
 
   /**
-   * searches for the first valid secret file in order of ~/.continue/.env, <workspace>/.continue/.env, <workspace>/.env
+   * searches for the first valid secret file in order of ~/.friday/.env, <workspace>/.friday/.env, <workspace>/.env
    */
   private async findSecretInEnvFiles(
     fqsn: FQSN,
@@ -39,11 +40,11 @@ export class LocalPlatformClient implements PlatformClient {
 
   private findSecretInLocalEnvFile(fqsn: FQSN): string | undefined {
     try {
-      const dotEnv = getContinueDotEnv();
+      const dotEnv = getFridayDotEnv();
       return dotEnv[fqsn.secretName];
     } catch (error) {
       console.warn(
-        `Error reading ~/.continue/.env file: ${error instanceof Error ? error.message : String(error)}`,
+        `Error reading ~/.friday/.env file: ${error instanceof Error ? error.message : String(error)}`,
       );
       return undefined;
     }
@@ -51,14 +52,14 @@ export class LocalPlatformClient implements PlatformClient {
 
   private async findSecretInWorkspaceEnvFiles(
     fqsn: FQSN,
-    insideContinue: boolean,
+    insideFriday: boolean,
   ): Promise<string | undefined> {
     try {
       const workspaceDirs = await this.ide.getWorkspaceDirs();
       for (const folder of workspaceDirs) {
         const envFilePath = joinPathsToUri(
           folder,
-          insideContinue ? ".continue" : "",
+          insideFriday ? ".friday" : "",
           ".env",
         );
         try {
@@ -74,7 +75,7 @@ export class LocalPlatformClient implements PlatformClient {
           console.warn(
             `Error reading workspace .env file at ${envFilePath}: ${error instanceof Error ? error.message : String(error)}`,
           );
-          // Continue to next workspace folder
+          // Friday to next workspace folder
         }
       }
 

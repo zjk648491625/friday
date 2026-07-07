@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { DevDataLogEvent } from "@continuedev/config-yaml";
 import fs from "fs";
 import path from "path";
@@ -134,7 +135,7 @@ describe("DataLogger", () => {
         eventName: "testEvent",
         timestamp: expect.any(String),
         schema: SCHEMA,
-        userAgent: "VSCode/1.0.0 (Continue/0.1.0)",
+        userAgent: "VSCode/1.0.0 (Friday/0.1.0)",
         selectedProfileId: "test-profile-id",
         userId: "test-user-token",
       });

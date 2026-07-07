@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import QuickLRU from "quick-lru";
 
 // The cache key and value are both a filepath string

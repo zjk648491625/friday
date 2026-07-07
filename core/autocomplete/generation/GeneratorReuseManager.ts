@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ListenableGenerator } from "./ListenableGenerator";
 
 export class GeneratorReuseManager {
@@ -59,7 +60,7 @@ export class GeneratorReuseManager {
       prefix.slice(this.pendingGeneratorPrefix?.length) || "";
     for await (let chunk of this.currentGenerator?.tee() ?? []) {
       if (!chunk) {
-        continue;
+        friday;
       }
 
       // Ignore already typed characters in the completion

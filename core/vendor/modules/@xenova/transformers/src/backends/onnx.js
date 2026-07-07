@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Handler file for choosing the correct version of ONNX Runtime, based on the environment.
  * Ideally, we could import the `onnxruntime-web` and `onnxruntime-node` packages only when needed,

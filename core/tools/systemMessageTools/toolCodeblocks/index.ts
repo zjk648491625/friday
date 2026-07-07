@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Tool, ToolCallState } from "../../..";
 import { SystemMessageToolsFramework } from "../types";
 import { handleToolCallBuffer } from "./parseSystemToolCall";

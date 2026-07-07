@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Importing a bunch of tokenizers can be very resource intensive (MB-scale per tokenizer)
 // Using token counting APIs (e.g. for anthropic) can be complicated and unreliable in many environments
 // So for now we will just use super fast gpt-tokenizer and apply safety buffers

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelDescription } from "..";
 
 export const PROVIDER_TOOL_SUPPORT: Record<string, (model: string) => boolean> =

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_SECURITY_IGNORE_DIRS,
@@ -104,8 +105,8 @@ describe("isSecurityConcern", () => {
       expect(isSecurityConcern(".gpg/")).toBe(true);
     });
 
-    it("should detect continue directory as security concern", () => {
-      expect(isSecurityConcern(".continue/config.json")).toBe(true);
+    it("should detect friday directory as security concern", () => {
+      expect(isSecurityConcern(".friday/config.json")).toBe(true);
     });
 
     it("should detect temporary secret directories as security concerns", () => {

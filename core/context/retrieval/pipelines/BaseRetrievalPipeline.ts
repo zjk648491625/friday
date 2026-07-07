@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // @ts-ignore
 import nlp from "wink-nlp-utils";
 
@@ -5,7 +6,7 @@ import {
   BranchAndDir,
   Chunk,
   ContextItem,
-  ContinueConfig,
+  FridayConfig,
   IDE,
   ILLM,
   Tool,
@@ -37,7 +38,7 @@ const AVAILABLE_TOOLS: Tool[] = [
 
 export interface RetrievalPipelineOptions {
   llm: ILLM;
-  config: ContinueConfig;
+  config: FridayConfig;
   ide: IDE;
   input: string;
   nRetrieve: number;

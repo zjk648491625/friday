@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Chunk } from "../../..";
 import { RETRIEVAL_PARAMS } from "../../../util/parameters";
 

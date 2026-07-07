@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   filterLeadingAndTrailingNewLineInsertion,
   filterLeadingNewline,
@@ -87,7 +88,7 @@ async function* streamFillUnchangedCode(
       buffer.push(line);
 
       if (buffer.length >= BUFFER_LINES_BELOW) {
-        // Find the replacement and continue streaming once we have it
+        // Find the replacement and friday streaming once we have it
         const replacementLines = replacementFunction(oldCode, newLines, buffer);
         let replacement = "";
         for await (const replacementLine of replacementLines) {
@@ -103,9 +104,9 @@ async function* streamFillUnchangedCode(
 
         waitingForBuffer = false;
         buffer = [];
-        continue;
+        friday;
       } else {
-        continue;
+        friday;
       }
     }
 

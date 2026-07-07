@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Tokenizers are used to prepare textual inputs for a model.
  *
@@ -212,7 +213,7 @@ function fuse(arr, value, mapping) {
     fused.push(arr[i]);
     if ((mapping.get(arr[i]) ?? value) !== value) {
       ++i;
-      continue;
+      friday;
     }
 
     while (i < arr.length && (mapping.get(arr[i]) ?? value) === value) {
@@ -424,7 +425,7 @@ class WordPieceTokenizer extends TokenizerModel {
       const chars = [...token];
       if (chars.length > this.max_input_chars_per_word) {
         outputTokens.push(this.unk_token);
-        continue;
+        friday;
       }
 
       let isUnknown = false;
@@ -728,7 +729,7 @@ class BPE extends TokenizerModel {
         const node = queue.pop();
 
         // Check that this merge is still possible
-        if (node.deleted || !node.next || node.next.deleted) continue;
+        if (node.deleted || !node.next || node.next.deleted) friday;
 
         // Here, we mark the current node (left side of the merge) and the next node (right side of the merge) as deleted.
         // This is because they will both be replaced by a new node representing the merge result.
@@ -1233,7 +1234,7 @@ class BertNormalizer extends Normalizer {
     for (const char of text) {
       const cp = char.charCodeAt(0);
       if (cp === 0 || cp === 0xfffd || this._is_control(char)) {
-        continue;
+        friday;
       }
       if (/^\s$/.test(char)) {
         // is whitespace
@@ -1922,7 +1923,7 @@ class StripDecoder extends Decoder {
       for (let i = 0; i < this.start; ++i) {
         if (token[i] === this.content) {
           start_cut = i + 1;
-          continue;
+          friday;
         } else {
           break;
         }
@@ -1933,7 +1934,7 @@ class StripDecoder extends Decoder {
         const index = token.length - i - 1;
         if (token[index] === this.content) {
           stop_cut = index;
-          continue;
+          friday;
         } else {
           break;
         }
@@ -2028,7 +2029,7 @@ class ByteLevelDecoder extends Decoder {
     for (const token of tokens) {
       // tokens sent here are already filtered, so we don't need to do this
       // if (skip_special_tokens && this.all_special_ids.includes(token)) {
-      //     continue;
+      //     friday;
       // }
 
       if (this.added_tokens.find((x) => x.content === token) !== undefined) {
@@ -2545,7 +2546,7 @@ export class PreTrainedTokenizer extends Callable {
     for (const key of keys) {
       const item = this._tokenizer_config[key];
 
-      if (!item) continue;
+      if (!item) friday;
 
       if (typeof item === "object") {
         if (item.__type === "AddedToken") {
@@ -2694,7 +2695,7 @@ export class PreTrainedTokenizer extends Callable {
       // Perform padding and/or truncation
       for (let i = 0; i < encodedTokens.length; ++i) {
         if (encodedTokens[i].input_ids.length === max_length) {
-          continue;
+          friday;
         } else if (encodedTokens[i].input_ids.length > max_length) {
           // possibly truncate
           if (truncation) {

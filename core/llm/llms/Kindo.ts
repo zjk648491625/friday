@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMOptions } from "../..";
 
 import OpenAI from "./OpenAI";
@@ -8,7 +9,7 @@ class Kindo extends OpenAI {
     apiBase: "https://llm.kindo.ai/v1/",
     requestOptions: {
       headers: {
-        "kindo-token-transaction-type": "CONTINUE",
+        "kindo-token-transaction-type": "FRIDAY",
       },
     },
   };

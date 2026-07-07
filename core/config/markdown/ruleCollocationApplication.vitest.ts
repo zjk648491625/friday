@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import path from "path";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
@@ -17,7 +18,7 @@ describe("Rule Colocation Application", () => {
       name: "Root Rule",
       rule: "Follow project standards",
       source: "colocated-markdown",
-      sourceFile: ".continue/rules.md",
+      sourceFile: ".friday/rules.md",
     },
 
     // Nested directory rule without globs - should only apply to files in that directory

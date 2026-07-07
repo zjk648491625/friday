@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamResponse } from "@continuedev/fetch";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -21,7 +22,7 @@ import {
   GeminiChatResponse,
   GeminiGenerationConfig,
   GeminiToolFunctionDeclaration,
-  convertContinueToolToGeminiFunction,
+  convertFridayToolToGeminiFunction,
   mergeConsecutiveGeminiMessages,
 } from "./gemini-types";
 
@@ -203,7 +204,7 @@ class Gemini extends BaseLLM {
     }
   }
 
-  continuePartToGeminiPart(part: MessagePart): GeminiChatContentPart {
+  fridayPartToGeminiPart(part: MessagePart): GeminiChatContentPart {
     if (part.type === "text") {
       return {
         text: part.text,
@@ -283,7 +284,7 @@ class Gemini extends BaseLLM {
               parts:
                 typeof msg.content === "string"
                   ? [{ text: msg.content }]
-                  : msg.content.map(this.continuePartToGeminiPart),
+                  : msg.content.map(this.fridayPartToGeminiPart),
             };
 
             if (msg.toolCalls && msg.toolCalls.length) {
@@ -323,7 +324,7 @@ class Gemini extends BaseLLM {
             parts:
               typeof msg.content === "string"
                 ? [{ text: msg.content }]
-                : msg.content.map(this.continuePartToGeminiPart),
+                : msg.content.map(this.fridayPartToGeminiPart),
           };
         }),
     };
@@ -348,7 +349,7 @@ class Gemini extends BaseLLM {
         const functions: GeminiToolFunctionDeclaration[] = [];
         options.tools.forEach((tool) => {
           try {
-            functions.push(convertContinueToolToGeminiFunction(tool));
+            functions.push(convertFridayToolToGeminiFunction(tool));
           } catch (e) {
             console.warn(
               `Failed to convert tool to gemini function definition. Skipping: ${JSON.stringify(tool, null, 2)}`,
@@ -393,7 +394,7 @@ class Gemini extends BaseLLM {
           data = JSON.parse(part) as GeminiChatResponse;
         } catch (e) {
           foundIncomplete = true;
-          continue; // yo!
+          friday; // yo!
         }
 
         if ("error" in data) {

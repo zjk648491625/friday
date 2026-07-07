@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigHandler } from "../config/ConfigHandler";
 import Mock from "../llm/llms/Mock";
 import { LLMLogger } from "../llm/logger";

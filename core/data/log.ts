@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import path from "path";
 
@@ -12,7 +13,7 @@ import * as URI from "uri-js";
 import { fileURLToPath } from "url";
 import { AnyZodObject } from "zod";
 import { Core } from "../core.js";
-import { ContinueConfig, IdeInfo, IdeSettings } from "../index.js";
+import { FridayConfig, IdeInfo, IdeSettings } from "../index.js";
 import { getDevDataFilePath } from "../util/paths.js";
 import { joinPathsToUri } from "../util/uri.js";
 
@@ -54,8 +55,8 @@ export class DataLogger {
     }
     if ("userAgent" in zodSchema.shape) {
       newBody.userAgent = ideInfo
-        ? `${ideInfo.name}/${ideInfo.version} (Continue/${ideInfo.extensionVersion})`
-        : "Unknown/Unknown (Continue/Unknown)";
+        ? `${ideInfo.name}/${ideInfo.version} (Friday/${ideInfo.extensionVersion})`
+        : "Unknown/Unknown (Friday/Unknown)";
     }
     if ("selectedProfileId" in zodSchema.shape) {
       newBody.selectedProfileId =
@@ -160,7 +161,7 @@ export class DataLogger {
   }
 
   async logToOneDestination(
-    dataConfig: NonNullable<ContinueConfig["data"]>[number],
+    dataConfig: NonNullable<FridayConfig["data"]>[number],
     event: DevDataLogEvent,
   ) {
     try {

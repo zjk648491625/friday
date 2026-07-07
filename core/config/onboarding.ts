@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigYaml } from "@continuedev/config-yaml";
 
 export const LOCAL_ONBOARDING_PROVIDER_TITLE = "Ollama";
@@ -10,7 +11,7 @@ export const LOCAL_ONBOARDING_EMBEDDINGS_TITLE = "Nomic Embed";
 
 type OnboardingModel = NonNullable<ConfigYaml["models"]>[number];
 
-// These model definitions are inlined copies of the corresponding Continue Hub
+// These model definitions are inlined copies of the corresponding Friday Hub
 // blocks (e.g. anthropic/claude-sonnet-4-6) that onboarding previously resolved
 // via `uses:` slugs. Since Hub/slug resolution has been removed, we reproduce
 // the exact block contents here, with `apiKey` substituted for the block's

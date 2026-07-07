@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CallToolResultSchema } from "@modelcontextprotocol/sdk/types.js";
 import { ContextItem, McpUiState, Tool, ToolCall, ToolExtras } from "..";
 import { MCPManagerSingleton } from "../context/mcp/MCPManagerSingleton";
-import { ContinueError, ContinueErrorReason } from "../util/errors";
+import { FridayError, FridayErrorReason } from "../util/errors";
 import { canParseUrl } from "../util/url";
 import { BuiltInToolNames } from "./builtIn";
 
@@ -239,7 +240,7 @@ export async function callTool(
 ): Promise<{
   contextItems: ContextItem[];
   errorMessage: string | undefined;
-  errorReason?: ContinueErrorReason;
+  errorReason?: FridayErrorReason;
   mcpUiState?: McpUiState;
 }> {
   try {
@@ -262,9 +263,9 @@ export async function callTool(
     };
   } catch (e) {
     let errorMessage = `${e}`;
-    let errorReason: ContinueErrorReason | undefined;
+    let errorReason: FridayErrorReason | undefined;
 
-    if (e instanceof ContinueError) {
+    if (e instanceof FridayError) {
       errorMessage = e.message;
       errorReason = e.reason;
     } else if (e instanceof Error) {

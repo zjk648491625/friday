@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Position, Range, RangeInFile, TabAutocompleteOptions } from "../..";
 import { AutocompleteCodeSnippet } from "../snippets/types";
 

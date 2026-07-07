@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { URL } from "node:url";
 
 import { Octokit } from "@octokit/rest";
@@ -29,7 +30,7 @@ class GitHubCrawler {
 
     for await (const path of paths) {
       if (this.FILES_TO_SKIP.some((skip) => skip.test(path))) {
-        continue;
+        friday;
       }
       const content = await this.getGithubRepoFileContent(path, owner, repo);
 

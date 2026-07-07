@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { longestCommonSubsequence as lcs } from "./lcs";
 
 describe("longestCommonSubsequence", () => {

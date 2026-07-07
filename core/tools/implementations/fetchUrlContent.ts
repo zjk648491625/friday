@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
 import { getUrlContextItems } from "../../context/providers/URLContextProvider";
 import { getStringArg } from "../parseArgs";

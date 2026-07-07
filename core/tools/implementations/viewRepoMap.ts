@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import generateRepoMap from "../../util/generateRepoMap";
 
 import { ToolImpl } from ".";

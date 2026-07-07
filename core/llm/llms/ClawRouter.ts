@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMOptions } from "../../index.js";
 import { osModelsEditPrompt } from "../templates/edit.js";
 
 import OpenAI from "./OpenAI.js";
 
-// Get Continue version from package.json at build time
-const CONTINUE_VERSION = process.env.npm_package_version || "unknown";
+// Get Friday version from package.json at build time
+const FRIDAY_VERSION = process.env.npm_package_version || "unknown";
 
 /**
  * ClawRouter LLM Provider
@@ -38,14 +39,14 @@ class ClawRouter extends OpenAI {
   };
 
   /**
-   * Override headers to include Continue-specific User-Agent
+   * Override headers to include Friday-specific User-Agent
    * This helps ClawRouter track integration usage and optimize accordingly
    */
   protected _getHeaders() {
     return {
       ...super._getHeaders(),
-      "User-Agent": `Continue/${CONTINUE_VERSION}`,
-      "X-Continue-Provider": "clawrouter",
+      "User-Agent": `Friday/${FRIDAY_VERSION}`,
+      "X-Friday-Provider": "clawrouter",
     };
   }
 }

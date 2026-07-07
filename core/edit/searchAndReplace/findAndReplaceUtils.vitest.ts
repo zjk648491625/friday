@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
-import { ContinueErrorReason } from "../../util/errors";
+import { FridayErrorReason } from "../../util/errors";
 import { trimEmptyLines, validateSingleEdit } from "./findAndReplaceUtils";
 
 describe("validateSingleEdit", () => {
@@ -71,7 +72,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit(null as any, "new", undefined);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingOldString,
+          reason: FridayErrorReason.FindAndReplaceMissingOldString,
         }),
       );
     });
@@ -81,7 +82,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit(undefined as any, "new", undefined);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingOldString,
+          reason: FridayErrorReason.FindAndReplaceMissingOldString,
         }),
       );
     });
@@ -91,7 +92,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("old", undefined as any, undefined);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingNewString,
+          reason: FridayErrorReason.FindAndReplaceMissingNewString,
         }),
       );
     });
@@ -101,7 +102,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("same", "same", undefined);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
+          reason: FridayErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
         }),
       );
     });
@@ -111,7 +112,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("", "", undefined);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
+          reason: FridayErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
         }),
       );
     });
@@ -121,7 +122,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("old", "new", "invalid" as any);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceInvalidReplaceAll,
+          reason: FridayErrorReason.FindAndReplaceInvalidReplaceAll,
         }),
       );
     });
@@ -131,7 +132,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("old", "new", null as any);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceInvalidReplaceAll,
+          reason: FridayErrorReason.FindAndReplaceInvalidReplaceAll,
         }),
       );
     });
@@ -141,7 +142,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("old", "new", 1 as any);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceInvalidReplaceAll,
+          reason: FridayErrorReason.FindAndReplaceInvalidReplaceAll,
         }),
       );
     });
@@ -153,7 +154,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit(null as any, "new", undefined, 2);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingOldString,
+          reason: FridayErrorReason.FindAndReplaceMissingOldString,
         }),
       );
     });
@@ -163,7 +164,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("old", undefined as any, undefined, 0);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceMissingNewString,
+          reason: FridayErrorReason.FindAndReplaceMissingNewString,
         }),
       );
     });
@@ -173,7 +174,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("same", "same", undefined, 4);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
+          reason: FridayErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
         }),
       );
     });
@@ -183,7 +184,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("old", "new", "invalid" as any, 3);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceInvalidReplaceAll,
+          reason: FridayErrorReason.FindAndReplaceInvalidReplaceAll,
         }),
       );
     });
@@ -193,7 +194,7 @@ describe("validateSingleEdit", () => {
         validateSingleEdit("same", "same", undefined);
       }).toThrowError(
         expect.objectContaining({
-          reason: ContinueErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
+          reason: FridayErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
         }),
       );
     });

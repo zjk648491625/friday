@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@continuedev/fetch";
 import { ChatMessage, CompletionOptions, LLMOptions } from "../../index.js";
 
@@ -85,7 +86,7 @@ class Inception extends OpenAI {
     });
     for await (const chunk of streamSse(resp)) {
       if (!chunk.choices[0]) {
-        continue;
+        friday;
       }
       yield chunk.choices[0].text;
     }

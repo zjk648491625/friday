@@ -1,8 +1,9 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test } from "vitest";
 import { formatGrepSearchResults } from "./grepSearch";
 
 // Sample grep output mimicking what would come from ripgrep with the params:
-// ripgrep -i --ignore-file .continueignore --ignore-file .gitignore -C 2 --heading -m 100 -e <query> .
+// ripgrep -i --ignore-file .fridayignore --ignore-file .gitignore -C 2 --heading -m 100 -e <query> .
 const sampleGrepOutput = `./program.cs
         Console.WriteLine("Hello World!");
         Calculator calc = new Calculator();

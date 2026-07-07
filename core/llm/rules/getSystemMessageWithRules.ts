@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { minimatch } from "minimatch";
 import {
   ContextItemWithId,
@@ -130,10 +131,10 @@ const isFileInDirectory = (
 };
 
 /**
- * Checks if a rule is a root-level rule (.continue directory or no file path)
+ * Checks if a rule is a root-level rule (.friday directory or no file path)
  */
 const isRootLevelRule = (rule: RuleWithSource): boolean => {
-  return !rule.sourceFile || rule.sourceFile.includes(".continue/"); // sourceFile path is absolute - hence we need to check for it in between
+  return !rule.sourceFile || rule.sourceFile.includes(".friday/"); // sourceFile path is absolute - hence we need to check for it in between
 };
 
 /**
@@ -227,7 +228,7 @@ export const shouldApplyRule = (
     return false;
   }
 
-  // Check if this is a root-level rule (in .continue directory or no file path)
+  // Check if this is a root-level rule (in .friday directory or no file path)
   const isRootRule = isRootLevelRule(rule);
 
   // For non-root rules, we need to check if any files are in the rule's directory

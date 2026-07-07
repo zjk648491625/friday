@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import z from "zod";
 
 import {
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   Config,
-  ContinueConfig,
-  SerializedContinueConfig,
+  FridayConfig,
+  SerializedFridayConfig,
 } from "..";
 
 // Modified by Friday AI Team - Stripped telemetry from shared config (local-only mode)
@@ -14,7 +15,7 @@ export const sharedConfigSchema = z
     disableIndexing: z.boolean(),
     disableSessionTitles: z.boolean(),
 
-    // `experimental` in `ContinueConfig`
+    // `experimental` in `FridayConfig`
     useChromiumForDocsCrawling: z.boolean(),
     readResponseTTS: z.boolean(),
     promptPath: z.string(),
@@ -24,16 +25,16 @@ export const sharedConfigSchema = z
     codebaseToolCallingOnly: z.boolean(),
     enableStaticContextualization: z.boolean(),
 
-    // `ui` in `ContinueConfig`
+    // `ui` in `FridayConfig`
     showSessionTabs: z.boolean(),
     codeBlockToolbarPosition: z.enum(["top", "bottom"]),
     fontSize: z.number(),
     codeWrap: z.boolean(),
     displayRawMarkdown: z.boolean(),
     showChatScrollbar: z.boolean(),
-    continueAfterToolRejection: z.boolean(),
+    fridayAfterToolRejection: z.boolean(),
 
-    // `tabAutocompleteOptions` in `ContinueConfig`
+    // `tabAutocompleteOptions` in `FridayConfig`
     useAutocompleteCache: z.boolean(),
     useAutocompleteMultilineCompletions: z.enum(["always", "never", "auto"]),
     disableAutocompleteInFiles: z.array(z.string()),
@@ -71,25 +72,25 @@ export function salvageSharedConfig(sharedConfig: object): SharedConfigSchema {
 }
 
 // Apply shared config to all forms of config
-// - SerializedContinueConfig (config.json)
+// - SerializedFridayConfig (config.json)
 // - Config ("intermediate") - passed to config.ts
-// - ContinueConfig
-// - BrowserSerializedContinueConfig (final converted to be passed to GUI)
+// - FridayConfig
+// - BrowserSerializedFridayConfig (final converted to be passed to GUI)
 
 // This modify function is split into two steps
 // - rectifySharedModelsFromSharedConfig - includes boolean flags like allowAnonymousTelemetry which
 //   must be added BEFORE config.ts and remote server config apply for JSON
 //   for security reasons
 // - setSharedModelsFromSharedConfig - exists because of selectedModelsByRole
-//   Which don't exist on SerializedContinueConfig/Config types, so must be added after the fact
+//   Which don't exist on SerializedFridayConfig/Config types, so must be added after the fact
 export function modifyAnyConfigWithSharedConfig<
   T extends
-    | ContinueConfig
-    | BrowserSerializedContinueConfig
+    | FridayConfig
+    | BrowserSerializedFridayConfig
     | Config
-    | SerializedContinueConfig,
->(continueConfig: T, sharedConfig: SharedConfigSchema): T {
-  const configCopy = { ...continueConfig };
+    | SerializedFridayConfig,
+>(fridayConfig: T, sharedConfig: SharedConfigSchema): T {
+  const configCopy = { ...fridayConfig };
   configCopy.tabAutocompleteOptions = {
     ...configCopy.tabAutocompleteOptions,
   };
@@ -145,9 +146,9 @@ export function modifyAnyConfigWithSharedConfig<
     configCopy.ui.showSessionTabs = sharedConfig.showSessionTabs;
   }
 
-  if (sharedConfig.continueAfterToolRejection !== undefined) {
-    configCopy.ui.continueAfterToolRejection =
-      sharedConfig.continueAfterToolRejection;
+  if (sharedConfig.fridayAfterToolRejection !== undefined) {
+    configCopy.ui.fridayAfterToolRejection =
+      sharedConfig.fridayAfterToolRejection;
   }
 
   configCopy.experimental = {

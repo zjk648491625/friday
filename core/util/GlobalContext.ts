@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "node:fs";
 
 import { ModelRole } from "@continuedev/config-yaml";
@@ -91,7 +92,7 @@ export class GlobalContext {
             }
           }
         } catch {
-          // If salvage fails, continue with empty salvaged object
+          // If salvage fails, friday with empty salvaged object
         }
 
         // Delete the corrupted file and recreate it fresh

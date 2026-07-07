@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import {
   ContextItemId,
@@ -69,7 +70,7 @@ describe("Rule colocation glob matching", () => {
       name: "Root Rule",
       rule: "Follow project standards",
       source: "rules-block",
-      sourceFile: "/path/to/repo/.continue/rules.md",
+      sourceFile: "/path/to/repo/.friday/rules.md",
       // No restriction, should apply to all files
     };
 
@@ -212,7 +213,7 @@ describe("Rule policies", () => {
       name: "Root Rule",
       rule: "Follow project standards",
       source: "rules-block",
-      sourceFile: "/my/project/.continue/rules.md",
+      sourceFile: "/my/project/.friday/rules.md",
     };
 
     // Off policy should override even global rules

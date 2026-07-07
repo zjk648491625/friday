@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "../..";
-import { ContinueError, ContinueErrorReason } from "../../util/errors";
+import { FridayError, FridayErrorReason } from "../../util/errors";
 import { resolveRelativePathInDir } from "../../util/ideUtils";
 
 export async function validateSearchAndReplaceFilepath(
@@ -7,15 +8,15 @@ export async function validateSearchAndReplaceFilepath(
   ide: IDE,
 ) {
   if (!filepath || typeof filepath !== "string") {
-    throw new ContinueError(
-      ContinueErrorReason.FindAndReplaceMissingFilepath,
+    throw new FridayError(
+      FridayErrorReason.FindAndReplaceMissingFilepath,
       "filepath (string) is required",
     );
   }
   const resolvedFilepath = await resolveRelativePathInDir(filepath, ide);
   if (!resolvedFilepath) {
-    throw new ContinueError(
-      ContinueErrorReason.FileNotFound,
+    throw new FridayError(
+      FridayErrorReason.FileNotFound,
       `File ${filepath} does not exist`,
     );
   }

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LineStream } from "../diff/util";
 import { isMarkdownFile, MarkdownBlockStateTracker } from "./markdownUtils";
 

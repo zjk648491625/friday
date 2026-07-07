@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getDatabaseAdapter } from "dbinfoz";
 
 import {
@@ -19,7 +20,7 @@ class DatabaseContextProvider extends BaseContextProvider {
   };
 
   get deprecationMessage() {
-    return "The database context provider is deprecated and may be removed in a later version. Please consider using a database MCP server like postgres-mcp (https://continue.dev/anthropic/postgres-mcp) instead.";
+    return "The database context provider is deprecated and may be removed in a later version. Please consider using a database MCP server like postgres-mcp (https://friday.dev/anthropic/postgres-mcp) instead.";
   }
 
   async getContextItems(

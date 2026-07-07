@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import isLocalhost from "is-localhost-ip";
 import {
   ContextItem,

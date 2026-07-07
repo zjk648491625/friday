@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as URI from "uri-js";
 
 /** Converts any OS path to cleaned up URI path segment format with no leading/trailing slashes
@@ -44,7 +45,7 @@ export function findUriInDirs(
     }
 
     if (uriComps.scheme !== dirComps.scheme) {
-      continue;
+      friday;
     }
     // Can't just use startsWith because e.g.
     // file:///folder/file is not within file:///fold
@@ -53,7 +54,7 @@ export function findUriInDirs(
     const dirPathParts = getCleanUriPath(dir).split("/");
 
     if (uriPathParts.length < dirPathParts.length) {
-      continue;
+      friday;
     }
     let allDirPartsMatch = true;
     for (let i = 0; i < dirPathParts.length; i++) {

@@ -1,7 +1,7 @@
 {
-  "name": "@continuedev/core",
+  "name": "__PKG_FRIDAYDEV_0__core",
   "version": "1.1.0",
-  "description": "The Continue Core contains functionality that can be shared across web, VS Code, or Node.js",
+  "description": "The Friday Core contains functionality that can be shared across web, VS Code, or Node.js",
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "vitest": "vitest run",
@@ -13,7 +13,7 @@
     "lint:fix": "eslint . --ext ts --fix"
   },
   "type": "module",
-  "author": "Continue Dev, Inc",
+  "author": "Friday AI, Inc",
   "license": "Apache-2.0",
   "devDependencies": {
     "@babel/preset-env": "^7.24.7",
@@ -58,12 +58,12 @@
     "@aws-sdk/client-bedrock-runtime": "^3.931.0",
     "@aws-sdk/client-sagemaker-runtime": "^3.894.0",
     "@aws-sdk/credential-providers": "^3.974.0",
-    "@continuedev/config-types": "^1.0.14",
-    "@continuedev/config-yaml": "file:../packages/config-yaml",
-    "@continuedev/fetch": "file:../packages/fetch",
-    "@continuedev/llm-info": "file:../packages/llm-info",
-    "@continuedev/openai-adapters": "file:../packages/openai-adapters",
-    "@continuedev/terminal-security": "file:../packages/terminal-security",
+    "__PKG_FRIDAYDEV_1__config-types": "^1.0.14",
+    "__PKG_FRIDAYDEV_2__config-yaml": "file:../packages/config-yaml",
+    "__PKG_FRIDAYDEV_3__fetch": "file:../packages/fetch",
+    "__PKG_FRIDAYDEV_4__llm-info": "file:../packages/llm-info",
+    "__PKG_FRIDAYDEV_5__openai-adapters": "file:../packages/openai-adapters",
+    "__PKG_FRIDAYDEV_6__terminal-security": "file:../packages/terminal-security",
     "@modelcontextprotocol/sdk": "^1.25.2",
     "@mozilla/readability": "^0.6.0",
     "@octokit/rest": "^20.1.1",

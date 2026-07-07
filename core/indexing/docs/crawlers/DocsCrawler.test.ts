@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import os from "os";
 
-import { ContinueConfig } from "../../..";
+import { FridayConfig } from "../../..";
 import { testConfigHandler } from "../../../test/fixtures";
 import FileSystemIde from "../../../util/filesystem";
 
@@ -20,7 +21,7 @@ const TIMEOUT_MS = 1_000_000_000;
 ChromiumInstaller.PCR_CONFIG = { downloadPath: os.tmpdir() };
 
 describe.skip("DocsCrawler", () => {
-  let config: ContinueConfig;
+  let config: FridayConfig;
   let mockIde: FileSystemIde;
   let chromiumInstaller: ChromiumInstaller;
   let docsCrawler: DocsCrawler;

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RunResult } from "sqlite3";
 import { v4 as uuidv4 } from "uuid";
 
@@ -155,7 +156,7 @@ export class LanceDbIndex implements CodebaseIndex {
         const content = await this.readFile(item.path);
 
         if (!shouldChunk(item.path, content)) {
-          continue;
+          friday;
         }
 
         const chunks = await this.getChunks(item, content);

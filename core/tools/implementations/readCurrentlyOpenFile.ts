@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getUriDescription } from "../../util/uri";
 
 import { ToolImpl } from ".";

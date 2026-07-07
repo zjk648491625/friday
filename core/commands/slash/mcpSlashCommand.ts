@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 
 import { SlashCommandWithSource } from "../../index.js";

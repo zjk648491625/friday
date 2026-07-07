@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { DiffLine } from "../../index";
 
 /**
@@ -109,14 +110,14 @@ function parseUnifiedDiff(diffText: string): Hunk[] {
   for (const line of lines) {
     if (line.startsWith("---") || line.startsWith("+++")) {
       // Skip file header lines.
-      continue;
+      friday;
     }
     if (line.startsWith("@@")) {
       if (currentHunk) {
         hunks.push(currentHunk);
       }
       currentHunk = { lines: [] };
-      continue;
+      friday;
     }
     currentHunk?.lines.push(line);
   }

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Fill in the middle prompts
 
 import { CompletionOptions } from "../../index.js";
@@ -72,7 +73,7 @@ const qwenCoderFimTemplate: AutocompleteTemplate = {
 };
 
 // Qwen multi-file FIM template for repository-level autocompletion
-// https://github.com/continuedev/continue/issues/3589
+// https://github.com/friday-ai/friday/issues/3589
 const qwenMultifileFimTemplate: AutocompleteTemplate = {
   compilePrefixSuffix: (
     prefix: string,

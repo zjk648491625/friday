@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AuthClient, GoogleAuth, JWT, auth } from "google-auth-library";
 
 import { streamResponse, streamSse } from "@continuedev/fetch";
@@ -447,7 +448,7 @@ class VertexAI extends BaseLLM {
       return; // Aborted by user
     }
     // Streaming is not supported by code-gecko
-    // TODO: convert to non-streaming fim method when one exist in continue.
+    // TODO: convert to non-streaming fim method when one exist in friday.
     yield (await resp.json()).predictions[0].content;
   }
 

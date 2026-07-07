@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ConfigValidationError,
   markdownToRule,
@@ -5,11 +6,11 @@ import {
 import { IDE, RuleWithSource } from "../..";
 import { PROMPTS_DIR_NAME, RULES_DIR_NAME } from "../../promptFiles";
 import { joinPathsToUri } from "../../util/uri";
-import { getAllDotContinueDefinitionFiles } from "../loadLocalAssistants";
+import { getAllDotFridayDefinitionFiles } from "../loadLocalAssistants";
 
 export const SUPPORTED_AGENT_FILES = ["AGENTS.md", "AGENT.md", "CLAUDE.md"];
 /**
- * Loads rules from markdown files in the .continue/rules and .continue/prompts directories
+ * Loads rules from markdown files in the .friday/rules and .friday/prompts directories
  * and agent files (AGENTS.md, AGENT.md, CLAUDE.md) at workspace root
  */
 export async function loadMarkdownRules(ide: IDE): Promise<{
@@ -46,7 +47,7 @@ export async function loadMarkdownRules(ide: IDE): Promise<{
 
         break; // Use the first found agent file in this workspace
       } catch (e) {
-        // File doesn't exist or can't be read, continue to next file
+        // File doesn't exist or can't be read, friday to next file
       }
     }
     if (agentFileFound) {
@@ -54,12 +55,12 @@ export async function loadMarkdownRules(ide: IDE): Promise<{
     }
   }
 
-  // Load markdown files from both .continue/rules and .continue/prompts
+  // Load markdown files from both .friday/rules and .friday/prompts
   const dirsToCheck = [RULES_DIR_NAME, PROMPTS_DIR_NAME];
 
   for (const dirName of dirsToCheck) {
     try {
-      const markdownFiles = await getAllDotContinueDefinitionFiles(
+      const markdownFiles = await getAllDotFridayDefinitionFiles(
         ide,
         {
           includeGlobal: true,

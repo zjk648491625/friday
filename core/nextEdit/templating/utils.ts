@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Position } from "../..";
 import {
   INSTINCT_EDITABLE_REGION_END_TOKEN,

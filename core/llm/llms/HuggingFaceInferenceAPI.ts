@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@continuedev/fetch";
 import { CompletionOptions } from "../../index.js";
 import { BaseLLM } from "../index.js";

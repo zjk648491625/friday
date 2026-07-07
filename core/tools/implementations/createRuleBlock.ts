@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createRuleMarkdown } from "@continuedev/config-yaml";
 import { ToolImpl } from ".";
 import { RuleWithSource } from "../..";
@@ -30,8 +31,8 @@ export const createRuleBlockImpl: ToolImpl = async (args, extras) => {
     regex,
   });
 
-  const [localContinueDir] = await extras.ide.getWorkspaceDirs();
-  const ruleFilePath = createRuleFilePath(localContinueDir, name);
+  const [localFridayDir] = await extras.ide.getWorkspaceDirs();
+  const ruleFilePath = createRuleFilePath(localFridayDir, name);
 
   await extras.ide.writeFile(ruleFilePath, fileContent);
   await extras.ide.openFile(ruleFilePath);

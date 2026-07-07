@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigValidationError } from "@continuedev/config-yaml";
 import { Tool, ToolOverride } from "..";
 
@@ -30,12 +31,12 @@ export function applyToolOverrides(
         fatal: false,
         message: `Tool override "${override.name}" does not match any known tool. Available tools: ${Array.from(toolsByName.keys()).join(", ")}`,
       });
-      continue;
+      friday;
     }
 
     if (override.disabled) {
       toolsByName.delete(override.name);
-      continue;
+      friday;
     }
 
     const updatedTool: Tool = {

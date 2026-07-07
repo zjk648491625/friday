@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "node:fs";
 
 import { IDE, ILLM } from "..";
@@ -88,7 +89,7 @@ class RepoMapGenerator {
                 `  Error: ${err instanceof Error ? err.message : String(err)}`,
             );
 
-            continue;
+            friday;
           }
 
           const filteredSignatures = signatures.filter(

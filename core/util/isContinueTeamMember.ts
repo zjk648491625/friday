@@ -2,6 +2,6 @@
 /**
  * Always returns false - cloud team membership check disabled in local-only mode
  */
-export function isContinueTeamMember(_email?: string): boolean {
+export function isFridayTeamMember(_email?: string): boolean {
   return false;
 }

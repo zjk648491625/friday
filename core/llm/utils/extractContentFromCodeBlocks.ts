@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Extracts content from code blocks with given path
  * @param content The full message content

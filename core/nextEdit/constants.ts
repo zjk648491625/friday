@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { NEXT_EDIT_MODELS } from "../llm/constants";
 
 export const IS_NEXT_EDIT_ACTIVE = false;
@@ -23,7 +24,7 @@ export const INSTINCT_EDITABLE_REGION_START_TOKEN = "<|editable_region_start|>";
 export const INSTINCT_EDITABLE_REGION_END_TOKEN = "<|editable_region_end|>";
 export const INSTINCT_CONTEXT_FILE_TOKEN = "<|context_file|>";
 export const INSTINCT_SNIPPET_TOKEN = "<|snippet|>";
-export const INSTINCT_SYSTEM_PROMPT = `You are Instinct, an intelligent next-edit predictor developed by Continue.dev. Your role as an AI agent is to help developers complete their code tasks by predicting the next edit that they will make within the section of code marked by <|editable_region_start|> and <|editable_region_end|> tags.
+export const INSTINCT_SYSTEM_PROMPT = `You are Instinct, an intelligent next-edit predictor developed by Friday.dev. Your role as an AI agent is to help developers complete their code tasks by predicting the next edit that they will make within the section of code marked by <|editable_region_start|> and <|editable_region_end|> tags.
 
 You have access to the following information to help you make informed suggestions:
 

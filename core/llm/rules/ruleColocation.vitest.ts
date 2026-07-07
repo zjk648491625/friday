@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import { RuleWithSource } from "../..";
 import { shouldApplyRule } from "./getSystemMessageWithRules";
@@ -38,7 +39,7 @@ describe("Rule colocation - glob pattern matching", () => {
       alwaysApply: true,
       globs: "src/specific/**/*.ts", // Should be ignored since alwaysApply is true
       source: "colocated-markdown",
-      sourceFile: ".continue/rules.md",
+      sourceFile: ".friday/rules.md",
     },
 
     // Rule with explicit alwaysApply: false
@@ -48,7 +49,7 @@ describe("Rule colocation - glob pattern matching", () => {
       alwaysApply: false,
       // No globs, so should never apply
       source: "colocated-markdown",
-      sourceFile: ".continue/rules.md",
+      sourceFile: ".friday/rules.md",
     },
 
     // Rule with explicit alwaysApply: false but with globs

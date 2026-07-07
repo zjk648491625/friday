@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export function longestCommonSubsequence(a: string, b: string) {
   const lengths: number[][] = [];
   for (let i = 0; i <= a.length; i++) {

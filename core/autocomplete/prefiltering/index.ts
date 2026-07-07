@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import ignore from "ignore";
 
 import { IDE } from "../..";
 import {
-  getGlobalContinueIgArray,
-  getWorkspaceContinueIgArray,
-} from "../../indexing/continueignore";
+  getGlobalFridayIgArray,
+  getWorkspaceFridayIgArray,
+} from "../../indexing/fridayignore";
 import { getConfigJsonPath } from "../../util/paths";
 import { findUriInDirs } from "../../util/uri";
 import { HelperVars } from "../util/HelperVars";
@@ -48,7 +49,7 @@ export async function shouldPrefilter(
     return true;
   }
 
-  // Check whether we're in the continue config.json file
+  // Check whether we're in the friday config.json file
   if (helper.filepath === getConfigJsonPath()) {
     return true;
   }
@@ -57,8 +58,8 @@ export async function shouldPrefilter(
   const disableInFiles = [
     ...(helper.options.disableInFiles ?? []),
     "*.prompt",
-    ...getGlobalContinueIgArray(),
-    ...(await getWorkspaceContinueIgArray(ide)),
+    ...getGlobalFridayIgArray(),
+    ...(await getWorkspaceFridayIgArray(ide)),
   ];
   if (await isDisabledForFile(helper.filepath, disableInFiles, ide)) {
     return true;

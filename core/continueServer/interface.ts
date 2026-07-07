@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Chunk } from "../index.js";
 
 export interface EmbeddingsCacheChunk {
@@ -18,7 +19,7 @@ export interface EmbeddingsCacheResponse<T extends ArtifactType> {
   files: { [cacheKey: string]: ArtifactReturnTypes[T] };
 }
 
-export interface IContinueServerClient {
+export interface IFridayServerClient {
   connected: boolean;
   url: URL | undefined;
   getUserToken(): string | undefined;

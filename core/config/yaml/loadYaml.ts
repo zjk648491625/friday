@@ -19,7 +19,7 @@ import { dirname } from "node:path";
 
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import {
-  ContinueConfig,
+  FridayConfig,
   IDE,
   IdeInfo,
   IdeSettings,
@@ -49,7 +49,7 @@ import { getCleanUriPath } from "../../util/uri";
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { loadConfigContextProviders } from "../loadContextProviders";
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
-import { getAllDotContinueDefinitionFiles } from "../loadLocalAssistants";
+import { getAllDotFridayDefinitionFiles } from "../loadLocalAssistants";
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { unrollLocalYamlBlocks } from "./loadLocalYamlBlocks";
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
@@ -59,8 +59,8 @@ import { llmsFromModelConfig } from "./models";
 // Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import {
   convertYamlMcpConfigToInternalMcpOptions,
-  convertYamlRuleToContinueRule,
-} from "./yamlToContinueConfig";
+  convertYamlRuleToFridayRule,
+} from "./yamlToFridayConfig";
 
 async function loadConfigYaml(options: {
   overrideConfigYaml: AssistantUnrolled | undefined;
@@ -70,11 +70,11 @@ async function loadConfigYaml(options: {
 }): Promise<ConfigResult<AssistantUnrolled>> {
   const { overrideConfigYaml, ideSettings, ide, packageIdentifier } = options;
 
-  // Add local .continue blocks
+  // Add local .friday blocks
   // Use "content" field to pass pre-read content directly, avoiding
   // fs.readFileSync which fails for vscode-remote:// URIs in WSL (#6242, #7810)
   const localBlockPromises = BLOCK_TYPES.map(async (blockType) => {
-    const localBlocks = await getAllDotContinueDefinitionFiles(
+    const localBlocks = await getAllDotFridayDefinitionFiles(
       ide,
       { includeGlobal: true, includeWorkspace: true, fileExtType: "yaml" },
       blockType,
@@ -172,17 +172,17 @@ function nonNullifyConfigYaml(
   };
 }
 
-export async function configYamlToContinueConfig(options: {
+export async function configYamlToFridayConfig(options: {
   unrolledAssistant: AssistantUnrolled;
   ide: IDE;
   ideInfo: IdeInfo;
   llmLogger: ILLMLogger;
-}): Promise<{ config: ContinueConfig; errors: ConfigValidationError[] }> {
+}): Promise<{ config: FridayConfig; errors: ConfigValidationError[] }> {
   let { unrolledAssistant, ide, ideInfo, llmLogger } = options;
 
   const localErrors: ConfigValidationError[] = [];
 
-  const continueConfig: ContinueConfig = {
+  const fridayConfig: FridayConfig = {
     slashCommands: [],
     tools: getBaseToolDefinitions(),
     mcpServerStatuses: [],
@@ -214,18 +214,18 @@ export async function configYamlToContinueConfig(options: {
   const config = nonNullifyConfigYaml(unrolledAssistant);
 
   for (const rule of config.rules ?? []) {
-    const convertedRule = convertYamlRuleToContinueRule(rule);
-    continueConfig.rules.push(convertedRule);
+    const convertedRule = convertYamlRuleToFridayRule(rule);
+    fridayConfig.rules.push(convertedRule);
   }
 
-  continueConfig.data = config.data?.map((d) => ({
+  fridayConfig.data = config.data?.map((d) => ({
     ...d,
     requestOptions: mergeConfigYamlRequestOptions(
       d.requestOptions,
-      continueConfig.requestOptions,
+      fridayConfig.requestOptions,
     ),
   }));
-  continueConfig.docs = config.docs?.map((doc) => ({
+  fridayConfig.docs = config.docs?.map((doc) => ({
     title: doc.name,
     startUrl: doc.startUrl,
     rootUrl: doc.rootUrl,
@@ -245,7 +245,7 @@ export async function configYamlToContinueConfig(options: {
           file.content,
         );
         if (slashCommand) {
-          continueConfig.slashCommands?.push(slashCommand);
+          fridayConfig.slashCommands?.push(slashCommand);
         }
       } catch (e) {
         // If the file is in a rules directory, we can provide a more helpful error message
@@ -285,7 +285,7 @@ export async function configYamlToContinueConfig(options: {
   config.prompts?.forEach((prompt) => {
     try {
       const slashCommand = convertPromptBlockToSlashCommand(prompt);
-      continueConfig.slashCommands?.push(slashCommand);
+      fridayConfig.slashCommands?.push(slashCommand);
     } catch (e) {
       localErrors.push({
         message: `Error loading prompt ${prompt.name}: ${e instanceof Error ? e.message : e}`,
@@ -303,34 +303,34 @@ export async function configYamlToContinueConfig(options: {
       const llms = await llmsFromModelConfig({
         model,
         llmLogger,
-        config: continueConfig,
+        config: fridayConfig,
       });
 
       if (model.roles?.includes("chat")) {
-        continueConfig.modelsByRole.chat.push(...llms);
+        fridayConfig.modelsByRole.chat.push(...llms);
       }
 
       if (model.roles?.includes("summarize")) {
-        continueConfig.modelsByRole.summarize.push(...llms);
+        fridayConfig.modelsByRole.summarize.push(...llms);
       }
 
       if (model.roles?.includes("apply")) {
-        continueConfig.modelsByRole.apply.push(...llms);
+        fridayConfig.modelsByRole.apply.push(...llms);
       }
 
       if (model.roles?.includes("edit")) {
-        continueConfig.modelsByRole.edit.push(...llms);
+        fridayConfig.modelsByRole.edit.push(...llms);
       }
 
       if (model.roles?.includes("autocomplete")) {
-        continueConfig.modelsByRole.autocomplete.push(...llms);
+        fridayConfig.modelsByRole.autocomplete.push(...llms);
       }
 
       if (model.roles?.includes("embed")) {
         const { provider } = model;
         if (provider === "transformers.js") {
           if (ideInfo.ideType === "vscode") {
-            continueConfig.modelsByRole.embed.push(
+            fridayConfig.modelsByRole.embed.push(
               new TransformersJsEmbeddingsProvider(),
             );
           } else {
@@ -340,16 +340,16 @@ export async function configYamlToContinueConfig(options: {
             });
           }
         } else {
-          continueConfig.modelsByRole.embed.push(...llms);
+          fridayConfig.modelsByRole.embed.push(...llms);
         }
       }
 
       if (model.roles?.includes("rerank")) {
-        continueConfig.modelsByRole.rerank.push(...llms);
+        fridayConfig.modelsByRole.rerank.push(...llms);
       }
 
       if (model.roles?.includes("subagent")) {
-        continueConfig.modelsByRole.subagent.push(...llms);
+        fridayConfig.modelsByRole.subagent.push(...llms);
       }
     } catch (e) {
       localErrors.push({
@@ -362,11 +362,11 @@ export async function configYamlToContinueConfig(options: {
   // Add transformers js to the embed models in vs code if not already added
   if (
     ideInfo.ideType === "vscode" &&
-    !continueConfig.modelsByRole.embed.find(
+    !fridayConfig.modelsByRole.embed.find(
       (m) => m.providerName === "transformers.js",
     )
   ) {
-    continueConfig.modelsByRole.embed.push(
+    fridayConfig.modelsByRole.embed.push(
       new TransformersJsEmbeddingsProvider(),
     );
   }
@@ -377,7 +377,7 @@ export async function configYamlToContinueConfig(options: {
     ideInfo.ideType,
   );
 
-  continueConfig.contextProviders = providers;
+  fridayConfig.contextProviders = providers;
   localErrors.push(...contextErrors);
 
   // Trigger MCP server refreshes (Config is reloaded again once connected!)
@@ -396,17 +396,17 @@ export async function configYamlToContinueConfig(options: {
   mcpOptions.push(...mcpServers);
   mcpManager.setConnections(mcpOptions, false, { ide });
 
-  return { config: continueConfig, errors: localErrors };
+  return { config: fridayConfig, errors: localErrors };
 }
 
-export async function loadContinueConfigFromYaml(options: {
+export async function loadFridayConfigFromYaml(options: {
   ide: IDE;
   ideSettings: IdeSettings;
   ideInfo: IdeInfo;
   llmLogger: ILLMLogger;
   overrideConfigYaml: AssistantUnrolled | undefined;
   packageIdentifier: PackageIdentifier;
-}): Promise<ConfigResult<ContinueConfig>> {
+}): Promise<ConfigResult<FridayConfig>> {
   const {
     ide,
     ideSettings,
@@ -432,8 +432,8 @@ export async function loadContinueConfigFromYaml(options: {
     };
   }
 
-  const { config: continueConfig, errors: localErrors } =
-    await configYamlToContinueConfig({
+  const { config: fridayConfig, errors: localErrors } =
+    await configYamlToFridayConfig({
       unrolledAssistant: configYamlResult.config,
       ide,
       ideInfo,
@@ -443,7 +443,7 @@ export async function loadContinueConfigFromYaml(options: {
   // Apply shared config
   const sharedConfig = new GlobalContext().getSharedConfig();
   const withShared = modifyAnyConfigWithSharedConfig(
-    continueConfig,
+    fridayConfig,
     sharedConfig,
   );
   // Friday AI: telemetry disabled (local-only mode)

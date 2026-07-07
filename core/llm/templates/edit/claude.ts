@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PromptTemplateFunction } from "../../..";
 
 export const claudeEditPrompt: PromptTemplateFunction = (_, otherData) => {

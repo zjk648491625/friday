@@ -177,7 +177,7 @@ declare global {
   export type FetchFunction = (url: string | URL, init?: any) => Promise<any>;
   
   export interface ContextProviderExtras {
-    config: ContinueConfig;
+    config: FridayConfig;
     fullInput: string;
     embeddingsProvider: ILLM;
     reranker: ILLM | undefined;
@@ -188,7 +188,7 @@ declare global {
   }
   
   export interface LoadSubmenuItemsArgs {
-    config: ContinueConfig;
+    config: FridayConfig;
     ide: IDE;
     fetch: FetchFunction;
   }
@@ -751,7 +751,7 @@ declare global {
   
   // Slash Commands
   
-  export interface ContinueSDK {
+  export interface FridaySDK {
     ide: IDE;
     llm: ILLM;
     addContextItem: (item: ContextItemWithId) => void;
@@ -760,7 +760,7 @@ declare global {
     params?: { [key: string]: any } | undefined;
     contextItems: ContextItemWithId[];
     selectedCode: RangeInFile[];
-    config: ContinueConfig;
+    config: FridayConfig;
     fetch: FetchFunction;
   }
   
@@ -768,7 +768,7 @@ declare global {
     name: string;
     description: string;
     params?: { [key: string]: any };
-    run: (sdk: ContinueSDK) => AsyncGenerator<string | undefined>;
+    run: (sdk: FridaySDK) => AsyncGenerator<string | undefined>;
   }
   
   // Config
@@ -1022,7 +1022,7 @@ declare global {
     transport: TransportOptions;
   }
   
-  export interface ContinueUIConfig {
+  export interface FridayUIConfig {
     codeBlockToolbarPosition?: "top" | "bottom";
     fontSize?: number;
     displayRawMarkdown?: boolean;
@@ -1126,7 +1126,7 @@ declare global {
   }
   
   // config.json
-  export interface SerializedContinueConfig {
+  export interface SerializedFridayConfig {
     env?: string[];
     models: ModelDescription[];
     systemMessage?: string;
@@ -1140,7 +1140,7 @@ declare global {
     embeddingsProvider?: EmbeddingsProviderDescription;
     tabAutocompleteModel?: ModelDescription | ModelDescription[];
     tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
-    ui?: ContinueUIConfig;
+    ui?: FridayUIConfig;
     reranker?: RerankerDescription;
     experimental?: ExperimentalConfig;
     docs?: SiteIndexingConfig[];
@@ -1148,7 +1148,7 @@ declare global {
   
   export type ConfigMergeType = "merge" | "overwrite";
   
-  export type ContinueRcJson = Partial<SerializedContinueConfig> & {
+  export type FridayRcJson = Partial<SerializedFridayConfig> & {
     mergeBehavior: ConfigMergeType;
   };
   
@@ -1156,7 +1156,7 @@ declare global {
   export interface Config {
     /** Each entry in this array will originally be a ModelDescription, the same object from your config.json, but you may add CustomLLMs.
      * A CustomLLM requires you only to define an AsyncGenerator that calls the LLM and yields string updates. You can choose to define either \`streamCompletion\` or \`streamChat\` (or both).
-     * Continue will do the rest of the work to construct prompt templates, handle context items, prune context, etc.
+     * Friday will do the rest of the work to construct prompt templates, handle context items, prune context, etc.
      */
     models: (CustomLLM | ModelDescription)[];
     /** A system message to be followed by all of your models */
@@ -1168,16 +1168,16 @@ declare global {
     /** The list of slash commands that will be available in the sidebar */
     slashCommands?: SlashCommand[];
     /** Each entry in this array will originally be a ContextProviderWithParams, the same object from your config.json, but you may add CustomContextProviders.
-     * A CustomContextProvider requires you only to define a title and getContextItems function. When you type '@title <query>', Continue will call \`getContextItems(query)\`.
+     * A CustomContextProvider requires you only to define a title and getContextItems function. When you type '@title <query>', Friday will call \`getContextItems(query)\`.
      */
     contextProviders?: (CustomContextProvider | ContextProviderWithParams)[];
-    /** If set to true, Continue will not index your codebase for retrieval */
+    /** If set to true, Friday will not index your codebase for retrieval */
     disableIndexing?: boolean;
-    /** If set to true, Continue will not make extra requests to the LLM to generate a summary title of each session. */
+    /** If set to true, Friday will not make extra requests to the LLM to generate a summary title of each session. */
     disableSessionTitles?: boolean;
-    /** The provider used to calculate embeddings. If left empty, Continue will use transformers.js to calculate the embeddings with all-MiniLM-L6-v2 */
+    /** The provider used to calculate embeddings. If left empty, Friday will use transformers.js to calculate the embeddings with all-MiniLM-L6-v2 */
     embeddingsProvider?: EmbeddingsProviderDescription | ILLM;
-    /** The model that Continue will use for tab autocompletions. */
+    /** The model that Friday will use for tab autocompletions. */
     tabAutocompleteModel?:
       | CustomLLM
       | ModelDescription
@@ -1185,15 +1185,15 @@ declare global {
     /** Options for tab autocomplete */
     tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
     /** UI styles customization */
-    ui?: ContinueUIConfig;
+    ui?: FridayUIConfig;
     /** Options for the reranker */
     reranker?: RerankerDescription | ILLM;
     /** Experimental configuration */
     experimental?: ExperimentalConfig;
   }
   
-  // in the actual Continue source code
-  export interface ContinueConfig {
+  // in the actual Friday source code
+  export interface FridayConfig {
     models: ILLM[];
     systemMessage?: string;
     completionOptions?: BaseCompletionOptions;
@@ -1205,14 +1205,14 @@ declare global {
     embeddingsProvider: ILLM;
     tabAutocompleteModels?: ILLM[];
     tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
-    ui?: ContinueUIConfig;
+    ui?: FridayUIConfig;
     reranker?: ILLM;
     experimental?: ExperimentalConfig;
     docs?: SiteIndexingConfig[];
     tools: Tool[];
   }
   
-  export interface BrowserSerializedContinueConfig {
+  export interface BrowserSerializedFridayConfig {
     models: ModelDescription[];
     systemMessage?: string;
     completionOptions?: BaseCompletionOptions;
@@ -1222,7 +1222,7 @@ declare global {
     disableIndexing?: boolean;
     disableSessionTitles?: boolean;
     embeddingsProvider?: string;
-    ui?: ContinueUIConfig;
+    ui?: FridayUIConfig;
     reranker?: RerankerDescription;
     experimental?: ExperimentalConfig;
     docs?: SiteIndexingConfig[];

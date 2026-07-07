@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { z } from "zod";
 
 import { Chunk, LLMOptions } from "../../index.js";

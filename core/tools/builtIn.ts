@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export enum BuiltInToolNames {
   ReadFile = "read_file",
   ReadFileRange = "read_file_range",

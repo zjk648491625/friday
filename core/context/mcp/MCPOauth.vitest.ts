@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "node:fs";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { GlobalContext } from "../../util/GlobalContext";

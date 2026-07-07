@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Tiktoken, encodingForModel as _encodingForModel } from "js-tiktoken";
 
 import {
@@ -63,7 +64,7 @@ function asyncEncoderForModel(modelName: string): AsyncEncoder {
   const modelType = autodetectTemplateType(modelName);
   if (!modelType || modelType === "none") {
     // Right now there is a problem packaging js-tiktoken in workers. Until then falling back
-    // Cannot find package 'js-tiktoken' imported from /Users/nate/gh/continuedev/continue/extensions/vscode/out/tiktokenWorkerPool.mjs
+    // Cannot find package 'js-tiktoken' imported from /Users/nate/gh/friday-ai/friday/extensions/vscode/out/tiktokenWorkerPool.mjs
     // return gptAsyncEncoder;
     return llamaAsyncEncoder;
   }

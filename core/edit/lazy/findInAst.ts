@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import Parser from "web-tree-sitter";
 
 export function findInAst(

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Prompt } from "@continuedev/config-yaml";
 import { SlashCommandWithSource } from "../..";
 

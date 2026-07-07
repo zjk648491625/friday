@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   ChatMessage,
   ILLM,
@@ -19,7 +20,7 @@ const DUD_PROMPT_LOG: PromptLog = {
   completion: "",
 };
 
-const RECURSIVE_PROMPT = `Continue EXACTLY where you left`;
+const RECURSIVE_PROMPT = `Friday EXACTLY where you left`;
 
 export async function* recursiveStream(
   llm: ILLM,

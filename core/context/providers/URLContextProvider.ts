@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Readability } from "@mozilla/readability";
 import { JSDOM } from "jsdom";
 import { NodeHtmlMarkdown } from "node-html-markdown";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { GPTAsyncEncoder, LlamaAsyncEncoder } from "./asyncEncoder";
 
 describe("llama encoder", () => {

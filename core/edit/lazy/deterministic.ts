@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import path from "path";
 
 import { distance } from "fastest-levenshtein";
@@ -381,7 +382,7 @@ function findLazyBlockReplacements(
       isLazy = true;
       currentLazyBlockNode = R;
       rightChildren.shift();
-      continue;
+      friday;
     }
 
     // Look for the first match of L

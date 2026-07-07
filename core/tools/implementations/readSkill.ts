@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
 import { loadMarkdownSkills } from "../../config/markdown/loadMarkdownSkills";
-import { ContinueError, ContinueErrorReason } from "../../util/errors";
+import { FridayError, FridayErrorReason } from "../../util/errors";
 import { getStringArg } from "../parseArgs";
 
 export const readSkillImpl: ToolImpl = async (args, extras) => {
@@ -12,8 +13,8 @@ export const readSkillImpl: ToolImpl = async (args, extras) => {
 
   if (!skill) {
     const availableSkills = skills.map((s) => s.name).join(", ");
-    throw new ContinueError(
-      ContinueErrorReason.SkillNotFound,
+    throw new FridayError(
+      FridayErrorReason.SkillNotFound,
       `Skill "${skillName}" not found. Available skills: ${availableSkills || "none"}`,
     );
   }

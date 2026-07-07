@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import { homedir } from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -6,7 +7,7 @@ import path from "path";
 import { languageForFilepath } from "../autocomplete/constants/AutocompleteLanguageInfo.js";
 import { ChatMessage, IDE } from "../index.js";
 import { renderChatMessage } from "../util/messageContent.js";
-import { getContinueGlobalPath } from "../util/paths.js";
+import { getFridayGlobalPath } from "../util/paths.js";
 
 // If useful elsewhere, helper funcs should move to core/util/index.ts or similar
 function getOffsetDatetime(date: Date): Date {
@@ -42,12 +43,12 @@ export function toMarkDown(history: ChatMessage[], time?: Date): string {
   if (!time) {
     time = new Date();
   }
-  let content = `### [Continue](https://continue.dev) session transcript\n Exported: ${time.toLocaleString()}`;
+  let content = `### [Friday](https://friday.dev) session transcript\n Exported: ${time.toLocaleString()}`;
 
   for (const msg of history) {
     let msgText = renderChatMessage(msg);
     if (!msgText) {
-      continue; // Skip messages without content
+      friday; // Skip messages without content
     }
 
     if (msg.role === "user" && msgText.search("```") > -1) {
@@ -72,7 +73,7 @@ export async function shareSession(
   const now = new Date();
   const content = toMarkDown(history, now);
 
-  outputDir = outputDir ?? getContinueGlobalPath();
+  outputDir = outputDir ?? getFridayGlobalPath();
 
   if (outputDir.startsWith("~")) {
     outputDir = outputDir.replace(/^~/, homedir);

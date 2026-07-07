@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Tool } from "../..";
 import { validateMultiEdit } from "../../edit/searchAndReplace/multiEditValidation";
 import { executeMultiFindAndReplace } from "../../edit/searchAndReplace/performReplace";

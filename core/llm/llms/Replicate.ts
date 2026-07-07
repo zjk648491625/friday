@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import ReplicateClient from "replicate";
 
 import { ChatMessage, CompletionOptions, LLMOptions } from "../../index.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 import { homedir } from "os";
@@ -87,7 +88,7 @@ class MCPConnection {
 
     this.client = new Client(
       {
-        name: "continue-client",
+        name: "friday-client",
         version: "1.0.0",
       },
       {
@@ -181,8 +182,8 @@ class MCPConnection {
     if (unrendered.length > 0) {
       this.errors.push(
         `${this.options.name} MCP Server has unresolved secrets: ${unrendered.join(", ")}.
-For personal use you can set the secret in the hub at https://continue.dev/settings/secrets.
-Org-level secrets can only be used for MCP by Background Agents (https://docs.continue.dev/hub/agents/overview) when \"Include in Env\" is enabled.`,
+For personal use you can set the secret in the hub at https://friday.dev/settings/secrets.
+Org-level secrets can only be used for MCP by Background Agents (https://docs.friday.dev/hub/agents/overview) when \"Include in Env\" is enabled.`,
       );
     }
 

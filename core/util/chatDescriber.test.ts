@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMFullCompletionOptions } from "..";
 import { testLLM } from "../test/fixtures";
 import { ChatDescriber } from "./chatDescriber";

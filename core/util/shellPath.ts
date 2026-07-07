@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec } from "child_process";
 import { promisify } from "util";
 
