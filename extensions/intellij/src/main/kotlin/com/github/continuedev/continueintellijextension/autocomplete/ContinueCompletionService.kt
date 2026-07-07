@@ -1,8 +1,9 @@
-package com.github.continuedev.continueintellijextension.autocomplete
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.autocomplete
 
-import com.github.continuedev.continueintellijextension.`continue`.ProfileInfoService
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.utils.castNestedOrNull
+import com.github.fridayai.fridayintellijextension.`friday`.ProfileInfoService
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.utils.castNestedOrNull
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
@@ -11,14 +12,14 @@ import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.Duration.Companion.milliseconds
 
 @Service(Service.Level.PROJECT)
-class ContinueCompletionService(private val project: Project) : CompletionService {
+class FridayCompletionService(private val project: Project) : CompletionService {
 
     override suspend fun getAutocomplete(uuid: String, url: String, line: Int, column: Int): String? {
         val requestInput = getCompletionInput(uuid, url, line, column)
         val modelTimeout = project.service<ProfileInfoService>().fetchModelTimeoutOrNull() ?: 1000.0
         return withTimeoutOrNull(modelTimeout.milliseconds * 3) {
             suspendCancellableCoroutine { continuation ->
-                project.service<ContinuePluginService>().coreMessenger?.request(
+                project.service<FridayPluginService>().coreMessenger?.request(
                     "autocomplete/complete",
                     requestInput,
                     null
@@ -31,7 +32,7 @@ class ContinueCompletionService(private val project: Project) : CompletionServic
     }
 
     override fun acceptAutocomplete(uuid: String?) {
-        project.service<ContinuePluginService>().coreMessenger?.request(
+        project.service<FridayPluginService>().coreMessenger?.request(
             "autocomplete/accept",
             mapOf("completionId" to uuid),
             null

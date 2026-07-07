@@ -1,8 +1,9 @@
-package com.github.continuedev.continueintellijextension.nextEdit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.nextEdit
 
-import com.github.continuedev.continueintellijextension.Position
-import com.github.continuedev.continueintellijextension.`continue`.CoreMessenger
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
+import com.github.fridayai.fridayintellijextension.Position
+import com.github.fridayai.fridayintellijextension.`friday`.CoreMessenger
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
 import com.intellij.codeInsight.inline.completion.InlineCompletionRequest
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
@@ -43,11 +44,11 @@ interface NextEditService {
 }
 
 @Service(Service.Level.PROJECT)
-class ContinueNextEditService(private val project: Project) : NextEditService {
+class FridayNextEditService(private val project: Project) : NextEditService {
     private val displayedCompletions = mutableMapOf<String, NextEditOutcome>()
 
     private val coreMessenger: CoreMessenger?
-        get() = project.service<ContinuePluginService>().coreMessenger
+        get() = project.service<FridayPluginService>().coreMessenger
 
     // Case 1: Typing (chain does not exist).
     override suspend fun handleCase1(
@@ -345,8 +346,8 @@ class ContinueNextEditService(private val project: Project) : NextEditService {
                 character = (endMap["character"] as? Number)?.toInt() ?: 0
             )
 
-            val range = com.github.continuedev.continueintellijextension.Range(startPosition, endPosition)
-            val location = com.github.continuedev.continueintellijextension.RangeInFile(filepath, range)
+            val range = com.github.fridayai.fridayintellijextension.Range(startPosition, endPosition)
+            val location = com.github.fridayai.fridayintellijextension.RangeInFile(filepath, range)
 
             // Parse outcome (NextEditOutcome) - reuse existing logic from parseNextEditOutcome
             @Suppress("UNCHECKED_CAST")

@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.listeners
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.listeners
 
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditService
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditStatusService
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditService
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditStatusService
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Editor

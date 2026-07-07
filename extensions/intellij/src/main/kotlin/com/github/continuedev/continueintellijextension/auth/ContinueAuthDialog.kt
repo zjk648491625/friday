@@ -1,12 +1,12 @@
 // Modified by Friday AI Team - Cloud auth stripped (local-only mode)
-package com.github.continuedev.continueintellijextension.auth
+package com.github.fridayai.fridayintellijextension.auth
 
 import com.intellij.openapi.ui.DialogWrapper
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-class ContinueAuthDialog(
+class FridayAuthDialog(
     private val useOnboarding: Boolean,
     private val authUrl: String? = null,
     private val onTokenEntered: (String) -> Unit,

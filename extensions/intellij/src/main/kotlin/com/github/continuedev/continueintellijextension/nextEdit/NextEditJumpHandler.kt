@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.nextEdit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.nextEdit
 
-import com.github.continuedev.continueintellijextension.listeners.CursorMovementHandler
+import com.github.fridayai.fridayintellijextension.listeners.CursorMovementHandler
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition
 import com.intellij.openapi.project.Project

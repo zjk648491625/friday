@@ -1,9 +1,10 @@
-package com.github.continuedev.continueintellijextension.nextEdit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.nextEdit
 
-import com.github.continuedev.continueintellijextension.Position
-import com.github.continuedev.continueintellijextension.listeners.ActiveHandlerManager
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.utils.InlineCompletionUtils
+import com.github.fridayai.fridayintellijextension.Position
+import com.github.fridayai.fridayintellijextension.listeners.ActiveHandlerManager
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.utils.InlineCompletionUtils
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.command.WriteCommandAction
@@ -792,7 +793,7 @@ class NextEditWindowManager(private val project: Project) {
 
         // Log acceptance
         currentCompletionId?.let {
-            project.service<ContinuePluginService>().coreMessenger?.request(
+            project.service<FridayPluginService>().coreMessenger?.request(
                 "nextEdit/accept",
                 mapOf("completionId" to currentCompletionId),
                 null
@@ -809,7 +810,7 @@ class NextEditWindowManager(private val project: Project) {
 
         // Log rejection and delete chain
         currentCompletionId?.let {
-            project.service<ContinuePluginService>().coreMessenger?.request(
+            project.service<FridayPluginService>().coreMessenger?.request(
                 "nextEdit/reject",
                 mapOf("completionId" to currentCompletionId),
                 null

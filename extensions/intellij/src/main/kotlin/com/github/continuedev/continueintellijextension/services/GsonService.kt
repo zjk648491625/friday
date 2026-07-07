@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.services
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.services
 
 import com.google.gson.Gson
 import com.intellij.openapi.components.Service

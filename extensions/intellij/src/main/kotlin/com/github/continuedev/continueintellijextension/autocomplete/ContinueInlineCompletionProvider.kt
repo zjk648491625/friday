@@ -1,14 +1,15 @@
-package com.github.continuedev.continueintellijextension.autocomplete
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.autocomplete
 
-import com.github.continuedev.continueintellijextension.FimResult
-import com.github.continuedev.continueintellijextension.Position
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditJumpManager
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditService
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditStatusService
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditUtils
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditWindowManager
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
-import com.github.continuedev.continueintellijextension.utils.uuid
+import com.github.fridayai.fridayintellijextension.FimResult
+import com.github.fridayai.fridayintellijextension.Position
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditJumpManager
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditService
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditStatusService
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditUtils
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditWindowManager
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
+import com.github.fridayai.fridayintellijextension.utils.uuid
 import com.intellij.codeInsight.inline.completion.*
 import com.intellij.codeInsight.inline.completion.elements.InlineCompletionElement
 import com.intellij.codeInsight.inline.completion.elements.InlineCompletionGrayTextElement
@@ -20,15 +21,15 @@ import com.intellij.openapi.project.Project
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 
-class ContinueInlineCompletionProvider : InlineCompletionProvider {
-    override val id get() = InlineCompletionProviderID("Continue")
+class FridayInlineCompletionProvider : InlineCompletionProvider {
+    override val id get() = InlineCompletionProviderID("Friday")
     override val insertHandler: InlineCompletionInsertHandler = NotifyingHandler()
     private var lastUuid: String? = null
     private var lastProject: Project? = null
     private var isUsingNextEdit = false
 
     override fun isEnabled(event: InlineCompletionEvent): Boolean {
-        val isSettingEnabled = ContinueExtensionSettings.instance.continueState.enableTabAutocomplete
+        val isSettingEnabled = FridayExtensionSettings.instance.fridayState.enableTabAutocomplete
         val isEventOk = event is InlineCompletionEvent.DirectCall
                 || event is InlineCompletionEvent.DocumentChange
                 || event is InlineCompletionEvent.LookupChange

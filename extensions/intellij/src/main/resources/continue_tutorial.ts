@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 //                        _________               _____ _____
 //                           __  ____/______ _______ __  /____(_)_______ ____  _______
 //                           _  /     _  __ \__  __ \_  __/__  / __  __ \_  / / /_  _ \
@@ -20,7 +21,7 @@
 
 // 1. Highlight the code below
 // 2. Press [Cmd/Ctrl + I] to Edit
-// 3. Try asking Continue to "make this more readable"
+// 3. Try asking Friday to "make this more readable"
 function sortingAlgorithm(x: number[]): number[] {
   for (let i = 0; i < x.length; i++) {
     for (let j = 0; j < x.length - 1; j++) {
@@ -39,7 +40,7 @@ function sortingAlgorithm(x: number[]): number[] {
 
 // 1. Highlight the code below
 // 2. Press [Cmd/Ctrl + J] to add to Chat
-// 3. Try asking Continue "what sorting algorithm is this?"
+// 3. Try asking Friday "what sorting algorithm is this?"
 function sortingAlgorithm2(x: number[]): number[] {
   for (let i = 0; i < x.length; i++) {
     for (let j = 0; j < x.length - 1; j++) {
@@ -58,6 +59,6 @@ function sortingAlgorithm2(x: number[]): number[] {
 //              the model to make decisions and save you the work of manually finding context and performing actions.
 
 // 1. Switch from "Chat" to "Agent" mode using the dropdown in the bottom left of the input box
-// 2. Use the "/init" slash command to generate a CONTINUE.md file
+// 2. Use the "/init" slash command to generate a FRIDAY.md file
 
   // ——————————————————      Learn more at https://docs.continue.dev      ——————————————————— //

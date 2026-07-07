@@ -1,13 +1,14 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
-import com.github.continuedev.continueintellijextension.constants.MessageTypes
-import com.github.continuedev.continueintellijextension.`continue`.process.ContinueBinaryProcess
-import com.github.continuedev.continueintellijextension.`continue`.process.ContinueProcessHandler
-import com.github.continuedev.continueintellijextension.`continue`.process.ContinueSocketProcess
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.services.GsonService
-import com.github.continuedev.continueintellijextension.utils.uuid
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.constants.MessageTypes
+import com.github.fridayai.fridayintellijextension.`friday`.process.FridayBinaryProcess
+import com.github.fridayai.fridayintellijextension.`friday`.process.FridayProcessHandler
+import com.github.fridayai.fridayintellijextension.`friday`.process.FridaySocketProcess
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.services.GsonService
+import com.github.fridayai.fridayintellijextension.utils.uuid
 import com.google.gson.JsonSyntaxException
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Logger
@@ -23,7 +24,7 @@ class CoreMessenger(
 ) {
     private val gson = gsonService.gson
     private val responseListeners = mutableMapOf<String, (Any?) -> Unit>()
-    private var process = startContinueProcess()
+    private var process = startFridayProcess()
     private val log = Logger.getInstance(CoreMessenger::class.java.simpleName)
 
     fun request(messageType: String, data: Any?, messageId: String?, onResponse: (Any?) -> Unit) {
@@ -33,13 +34,13 @@ class CoreMessenger(
         process.write(message)
     }
 
-    private fun startContinueProcess(): ContinueProcessHandler {
+    private fun startFridayProcess(): FridayProcessHandler {
         val isTcp = System.getenv("USE_TCP")?.toBoolean() ?: false
         val process = if (isTcp)
-            ContinueSocketProcess()
+            FridaySocketProcess()
         else
-            ContinueBinaryProcess(onUnexpectedExit)
-        return ContinueProcessHandler(coroutineScope, process, ::handleMessage)
+            FridayBinaryProcess(onUnexpectedExit)
+        return FridayProcessHandler(coroutineScope, process, ::handleMessage)
     }
 
     private fun handleMessage(json: String) {
@@ -84,14 +85,14 @@ class CoreMessenger(
         }
 
     fun restart() {
-        log.warn("Restarting Continue process")
+        log.warn("Restarting Friday process")
         responseListeners.clear()
         process.close()
-        process = startContinueProcess()
+        process = startFridayProcess()
     }
 
     fun close() {
-        log.warn("Closing Continue process")
+        log.warn("Closing Friday process")
         process.close()
     }
 }

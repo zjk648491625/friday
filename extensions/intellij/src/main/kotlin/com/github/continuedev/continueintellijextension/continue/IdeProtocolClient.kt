@@ -1,18 +1,19 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.*
-import com.github.continuedev.continueintellijextension.activities.ContinuePluginDisposable
-import com.github.continuedev.continueintellijextension.activities.showTutorial
+import com.github.fridayai.fridayintellijextension.*
+import com.github.fridayai.fridayintellijextension.activities.FridayPluginDisposable
+import com.github.fridayai.fridayintellijextension.activities.showTutorial
 
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
-import com.github.continuedev.continueintellijextension.editor.DiffStreamService
-import com.github.continuedev.continueintellijextension.editor.EditorUtils
-import com.github.continuedev.continueintellijextension.protocol.*
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.services.GsonService
-import com.github.continuedev.continueintellijextension.utils.getMachineUniqueID
-import com.github.continuedev.continueintellijextension.utils.uuid
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.editor.DiffStreamService
+import com.github.fridayai.fridayintellijextension.editor.EditorUtils
+import com.github.fridayai.fridayintellijextension.protocol.*
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.services.GsonService
+import com.github.fridayai.fridayintellijextension.utils.getMachineUniqueID
+import com.github.fridayai.fridayintellijextension.utils.uuid
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
@@ -31,12 +32,12 @@ import java.awt.datatransfer.StringSelection
 
 
 class IdeProtocolClient(
-    private val continuePluginService: ContinuePluginService,
+    private val fridayPluginService: FridayPluginService,
     private val coroutineScope: CoroutineScope,
     private val project: Project,
     private val gsonService: GsonService = service<GsonService>(),
 ) : DumbAware {
-    private val ide: IDE = IntelliJIDE(project, continuePluginService)
+    private val ide: IDE = IntelliJIDE(project, fridayPluginService)
     private val diffStreamService = project.service<DiffStreamService>()
 
 
@@ -76,10 +77,10 @@ class IdeProtocolClient(
 
                     "jetbrains/onLoad" -> {
                         val jsonData = mutableMapOf(
-                            "windowId" to continuePluginService.windowId,
-                            "workspacePaths" to continuePluginService.workspacePaths,
+                            "windowId" to fridayPluginService.windowId,
+                            "workspacePaths" to fridayPluginService.workspacePaths,
                             "vscMachineId" to getMachineUniqueID(),
-                            "vscMediaUrl" to "http://continue",
+                            "vscMediaUrl" to "http://friday",
                         )
                         respond(jsonData)
                     }
@@ -327,7 +328,7 @@ class IdeProtocolClient(
                     "closeSidebar" -> {
                         ApplicationManager.getApplication().invokeLater {
                             val toolWindowManager = ToolWindowManager.getInstance(project)
-                            val toolWindow = toolWindowManager.getToolWindow("Continue")
+                            val toolWindow = toolWindowManager.getToolWindow("Friday")
                             toolWindow?.hide()
                         }
                     }
@@ -433,7 +434,7 @@ class IdeProtocolClient(
 
                         ApplyToFileHandler.apply(
                             project,
-                            continuePluginService,
+                            fridayPluginService,
                             ide,
                             params
                         )

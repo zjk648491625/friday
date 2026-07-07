@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.`continue`.process
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`.process
 
 import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.*
@@ -8,9 +9,9 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 
-class ContinueProcessHandler(
+class FridayProcessHandler(
     parentScope: CoroutineScope,
-    private val process: ContinueProcess,
+    private val process: FridayProcess,
     handleMessage: (String) -> (Unit)
 ) {
     private val innerJob = Job()
@@ -18,7 +19,7 @@ class ContinueProcessHandler(
     private val pendingWrites = Channel<String>(Channel.UNLIMITED)
     private val writer = OutputStreamWriter(process.output)
     private val reader = BufferedReader(InputStreamReader(process.input))
-    private val log = Logger.getInstance(ContinueProcessHandler::class.java)
+    private val log = Logger.getInstance(FridayProcessHandler::class.java)
 
     init {
         scope.launch(Dispatchers.IO) {

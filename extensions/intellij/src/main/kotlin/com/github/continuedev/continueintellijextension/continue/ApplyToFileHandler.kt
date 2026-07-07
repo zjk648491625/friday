@@ -1,15 +1,16 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.ApplyState
-import com.github.continuedev.continueintellijextension.ApplyStateStatus
-import com.github.continuedev.continueintellijextension.IDE
-import com.github.continuedev.continueintellijextension.ToastType
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
-import com.github.continuedev.continueintellijextension.editor.DiffStreamHandler
-import com.github.continuedev.continueintellijextension.editor.DiffStreamService
-import com.github.continuedev.continueintellijextension.editor.EditorUtils
-import com.github.continuedev.continueintellijextension.protocol.ApplyToFileParams
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
+import com.github.fridayai.fridayintellijextension.ApplyState
+import com.github.fridayai.fridayintellijextension.ApplyStateStatus
+import com.github.fridayai.fridayintellijextension.IDE
+import com.github.fridayai.fridayintellijextension.ToastType
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.editor.DiffStreamHandler
+import com.github.fridayai.fridayintellijextension.editor.DiffStreamService
+import com.github.fridayai.fridayintellijextension.editor.EditorUtils
+import com.github.fridayai.fridayintellijextension.protocol.ApplyToFileParams
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -19,7 +20,7 @@ import com.intellij.openapi.project.Project
  */
 class ApplyToFileHandler(
     private val project: Project,
-    private val continuePluginService: ContinuePluginService,
+    private val fridayPluginService: FridayPluginService,
     private val ide: IDE,
     private val params: ApplyToFileParams,
     private val editorUtils: EditorUtils?,
@@ -164,7 +165,7 @@ class ApplyToFileHandler(
          * Factory method to create and execute a new handler for a single apply-to-file operation
          */
         suspend fun apply(
-            project: Project, continuePluginService: ContinuePluginService, ide: IDE, params: ApplyToFileParams
+            project: Project, fridayPluginService: FridayPluginService, ide: IDE, params: ApplyToFileParams
         ) {
             val editorUtils =
                 if (EditorUtils.editorFileExist(params.filepath)) EditorUtils.getOrOpenEditor(project, params.filepath)
@@ -173,7 +174,7 @@ class ApplyToFileHandler(
             val diffStreamService = project.service<DiffStreamService>()
 
             val handler = ApplyToFileHandler(
-                project, continuePluginService, ide, params, editorUtils, diffStreamService
+                project, fridayPluginService, ide, params, editorUtils, diffStreamService
             )
 
             handler.handleApplyToFile()

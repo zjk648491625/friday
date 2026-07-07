@@ -1,11 +1,12 @@
-package com.github.continuedev.continueintellijextension.editor
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.editor
 
-import com.github.continuedev.continueintellijextension.ApplyState
-import com.github.continuedev.continueintellijextension.ApplyStateStatus
-import com.github.continuedev.continueintellijextension.StreamDiffLinesPayload
-import com.github.continuedev.continueintellijextension.GetDiffLinesPayload
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
+import com.github.fridayai.fridayintellijextension.ApplyState
+import com.github.fridayai.fridayintellijextension.ApplyStateStatus
+import com.github.fridayai.fridayintellijextension.StreamDiffLinesPayload
+import com.github.fridayai.fridayintellijextension.GetDiffLinesPayload
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.command.undo.UndoManager
@@ -104,7 +105,7 @@ class DiffStreamHandler(
         isRunning = true
         sendUpdate(ApplyStateStatus.STREAMING)
 
-        project.service<ContinuePluginService>().coreMessenger?.request(
+        project.service<FridayPluginService>().coreMessenger?.request(
             "streamDiffLines",
             StreamDiffLinesPayload(
                 input = input,
@@ -139,7 +140,7 @@ class DiffStreamHandler(
         isRunning = true
         sendUpdate(ApplyStateStatus.STREAMING)
 
-        project.service<ContinuePluginService>().coreMessenger?.request(
+        project.service<FridayPluginService>().coreMessenger?.request(
             "getDiffLines",
             GetDiffLinesPayload(
                 oldContent=currentContent,
@@ -268,7 +269,7 @@ class DiffStreamHandler(
         if (editor.document.lineCount == 0) return
 
         val editorUtils = EditorUtils(editor)
-        val unfinishedKey = editorUtils.createTextAttributesKey("CONTINUE_DIFF_UNFINISHED_LINE", 0x20888888)
+        val unfinishedKey = editorUtils.createTextAttributesKey("FRIDAY_DIFF_UNFINISHED_LINE", 0x20888888)
 
         for (i in startLine..endLine) {
             val highlighter = editor.markupModel.addLineHighlighter(
@@ -358,7 +359,7 @@ class DiffStreamHandler(
 
     private fun updateProgressHighlighters(type: DiffLineType) {
         val editorUtils = EditorUtils(editor)
-        val curLineKey = editorUtils.createTextAttributesKey("CONTINUE_DIFF_CURRENT_LINE", 0x40888888)
+        val curLineKey = editorUtils.createTextAttributesKey("FRIDAY_DIFF_CURRENT_LINE", 0x40888888)
 
         // Update the highlighter to show the current line
         curLine.highlighter?.let { editor.markupModel.removeHighlighter(it) }

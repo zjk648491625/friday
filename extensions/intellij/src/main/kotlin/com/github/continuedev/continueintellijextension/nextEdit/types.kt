@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.nextEdit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.nextEdit
 
-import com.github.continuedev.continueintellijextension.Position
-import com.github.continuedev.continueintellijextension.RangeInFile
+import com.github.fridayai.fridayintellijextension.Position
+import com.github.fridayai.fridayintellijextension.RangeInFile
 
 //data class NextEditOutcome(
 //    val completion: String,

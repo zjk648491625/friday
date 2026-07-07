@@ -1,11 +1,12 @@
-package com.github.continuedev.continueintellijextension.unit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.unit
 
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowser
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowser.Companion.buildChunkScripts
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowser
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowser.Companion.buildChunkScripts
 import junit.framework.TestCase
 import java.util.Base64
 
-class ContinueBrowserChunkTest : TestCase() {
+class FridayBrowserChunkTest : TestCase() {
 
     fun `test small message produces single chunk`() {
         val json = """{"messageType":"test","data":"hello"}"""
@@ -17,7 +18,7 @@ class ContinueBrowserChunkTest : TestCase() {
 
     fun `test message splits into expected number of chunks`() {
         val json = """{"data":"${"x".repeat(2_000_000)}"}"""
-        val chunkSize = ContinueBrowser.CHUNK_SIZE
+        val chunkSize = FridayBrowser.CHUNK_SIZE
         val encoded = Base64.getEncoder().encodeToString(json.toByteArray(Charsets.UTF_8))
         val expectedChunks = (encoded.length + chunkSize - 1) / chunkSize
 

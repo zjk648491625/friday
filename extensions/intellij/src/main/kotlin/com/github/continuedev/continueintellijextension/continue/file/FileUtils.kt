@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.`continue`.file
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`.file
 
-import com.github.continuedev.continueintellijextension.FileStats
-import com.github.continuedev.continueintellijextension.FileType
+import com.github.fridayai.fridayintellijextension.FileStats
+import com.github.fridayai.fridayintellijextension.FileType
 import com.intellij.openapi.application.runReadAction
 import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.diagnostic.Logger

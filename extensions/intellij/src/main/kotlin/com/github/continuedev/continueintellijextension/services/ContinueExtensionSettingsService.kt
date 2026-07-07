@@ -1,5 +1,5 @@
 // Modified by Friday AI Team - Stripped cloud sync, remote config, userToken (local-only mode)
-package com.github.continuedev.continueintellijextension.services
+package com.github.fridayai.fridayintellijextension.services
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
@@ -13,7 +13,7 @@ import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.*
 
-class ContinueSettingsComponent : DumbAware {
+class FridaySettingsComponent : DumbAware {
     val panel: JPanel = JPanel(GridBagLayout())
     val enableTabAutocomplete: JCheckBox = JCheckBox("Enable Tab Autocomplete")
     val displayEditorTooltip: JCheckBox = JCheckBox("Display Editor Tooltip")
@@ -45,12 +45,12 @@ class ContinueSettingsComponent : DumbAware {
 }
 
 @State(
-    name = "com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings",
-    storages = [Storage("ContinueExtensionSettings.xml")]
+    name = "com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings",
+    storages = [Storage("FridayExtensionSettings.xml")]
 )
-open class ContinueExtensionSettings : PersistentStateComponent<ContinueExtensionSettings.ContinueState> {
+open class FridayExtensionSettings : PersistentStateComponent<FridayExtensionSettings.FridayState> {
 
-    class ContinueState {
+    class FridayState {
         var lastSelectedInlineEditModel: String? = null
         var shownWelcomeDialog: Boolean = false
         var enableTabAutocomplete: Boolean = true
@@ -58,19 +58,19 @@ open class ContinueExtensionSettings : PersistentStateComponent<ContinueExtensio
         var showIDECompletionSideBySide: Boolean = false
     }
 
-    var continueState: ContinueState = ContinueState()
+    var fridayState: FridayState = FridayState()
 
-    override fun getState(): ContinueState {
-        return continueState
+    override fun getState(): FridayState {
+        return fridayState
     }
 
-    override fun loadState(state: ContinueState) {
-        continueState = state
+    override fun loadState(state: FridayState) {
+        fridayState = state
     }
 
     companion object {
-        val instance: ContinueExtensionSettings
-            get() = service<ContinueExtensionSettings>()
+        val instance: FridayExtensionSettings
+            get() = service<FridayExtensionSettings>()
     }
 
     // Friday AI: Remote sync removed (local-only mode)
@@ -80,47 +80,47 @@ open class ContinueExtensionSettings : PersistentStateComponent<ContinueExtensio
 }
 
 interface SettingsListener {
-    fun settingsUpdated(settings: ContinueExtensionSettings.ContinueState)
+    fun settingsUpdated(settings: FridayExtensionSettings.FridayState)
 
     companion object {
         val TOPIC = Topic.create("SettingsUpdate", SettingsListener::class.java)
     }
 }
 
-class ContinueExtensionConfigurable : Configurable {
-    private var mySettingsComponent: ContinueSettingsComponent? = null
+class FridayExtensionConfigurable : Configurable {
+    private var mySettingsComponent: FridaySettingsComponent? = null
 
     override fun createComponent(): JComponent {
-        mySettingsComponent = ContinueSettingsComponent()
+        mySettingsComponent = FridaySettingsComponent()
         return mySettingsComponent!!.panel
     }
 
     override fun isModified(): Boolean {
-        val settings = ContinueExtensionSettings.instance
+        val settings = FridayExtensionSettings.instance
         val modified =
-            mySettingsComponent?.enableTabAutocomplete?.isSelected != settings.continueState.enableTabAutocomplete ||
-                    mySettingsComponent?.displayEditorTooltip?.isSelected != settings.continueState.displayEditorTooltip ||
-                    mySettingsComponent?.showIDECompletionSideBySide?.isSelected != settings.continueState.showIDECompletionSideBySide
+            mySettingsComponent?.enableTabAutocomplete?.isSelected != settings.fridayState.enableTabAutocomplete ||
+                    mySettingsComponent?.displayEditorTooltip?.isSelected != settings.fridayState.displayEditorTooltip ||
+                    mySettingsComponent?.showIDECompletionSideBySide?.isSelected != settings.fridayState.showIDECompletionSideBySide
         return modified
     }
 
     override fun apply() {
-        val settings = ContinueExtensionSettings.instance
-        settings.continueState.enableTabAutocomplete = mySettingsComponent?.enableTabAutocomplete?.isSelected ?: false
-        settings.continueState.displayEditorTooltip = mySettingsComponent?.displayEditorTooltip?.isSelected ?: true
-        settings.continueState.showIDECompletionSideBySide =
+        val settings = FridayExtensionSettings.instance
+        settings.fridayState.enableTabAutocomplete = mySettingsComponent?.enableTabAutocomplete?.isSelected ?: false
+        settings.fridayState.displayEditorTooltip = mySettingsComponent?.displayEditorTooltip?.isSelected ?: true
+        settings.fridayState.showIDECompletionSideBySide =
             mySettingsComponent?.showIDECompletionSideBySide?.isSelected ?: false
 
         ApplicationManager.getApplication().messageBus.syncPublisher(SettingsListener.TOPIC)
-            .settingsUpdated(settings.continueState)
+            .settingsUpdated(settings.fridayState)
     }
 
     override fun reset() {
-        val settings = ContinueExtensionSettings.instance
-        mySettingsComponent?.enableTabAutocomplete?.isSelected = settings.continueState.enableTabAutocomplete
-        mySettingsComponent?.displayEditorTooltip?.isSelected = settings.continueState.displayEditorTooltip
+        val settings = FridayExtensionSettings.instance
+        mySettingsComponent?.enableTabAutocomplete?.isSelected = settings.fridayState.enableTabAutocomplete
+        mySettingsComponent?.displayEditorTooltip?.isSelected = settings.fridayState.displayEditorTooltip
         mySettingsComponent?.showIDECompletionSideBySide?.isSelected =
-            settings.continueState.showIDECompletionSideBySide
+            settings.fridayState.showIDECompletionSideBySide
     }
 
     override fun disposeUIResources() {

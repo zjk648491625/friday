@@ -1,10 +1,11 @@
-package com.github.continuedev.continueintellijextension
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension
 
 import com.intellij.openapi.util.IconLoader
 
 object Icons {
     @JvmField
-    val Continue = IconLoader.getIcon("/icons/continue.svg", javaClass)
+    val Friday = IconLoader.getIcon("/icons/friday.svg", javaClass)
     @JvmField
     val Close = IconLoader.getIcon("/icons/close.svg", javaClass)
 }

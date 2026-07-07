@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.browser
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.browser
 
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
@@ -9,9 +10,9 @@ import com.intellij.openapi.util.Disposer
 import com.intellij.ui.jcef.JBCefApp
 
 @Service(Service.Level.PROJECT)
-class ContinueBrowserService(val project: Project): Disposable {
+class FridayBrowserService(val project: Project): Disposable {
 
-    private var browser: ContinueBrowser? = null
+    private var browser: FridayBrowser? = null
 
     init {
         load()
@@ -22,14 +23,14 @@ class ContinueBrowserService(val project: Project): Disposable {
         browser = null
     }
 
-    private fun load(): ContinueBrowser? {
+    private fun load(): FridayBrowser? {
         if (browser != null) {
             return browser
         }
         if (!JBCefApp.isSupported()) {
             return null
         }
-        val newBrowser = ContinueBrowser(project)
+        val newBrowser = FridayBrowser(project)
         Disposer.register(this, newBrowser)
 
         this.browser = newBrowser
@@ -58,10 +59,10 @@ class ContinueBrowserService(val project: Project): Disposable {
 
     companion object {
 
-        fun Project.getBrowser(): ContinueBrowser? {
+        fun Project.getBrowser(): FridayBrowser? {
             if (isDisposed)
                 return null
-            return service<ContinueBrowserService>().browser
+            return service<FridayBrowserService>().browser
         }
 
     }

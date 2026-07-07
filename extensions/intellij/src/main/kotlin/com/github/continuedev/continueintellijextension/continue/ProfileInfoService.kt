@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.utils.castNestedOrNull
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.utils.castNestedOrNull
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Logger
@@ -43,7 +44,7 @@ class ProfileInfoService(private val project: Project) {
     private suspend fun fetchOrNull(): Any? {
         val actual = withTimeoutOrNull(1.seconds) {
             suspendCancellableCoroutine { continuation ->
-                project.service<ContinuePluginService>().coreMessenger?.request(
+                project.service<FridayPluginService>().coreMessenger?.request(
                     "config/getSerializedProfileInfo",
                     null,
                     null

@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.protocol
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.protocol
 
 data class CopyTextParams(
     val text: String

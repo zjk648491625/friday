@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.constants
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.constants
 
 class MessageTypes {
     companion object {
@@ -58,7 +59,7 @@ class MessageTypes {
             "indexing/statusUpdate", // Docs, etc.
             "addContextItem",
             "refreshSubmenuItems",
-            "isContinueInputFocused",
+            "isFridayInputFocused",
             "setTTSActive",
             "getWebviewHistoryLength",
             "getCurrentSessionId",

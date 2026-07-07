@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension
 
-import com.github.continuedev.continueintellijextension.editor.VerticalDiffBlock
+import com.github.fridayai.fridayintellijextension.editor.VerticalDiffBlock
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
@@ -65,7 +66,7 @@ class VerticalDiffBlockTest : BasePlatformTestCase() {
         assertTrue("Expected at least one highlighter on the new line", highlighters.isNotEmpty())
 
         // Check the attributes of the highlighter
-        val expectedTextAttributesKey = TextAttributesKey.find("CONTINUE_DIFF_NEW_LINE")
+        val expectedTextAttributesKey = TextAttributesKey.find("FRIDAY_DIFF_NEW_LINE")
         val expectedAttributes = EditorColorsManager.getInstance().globalScheme.getAttributes(expectedTextAttributesKey)
         val highlighterAttributes = highlighters.first().textAttributes
 

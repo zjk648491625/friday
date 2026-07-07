@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.utils.toUriOrNull
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.utils.toUriOrNull
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,7 @@ import java.io.InputStreamReader
 
 class GitService(
     private val project: Project,
-    private val continuePluginService: ContinuePluginService
+    private val fridayPluginService: FridayPluginService
 ) {
 
 
@@ -57,7 +58,7 @@ class GitService(
     }
 
     private fun workspaceDirectories(): Array<String> {
-        val dirs = this.continuePluginService.workspacePaths
+        val dirs = this.fridayPluginService.workspacePaths
 
         if (dirs?.isNotEmpty() == true) {
             return dirs

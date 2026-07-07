@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.unit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.unit
 
-import com.github.continuedev.continueintellijextension.FimResult
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditUtils.checkFim
+import com.github.fridayai.fridayintellijextension.FimResult
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditUtils.checkFim
 import junit.framework.TestCase
 
 class CheckFimTest : TestCase() {

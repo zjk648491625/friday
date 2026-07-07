@@ -1,8 +1,9 @@
-package com.github.continuedev.continueintellijextension.listeners
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.listeners
 
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditService
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditJumpManager
-import com.github.continuedev.continueintellijextension.nextEdit.NextEditWindowManager
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditService
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditJumpManager
+import com.github.fridayai.fridayintellijextension.nextEdit.NextEditWindowManager
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Document
@@ -231,7 +232,7 @@ class SelectionChangeManager(private val project: Project) : SelectionListener, 
             } catch (err: Exception) {
                 println("Error in selection change handler '${registration.id}': ${err.message}")
                 err.printStackTrace()
-                // Don't break - continue to next handler
+                // Don't break - friday to next handler
             }
         }
     }

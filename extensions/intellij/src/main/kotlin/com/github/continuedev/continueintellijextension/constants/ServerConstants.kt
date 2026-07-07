@@ -2,7 +2,8 @@
  * Note: This file is out of sync with the contents of core/util/paths.ts, which we use in VS Code.
  * This is potentially causing JetBrains specific bugs.
  */
-package com.github.continuedev.continueintellijextension.constants
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.constants
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -71,16 +72,16 @@ export {
 };
 """
 
-fun getContinueGlobalPath(): String {
-  val continuePath = Paths.get(System.getProperty("user.home"), ".continue")
-  if (Files.notExists(continuePath)) {
-    Files.createDirectories(continuePath)
+fun getFridayGlobalPath(): String {
+  val fridayPath = Paths.get(System.getProperty("user.home"), ".friday")
+  if (Files.notExists(fridayPath)) {
+    Files.createDirectories(fridayPath)
   }
-  return continuePath.toString()
+  return fridayPath.toString()
 }
 
-fun getContinueRemoteConfigPath(remoteHostname: String): String {
-  val path = Paths.get(getContinueGlobalPath(), ".configs")
+fun getFridayRemoteConfigPath(remoteHostname: String): String {
+  val path = Paths.get(getFridayGlobalPath(), ".configs")
   if (Files.notExists(path)) {
     Files.createDirectories(path)
   }
@@ -90,8 +91,8 @@ fun getContinueRemoteConfigPath(remoteHostname: String): String {
 fun getConfigJsonPath(remoteHostname: String? = null): String {
   val path =
       Paths.get(
-          if (remoteHostname != null) getContinueRemoteConfigPath(remoteHostname)
-          else getContinueGlobalPath(),
+          if (remoteHostname != null) getFridayRemoteConfigPath(remoteHostname)
+          else getFridayGlobalPath(),
           "config.json")
   if (Files.notExists(path)) {
     Files.createFile(path)
@@ -103,8 +104,8 @@ fun getConfigJsonPath(remoteHostname: String? = null): String {
 fun getConfigJsPath(remoteHostname: String? = null): String {
   val path =
       Paths.get(
-          if (remoteHostname != null) getContinueRemoteConfigPath(remoteHostname)
-          else getContinueGlobalPath(),
+          if (remoteHostname != null) getFridayRemoteConfigPath(remoteHostname)
+          else getFridayGlobalPath(),
           "config.js")
   if (Files.notExists(path)) {
     Files.createFile(path)
@@ -114,7 +115,7 @@ fun getConfigJsPath(remoteHostname: String? = null): String {
 }
 
 fun getSessionsDir(): String {
-  val path = Paths.get(getContinueGlobalPath(), "sessions")
+  val path = Paths.get(getFridayGlobalPath(), "sessions")
   if (Files.notExists(path)) {
     Files.createDirectories(path)
   }

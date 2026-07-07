@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.autocomplete
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.autocomplete
 
 
 interface CompletionService {

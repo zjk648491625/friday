@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.proxy
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.proxy
 
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -27,7 +28,7 @@ class ProxyPoolingActivity : ProjectActivity {
 
     private fun onSettingsChanged(project: Project) {
         LOG.warn("Proxy settings changed, restarting")
-        project.service<ContinuePluginService>().coreMessengerManager?.coreMessenger?.restart()
+        project.service<FridayPluginService>().coreMessengerManager?.coreMessenger?.restart()
     }
 
     private companion object {

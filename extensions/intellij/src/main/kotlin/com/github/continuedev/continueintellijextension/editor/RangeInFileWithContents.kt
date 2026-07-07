@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.editor
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.editor
 
-import com.github.continuedev.continueintellijextension.Position
-import com.github.continuedev.continueintellijextension.Range
+import com.github.fridayai.fridayintellijextension.Position
+import com.github.fridayai.fridayintellijextension.Range
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 

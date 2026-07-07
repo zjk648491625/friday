@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.unit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.unit
 
-import com.github.continuedev.continueintellijextension.proxy.ProxySettings
+import com.github.fridayai.fridayintellijextension.proxy.ProxySettings
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.net.HttpConfigurable
 
@@ -13,7 +14,7 @@ class ProxySettingsTest : BasePlatformTestCase() {
             PROXY_PORT = 80
             PROXY_EXCEPTIONS = "*.example.com, 192.168.*"
         }
-        val settingsMap = ProxySettings.getSettings().toContinueEnvVars()
+        val settingsMap = ProxySettings.getSettings().toFridayEnvVars()
         assertEquals(
             mapOf(
                 "HTTP_PROXY" to "127.0.0.1:80",
@@ -29,7 +30,7 @@ class ProxySettingsTest : BasePlatformTestCase() {
             PROXY_PORT = 80
             PROXY_EXCEPTIONS = "*.example.com, 192.168.*"
         }
-        val settingsMap = ProxySettings.getSettings().toContinueEnvVars()
+        val settingsMap = ProxySettings.getSettings().toFridayEnvVars()
         assertEquals(emptyMap<String, String>(), settingsMap)
     }
 
@@ -40,7 +41,7 @@ class ProxySettingsTest : BasePlatformTestCase() {
             PROXY_PORT = 80
             PROXY_EXCEPTIONS = null
         }
-        val settingsMap = ProxySettings.getSettings().toContinueEnvVars()
+        val settingsMap = ProxySettings.getSettings().toFridayEnvVars()
         assertEquals(emptyMap<String, String>(), settingsMap)
     }
 
@@ -51,7 +52,7 @@ class ProxySettingsTest : BasePlatformTestCase() {
             PROXY_PORT = 80
             PROXY_EXCEPTIONS = ""
         }
-        val settingsMap = ProxySettings.getSettings().toContinueEnvVars()
+        val settingsMap = ProxySettings.getSettings().toFridayEnvVars()
         assertEquals(emptyMap<String, String>(), settingsMap)
     }
 

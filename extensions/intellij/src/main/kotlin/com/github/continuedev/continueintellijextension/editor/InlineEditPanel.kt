@@ -1,12 +1,13 @@
-package com.github.continuedev.continueintellijextension.editor
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.editor
 
-import com.github.continuedev.continueintellijextension.Icons
-import com.github.continuedev.continueintellijextension.`continue`.GetTheme
-import com.github.continuedev.continueintellijextension.`continue`.ProfileInfoService
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
-import com.github.continuedev.continueintellijextension.utils.castNestedOrNull
-import com.github.continuedev.continueintellijextension.utils.getMetaKeyLabel
-import com.github.continuedev.continueintellijextension.utils.getShiftKeyLabel
+import com.github.fridayai.fridayintellijextension.Icons
+import com.github.fridayai.fridayintellijextension.`friday`.GetTheme
+import com.github.fridayai.fridayintellijextension.`friday`.ProfileInfoService
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
+import com.github.fridayai.fridayintellijextension.utils.castNestedOrNull
+import com.github.fridayai.fridayintellijextension.utils.getMetaKeyLabel
+import com.github.fridayai.fridayintellijextension.utils.getShiftKeyLabel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Editor
@@ -369,7 +370,7 @@ class CustomPanel(
         JPanel(MigLayout("insets 0, fillx")).apply {
             val globalScheme = EditorColorsManager.getInstance().globalScheme
             val defaultBackground = globalScheme.defaultBackground
-            val continueSettingsService = service<ContinueExtensionSettings>()
+            val fridaySettingsService = service<FridayExtensionSettings>()
             val dropdown =
                 JComboBox(modelTitles.toTypedArray()).apply {
                     setUI(TransparentArrowButtonUI())
@@ -403,7 +404,7 @@ class CustomPanel(
                     }
 
                     selectedIndex =
-                        if (itemCount == 0) -1 else continueSettingsService.continueState.lastSelectedInlineEditModel?.let {
+                        if (itemCount == 0) -1 else fridaySettingsService.fridayState.lastSelectedInlineEditModel?.let {
                             if (modelTitles.isEmpty()) -1
                             else {
                                 val index = modelTitles.indexOf(it)
@@ -412,7 +413,7 @@ class CustomPanel(
                         } ?: 0
 
                     addActionListener {
-                        continueSettingsService.continueState.lastSelectedInlineEditModel =
+                        fridaySettingsService.fridayState.lastSelectedInlineEditModel =
                             (selectedItem as String).removeSuffix(DOWN_ARROW)
                     }
                 }

@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.activities.ContinuePluginStartupActivity
-import com.github.continuedev.continueintellijextension.constants.getContinueGlobalPath
+import com.github.fridayai.fridayintellijextension.activities.FridayPluginStartupActivity
+import com.github.fridayai.fridayintellijextension.constants.getFridayGlobalPath
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.StreamUtil
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -22,7 +23,7 @@ class ConfigJsonSchemaProviderFactory : JsonSchemaProviderFactory {
 
 class ConfigJsonSchemaFileProvider : JsonSchemaFileProvider {
     override fun isAvailable(file: VirtualFile): Boolean {
-        return file.path.endsWith("/.continue/config.json") || file.path.endsWith("\\.continue\\config.json")
+        return file.path.endsWith("/.friday/config.json") || file.path.endsWith("\\.friday\\config.json")
     }
 
     override fun getName(): String {
@@ -30,13 +31,13 @@ class ConfigJsonSchemaFileProvider : JsonSchemaFileProvider {
     }
 
     override fun getSchemaFile(): VirtualFile? {
-        ContinuePluginStartupActivity::class.java.getClassLoader().getResourceAsStream("config_schema.json")
+        FridayPluginStartupActivity::class.java.getClassLoader().getResourceAsStream("config_schema.json")
             .use { `is` ->
                 if (`is` == null) {
                     throw IOException("Resource not found: config_schema.json")
                 }
                 val content = `is`.bufferedReader(StandardCharsets.UTF_8).use { it.readText() }
-                val filepath = Paths.get(getContinueGlobalPath(), "config_schema.json").toString()
+                val filepath = Paths.get(getFridayGlobalPath(), "config_schema.json").toString()
                 File(filepath).writeText(content)
                 return LocalFileSystem.getInstance().findFileByPath(filepath)
             }

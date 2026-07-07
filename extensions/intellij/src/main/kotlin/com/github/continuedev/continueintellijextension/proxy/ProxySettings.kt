@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.proxy
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.proxy
 
 import com.intellij.util.net.HttpConfigurable
 
@@ -7,7 +8,7 @@ data class ProxySettings(
     private val proxy: String?,
     private val noProxy: String?
 ) {
-    fun toContinueEnvVars(): Map<String, String> {
+    fun toFridayEnvVars(): Map<String, String> {
         if (!enabled)
             return emptyMap()
         val env = mutableMapOf<String, String>()

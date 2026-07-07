@@ -1,8 +1,8 @@
-# Continue JetBrains Extension
+# Friday JetBrains Extension
 
 ## Project Purpose
 
-JetBrains/IntelliJ extension for Continue AI code agent. Provides chat, autocomplete, inline edit, and agent features within JetBrains IDEs.
+JetBrains/IntelliJ extension for Friday AI code agent. Provides chat, autocomplete, inline edit, and agent features within JetBrains IDEs.
 
 ## Architecture
 
@@ -14,8 +14,8 @@ JetBrains/IntelliJ extension for Continue AI code agent. Provides chat, autocomp
 ## Key Source Structure
 
 ```
-src/main/kotlin/com/github/continuedev/continueintellijextension/
-├── continue/         # Core integration (CoreMessenger, IntelliJIde, IdeProtocolClient)
+src/main/kotlin/com/github/friday-ai/fridayintellijextension/
+├── friday/         # Core integration (CoreMessenger, IntelliJIde, IdeProtocolClient)
 ├── autocomplete/     # Code completion logic
 ├── editor/          # Diff handling, inline edits
 ├── toolWindow/      # Main UI panel
@@ -35,7 +35,7 @@ src/main/resources/
 - `CoreMessenger.kt`: Binary communication handler
 - `plugin.xml`: Plugin manifest and extension points
 - `build.gradle.kts`: Build configuration
-- `ContinuePluginService.kt`: Main service orchestrator
+- `FridayPluginService.kt`: Main service orchestrator
 
 ## Message Protocol
 

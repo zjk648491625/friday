@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -21,7 +22,7 @@ class CoreMessengerManager(
             try {
                 delay(backoffIntervalSeconds.seconds)
                 backoffIntervalSeconds *= 2
-                log.warn("Continue process terminated externally, retrying in $backoffIntervalSeconds seconds")
+                log.warn("Friday process terminated externally, retrying in $backoffIntervalSeconds seconds")
                 coreMessenger.restart()
             } catch (e: Exception) {
             }

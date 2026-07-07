@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.unit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.unit
 
-import com.github.continuedev.continueintellijextension.`continue`.UriUtils
+import com.github.fridayai.fridayintellijextension.`friday`.UriUtils
 import junit.framework.TestCase
 import java.io.File
 

@@ -1,9 +1,10 @@
-package com.github.continuedev.continueintellijextension.browser
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.browser
 
-import com.github.continuedev.continueintellijextension.constants.MessageTypes
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.services.GsonService
-import com.github.continuedev.continueintellijextension.utils.uuid
+import com.github.fridayai.fridayintellijextension.constants.MessageTypes
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.services.GsonService
+import com.github.fridayai.fridayintellijextension.utils.uuid
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.Logger
@@ -16,17 +17,17 @@ import org.cef.handler.CefLoadHandlerAdapter
 import java.util.Base64
 import javax.swing.JComponent
 
-class ContinueBrowser(
+class FridayBrowser(
     private val project: Project,
     private val gsonService: GsonService = service<GsonService>(),
 ): Disposable {
 
-    private val log = Logger.getInstance(ContinueBrowser::class.java.simpleName)
+    private val log = Logger.getInstance(FridayBrowser::class.java.simpleName)
     private val browser: JBCefBrowser = JBCefBrowser.createBuilder().setOffScreenRendering(true).build()
     private val myJSQueryOpenInBrowser = JBCefJSQuery.create(browser as JBCefBrowserBase)
 
     init {
-        CefApp.getInstance().registerSchemeHandlerFactory("http", "continue", CustomSchemeHandlerFactory())
+        CefApp.getInstance().registerSchemeHandlerFactory("http", "friday", CustomSchemeHandlerFactory())
         browser.jbCefClient.setProperty(JBCefClient.Properties.JS_QUERY_POOL_SIZE, 200)
         myJSQueryOpenInBrowser.addHandler { msg: String? ->
             val json = gsonService.gson.fromJson(msg, BrowserMessage::class.java)
@@ -35,7 +36,7 @@ class ContinueBrowser(
             val messageId = json.messageId
 
             if (MessageTypes.PASS_THROUGH_TO_CORE.contains(messageType)) {
-                project.service<ContinuePluginService>().coreMessenger?.request(messageType, data, messageId) { data ->
+                project.service<FridayPluginService>().coreMessenger?.request(messageType, data, messageId) { data ->
                     sendToWebview(messageType, data, messageId ?: uuid())
                 }
                 return@addHandler null
@@ -44,7 +45,7 @@ class ContinueBrowser(
             // If not pass through, then put it in the status/content/done format for webview
             // Core already sends this format
             if (msg != null) {
-                project.service<ContinuePluginService>().ideProtocolClient?.handleMessage(msg) { data ->
+                project.service<FridayPluginService>().ideProtocolClient?.handleMessage(msg) { data ->
                     sendToWebview(
                         messageType,
                         mapOf(
@@ -67,7 +68,7 @@ class ContinueBrowser(
         // Load the url only after the protocolClient is initialized,
         // otherwise some messages will be lost, which are some configurations when the page is loaded.
         // Moreover, we should add LoadHandler before loading the url.
-        project.service<ContinuePluginService>().onProtocolClientInitialized {
+        project.service<FridayPluginService>().onProtocolClientInitialized {
             browser.loadURL(getGuiUrl())
         }
 
@@ -172,7 +173,7 @@ class ContinueBrowser(
         internal const val CHUNK_SIZE = 2 * 1024 * 1024 // 2MB
 
         private fun getGuiUrl() =
-            System.getenv("GUI_URL") ?: "http://continue/index.html"
+            System.getenv("GUI_URL") ?: "http://friday/index.html"
 
         internal fun buildChunkScripts(json: String, bufferId: String, chunkSize: Int = CHUNK_SIZE): ChunkScripts {
             val encoded = Base64.getEncoder().encodeToString(json.toByteArray(Charsets.UTF_8))

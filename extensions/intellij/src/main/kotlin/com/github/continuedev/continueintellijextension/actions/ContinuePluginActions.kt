@@ -1,12 +1,13 @@
-package com.github.continuedev.continueintellijextension.actions
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.actions
 
-import com.github.continuedev.continueintellijextension.HighlightedCodePayload
-import com.github.continuedev.continueintellijextension.RangeInFileWithContents
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
-import com.github.continuedev.continueintellijextension.editor.DiffStreamService
-import com.github.continuedev.continueintellijextension.editor.EditorUtils
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
+import com.github.fridayai.fridayintellijextension.HighlightedCodePayload
+import com.github.fridayai.fridayintellijextension.RangeInFileWithContents
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.editor.DiffStreamService
+import com.github.fridayai.fridayintellijextension.editor.EditorUtils
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
@@ -17,9 +18,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindowManager
 import java.io.File
 
-class RestartContinueProcess : AnAction() {
+class RestartFridayProcess : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
-        e.project?.service<ContinuePluginService>()?.coreMessenger?.restart()
+        e.project?.service<FridayPluginService>()?.coreMessenger?.restart()
     }
 }
 
@@ -30,8 +31,8 @@ class AcceptDiffAction : AnAction() {
     }
 
     private fun acceptHorizontalDiff(e: AnActionEvent) {
-        val continuePluginService = e.project?.service<ContinuePluginService>() ?: return
-        continuePluginService.diffManager?.acceptDiff(null)
+        val fridayPluginService = e.project?.service<FridayPluginService>() ?: return
+        fridayPluginService.diffManager?.acceptDiff(null)
     }
 
     private fun acceptVerticalDiff(e: AnActionEvent) {
@@ -50,7 +51,7 @@ class RejectDiffAction : AnAction() {
     }
 
     private fun rejectHorizontalDiff(e: AnActionEvent) {
-        e.project?.service<ContinuePluginService>()?.diffManager?.rejectDiff(null)
+        e.project?.service<FridayPluginService>()?.diffManager?.rejectDiff(null)
     }
 
     private fun rejectVerticalDiff(e: AnActionEvent) {
@@ -62,41 +63,41 @@ class RejectDiffAction : AnAction() {
     }
 }
 
-class FocusContinueInputWithoutClearAction : ContinueToolbarAction() {
+class FocusFridayInputWithoutClearAction : FridayToolbarAction() {
     override fun toolbarActionPerformed(project: Project) {
-        FocusActionUtil.sendHighlightedCodeWithMessageToWebview(project, "focusContinueInputWithoutClear")
+        FocusActionUtil.sendHighlightedCodeWithMessageToWebview(project, "focusFridayInputWithoutClear")
     }
 }
 
-class FocusContinueInputAction : ContinueToolbarAction() {
+class FocusFridayInputAction : FridayToolbarAction() {
     override fun toolbarActionPerformed(project: Project) {
-        FocusActionUtil.sendHighlightedCodeWithMessageToWebview(project, "focusContinueInputWithNewSession")
+        FocusActionUtil.sendHighlightedCodeWithMessageToWebview(project, "focusFridayInputWithNewSession")
     }
 }
 
-class NewContinueSessionAction : ContinueToolbarAction() {
+class NewFridaySessionAction : FridayToolbarAction() {
     override fun toolbarActionPerformed(project: Project) {
-        project.getBrowser()?.sendToWebview("focusContinueInputWithNewSession")
+        project.getBrowser()?.sendToWebview("focusFridayInputWithNewSession")
     }
 }
 
-class ViewHistoryAction : ContinueToolbarAction() {
+class ViewHistoryAction : FridayToolbarAction() {
     override fun toolbarActionPerformed(project: Project) {
         project.getBrowser()?.sendToWebview("navigateTo", mapOf("path" to "/history", "toggle" to true))
     }
 }
 
-class OpenConfigAction : ContinueToolbarAction() {
+class OpenConfigAction : FridayToolbarAction() {
     override fun toolbarActionPerformed(project: Project)  {
         project.getBrowser()?.sendToWebview("navigateTo", mapOf("path" to "/config", "toggle" to true))
     }
 }
 
-class ReloadBrowserAction: ContinueToolbarAction() {
+class ReloadBrowserAction: FridayToolbarAction() {
     override fun toolbarActionPerformed(project: Project) {
-        val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Continue")
+        val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Friday")
             ?: return
-        val browserService = project.service<ContinueBrowserService>()
+        val browserService = project.service<FridayBrowserService>()
 
         // Perform the reload and UI update on the Event Dispatch Thread
         ApplicationManager.getApplication().invokeLater {
@@ -128,7 +129,7 @@ class ReloadBrowserAction: ContinueToolbarAction() {
 class OpenLogsAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
-        val logFile = File(System.getProperty("user.home") + "/.continue/logs/core.log")
+        val logFile = File(System.getProperty("user.home") + "/.friday/logs/core.log")
         if (logFile.exists()) {
             val virtualFile = com.intellij.openapi.vfs.LocalFileSystem.getInstance().findFileByIoFile(logFile)
             if (virtualFile != null) {

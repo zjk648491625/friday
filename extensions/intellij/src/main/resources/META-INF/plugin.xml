@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <!-- Modified by Friday AI Team - Rebranded from Continue -->
 <idea-plugin>
-    <id>com.github.continuedev.continueintellijextension</id>
+    <id>com.github.fridayai.fridayintellijextension</id>
     <name>Friday AI</name>
     <vendor url="https://www.continue.dev/">friday-ai-team</vendor>
     <change-notes>
@@ -11,52 +11,52 @@
     <depends>org.jetbrains.plugins.terminal</depends>
 
     <!-- See here for why this is optional:  https://github.com/continuedev/continue/issues/2775#issuecomment-2535620877-->
-    <depends optional="true" config-file="continueintellijextension-withJSON.xml">
+    <depends optional="true" config-file="fridayintellijextension-withJSON.xml">
         com.intellij.modules.json
     </depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Friday" anchor="right" icon="com.github.continuedev.continueintellijextension.Icons.Friday"
-                    factoryClass="com.github.continuedev.continueintellijextension.toolWindow.FridayPluginToolWindowFactory"/>
+        <toolWindow id="Friday" anchor="right" icon="com.github.fridayai.fridayintellijextension.Icons.Friday"
+                    factoryClass="com.github.fridayai.fridayintellijextension.toolWindow.FridayPluginToolWindowFactory"/>
         <projectService id="FridayPluginService"
-                        serviceImplementation="com.github.continuedev.continueintellijextension.services.FridayPluginService"/>
+                        serviceImplementation="com.github.fridayai.fridayintellijextension.services.FridayPluginService"/>
         <projectService
                 id="DiffStreamService"
-                serviceImplementation="com.github.continuedev.continueintellijextension.editor.DiffStreamService"/>
+                serviceImplementation="com.github.fridayai.fridayintellijextension.editor.DiffStreamService"/>
 
-        <projectService serviceInterface="com.github.continuedev.continueintellijextension.autocomplete.CompletionService"
-                        serviceImplementation="com.github.continuedev.continueintellijextension.autocomplete.FridayCompletionService"/>
+        <projectService serviceInterface="com.github.fridayai.fridayintellijextension.autocomplete.CompletionService"
+                        serviceImplementation="com.github.fridayai.fridayintellijextension.autocomplete.FridayCompletionService"/>
         <projectService
-                serviceInterface="com.github.continuedev.continueintellijextension.nextEdit.NextEditService"
-                serviceImplementation="com.github.continuedev.continueintellijextension.nextEdit.FridayNextEditService"/>
-
-        <projectService
-                serviceImplementation="com.github.continuedev.continueintellijextension.nextEdit.NextEditWindowManager"/>
+                serviceInterface="com.github.fridayai.fridayintellijextension.nextEdit.NextEditService"
+                serviceImplementation="com.github.fridayai.fridayintellijextension.nextEdit.FridayNextEditService"/>
 
         <projectService
-                serviceImplementation="com.github.continuedev.continueintellijextension.nextEdit.NextEditJumpManager"/>
+                serviceImplementation="com.github.fridayai.fridayintellijextension.nextEdit.NextEditWindowManager"/>
 
-        <inline.completion.provider id="Friday" implementation="com.github.continuedev.continueintellijextension.autocomplete.FridayInlineCompletionProvider"/>
+        <projectService
+                serviceImplementation="com.github.fridayai.fridayintellijextension.nextEdit.NextEditJumpManager"/>
+
+        <inline.completion.provider id="Friday" implementation="com.github.fridayai.fridayintellijextension.autocomplete.FridayInlineCompletionProvider"/>
         
         <notificationGroup id="Friday"
                            displayType="BALLOON"/>
         <actionPromoter order="last"
-                        implementation="com.github.continuedev.continueintellijextension.actions.FridayActionPromote"/>
+                        implementation="com.github.fridayai.fridayintellijextension.actions.FridayActionPromote"/>
         <postStartupActivity
-                implementation="com.github.continuedev.continueintellijextension.activities.FridayPluginStartupActivity"/>
-        <postStartupActivity implementation="com.github.continuedev.continueintellijextension.proxy.ProxyPoolingActivity"/>
+                implementation="com.github.fridayai.fridayintellijextension.activities.FridayPluginStartupActivity"/>
+        <postStartupActivity implementation="com.github.fridayai.fridayintellijextension.proxy.ProxyPoolingActivity"/>
         <applicationConfigurable
                 parentId="tools"
-                instance="com.github.continuedev.continueintellijextension.services.FridayExtensionConfigurable"
-                id="com.github.continuedev.continueintellijextension.services.FridayExtensionConfigurable"
+                instance="com.github.fridayai.fridayintellijextension.services.FridayExtensionConfigurable"
+                id="com.github.fridayai.fridayintellijextension.services.FridayExtensionConfigurable"
                 displayName="Friday AI"/>
         <applicationService
-                serviceImplementation="com.github.continuedev.continueintellijextension.services.FridayExtensionSettings"/>
+                serviceImplementation="com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings"/>
     </extensions>
 
     <actions>
-        <action class="com.github.continuedev.continueintellijextension.editor.InlineEditAction"
-                id="continue.inlineEdit"
+        <action class="com.github.fridayai.fridayintellijextension.editor.InlineEditAction"
+                id="friday.inlineEdit"
                 description="Inline Edit"
                 text="Inline Edit">
             <keyboard-shortcut keymap="$default"
@@ -66,8 +66,8 @@
             <override-text place="GoToAction" text="Friday: Edit Code"/>
         </action>
 
-        <action id="continue.acceptDiff"
-                class="com.github.continuedev.continueintellijextension.actions.AcceptDiffAction"
+        <action id="friday.acceptDiff"
+                class="com.github.fridayai.fridayintellijextension.actions.AcceptDiffAction"
                 text="Accept Diff" description="Accept Diff">
             <keyboard-shortcut keymap="$default"
                                first-keystroke="shift ctrl ENTER"/>
@@ -76,15 +76,15 @@
             <override-text place="GoToAction" text="Friday: Accept Diff"/>
         </action>
 
-        <action id="continue.restartProcess"
-                class="com.github.continuedev.continueintellijextension.actions.RestartContinueProcess"
+        <action id="friday.restartProcess"
+                class="com.github.fridayai.fridayintellijextension.actions.RestartFridayProcess"
                 text="Restart Process"
                 description="Restart Process">
             <override-text place="GoToAction" text="Friday: Restart Process"/>
         </action>
 
-        <action id="continue.rejectDiff"
-                class="com.github.continuedev.continueintellijextension.actions.RejectDiffAction"
+        <action id="friday.rejectDiff"
+                class="com.github.fridayai.fridayintellijextension.actions.RejectDiffAction"
                 text="Reject Diff" description="Reject Diff">
             <keyboard-shortcut keymap="$default"
                                first-keystroke="shift ctrl BACK_SPACE"/>
@@ -93,8 +93,8 @@
             <override-text place="GoToAction" text="Friday: Reject Diff"/>
         </action>
 
-        <action id="continue.acceptVerticalDiffBlock"
-                class="com.github.continuedev.continueintellijextension.actions.AcceptDiffAction"
+        <action id="friday.acceptVerticalDiffBlock"
+                class="com.github.fridayai.fridayintellijextension.actions.AcceptDiffAction"
                 text="Accept Diff" description="Accept Vertical Diff Block">
             <keyboard-shortcut keymap="$default"
                                first-keystroke="alt shift Y"/>
@@ -103,8 +103,8 @@
             <override-text place="GoToAction" text="Friday: Accept Vertical Diff Block"/>
         </action>
 
-        <action id="continue.rejectVerticalDiffBlock"
-                class="com.github.continuedev.continueintellijextension.actions.RejectDiffAction"
+        <action id="friday.rejectVerticalDiffBlock"
+                class="com.github.fridayai.fridayintellijextension.actions.RejectDiffAction"
                 text="Reject Diff" description="Reject Vertical Diff Block">
             <keyboard-shortcut keymap="$default"
                                first-keystroke="alt shift N"/>
@@ -113,15 +113,15 @@
             <override-text place="GoToAction" text="Friday: Reject Vertical Diff Block"/>
         </action>
 
-        <action id="continue.addLicenseKey"
-                class="com.github.continuedev.continueintellijextension.license.AddLicenseKey"
+        <action id="friday.addLicenseKey"
+                class="com.github.fridayai.fridayintellijextension.license.AddLicenseKey"
                 text="Enter Enterprise License Key"
                 description="Enter Enterprise License Key">
             <override-text place="GoToAction" text="Friday: Enter Enterprise License Key"/>
         </action>
 
-        <action id="continue.focusContinueInputWithoutClear"
-                class="com.github.continuedev.continueintellijextension.actions.FocusContinueInputWithoutClearAction"
+        <action id="friday.focusFridayInputWithoutClear"
+                class="com.github.fridayai.fridayintellijextension.actions.FocusFridayInputWithoutClearAction"
                 text="Add selected code to context"
                 description="Focus Friday Input With Edit">
             <keyboard-shortcut keymap="$default"
@@ -131,68 +131,68 @@
             <override-text place="GoToAction" text="Friday: Add Highlighted Code to Context"/>
         </action>
 
-        <action id="continue.newContinueSession"
+        <action id="friday.newFridaySession"
                 icon="AllIcons.General.Add"
-                class="com.github.continuedev.continueintellijextension.actions.NewContinueSessionAction"
+                class="com.github.fridayai.fridayintellijextension.actions.NewFridaySessionAction"
                 text="New Session"
                 description="New Session">
 
             <override-text place="GoToAction" text="New Session"/>
         </action>
 
-        <action id="continue.viewHistory"
+        <action id="friday.viewHistory"
                 icon="AllIcons.Vcs.History"
-                class="com.github.continuedev.continueintellijextension.actions.ViewHistoryAction"
+                class="com.github.fridayai.fridayintellijextension.actions.ViewHistoryAction"
                 text="View History"
                 description="View History">
             <override-text place="GoToAction" text="View History"/>
         </action>
 
-        <action id="continue.openConfigPage"
-                class="com.github.continuedev.continueintellijextension.actions.OpenConfigAction"
+        <action id="friday.openConfigPage"
+                class="com.github.fridayai.fridayintellijextension.actions.OpenConfigAction"
                 icon="AllIcons.General.GearPlain"
                 text="Settings"
                 description="Settings">
             <override-text place="GoToAction" text="Settings"/>
         </action>
 
-        <action id="continue.reloadPage"
-                class="com.github.continuedev.continueintellijextension.actions.ReloadBrowserAction"
+        <action id="friday.reloadPage"
+                class="com.github.fridayai.fridayintellijextension.actions.ReloadBrowserAction"
                 icon="AllIcons.Actions.Refresh"
-                text="Reload Continue Browser"
-                description="Reload Continue Browser">
-            <override-text place="GoToAction" text="Reload Continue Browser"/>
+                text="Reload Friday Browser"
+                description="Reload Friday Browser">
+            <override-text place="GoToAction" text="Reload Friday Browser"/>
         </action>
 
-        <action id="continue.openLogs"
-                class="com.github.continuedev.continueintellijextension.actions.OpenLogsAction"
+        <action id="friday.openLogs"
+                class="com.github.fridayai.fridayintellijextension.actions.OpenLogsAction"
                 icon="AllIcons.General.ShowInfos"
                 text="Open Logs"
-                description="Open Continue Logs">
-            <override-text place="GoToAction" text="Open Continue Logs"/>
+                description="Open Friday Logs">
+            <override-text place="GoToAction" text="Open Friday Logs"/>
         </action>
 
-        <group id="ContinueSidebarActionsGroup">
-            <reference ref="continue.newContinueSession"/>
-            <reference ref="continue.viewHistory"/>
-            <reference ref="continue.openConfigPage"/>
-            <reference ref="continue.reloadPage" />
+        <group id="FridaySidebarActionsGroup">
+            <reference ref="friday.newFridaySession"/>
+            <reference ref="friday.viewHistory"/>
+            <reference ref="friday.openConfigPage"/>
+            <reference ref="friday.reloadPage" />
         </group>
 
-        <action id="continue.focusContinueInput"
-                class="com.github.continuedev.continueintellijextension.actions.FocusContinueInputAction"
+        <action id="friday.focusFridayInput"
+                class="com.github.fridayai.fridayintellijextension.actions.FocusFridayInputAction"
                 text="Add selected code to context"
-                description="Focus Continue Input">
+                description="Focus Friday Input">
             <keyboard-shortcut keymap="$default"
                                first-keystroke="ctrl J"/>
             <keyboard-shortcut keymap="Mac OS X"
                                first-keystroke="meta J"/>
             <add-to-group group-id="EditorPopupMenu"/>
-            <override-text place="GoToAction" text="Continue: Add Highlighted Code to Context and Clear Chat"/>
+            <override-text place="GoToAction" text="Friday: Add Highlighted Code to Context and Clear Chat"/>
         </action>
-        <group id="ContinueProjectViewPopUpMenuGroup" popup="true" text="Continue" icon="/icons/continue.svg">
-            <action id="com.github.continuedev.continueintellijextension.actions.AddToChatAction"
-                    class="com.github.continuedev.continueintellijextension.actions.AddToChatAction"
+        <group id="FridayProjectViewPopUpMenuGroup" popup="true" text="Friday" icon="/icons/friday.svg">
+            <action id="com.github.fridayai.fridayintellijextension.actions.AddToChatAction"
+                    class="com.github.fridayai.fridayintellijextension.actions.AddToChatAction"
                     text="Add to Chat">
             </action>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>

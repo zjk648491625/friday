@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.toolWindow
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.toolWindow
 
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
@@ -8,7 +9,7 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 
-class ContinuePluginToolWindowFactory : ToolWindowFactory, DumbAware {
+class FridayPluginToolWindowFactory : ToolWindowFactory, DumbAware {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val browserOrError = project.getBrowser()?.getComponent()
@@ -16,7 +17,7 @@ class ContinuePluginToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.contentManager.addContent(ContentFactory.getInstance().createContent(browserOrError, null, false))
         toolWindow.setTitleActions(
             listOf(
-                ActionManager.getInstance().getAction("ContinueSidebarActionsGroup"),
+                ActionManager.getInstance().getAction("FridaySidebarActionsGroup"),
                 ActionManager.getInstance().getAction("MaximizeToolWindow")
             )
         )

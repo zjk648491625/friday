@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.activities
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.activities
 
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.Service
@@ -11,7 +12,7 @@ import com.intellij.openapi.components.Service
  * @author lk
  */
 @Service(Service.Level.APP, Service.Level.PROJECT)
-class ContinuePluginDisposable : Disposable {
+class FridayPluginDisposable : Disposable {
 
     override fun dispose() {
     }

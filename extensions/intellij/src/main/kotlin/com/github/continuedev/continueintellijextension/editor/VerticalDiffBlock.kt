@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.editor
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.editor
 
-import com.github.continuedev.continueintellijextension.utils.getAltKeyLabel
-import com.github.continuedev.continueintellijextension.utils.getShiftKeyLabel
+import com.github.fridayai.fridayintellijextension.utils.getAltKeyLabel
+import com.github.fridayai.fridayintellijextension.utils.getShiftKeyLabel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.invokeLater
 import com.intellij.openapi.command.WriteCommandAction
@@ -77,7 +78,7 @@ class VerticalDiffBlock(
 
 
     fun addNewLine(text: String, line: Int) {
-        val greenKey = EditorUtils(editor).createTextAttributesKey("CONTINUE_DIFF_NEW_LINE", 0x3000FF00)
+        val greenKey = EditorUtils(editor).createTextAttributesKey("FRIDAY_DIFF_NEW_LINE", 0x3000FF00)
 
         if (line == editor.document.lineCount) {
             editor.document.insertString(editor.document.textLength, "\n")
@@ -92,7 +93,7 @@ class VerticalDiffBlock(
     }
 
     fun addNewLineForHighlightOnly(text: String, line: Int) {
-        val greenKey = EditorUtils(editor).createTextAttributesKey("CONTINUE_DIFF_NEW_LINE", 0x3000FF00)
+        val greenKey = EditorUtils(editor).createTextAttributesKey("FRIDAY_DIFF_NEW_LINE", 0x3000FF00)
         editor.markupModel.addLineHighlighter(greenKey, line, HighlighterLayer.LAST)
 
         addedLines.add(text)

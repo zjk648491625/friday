@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.license
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.license
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper

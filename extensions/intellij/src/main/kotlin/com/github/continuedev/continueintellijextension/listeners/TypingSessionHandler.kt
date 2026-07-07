@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.listeners
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.listeners
 
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.LogicalPosition

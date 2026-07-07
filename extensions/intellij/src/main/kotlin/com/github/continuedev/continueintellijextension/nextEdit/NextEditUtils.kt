@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.nextEdit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.nextEdit
 
-import com.github.continuedev.continueintellijextension.FimResult
+import com.github.fridayai.fridayintellijextension.FimResult
 
 
 object NextEditUtils {

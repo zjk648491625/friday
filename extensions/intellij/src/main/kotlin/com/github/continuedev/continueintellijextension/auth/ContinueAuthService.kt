@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.auth
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.auth
 
 import com.intellij.openapi.components.Service
 
 @Service
-class ContinueAuthService {
+class FridayAuthService {
 }

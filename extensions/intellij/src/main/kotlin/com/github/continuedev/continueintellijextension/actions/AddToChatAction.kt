@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.actions
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.actions
 
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

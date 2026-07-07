@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.protocol
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.protocol
 
-import com.github.continuedev.continueintellijextension.Range
-import com.github.continuedev.continueintellijextension.TerminalOptions
+import com.github.fridayai.fridayintellijextension.Range
+import com.github.fridayai.fridayintellijextension.TerminalOptions
 
 data class WriteFileParams(
     val path: String,

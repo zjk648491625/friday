@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.editor
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.editor
 
-import com.github.continuedev.continueintellijextension.utils.toUriOrNull
+import com.github.fridayai.fridayintellijextension.utils.toUriOrNull
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.command.WriteCommandAction

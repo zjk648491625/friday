@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.utils
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.utils
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

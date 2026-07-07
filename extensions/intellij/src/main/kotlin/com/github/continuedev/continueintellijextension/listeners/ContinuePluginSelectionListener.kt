@@ -1,8 +1,9 @@
-package com.github.continuedev.continueintellijextension.listeners
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.listeners
 
 import ToolTipComponent
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
-import com.github.continuedev.continueintellijextension.utils.Debouncer
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
+import com.github.fridayai.fridayintellijextension.utils.Debouncer
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Document
@@ -18,7 +19,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import kotlinx.coroutines.CoroutineScope
 
-class ContinuePluginSelectionListener(
+class FridayPluginSelectionListener(
     coroutineScope: CoroutineScope,
 ) : SelectionListener, DumbAware {
     private val debouncer = Debouncer(200, coroutineScope)
@@ -88,7 +89,7 @@ class ContinuePluginSelectionListener(
 
     private fun shouldRemoveTooltip(selectedText: String?, editor: Editor): Boolean {
         return selectedText.isNullOrEmpty() ||
-                !service<ContinueExtensionSettings>().continueState.displayEditorTooltip
+                !service<FridayExtensionSettings>().fridayState.displayEditorTooltip
     }
 
     private fun removeExistingTooltips(editor: Editor, onComplete: () -> Unit = {}) {

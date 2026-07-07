@@ -1,8 +1,9 @@
-package com.github.continuedev.continueintellijextension.unit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.unit
 
-import com.github.continuedev.continueintellijextension.autocomplete.ContinueInlineCompletionProvider
-import com.github.continuedev.continueintellijextension.autocomplete.CompletionService
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
+import com.github.fridayai.fridayintellijextension.autocomplete.FridayInlineCompletionProvider
+import com.github.fridayai.fridayintellijextension.autocomplete.CompletionService
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
 import com.intellij.codeInsight.inline.completion.InlineCompletionHandler
 import com.intellij.codeInsight.inline.completion.testInlineCompletion
 import com.intellij.openapi.fileTypes.PlainTextFileType
@@ -12,20 +13,20 @@ import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import java.util.UUID
 
 @Suppress("UnstableApiUsage")
-class ContinueInlineCompletionProviderTest : BasePlatformTestCase() {
+class FridayInlineCompletionProviderTest : BasePlatformTestCase() {
 
     override fun runInDispatchThread() =
         false
 
     override fun setUp() {
         super.setUp()
-        InlineCompletionHandler.registerTestHandler(ContinueInlineCompletionProvider(), testRootDisposable)
+        InlineCompletionHandler.registerTestHandler(FridayInlineCompletionProvider(), testRootDisposable)
     }
 
     fun `test don't show when settings are disabled`() = myFixture.testInlineCompletion {
         registerSuggestion("b")
         init(PlainTextFileType.INSTANCE, "a<caret>")
-        ContinueExtensionSettings.instance.continueState.enableTabAutocomplete = false
+        FridayExtensionSettings.instance.fridayState.enableTabAutocomplete = false
         callInlineCompletion()
         delay()
         assertNoLookup()

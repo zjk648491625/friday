@@ -1,7 +1,8 @@
-package com.github.continuedev.continueintellijextension.unit
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.unit
 
-import com.github.continuedev.continueintellijextension.FileType
-import com.github.continuedev.continueintellijextension.`continue`.file.FileUtils
+import com.github.fridayai.fridayintellijextension.FileType
+import com.github.fridayai.fridayintellijextension.`friday`.file.FileUtils
 import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
@@ -155,7 +156,7 @@ class FileUtilsTest : UsefulTestCase() {
         private fun setupRealFilesFixture(): CodeInsightTestFixture {
             val factory = IdeaTestFixtureFactory.getFixtureFactory()
             return factory.createCodeInsightFixture(
-                factory.createLightFixtureBuilder("my_continue_project").fixture,
+                factory.createLightFixtureBuilder("my_friday_project").fixture,
                 factory.createTempDirTestFixture()
             )
         }

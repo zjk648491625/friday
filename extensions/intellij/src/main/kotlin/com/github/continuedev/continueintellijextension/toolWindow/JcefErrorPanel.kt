@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.toolWindow
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.toolWindow
 
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.panel
@@ -19,9 +20,9 @@ object JcefErrorPanel {
         <!--suppress ALL-->
         <html>
         <h2>
-          <center>Continue Chat is Unable to Load</center>
+          <center>Friday Chat is Unable to Load</center>
         </h2>
-        <p>Continue Chat requires a JRE that supports the Java Chromium Embedded Framework (JCEF) to render our webview. You can
+        <p>Friday Chat requires a JRE that supports the Java Chromium Embedded Framework (JCEF) to render our webview. You can
           still use Autocomplete and Edit.</p>
         <h3>How to Fix It?</h3>
         <p>You can manually switch to a JRE that supports JCEF:</p>

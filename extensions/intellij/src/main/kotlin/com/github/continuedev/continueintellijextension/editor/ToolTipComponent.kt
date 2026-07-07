@@ -1,5 +1,6 @@
-import com.github.continuedev.continueintellijextension.actions.FocusActionUtil
-import com.github.continuedev.continueintellijextension.editor.openInlineEdit
+// Modified by Friday AI Team - Rebranded from Continue
+import com.github.fridayai.fridayintellijextension.actions.FocusActionUtil
+import com.github.fridayai.fridayintellijextension.editor.openInlineEdit
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.colors.EditorFontType
@@ -92,7 +93,7 @@ class ToolTipComponent(editor: Editor, x: Int, y: Int) :
         editButton = StyledButton("Edit (${cmdCtrlChar}+I)")
 
         addToChatButton.addActionListener { e: ActionEvent? ->
-            FocusActionUtil.sendHighlightedCodeWithMessageToWebview(editor.project, "focusContinueInputWithNewSession")
+            FocusActionUtil.sendHighlightedCodeWithMessageToWebview(editor.project, "focusFridayInputWithNewSession")
             editor.contentComponent.remove(this)
         }
         editButton.addActionListener { e: ActionEvent? ->

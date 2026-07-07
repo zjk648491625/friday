@@ -1,47 +1,48 @@
-package com.github.continuedev.continueintellijextension.utils
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.utils
 
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.extensions.PluginId
-import com.github.continuedev.continueintellijextension.constants.ContinueConstants
+import com.github.fridayai.fridayintellijextension.constants.FridayConstants
 import java.nio.file.Path
 import java.nio.file.Paths
 
 /**
- * Gets the path to the Continue plugin directory
+ * Gets the path to the Friday plugin directory
  *
  * @return Path to the plugin directory
  * @throws Exception if the plugin is not found
  */
-fun getContinuePluginPath(): Path {
+fun getFridayPluginPath(): Path {
     val pluginDescriptor =
-        PluginManagerCore.getPlugin(PluginId.getId(ContinueConstants.PLUGIN_ID)) ?: throw Exception("Plugin not found")
+        PluginManagerCore.getPlugin(PluginId.getId(FridayConstants.PLUGIN_ID)) ?: throw Exception("Plugin not found")
     return pluginDescriptor.pluginPath
 }
 
 /**
- * Gets the path to the Continue core directory with target platform
+ * Gets the path to the Friday core directory with target platform
  *
- * @return Path to the Continue core directory with target platform
+ * @return Path to the Friday core directory with target platform
  * @throws Exception if the plugin is not found
  */
-fun getContinueCorePath(): String {
-    val pluginPath = getContinuePluginPath()
+fun getFridayCorePath(): String {
+    val pluginPath = getFridayPluginPath()
     val corePath = Paths.get(pluginPath.toString(), "core").toString()
     val target = getOsAndArchTarget()
     return Paths.get(corePath, target).toString()
 }
 
 /**
- * Gets the path to the Continue binary executable
+ * Gets the path to the Friday binary executable
  *
- * @return Path to the Continue binary executable
+ * @return Path to the Friday binary executable
  * @throws Exception if the plugin is not found
  */
-fun getContinueBinaryPath(): String {
-    val targetPath = getContinueCorePath()
+fun getFridayBinaryPath(): String {
+    val targetPath = getFridayCorePath()
     val os = getOS()
     val exeSuffix = if (os == OS.WINDOWS) ".exe" else ""
-    return Paths.get(targetPath, "continue-binary$exeSuffix").toString()
+    return Paths.get(targetPath, "friday-binary$exeSuffix").toString()
 }
 
 /**
@@ -51,7 +52,7 @@ fun getContinueBinaryPath(): String {
  * @throws Exception if the plugin is not found
  */
 fun getRipgrepPath(): String {
-    val targetPath = getContinueCorePath()
+    val targetPath = getFridayCorePath()
     val os = getOS()
     val exeSuffix = if (os == OS.WINDOWS) ".exe" else ""
     return Paths.get(targetPath, "rg$exeSuffix").toString()

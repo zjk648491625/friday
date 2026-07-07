@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension.utils
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.utils
 
-import com.github.continuedev.continueintellijextension.FimResult
+import com.github.fridayai.fridayintellijextension.FimResult
 import com.intellij.openapi.vfs.VirtualFile
 import java.net.NetworkInterface
 import java.util.*
@@ -95,7 +96,7 @@ fun Any?.getNestedOrNull(vararg keys: String): Any? {
 }
 
 /**
- * Get the target string for Continue binary.
+ * Get the target string for Friday binary.
  * The format is "$os-$arch" where:
  * - os is one of: darwin, win32, or linux
  * - arch is one of: arm64 or x64

@@ -1,6 +1,7 @@
-package com.github.continuedev.continueintellijextension
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension
 
-import com.github.continuedev.continueintellijextension.editor.RangeInFileWithContents
+import com.github.fridayai.fridayintellijextension.editor.RangeInFileWithContents
 import com.google.gson.JsonElement
 
 enum class ToastType(val value: String) {
@@ -178,7 +179,7 @@ interface IDE {
 
     suspend fun showVirtualFile(title: String, contents: String)
 
-    suspend fun getContinueDir(): String
+    suspend fun getFridayDir(): String
 
     suspend fun openFile(path: String)
 
@@ -280,7 +281,7 @@ data class ApplyState(
 )
 
 data class HighlightedCodePayload(
-    val rangeInFileWithContents: com.github.continuedev.continueintellijextension.RangeInFileWithContents,
+    val rangeInFileWithContents: com.github.fridayai.fridayintellijextension.RangeInFileWithContents,
     val prompt: String? = null,
     val shouldRun: Boolean? = null
 )

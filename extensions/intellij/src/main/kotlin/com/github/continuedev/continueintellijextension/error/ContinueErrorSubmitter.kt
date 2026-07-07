@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension.error
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.error
 
 import com.intellij.diagnostic.IdeaReportingEvent
 import com.intellij.openapi.diagnostic.ErrorReportSubmitter
@@ -8,10 +9,10 @@ import com.intellij.openapi.diagnostic.SubmittedReportInfo.SubmissionStatus
 import com.intellij.util.Consumer
 import java.awt.Component
 
-class ContinueErrorSubmitter : ErrorReportSubmitter() {
+class FridayErrorSubmitter : ErrorReportSubmitter() {
 
     override fun getReportActionText() =
-        "Report to Continue"
+        "Report to Friday"
 
     override fun submit(
         events: Array<out IdeaLoggingEvent?>,

@@ -1,4 +1,5 @@
-package com.github.continuedev.continueintellijextension
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension
 
 import com.automation.remarks.junit5.Video
 import com.intellij.driver.sdk.ui.components.*
@@ -20,7 +21,7 @@ class Autocomplete {
     @Test
     fun testAutocomplete() {
         val starter = Starter.newContext("testExample", TestCase(IdeProductProvider.IC, NoProject).withVersion("2024.3"))
-        PluginConfigurator(starter).installPluginFromFolder(File(System.getProperty("CONTINUE_PLUGIN_DIR")))
+        PluginConfigurator(starter).installPluginFromFolder(File(System.getProperty("FRIDAY_PLUGIN_DIR")))
         starter.runIdeWithDriver().useDriverAndCloseIde {
             welcomeScreen {
                 createNewProjectButton.click()

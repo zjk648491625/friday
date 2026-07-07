@@ -1,13 +1,14 @@
-package com.github.continuedev.continueintellijextension.services
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.services
 
-import com.github.continuedev.continueintellijextension.`continue`.CoreMessenger
-import com.github.continuedev.continueintellijextension.`continue`.CoreMessengerManager
-import com.github.continuedev.continueintellijextension.`continue`.DiffManager
-import com.github.continuedev.continueintellijextension.`continue`.IdeProtocolClient
-import com.github.continuedev.continueintellijextension.listeners.ActiveHandlerManager
-import com.github.continuedev.continueintellijextension.listeners.DocumentChangeTracker
-import com.github.continuedev.continueintellijextension.toolWindow.ContinuePluginToolWindowFactory
-import com.github.continuedev.continueintellijextension.utils.uuid
+import com.github.fridayai.fridayintellijextension.`friday`.CoreMessenger
+import com.github.fridayai.fridayintellijextension.`friday`.CoreMessengerManager
+import com.github.fridayai.fridayintellijextension.`friday`.DiffManager
+import com.github.fridayai.fridayintellijextension.`friday`.IdeProtocolClient
+import com.github.fridayai.fridayintellijextension.listeners.ActiveHandlerManager
+import com.github.fridayai.fridayintellijextension.listeners.DocumentChangeTracker
+import com.github.fridayai.fridayintellijextension.toolWindow.FridayPluginToolWindowFactory
+import com.github.fridayai.fridayintellijextension.utils.uuid
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
@@ -21,7 +22,7 @@ import kotlinx.coroutines.cancel
 import kotlin.properties.Delegates
 
 @Service(Service.Level.PROJECT)
-class ContinuePluginService(private val project: Project) : Disposable, DumbAware {
+class FridayPluginService(private val project: Project) : Disposable, DumbAware {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     var listener: (() -> Unit)? = null
     var ideProtocolClient: IdeProtocolClient? by Delegates.observable(null) { _, _, _ ->

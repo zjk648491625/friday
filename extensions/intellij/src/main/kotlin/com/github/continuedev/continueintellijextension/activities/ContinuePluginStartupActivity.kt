@@ -1,15 +1,16 @@
-package com.github.continuedev.continueintellijextension.activities
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.activities
 
 import com.intellij.openapi.fileEditor.FileEditorManagerListener
 
-import com.github.continuedev.continueintellijextension.browser.ContinueBrowserService.Companion.getBrowser
-import com.github.continuedev.continueintellijextension.constants.getContinueGlobalPath
-import com.github.continuedev.continueintellijextension.`continue`.*
-import com.github.continuedev.continueintellijextension.listeners.ContinuePluginSelectionListener
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.services.SettingsListener
-import com.github.continuedev.continueintellijextension.utils.toUriOrNull
+import com.github.fridayai.fridayintellijextension.browser.FridayBrowserService.Companion.getBrowser
+import com.github.fridayai.fridayintellijextension.constants.getFridayGlobalPath
+import com.github.fridayai.fridayintellijextension.`friday`.*
+import com.github.fridayai.fridayintellijextension.listeners.FridayPluginSelectionListener
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.services.SettingsListener
+import com.github.fridayai.fridayintellijextension.utils.toUriOrNull
 import com.intellij.openapi.actionSystem.KeyboardShortcut
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ApplicationNamesInfo
@@ -44,7 +45,7 @@ import com.intellij.util.Function
 fun showTutorial(project: Project) {
     val tutorialFileName = getTutorialFileName()
 
-    ContinuePluginStartupActivity::class.java.getClassLoader().getResourceAsStream(tutorialFileName)
+    FridayPluginStartupActivity::class.java.getClassLoader().getResourceAsStream(tutorialFileName)
         .use { `is` ->
             if (`is` == null) {
                 throw IOException("Resource not found: $tutorialFileName")
@@ -61,7 +62,7 @@ fun showTutorial(project: Project) {
                 content = content.replace("[Cmd + I]", "[Ctrl + I]")
                 content = content.replace("⌘", "⌃")
             }
-            val filepath = Paths.get(getContinueGlobalPath(), tutorialFileName).toString()
+            val filepath = Paths.get(getFridayGlobalPath(), tutorialFileName).toString()
             File(filepath).writeText(content)
             val virtualFile = LocalFileSystem.getInstance().findFileByPath(filepath)
 
@@ -76,14 +77,14 @@ fun showTutorial(project: Project) {
 private fun getTutorialFileName(): String {
     val appName = ApplicationNamesInfo.getInstance().fullProductName.lowercase()
     return when {
-        appName.contains("intellij") -> "continue_tutorial.java"
-        appName.contains("pycharm") -> "continue_tutorial.py"
-        appName.contains("webstorm") -> "continue_tutorial.ts"
-        else -> "continue_tutorial.py" // Default to Python tutorial
+        appName.contains("intellij") -> "friday_tutorial.java"
+        appName.contains("pycharm") -> "friday_tutorial.py"
+        appName.contains("webstorm") -> "friday_tutorial.ts"
+        else -> "friday_tutorial.py" // Default to Python tutorial
     }
 }
 
-class ContinuePluginStartupActivity : StartupActivity, DumbAware {
+class FridayPluginStartupActivity : StartupActivity, DumbAware {
 
     override fun runActivity(project: Project) {
         ApplicationManager.getApplication().invokeLater {
@@ -105,14 +106,14 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
         val keyStroke = KeyStroke.getKeyStroke(shortcut)
         val actionIds = keymap.getActionIds(keyStroke)
 
-        // If Continue has been re-assigned to another key, don't remove the shortcut
-        if (!actionIds.any { it.startsWith("continue") }) {
+        // If Friday has been re-assigned to another key, don't remove the shortcut
+        if (!actionIds.any { it.startsWith("friday") }) {
             return
         }
 
         for (actionId in actionIds) {
-            if (actionId.startsWith("continue")) {
-                continue
+            if (actionId.startsWith("friday")) {
+                friday
             }
             val shortcuts = keymap.getShortcuts(actionId)
             for (shortcut in shortcuts) {
@@ -125,12 +126,12 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
 
     private fun initializePlugin(project: Project) {
         val coroutineScope = CoroutineScope(Dispatchers.IO)
-        val continuePluginService = project.service<ContinuePluginService>()
+        val fridayPluginService = project.service<FridayPluginService>()
 
         coroutineScope.launch {
-            val settings = service<ContinueExtensionSettings>()
-            if (!settings.continueState.shownWelcomeDialog) {
-                settings.continueState.shownWelcomeDialog = true
+            val settings = service<FridayExtensionSettings>()
+            if (!settings.fridayState.shownWelcomeDialog) {
+                settings.fridayState.shownWelcomeDialog = true
                 // Open tutorial file
                 showTutorial(project)
             }
@@ -138,21 +139,21 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
             settings.addRemoteSyncJob()
 
             val ideProtocolClient = IdeProtocolClient(
-                continuePluginService,
+                fridayPluginService,
                 coroutineScope,
                 project
             )
 
             val diffManager = DiffManager(project)
 
-            continuePluginService.diffManager = diffManager
-            continuePluginService.ideProtocolClient = ideProtocolClient
+            fridayPluginService.diffManager = diffManager
+            fridayPluginService.ideProtocolClient = ideProtocolClient
 
             // Listen to changes to settings so the core can reload remote configuration
             val connection = ApplicationManager.getApplication().messageBus.connect()
             connection.subscribe(SettingsListener.TOPIC, object : SettingsListener {
-                override fun settingsUpdated(settings: ContinueExtensionSettings.ContinueState) {
-                    continuePluginService.coreMessenger?.request(
+                override fun settingsUpdated(settings: FridayExtensionSettings.FridayState) {
+                    fridayPluginService.coreMessenger?.request(
                         "config/ideSettingsUpdate", mapOf(
                             "remoteConfigServerUrl" to settings.remoteConfigServerUrl,
                             "remoteConfigSyncPeriod" to settings.remoteConfigSyncPeriod,
@@ -172,7 +173,7 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
                     // Send "files/deleted" message if there are any deletions
                     if (deletedURIs.isNotEmpty()) {
                         val data = mapOf("uris" to deletedURIs)
-                        continuePluginService.coreMessenger?.request("files/deleted", data, null) { _ -> }
+                        fridayPluginService.coreMessenger?.request("files/deleted", data, null) { _ -> }
                     }
 
                     // Collect all relevant URIs for content changes
@@ -182,14 +183,14 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
                     // Notify core of content changes
                     if (changedURIs.isNotEmpty()) {
                         val data = mapOf("uris" to changedURIs)
-                        continuePluginService.coreMessenger?.request("files/changed", data, null) { _ -> }
+                        fridayPluginService.coreMessenger?.request("files/changed", data, null) { _ -> }
                     }
 
                     events.filterIsInstance<VFileCreateEvent>()
                         .mapNotNull { event -> event.file?.toUriOrNull() }
                         .takeIf { it.isNotEmpty() }?.let {
                             val data = mapOf("uris" to it)
-                            continuePluginService.coreMessenger?.request("files/created", data, null) { _ -> }
+                            fridayPluginService.coreMessenger?.request("files/created", data, null) { _ -> }
                         }
 
                     // TODO: Missing handling of copying files, renaming files, etc.
@@ -208,12 +209,12 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
                         val topLevelModulePaths = allModulePaths
                             .filter { modulePath -> allModulePaths.none { it != modulePath && modulePath.startsWith(it) } }
 
-                        continuePluginService.workspacePaths = topLevelModulePaths.toTypedArray();
+                        fridayPluginService.workspacePaths = topLevelModulePaths.toTypedArray();
                     }
 
                     override fun moduleRemoved(project: Project, module: Module) {
                         val removedPaths = ModuleRootManager.getInstance(module).contentRoots.mapNotNull { it.toUriOrNull() } ;
-                        continuePluginService.workspacePaths = continuePluginService.workspacePaths?.toList()?.filter { path -> removedPaths.none {removedPath -> path == removedPath }}?.toTypedArray();
+                        fridayPluginService.workspacePaths = fridayPluginService.workspacePaths?.toList()?.filter { path -> removedPaths.none {removedPath -> path == removedPath }}?.toTypedArray();
                     }
 
                     override fun modulesRenamed(
@@ -227,7 +228,7 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
                         val topLevelModulePaths = allModulePaths
                             .filter { modulePath -> allModulePaths.none { it != modulePath && modulePath.startsWith(it) } }
 
-                        continuePluginService.workspacePaths = topLevelModulePaths.toTypedArray()
+                        fridayPluginService.workspacePaths = topLevelModulePaths.toTypedArray()
                     }
                 }
             )
@@ -236,14 +237,14 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
                 override fun fileClosed(source: FileEditorManager, file: VirtualFile) {
                     file.toUriOrNull()?.let { uri ->
                         val data = mapOf("uris" to listOf(uri))
-                        continuePluginService.coreMessenger?.request("files/closed", data, null) { _ -> }
+                        fridayPluginService.coreMessenger?.request("files/closed", data, null) { _ -> }
                     }
                 }
 
                 override fun fileOpened(source: FileEditorManager, file: VirtualFile) {
                     file.toUriOrNull()?.let { uri ->
                         val data = mapOf("uris" to listOf(uri))
-                        continuePluginService.coreMessenger?.request("files/opened", data, null) { _ -> }
+                        fridayPluginService.coreMessenger?.request("files/opened", data, null) { _ -> }
                     }
                 }
             })
@@ -256,12 +257,12 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
             })
 
             val listener =
-                ContinuePluginSelectionListener(
+                FridayPluginSelectionListener(
                     coroutineScope,
                 )
 
             // Reload the WebView
-            continuePluginService?.let { pluginService ->
+            fridayPluginService?.let { pluginService ->
                 val allModulePaths = ModuleManager.getInstance(project).modules
                     .flatMap { module -> ModuleRootManager.getInstance(module).contentRoots.mapNotNull { it.toUriOrNull() } }
 
@@ -273,11 +274,11 @@ class ContinuePluginStartupActivity : StartupActivity, DumbAware {
 
             EditorFactory.getInstance().eventMulticaster.addSelectionListener(
                 listener,
-                project.service<ContinuePluginDisposable>()
+                project.service<FridayPluginDisposable>()
             )
 
             val coreMessengerManager = CoreMessengerManager(project, ideProtocolClient, coroutineScope)
-            continuePluginService.coreMessengerManager = coreMessengerManager
+            fridayPluginService.coreMessengerManager = coreMessengerManager
         }
     }
 }

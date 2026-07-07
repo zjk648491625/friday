@@ -1,11 +1,12 @@
-package com.github.continuedev.continueintellijextension.constants
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.constants
 
 /**
- * Constants related to the Continue plugin.
+ * Constants related to the Friday plugin.
  */
-object ContinueConstants {
+object FridayConstants {
     /**
-     * The unique identifier for the Continue plugin.
+     * The unique identifier for the Friday plugin.
      */
-    const val PLUGIN_ID = "com.github.continuedev.continueintellijextension"
+    const val PLUGIN_ID = "com.github.fridayai.fridayintellijextension"
 }

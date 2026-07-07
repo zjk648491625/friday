@@ -1,9 +1,10 @@
-package com.github.continuedev.continueintellijextension.`continue`.process
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`.process
 
 import java.io.InputStream
 import java.io.OutputStream
 
-interface ContinueProcess {
+interface FridayProcess {
 
     val input: InputStream
     val output: OutputStream

@@ -1,12 +1,13 @@
-package com.github.continuedev.continueintellijextension.`continue`
+// Modified by Friday AI Team - Rebranded from Continue
+package com.github.fridayai.fridayintellijextension.`friday`
 
-import com.github.continuedev.continueintellijextension.*
-import com.github.continuedev.continueintellijextension.constants.ContinueConstants
-import com.github.continuedev.continueintellijextension.constants.getContinueGlobalPath
-import com.github.continuedev.continueintellijextension.`continue`.file.FileUtils
-import com.github.continuedev.continueintellijextension.services.ContinueExtensionSettings
-import com.github.continuedev.continueintellijextension.services.ContinuePluginService
-import com.github.continuedev.continueintellijextension.utils.*
+import com.github.fridayai.fridayintellijextension.*
+import com.github.fridayai.fridayintellijextension.constants.FridayConstants
+import com.github.fridayai.fridayintellijextension.constants.getFridayGlobalPath
+import com.github.fridayai.fridayintellijextension.`friday`.file.FileUtils
+import com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings
+import com.github.fridayai.fridayintellijextension.services.FridayPluginService
+import com.github.fridayai.fridayintellijextension.utils.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.util.ExecUtil
@@ -41,7 +42,7 @@ import java.io.InputStreamReader
 
 class IntelliJIDE(
     private val project: Project,
-    private val continuePluginService: ContinuePluginService,
+    private val fridayPluginService: FridayPluginService,
 
     ) : IDE {
     
@@ -97,7 +98,7 @@ class IntelliJIDE(
         "*.eot", "*.cur", "*.avi", "*.mpg", "*.mpeg", "*.mov", "*.mp3",
         "*.mkv", "*.webm", "*.jar", "*.onnx", "*.parquet", "*.pqt",
         "*.wav", "*.webp", "*.wasm", "*.plist", "*.profraw", "*.gcda",
-        "*.gcno", "go.sum", "*.gitignore", "*.gitkeep", "*.continueignore",
+        "*.gcno", "go.sum", "*.gitignore", "*.gitkeep", "*.fridayignore",
         "*.csv", "*.uasset", "*.pdb", "*.bin", "*.pag", "*.swp", "*.jsonl"
     )
     
@@ -106,7 +107,7 @@ class IntelliJIDE(
         "target/", "out/", "bin/", ".pytest_cache/", ".vscode-test/",
         "__pycache__/", "site-packages/", ".gradle/", ".mvn/", ".cache/",
         "gems/", "vendor/", ".venv/", "venv/", ".vscode/", ".idea/", ".vs/",
-        ".continue/"
+        ".friday/"
     )
     
     // Combined patterns for use in ripgrep
@@ -115,7 +116,7 @@ class IntelliJIDE(
                                 ADDITIONAL_SEARCH_IGNORE_FILETYPES + 
                                 ADDITIONAL_SEARCH_IGNORE_DIRS
 
-    private val gitService = GitService(project, continuePluginService)
+    private val gitService = GitService(project, fridayPluginService)
     private val fileUtils = FileUtils(project)
     private val ripgrep: String = getRipgrepPath()
 
@@ -146,7 +147,7 @@ class IntelliJIDE(
             remoteName = "ssh"
         }
 
-        val pluginId = ContinueConstants.PLUGIN_ID
+        val pluginId = FridayConstants.PLUGIN_ID
         val plugin = PluginManagerCore.getPlugin(PluginId.getId(pluginId))
         val extensionVersion = plugin?.version ?: "Unknown"
 
@@ -160,7 +161,7 @@ class IntelliJIDE(
         )
     }
 
-    suspend fun enableHubContinueDev(): Boolean {
+    suspend fun enableHubFridayDev(): Boolean {
         return true
     }
 
@@ -259,8 +260,8 @@ class IntelliJIDE(
         }
     }
 
-    override suspend fun getContinueDir(): String {
-        return getContinueGlobalPath()
+    override suspend fun getFridayDir(): String {
+        return getFridayGlobalPath()
     }
 
     override suspend fun openFile(path: String) =
@@ -382,7 +383,7 @@ class IntelliJIDE(
     }
 
     override suspend fun showDiff(filepath: String, newContents: String, stepIndex: Int) {
-        continuePluginService.diffManager?.showDiff(filepath, newContents, stepIndex)
+        fridayPluginService.diffManager?.showDiff(filepath, newContents, stepIndex)
     }
 
     override suspend fun getOpenFiles(): List<String> =
@@ -424,7 +425,7 @@ class IntelliJIDE(
                     "--iglob",
                     pattern,
                     "--ignore-file",
-                    ".continueignore",
+                    ".fridayignore",
                     "--ignore-file",
                     ".gitignore",
                     "--glob",
@@ -461,7 +462,7 @@ class IntelliJIDE(
                     ripgrep,
                     "-i",
                     "--ignore-file",
-                    ".continueignore",
+                    ".fridayignore",
                     "--ignore-file",
                     ".gitignore",
                     "-C",
@@ -629,8 +630,8 @@ class IntelliJIDE(
 
             val deferred = CompletableDeferred<String?>()
 
-            val notification = NotificationGroupManager.getInstance().getNotificationGroup("Continue")
-                .createNotification(message, notificationType).setIcon(Icons.Continue)
+            val notification = NotificationGroupManager.getInstance().getNotificationGroup("Friday")
+                .createNotification(message, notificationType).setIcon(Icons.Friday)
 
             val buttonTexts = otherParams.filterIsInstance<String>().toTypedArray()
             buttonTexts.forEach { buttonText ->
@@ -720,7 +721,7 @@ class IntelliJIDE(
     }
 
     private fun workspaceDirectories(): Array<String> {
-        val dirs = this.continuePluginService.workspacePaths
+        val dirs = this.fridayPluginService.workspacePaths
 
         if (dirs?.isNotEmpty() == true) {
             return dirs
