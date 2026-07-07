@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelConfig } from "@continuedev/config-yaml";
 import { BaseLlmApi } from "@continuedev/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
@@ -159,10 +160,10 @@ export async function handlePostToolValidation(
       });
       return { chatHistory, wasCompacted: true };
     } else {
-      // Compaction failed, cannot continue
+      // Compaction failed, cannot friday
       logger.error("Failed to compact history after tool execution overflow");
       throw new Error(
-        "Context limit exceeded and compaction failed. Unable to continue.",
+        "Context limit exceeded and compaction failed. Unable to friday.",
       );
     }
   }
@@ -175,13 +176,13 @@ export async function handlePostToolValidation(
  */
 export async function handleNormalAutoCompaction(
   chatHistory: ChatHistoryItem[],
-  shouldContinue: boolean,
+  shouldFriday: boolean,
   options: CompactionHelperOptions,
 ): Promise<{ chatHistory: ChatHistoryItem[]; wasCompacted: boolean }> {
   const { model, llmApi, isHeadless, callbacks, systemMessage, tools } =
     options;
 
-  if (!shouldContinue) {
+  if (!shouldFriday) {
     return { chatHistory, wasCompacted: false };
   }
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { processRule } from "../hubLoader.js";
@@ -75,7 +76,7 @@ describe("promptProcessor", () => {
       expect(result).toBe("processed1\n\nprocessed2\n\ninitial");
     });
 
-    it("should handle processing errors and continue with successful ones", async () => {
+    it("should handle processing errors and friday with successful ones", async () => {
       const mockProcessPromptOrRule = vi.mocked(processRule);
       mockProcessPromptOrRule
         .mockResolvedValueOnce("success1")

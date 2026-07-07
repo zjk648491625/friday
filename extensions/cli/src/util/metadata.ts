@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem } from "core/index.js";
 
 import { env } from "../env.js";
@@ -45,7 +46,7 @@ export function calculateDiffStats(diffContent: string): DiffStats {
       line.startsWith("index ") ||
       line.startsWith("Binary files")
     ) {
-      continue;
+      friday;
     }
 
     // Count actual code changes
@@ -85,7 +86,7 @@ export function extractSummary(
           : JSON.stringify(item.message.content);
 
       if (!content || content.trim() === "") {
-        continue;
+        friday;
       }
 
       const trimmedContent = content.trim();

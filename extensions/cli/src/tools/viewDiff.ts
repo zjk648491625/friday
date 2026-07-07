@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as child_process from "child_process";
 import * as fs from "fs";
 import * as util from "util";
@@ -14,7 +15,7 @@ const DEFAULT_DIFF_MAX_CHARS = 50000;
 
 function getDiffMaxChars(): number {
   return parseEnvNumber(
-    process.env.CONTINUE_CLI_DIFF_MAX_OUTPUT_LENGTH,
+    process.env.FRIDAY_CLI_DIFF_MAX_OUTPUT_LENGTH,
     DEFAULT_DIFF_MAX_CHARS,
   );
 }

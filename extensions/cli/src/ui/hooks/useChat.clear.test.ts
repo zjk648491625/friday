@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { convertToUnifiedHistory } from "core/util/messageConversion.js";
 import { ChatCompletionMessageParam } from "openai/resources.mjs";
 import { beforeEach, describe, expect, it, vi } from "vitest";

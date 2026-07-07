@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -516,10 +517,10 @@ You are a helpful agent`;
         mockLoadPackageFromHub.mockResolvedValue(mockAgentFile);
 
         const result =
-          await agentFileService.getAgentFile("continue/dev-agent");
+          await agentFileService.getAgentFile("friday/dev-agent");
 
         expect(mockLoadPackageFromHub).toHaveBeenCalledWith(
-          "continue/dev-agent",
+          "friday/dev-agent",
           expect.any(Object),
         );
         expect(result).toEqual(mockAgentFile);

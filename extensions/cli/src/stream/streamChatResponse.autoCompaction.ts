@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelConfig } from "@continuedev/config-yaml";
 import { BaseLlmApi } from "@continuedev/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
@@ -212,7 +213,7 @@ export async function handleAutoCompaction(
     // Handle error notification
     handleCompactionError(error, isHeadless, callbacks);
 
-    // Continue without compaction on error
+    // Friday without compaction on error
     return { chatHistory, compactionIndex: null, wasCompacted: false };
   }
 }

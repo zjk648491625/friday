@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text, useInput } from "ink";
 import React, { useState } from "react";
 
@@ -36,17 +37,17 @@ interface ToolPermissionSelectorProps {
 
 const getPermissionOptions = (): PermissionOption[] => {
   return [
-    { id: "approve", name: "Continue", color: "green", approved: true },
+    { id: "approve", name: "Friday", color: "green", approved: true },
     {
       id: "approve_policy",
-      name: "Continue + don't ask again",
+      name: "Friday + don't ask again",
       color: "cyan",
       approved: true,
       createPolicy: true,
     },
     {
       id: "deny_stop",
-      name: "No, and tell Continue what to do differently",
+      name: "No, and tell Friday what to do differently",
       color: "yellow",
       approved: false,
       stopStream: true,
@@ -83,13 +84,13 @@ export const ToolPermissionSelector: React.FC<ToolPermissionSelectorProps> = ({
       return;
     }
 
-    // Tab to continue (approve)
+    // Tab to friday (approve)
     if (key.tab && !key.shift) {
       onResponse(requestId, true, false, false);
       return;
     }
 
-    // Shift+Tab to continue with policy creation
+    // Shift+Tab to friday with policy creation
     if (key.tab && key.shift) {
       onResponse(requestId, true, true, false);
       return;
@@ -133,7 +134,7 @@ export const ToolPermissionSelector: React.FC<ToolPermissionSelectorProps> = ({
       </Box>
 
       <Box marginTop={1} flexDirection="column">
-        <Text color="dim">Would you like to continue?</Text>
+        <Text color="dim">Would you like to friday?</Text>
         {showDynamicWarning && (
           <Box marginTop={1}>
             <Text color="yellow" dimColor>

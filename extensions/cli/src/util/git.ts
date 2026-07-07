@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec, execSync } from "child_process";
 import { promisify } from "util";
 
@@ -62,10 +63,10 @@ export function isGitHubActions(): boolean {
 }
 
 /**
- * Check if running in Continue remote agents
+ * Check if running in Friday remote agents
  */
-export function isContinueRemoteAgent(): boolean {
-  return process.env.CONTINUE_REMOTE === "true";
+export function isFridayRemoteAgent(): boolean {
+  return process.env.FRIDAY_REMOTE === "true";
 }
 
 /**

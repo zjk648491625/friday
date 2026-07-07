@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import React, { useCallback } from "react";
 
 import type { ChatHistoryItem } from "../../../../../core/index.js";

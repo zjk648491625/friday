@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { runTerminalCommandTool } from "src/tools/runTerminalCommand.js";
 import { getErrorString } from "src/util/error.js";
 

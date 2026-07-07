@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 describe("renderWithServices", () => {
   it("is tested through actual usage in component tests", () => {
     // This utility is tested through its usage in real component tests

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 use std::fs::{self, File};
 use std::io::Write;
 use tempfile::tempdir;

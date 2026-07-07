@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec, spawn } from "child_process";
 
 import { PreprocessedToolCall } from "src/tools/types.js";
@@ -76,7 +77,7 @@ export class GitAiIntegrationService extends BaseService<GitAiIntegrationService
     await new Promise<void>((resolve, reject) => {
       const gitAiProcess = spawn(
         "git-ai",
-        ["checkpoint", "continue-cli", "--hook-input", "stdin"],
+        ["checkpoint", "friday-cli", "--hook-input", "stdin"],
         { cwd: workspaceDirectory },
       );
 

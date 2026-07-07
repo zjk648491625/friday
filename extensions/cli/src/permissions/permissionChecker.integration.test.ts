@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, it, expect, beforeEach } from "vitest";
 
 import { ToolPermissionService } from "../services/ToolPermissionService.js";

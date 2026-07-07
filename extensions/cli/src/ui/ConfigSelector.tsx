@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as path from "path";
 
@@ -19,7 +20,7 @@ interface ConfigSelectorProps {
   onCancel: () => void;
 }
 
-const CONFIG_PATH = path.join(env.continueHome, "config.yaml");
+const CONFIG_PATH = path.join(env.fridayHome, "config.yaml");
 
 const ConfigSelector: React.FC<ConfigSelectorProps> = ({
   onSelect,

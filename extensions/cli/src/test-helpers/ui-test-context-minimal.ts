@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { vi } from "vitest";
 
 // Create mock objects that will be used by tests

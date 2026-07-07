@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const RIPGREP_VERSION = "14.1.1";
 
 /**

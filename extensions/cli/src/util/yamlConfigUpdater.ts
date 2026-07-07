@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { parseDocument } from "yaml";
 
 export interface ModelConfig {
@@ -20,7 +21,7 @@ export interface ConfigStructure {
   models: ModelConfig[];
 }
 
-// These model definitions are inlined copies of the corresponding Continue Hub
+// These model definitions are inlined copies of the corresponding Friday Hub
 // blocks (e.g. anthropic/claude-sonnet-4-6) that onboarding previously resolved
 // via `uses:` slugs. Since Hub/slug resolution has been removed, we reproduce
 // the exact block contents here, with `apiKey` substituted for the block's

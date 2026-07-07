@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Tests for the hooks system: config loading, matcher matching,
  * hook execution (command and HTTP), exit code semantics,
@@ -135,7 +136,7 @@ describe("hookConfig", () => {
     let tmpDir: string;
     let fakeHome: string;
     let projectDir: string;
-    let originalContinueGlobalDir: string | undefined;
+    let originalFridayGlobalDir: string | undefined;
 
     beforeEach(() => {
       tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "hooks-test-"));
@@ -144,17 +145,17 @@ describe("hookConfig", () => {
       projectDir = path.join(tmpDir, "project");
       fs.mkdirSync(fakeHome, { recursive: true });
       fs.mkdirSync(projectDir, { recursive: true });
-      // Override CONTINUE_GLOBAL_DIR so that user-global settings
-      // from the real ~/.continue/settings.json don't leak into tests
-      originalContinueGlobalDir = process.env.CONTINUE_GLOBAL_DIR;
-      process.env.CONTINUE_GLOBAL_DIR = path.join(fakeHome, ".continue");
+      // Override FRIDAY_GLOBAL_DIR so that user-global settings
+      // from the real ~/.friday/settings.json don't leak into tests
+      originalFridayGlobalDir = process.env.FRIDAY_GLOBAL_DIR;
+      process.env.FRIDAY_GLOBAL_DIR = path.join(fakeHome, ".friday");
     });
 
     afterEach(() => {
-      if (originalContinueGlobalDir === undefined) {
-        delete process.env.CONTINUE_GLOBAL_DIR;
+      if (originalFridayGlobalDir === undefined) {
+        delete process.env.FRIDAY_GLOBAL_DIR;
       } else {
-        process.env.CONTINUE_GLOBAL_DIR = originalContinueGlobalDir;
+        process.env.FRIDAY_GLOBAL_DIR = originalFridayGlobalDir;
       }
       fs.rmSync(tmpDir, { recursive: true, force: true });
     });
@@ -170,8 +171,8 @@ describe("hookConfig", () => {
       expect(result.disabled).toBe(false);
     });
 
-    it("loads hooks from .continue/settings.json", () => {
-      const settingsDir = path.join(projectDir, ".continue");
+    it("loads hooks from .friday/settings.json", () => {
+      const settingsDir = path.join(projectDir, ".friday");
       fs.mkdirSync(settingsDir, { recursive: true });
       fs.writeFileSync(
         path.join(settingsDir, "settings.json"),
@@ -227,15 +228,15 @@ describe("hookConfig", () => {
         }),
       );
 
-      // .continue/settings.json (project-level)
-      const continueDir = path.join(projectDir, ".continue");
-      fs.mkdirSync(continueDir, { recursive: true });
+      // .friday/settings.json (project-level)
+      const fridayDir = path.join(projectDir, ".friday");
+      fs.mkdirSync(fridayDir, { recursive: true });
       fs.writeFileSync(
-        path.join(continueDir, "settings.json"),
+        path.join(fridayDir, "settings.json"),
         JSON.stringify({
           hooks: {
             PreToolUse: [
-              { hooks: [{ type: "command", command: "echo continue" }] },
+              { hooks: [{ type: "command", command: "echo friday" }] },
             ],
           },
         }),
@@ -247,7 +248,7 @@ describe("hookConfig", () => {
     });
 
     it("respects disableAllHooks", () => {
-      const settingsDir = path.join(projectDir, ".continue");
+      const settingsDir = path.join(projectDir, ".friday");
       fs.mkdirSync(settingsDir, { recursive: true });
       fs.writeFileSync(
         path.join(settingsDir, "settings.json"),
@@ -268,7 +269,7 @@ describe("hookConfig", () => {
     });
 
     it("handles malformed settings files gracefully", () => {
-      const settingsDir = path.join(projectDir, ".continue");
+      const settingsDir = path.join(projectDir, ".friday");
       fs.mkdirSync(settingsDir, { recursive: true });
       fs.writeFileSync(
         path.join(settingsDir, "settings.json"),
@@ -828,14 +829,14 @@ describeUnix("hookRunner", () => {
   });
 
   describe("runHooks - environment variables", () => {
-    it("sets CONTINUE_PROJECT_DIR and CLAUDE_PROJECT_DIR env vars", async () => {
+    it("sets FRIDAY_PROJECT_DIR and CLAUDE_PROJECT_DIR env vars", async () => {
       const config: HooksConfig = {
         PreToolUse: [
           {
             hooks: [
               {
                 type: "command",
-                command: 'echo "$CONTINUE_PROJECT_DIR|$CLAUDE_PROJECT_DIR"',
+                command: 'echo "$FRIDAY_PROJECT_DIR|$CLAUDE_PROJECT_DIR"',
               },
             ],
           },

@@ -1,4 +1,5 @@
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+// Modified by Friday AI Team - Rebranded from Continue
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 
 import { loadMarkdownSkills } from "../util/loadMarkdownSkills.js";
 import { logger } from "../util/logger.js";
@@ -57,8 +58,8 @@ ${skills.map((skill) => `\nname: ${skill.name}\ndescription: ${skill.description
       const skill = skills.find((s) => s.name === skill_name);
       if (!skill) {
         const availableSkills = skills.map((s) => s.name).join(", ");
-        throw new ContinueError(
-          ContinueErrorReason.SkillNotFound,
+        throw new FridayError(
+          FridayErrorReason.SkillNotFound,
           `Skill "${skill_name}" not found. Available skills: ${availableSkills || "none"}`,
         );
       }
@@ -106,7 +107,7 @@ ${identifier}
 
 **Create the skill files**
 
-- The skills should be created under the directory: ~/.continue/skills/<skill-name>
+- The skills should be created under the directory: ~/.friday/skills/<skill-name>
 - The subdirectory name should match the name of the skill directory in the fetched repository.
 - The relevant files and folders along with SKILL.md should be present inside the created skill subdirectory.
 - If the skill already exists, ask question to the user to clarify whether they want to update it.

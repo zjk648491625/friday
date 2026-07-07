@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // @ts-ignore
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 import { ChatCompletionTool } from "openai/resources.mjs";
 
 import { isModelCapable } from "src/utils/modelCapability.js";
@@ -137,7 +138,7 @@ export async function getAllAvailableTools(
   const mcpState = await serviceContainer.get<MCPServiceState>(
     SERVICE_NAMES.MCP,
   );
-  tools.push(...mcpState.tools.map(convertMcpToolToContinueTool));
+  tools.push(...mcpState.tools.map(convertMcpToolToFridayTool));
 
   return tools;
 }
@@ -189,7 +190,7 @@ export function convertToolToChatCompletionTool(
   };
 }
 
-export function convertMcpToolToContinueTool(mcpTool: MCPTool): Tool {
+export function convertMcpToolToFridayTool(mcpTool: MCPTool): Tool {
   return {
     name: mcpTool.name,
     displayName: mcpTool.name,
@@ -259,9 +260,9 @@ export async function executeToolCall(
     const duration = Date.now() - startTime;
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorReason =
-      error instanceof ContinueError
+      error instanceof FridayError
         ? error.reason
-        : ContinueErrorReason.Unknown;
+        : FridayErrorReason.Unknown;
 
     telemetryService.logToolResult({
       toolName: toolCall.name,

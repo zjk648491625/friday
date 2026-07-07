@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text } from "ink";
 import React, {
   useCallback,
@@ -68,8 +69,8 @@ async function loadAndSetSession(
     }
 
     // Set the session ID so future operations use this session
-    process.env.CONTINUE_CLI_TEST_SESSION_ID = sessionId.replace(
-      "continue-cli-",
+    process.env.FRIDAY_CLI_TEST_SESSION_ID = sessionId.replace(
+      "friday-cli-",
       "",
     );
 
@@ -322,7 +323,7 @@ const TUIChat: React.FC<TUIChatProps> = ({
 
         const defaultPath = path.join(
           process.cwd(),
-          `continue-session-${session.sessionId}.json`,
+          `friday-session-${session.sessionId}.json`,
         );
         const jsonOutput = JSON.stringify(exportPayload, null, 2);
         fs.writeFileSync(defaultPath, jsonOutput, "utf-8");

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Shared flag processing utilities to eliminate duplication between TUI and headless modes
  */

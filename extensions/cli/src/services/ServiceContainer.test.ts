@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import { ServiceContainer } from "./ServiceContainer.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { vi } from "vitest";
 
 // Mock BaseLlmApi class to avoid inline class definitions

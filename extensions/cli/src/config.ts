@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AssistantUnrolled, ModelConfig } from "@continuedev/config-yaml";
 import {
   BaseLlmApi,
@@ -19,7 +20,7 @@ import { getVersion } from "./version.js";
  */
 function getUserAgent(): string {
   const version = getVersion();
-  return `Continue-CLI/${version}`;
+  return `Friday-CLI/${version}`;
 }
 
 /**
@@ -33,7 +34,7 @@ function _mergeUserAgentIntoRequestOptions(
     headers: {
       ...requestOptions?.headers,
       "user-agent": getUserAgent(),
-      "x-continue-unique-id": getUniqueId(),
+      "x-friday-unique-id": getUniqueId(),
     },
   };
 }

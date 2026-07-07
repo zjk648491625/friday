@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec } from "child_process";
 import { readFile, unlink } from "fs/promises";
 import os from "os";
@@ -59,7 +60,7 @@ export async function getClipboardImage(): Promise<Buffer | null> {
     const tempDir = os.tmpdir();
     const tempImagePath = path.join(
       tempDir,
-      `continue-clipboard-${Date.now()}.png`,
+      `friday-clipboard-${Date.now()}.png`,
     );
 
     if (platform === "darwin") {

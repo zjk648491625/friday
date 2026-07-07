@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IProtocol } from "core/protocol/index.js";
 import { IMessenger, type Message } from "core/protocol/messenger";
 import { ChildProcessWithoutNullStreams } from "node:child_process";
@@ -193,12 +194,12 @@ export class IpcMessenger<
     });
     process.stdout.on("close", () => {
       fs.writeFileSync("./error.log", `${new Date().toISOString()}\n`);
-      console.log("[info] Exiting Continue core...");
+      console.log("[info] Exiting Friday core...");
       process.exit(1);
     });
     process.stdin.on("close", () => {
       fs.writeFileSync("./error.log", `${new Date().toISOString()}\n`);
-      console.log("[info] Exiting Continue core...");
+      console.log("[info] Exiting Friday core...");
       process.exit(1);
     });
   }
@@ -231,10 +232,10 @@ export class CoreBinaryMessenger<
       this._handleData(data);
     });
     this.subprocess.stdout.on("close", () => {
-      console.log("[info] Continue core exited");
+      console.log("[info] Friday core exited");
     });
     this.subprocess.stdin.on("close", () => {
-      console.log("[info] Continue core exited");
+      console.log("[info] Friday core exited");
     });
   }
 

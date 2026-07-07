@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { render } from "ink-testing-library";
 import React from "react";
 import { vi } from "vitest";
@@ -86,7 +87,7 @@ describe("TUIChat - Stream Stopping on Tool Rejection", () => {
         // Simulate early return when tool is rejected
         return "Partial content before rejection";
       }
-      // If approved, would continue with full processing
+      // If approved, would friday with full processing
       return "Full content with tool results";
     });
 

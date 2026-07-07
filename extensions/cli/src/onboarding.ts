@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as path from "path";
 
@@ -15,7 +16,7 @@ import {
 import { question } from "./util/prompt.js";
 import { updateAnthropicModelInYaml } from "./util/yamlConfigUpdater.js";
 
-const CONFIG_PATH = path.join(env.continueHome, "config.yaml");
+const CONFIG_PATH = path.join(env.fridayHome, "config.yaml");
 
 export async function checkHasAcceptableModel(
   configPath: string,
@@ -56,10 +57,10 @@ export async function runOnboardingFlow(
     return false;
   }
 
-  // Step 2: Check for CONTINUE_USE_BEDROCK environment variable first (before test env check)
-  if (process.env.CONTINUE_USE_BEDROCK === "1") {
+  // Step 2: Check for FRIDAY_USE_BEDROCK environment variable first (before test env check)
+  if (process.env.FRIDAY_USE_BEDROCK === "1") {
     console.log(
-      chalk.blue("✓ Using AWS Bedrock (CONTINUE_USE_BEDROCK detected)"),
+      chalk.blue("✓ Using AWS Bedrock (FRIDAY_USE_BEDROCK detected)"),
     );
     return true;
   }
@@ -105,11 +106,11 @@ export async function runOnboardingFlow(
 }
 
 export async function isFirstTime(): Promise<boolean> {
-  return !fs.existsSync(path.join(env.continueHome, ".onboarding_complete"));
+  return !fs.existsSync(path.join(env.fridayHome, ".onboarding_complete"));
 }
 
 export async function markOnboardingComplete(): Promise<void> {
-  const flagPath = path.join(env.continueHome, ".onboarding_complete");
+  const flagPath = path.join(env.fridayHome, ".onboarding_complete");
   const flagDir = path.dirname(flagPath);
 
   if (!fs.existsSync(flagDir)) {

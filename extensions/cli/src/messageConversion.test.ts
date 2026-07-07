@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem } from "core/index.js";
 import { convertFromUnifiedHistory } from "core/util/messageConversion.js";
 

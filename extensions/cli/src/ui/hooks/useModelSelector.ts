@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { updateModelName } from "../../auth/workos.js";
 import {
   SERVICE_NAMES,

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { logger } from "../util/logger.js";
 
 import { BaseService } from "./BaseService.js";

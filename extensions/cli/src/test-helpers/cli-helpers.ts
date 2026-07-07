@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
@@ -84,7 +85,7 @@ export async function runCLI(
     cwd: context.testDir,
     env: {
       ...process.env,
-      CONTINUE_CLI_TEST: "true",
+      FRIDAY_CLI_TEST: "true",
       HOME: context.testDir,
       // Windows-specific home directory variables
       USERPROFILE: context.testDir,
@@ -162,7 +163,7 @@ export async function readSession(
   context: CLITestContext,
 ): Promise<any | null> {
   try {
-    const sessionDir = path.join(context.testDir, ".continue", "sessions");
+    const sessionDir = path.join(context.testDir, ".friday", "sessions");
     const files = await fs.readdir(sessionDir);
 
     if (files.length === 0) {
@@ -187,7 +188,7 @@ export async function createMockSession(
   context: CLITestContext,
   messages: any[],
 ): Promise<string> {
-  const sessionDir = path.join(context.testDir, ".continue", "sessions");
+  const sessionDir = path.join(context.testDir, ".friday", "sessions");
   await fs.mkdir(sessionDir, { recursive: true });
 
   const sessionId = `test-session-${Date.now()}`;
@@ -251,7 +252,7 @@ export async function withInteractiveInput(
     cwd: context.testDir,
     env: {
       ...process.env,
-      CONTINUE_CLI_TEST: "true",
+      FRIDAY_CLI_TEST: "true",
       HOME: context.testDir,
       // Windows-specific home directory variables
       USERPROFILE: context.testDir,

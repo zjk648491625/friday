@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec } from "child_process";
 import * as path from "path";
 
@@ -23,7 +24,7 @@ interface UseConfigSelectorProps {
   handleClear: () => void;
 }
 
-const CONFIG_PATH = path.join(env.continueHome, "config.yaml");
+const CONFIG_PATH = path.join(env.fridayHome, "config.yaml");
 
 export function useConfigSelector({
   onMessage,
@@ -36,7 +37,7 @@ export function useConfigSelector({
 
     if (config.type === "create") {
       // Open the web browser to create new assistant
-      const url = new URL("https://continue.dev/new");
+      const url = new URL("https://friday.dev/new");
       url.searchParams.set("type", "assistant");
 
       try {

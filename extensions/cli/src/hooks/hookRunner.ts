@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { execFile } from "child_process";
 
 import { logger } from "../util/logger.js";
@@ -40,7 +41,7 @@ function executeCommandHook(
     const env = {
       ...process.env,
       CLAUDE_PROJECT_DIR: cwd,
-      CONTINUE_PROJECT_DIR: cwd,
+      FRIDAY_PROJECT_DIR: cwd,
     };
 
     // Use shell to execute the command (matches Claude Code behavior)
@@ -361,7 +362,7 @@ function aggregateResults(
       ) {
         additionalContextParts.push(result.stdout);
       }
-      continue;
+      friday;
     }
 
     const specific = output.hookSpecificOutput;

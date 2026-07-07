@@ -1,6 +1,7 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -63,8 +64,8 @@ describe("editTool", () => {
       };
 
       const error = await editTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
-      expect(error.reason).toBe(ContinueErrorReason.EditToolFileNotRead);
+      expect(error).toBeInstanceOf(FridayError);
+      expect(error.reason).toBe(FridayErrorReason.EditToolFileNotRead);
     });
 
     it("should throw error if file does not exist", async () => {
@@ -79,8 +80,8 @@ describe("editTool", () => {
       };
 
       const error = await editTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
-      expect(error.reason).toBe(ContinueErrorReason.FileNotFound);
+      expect(error).toBeInstanceOf(FridayError);
+      expect(error.reason).toBe(FridayErrorReason.FileNotFound);
     });
 
     it("should throw error if old_string is not found", async () => {
@@ -94,9 +95,9 @@ describe("editTool", () => {
       };
 
       const error = await editTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
+      expect(error).toBeInstanceOf(FridayError);
       expect(error.reason).toBe(
-        ContinueErrorReason.FindAndReplaceOldStringNotFound,
+        FridayErrorReason.FindAndReplaceOldStringNotFound,
       );
     });
 
@@ -111,9 +112,9 @@ describe("editTool", () => {
       };
 
       const error = await editTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
+      expect(error).toBeInstanceOf(FridayError);
       expect(error.reason).toBe(
-        ContinueErrorReason.FindAndReplaceMultipleOccurrences,
+        FridayErrorReason.FindAndReplaceMultipleOccurrences,
       );
     });
 
@@ -127,9 +128,9 @@ describe("editTool", () => {
       };
 
       const error = await editTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
+      expect(error).toBeInstanceOf(FridayError);
       expect(error.reason).toBe(
-        ContinueErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
+        FridayErrorReason.FindAndReplaceIdenticalOldAndNewStrings,
       );
     });
 
@@ -211,8 +212,8 @@ describe("editTool", () => {
       };
 
       const error = await editTool.run(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
-      expect(error.reason).toBe(ContinueErrorReason.FileWriteError);
+      expect(error).toBeInstanceOf(FridayError);
+      expect(error.reason).toBe(FridayErrorReason.FileWriteError);
     });
   });
 

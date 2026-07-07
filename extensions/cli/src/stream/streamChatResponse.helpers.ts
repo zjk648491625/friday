@@ -1,9 +1,10 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Helper functions extracted from streamChatResponse.ts to reduce file size
 /* eslint-disable max-lines */
 
 import type { ToolStatus, Usage } from "core/index.js";
 import { calculateRequestCost } from "core/llm/utils/calculateRequestCost.js";
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 import { ChatCompletionToolMessageParam } from "openai/resources/chat/completions.mjs";
 
 import { ToolPermissionServiceState } from "src/services/ToolPermissionService.js";
@@ -237,7 +238,7 @@ export function processToolCallDelta(
       toolCall.arguments = JSON.parse(toolCall.argumentsStr);
       toolCall.startNotified = true;
     } catch {
-      // JSON not complete yet, continue
+      // JSON not complete yet, friday
     }
   }
 
@@ -424,9 +425,9 @@ export async function preprocessStreamedToolCalls(
       callbacks?.onToolStart?.(toolCall.name, toolCall.arguments);
 
       const errorReason =
-        error instanceof ContinueError
+        error instanceof FridayError
           ? error.reason
-          : ContinueErrorReason.Unknown;
+          : FridayErrorReason.Unknown;
 
       const errorMessage =
         error instanceof Error ? error.message : String(error);
@@ -547,7 +548,7 @@ export async function executeStreamedToolCalls(
         } catch {}
         hasRejection = true;
         // Remaining items will be auto-cancelled in subsequent iterations
-        continue;
+        friday;
       }
 
       // Immediately mark as calling for instant UI feedback

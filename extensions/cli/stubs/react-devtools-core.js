@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Stub for react-devtools-core to prevent errors when it's not installed
 export default {
   connectToDevTools: () => {

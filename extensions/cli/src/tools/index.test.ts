@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { extractToolCalls, getToolDisplayName } from "./index.js";
 
 describe("tools/index utilities", () => {

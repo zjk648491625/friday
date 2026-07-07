@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
@@ -14,7 +15,7 @@ const SESSION_ID = crypto.randomBytes(4).toString("hex");
 
 // Get log directory
 function getLogDir(): string {
-  const logDir = path.join(env.continueHome, "logs");
+  const logDir = path.join(env.fridayHome, "logs");
 
   // Create directory if it doesn't exist
   if (!fs.existsSync(logDir)) {

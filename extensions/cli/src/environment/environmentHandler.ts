@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec } from "child_process";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
@@ -15,7 +16,7 @@ interface EnvironmentConfig {
 }
 
 const ENVIRONMENT_FILE_NAME = "environment.json";
-const ENVIRONMENT_SEARCH_PATHS = [".continue"];
+const ENVIRONMENT_SEARCH_PATHS = [".friday"];
 
 /**
  * Finds and reads the environment.json file
@@ -110,7 +111,7 @@ export async function runEnvironmentInstallSafe(): Promise<void> {
       formatError(error),
     );
     logger.error(
-      chalk.dim("Server will continue to run without the install script."),
+      chalk.dim("Server will friday to run without the install script."),
     );
   }
 }

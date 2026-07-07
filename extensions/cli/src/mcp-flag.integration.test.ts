@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { loadMcpFromHub } from "./hubLoader.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { diffWordsWithSpace, Change } from "diff";
 import { Box, Text } from "ink";
 import React, { useMemo } from "react";
@@ -35,7 +36,7 @@ function parseDiffWithLineNumbers(diffContent: string): DiffLine[] {
       result.push({ type: "hunk", content: line });
       currentOldLine--;
       currentNewLine--;
-      continue;
+      friday;
     }
     if (!inHunk) {
       if (
@@ -44,8 +45,8 @@ function parseDiffWithLineNumbers(diffContent: string): DiffLine[] {
         line.startsWith("diff --git") ||
         line.startsWith("index ")
       )
-        continue;
-      continue;
+        friday;
+      friday;
     }
     if (line.startsWith("+")) {
       currentNewLine++;

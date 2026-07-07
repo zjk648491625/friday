@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { EventEmitter } from "events";
 
 // Event emitter to notify that running terminal command should be moved to background

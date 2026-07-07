@@ -1,10 +1,10 @@
-# Continue CLI Terminal UI spec
+# Friday CLI Terminal UI spec
 
 This spec is incomplete.
 
 ## Stack
 
-The Continue CLI uses Ink as a react TUI library.
+The Friday CLI uses Ink as a react TUI library.
 
 ## cwd/git display
 

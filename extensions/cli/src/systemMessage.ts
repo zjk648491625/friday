@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
@@ -40,7 +41,7 @@ function getGitStatus(): string {
   }
 }
 
-const baseSystemMessage = `You are an agent in the Continue CLI. Given the user's prompt, you should use the tools available to you to answer the user's question.
+const baseSystemMessage = `You are an agent in the Friday CLI. Given the user's prompt, you should use the tools available to you to answer the user's question.
 
 Notes:
 1. IMPORTANT: You should be concise, direct, and to the point, since your responses will be displayed on a command line interface.
@@ -84,43 +85,43 @@ function getRuleNameFromPath(filePath: string): string {
 }
 
 /**
- * Scan .continue/rules/ directories for markdown rule files and return the rules with metadata that should be always-applied
+ * Scan .friday/rules/ directories for markdown rule files and return the rules with metadata that should be always-applied
  */
 export function loadMarkdownRulesWithMetadata(): RuleObject[] {
   const cwd = process.cwd();
   const rulesDirs = [
-    path.join(cwd, ".continue", "rules"),
-    path.join(env.continueHome, "rules"),
+    path.join(cwd, ".friday", "rules"),
+    path.join(env.fridayHome, "rules"),
   ];
 
   const rules: RuleObject[] = [];
 
   for (const dir of rulesDirs) {
-    if (!fs.existsSync(dir)) continue;
+    if (!fs.existsSync(dir)) friday;
 
     let files: string[];
     try {
       files = fs.readdirSync(dir, { recursive: true }) as string[];
     } catch {
-      continue;
+      friday;
     }
 
     for (const file of files) {
-      if (!String(file).endsWith(".md")) continue;
+      if (!String(file).endsWith(".md")) friday;
 
       const filePath = path.join(dir, String(file));
       try {
         const stat = fs.statSync(filePath);
-        if (!stat.isFile()) continue;
+        if (!stat.isFile()) friday;
       } catch {
-        continue;
+        friday;
       }
 
       try {
         const content = fs.readFileSync(filePath, "utf-8");
         const { frontmatter, markdown } = parseMarkdownRule(content);
 
-        if (frontmatter.invokable) continue;
+        if (frontmatter.invokable) friday;
 
         const isAlwaysApply =
           frontmatter.alwaysApply === true ||
@@ -178,7 +179,7 @@ export async function constructSystemMessage(
       }
     }
   } catch (error) {
-    // If there's any error reading the file, continue without agent content
+    // If there's any error reading the file, friday without agent content
     console.warn("Warning: Could not read agent configuration file:", error);
   }
 
@@ -200,7 +201,7 @@ export async function constructSystemMessage(
   const configYamlRules = await getConfigYamlRules();
   processedRules.push(...configYamlRules);
 
-  // Load markdown rules from .continue/rules/ directories
+  // Load markdown rules from .friday/rules/ directories
   const markdownRules = loadMarkdownRulesWithMetadata();
   // Deduplicate against already-loaded rules
   const existingRulesSet = new Set(processedRules);
@@ -220,11 +221,11 @@ export async function constructSystemMessage(
       '\n<context name="planMode">You are operating in _Plan Mode_, which means that your goal is to help the user investigate their ideas and develop a plan before taking action. You only have access to read-only tools and should not attempt to circumvent them to write / delete / create files. Ask the user to switch to agent mode if they want to make changes. For example, it is not acceptable to use the Bash tool to write to files.</context>\n';
   } else {
     // Check if commit signature is disabled via environment variable
-    if (!process.env.CONTINUE_CLI_DISABLE_COMMIT_SIGNATURE) {
+    if (!process.env.FRIDAY_CLI_DISABLE_COMMIT_SIGNATURE) {
       systemMessage += `\n<context name="commitSignature">When creating commits using any CLI or tool, include the following in the commit message:
-Generated with [Continue](https://continue.dev)
+Generated with [Friday](https://friday.dev)
 
-Co-Authored-By: Continue <noreply@continue.dev>
+Co-Authored-By: Friday <noreply@friday.dev>
 </context>\n`;
     }
   }

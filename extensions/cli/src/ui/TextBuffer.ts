@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Key } from "ink";
 
 export const COLLAPSE_SIZE = 800; // Characters threshold for collapsing pasted content

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { PermissionMode } from "../permissions/types.js";
 import { constructSystemMessage } from "../systemMessage.js";
 import { logger } from "../util/logger.js";

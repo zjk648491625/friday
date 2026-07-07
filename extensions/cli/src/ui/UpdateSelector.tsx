@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import React, { useMemo, useState } from "react";
 
 import { useService } from "../hooks/useService.js";
@@ -78,7 +79,7 @@ export const UpdateSelector: React.FC<UpdateSelectorProps> = ({ onCancel }) => {
 
   return (
     <Selector
-      title="Update Continue CLI"
+      title="Update Friday CLI"
       options={options}
       selectedIndex={selectedIndex}
       loading={!!isWorking}

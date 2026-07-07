@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ALL_BUILT_IN_TOOLS } from "src/tools/allBuiltIns.js";
 
 import { ToolPermissionService } from "./ToolPermissionService.js";

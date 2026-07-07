@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   AUTO_MODE_POLICIES,
   PLAN_MODE_POLICIES,
@@ -97,7 +98,7 @@ export class ToolPermissionService
       );
       if (!server) {
         logger.warn("No connected MCP server found ");
-        continue;
+        friday;
       }
 
       const specificTools = parsedTools.tools.filter(
@@ -222,7 +223,7 @@ export class ToolPermissionService
       // Normal mode: combine headless + mode policies with user configuration
       const compiledPolicies = resolvePermissionPrecedence({
         commandLineFlags: runtimeOverrides,
-        personalSettings: true, // Enable loading from ~/.continue/permissions.yaml
+        personalSettings: true, // Enable loading from ~/.friday/permissions.yaml
         useDefaults: true,
         isHeadless: this.currentState.isHeadless,
       });
@@ -384,7 +385,7 @@ export class ToolPermissionService
 
     // Reload permissions from files
     const freshPolicies = resolvePermissionPrecedence({
-      personalSettings: true, // Enable loading from ~/.continue/permissions.yaml
+      personalSettings: true, // Enable loading from ~/.friday/permissions.yaml
       useDefaults: true,
     });
 

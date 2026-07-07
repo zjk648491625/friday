@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box } from "ink";
 
 export const baseBoxStyles: React.ComponentProps<typeof Box> = {

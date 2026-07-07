@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-lines */
 /* eslint-disable max-statements   */
 import type { ChatHistoryItem, Session } from "core/index.js";
@@ -819,7 +820,7 @@ export function useChat({
         logger.error("Failed to create policy or reload permissions", {
           error,
         });
-        // Continue with the approval even if policy creation/reload fails
+        // Friday with the approval even if policy creation/reload fails
       }
     }
 
@@ -840,7 +841,7 @@ export function useChat({
             message: {
               role: "system",
               content:
-                "[Tool canceled - please tell Continue what to do differently]",
+                "[Tool canceled - please tell Friday what to do differently]",
             },
             contextItems: [],
           },

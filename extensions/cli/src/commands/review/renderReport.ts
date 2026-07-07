@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 
 export interface ReviewResult {
@@ -123,16 +124,16 @@ function renderTextReport(
   if (options.checksFromHub) {
     lines.push(
       isTTY
-        ? chalk.dim("These reviews also run on your PRs via Continue CI.")
-        : "These reviews also run on your PRs via Continue CI.",
+        ? chalk.dim("These reviews also run on your PRs via Friday CI.")
+        : "These reviews also run on your PRs via Friday CI.",
     );
   } else {
     lines.push(
       isTTY
         ? chalk.dim(
-            "Tip: Run these automatically on every PR → https://continue.dev",
+            "Tip: Run these automatically on every PR → https://friday.dev",
           )
-        : "Tip: Run these automatically on every PR → https://continue.dev",
+        : "Tip: Run these automatically on every PR → https://friday.dev",
     );
   }
 

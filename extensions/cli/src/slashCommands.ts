@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 
 import { type AssistantConfig } from "@continuedev/sdk";
@@ -116,7 +117,7 @@ async function handleSkills(): Promise<SlashCommandResult> {
     return {
       exit: false,
       output: chalk.yellow(
-        "No skills found. Add skills under .continue/skills or .claude/skills.",
+        "No skills found. Add skills under .friday/skills or .claude/skills.",
       ),
     };
   }
@@ -213,7 +214,7 @@ function handleImport(args: string[]): SlashCommandResult {
       return {
         exit: false,
         output: chalk.red(
-          "Invalid session file: expected a valid Continue exported session (version 1).",
+          "Invalid session file: expected a valid Friday exported session (version 1).",
         ),
       };
     }

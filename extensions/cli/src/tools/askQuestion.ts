@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { quizService } from "../services/QuizService.js";
 
 import { Tool } from "./types.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Configures the logger based on the application mode (headless or interactive)
  * When in headless mode, console.info is suppressed to avoid verbose output

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AssistantConfig } from "@continuedev/sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 

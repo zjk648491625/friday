@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Utility functions for CLI operations
  */
@@ -78,12 +79,12 @@ export function hasSuppliedPrompt(): boolean {
     // If this is a flag that takes a value, skip both the flag and its value
     if (flagsWithValues.has(arg)) {
       i++; // Skip the next argument (the value)
-      continue;
+      friday;
     }
 
     // If this is any other flag (starts with -), skip it
     if (arg.startsWith("-")) {
-      continue;
+      friday;
     }
 
     // Found a non-flag argument - this is the prompt

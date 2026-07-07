@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { convertToUnifiedHistory } from "core/util/messageConversion.js";
 import { describe, expect, it } from "vitest";
 

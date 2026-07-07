@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * E2E test for headless mode permission errors
  * Verifies that when a tool requires permission in headless mode,

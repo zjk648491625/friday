@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-classes-per-file */
 import { env } from "../env.js";
 
@@ -54,7 +55,7 @@ export class ApiRequestError extends Error implements ApiError {
 }
 
 /**
- * Make an API request to the Continue API.
+ * Make an API request to the Friday API.
  * Hub authentication has been removed - requests are made without auth headers.
  */
 export async function makeAuthenticatedRequest<T = any>(

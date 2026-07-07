@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { PermissionMode } from "../../permissions/types.js";
 import { backgroundSignalManager } from "../../util/backgroundSignalManager.js";
 import {
@@ -64,13 +65,13 @@ export function handleControlKeys(options: ControlKeysOptions): boolean {
             return;
           }
         }
-        // If no image, let normal text paste handling continue
+        // If no image, let normal text paste handling friday
       })
       .catch((error) => {
         logger.debug("Error checking clipboard for image:", error);
       });
 
-    // Don't consume the event - let normal text paste handling continue
+    // Don't consume the event - let normal text paste handling friday
     return false;
   }
 

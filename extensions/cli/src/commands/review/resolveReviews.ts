@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as path from "path";
 
@@ -14,7 +15,7 @@ export interface ResolvedReview {
  * Determine which reviews to run, using three sources in order:
  * 1. CLI --agent flags (highest priority)
  * 2. Hub API (if logged in and no --agent flags)
- * 3. Local .continue/agents/*.md and .continue/checks/*.md (fallback)
+ * 3. Local .friday/agents/*.md and .friday/checks/*.md (fallback)
  */
 export async function resolveReviews(
   agentFlags?: string[],
@@ -34,7 +35,7 @@ export async function resolveReviews(
     return hubReviews;
   }
 
-  // Source 3: Local .continue/agents/*.md and .continue/checks/*.md
+  // Source 3: Local .friday/agents/*.md and .friday/checks/*.md
   const localReviews = resolveFromLocal();
   if (localReviews.length > 0) {
     return localReviews;
@@ -51,14 +52,14 @@ async function resolveFromHub(): Promise<ResolvedReview[]> {
 }
 
 /**
- * Resolve reviews from local .continue/agents/*.md and .continue/checks/*.md files.
+ * Resolve reviews from local .friday/agents/*.md and .friday/checks/*.md files.
  * Agents take precedence over checks if the same filename exists in both directories.
  */
 function resolveFromLocal(): ResolvedReview[] {
   const cwd = process.cwd();
   const dirs = [
-    path.join(cwd, ".continue", "agents"),
-    path.join(cwd, ".continue", "checks"),
+    path.join(cwd, ".friday", "agents"),
+    path.join(cwd, ".friday", "checks"),
   ];
 
   const seen = new Set<string>();
@@ -66,7 +67,7 @@ function resolveFromLocal(): ResolvedReview[] {
 
   for (const dir of dirs) {
     if (!fs.existsSync(dir)) {
-      continue;
+      friday;
     }
     try {
       const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));

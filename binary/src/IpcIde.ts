@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { TODO } from "core/util";
 import { MessageIde } from "core/protocol/messenger/messageIde";
 

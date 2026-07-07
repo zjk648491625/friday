@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs/promises";
 import * as path from "path";
 
@@ -34,8 +35,8 @@ describe("E2E: Resume Flag", () => {
       args: ["-p", "--config", context.configPath, "hello"],
       env: {
         // Use a fixed session ID so both CLI calls use the same session
-        CONTINUE_CLI_TEST_SESSION_ID: "test-session-123",
-        CONTINUE_GLOBAL_DIR: path.join(context.testDir, ".continue"),
+        FRIDAY_CLI_TEST_SESSION_ID: "test-session-123",
+        FRIDAY_GLOBAL_DIR: path.join(context.testDir, ".friday"),
       },
       timeout: 15000,
     });
@@ -45,13 +46,13 @@ describe("E2E: Resume Flag", () => {
     expect(firstResult.stdout).toContain("Hello! Nice to meet you.");
 
     // Verify that a session file was created
-    const sessionDir = path.join(context.testDir, ".continue", "sessions");
+    const sessionDir = path.join(context.testDir, ".friday", "sessions");
 
     // Ensure session directory exists
     try {
       await fs.mkdir(sessionDir, { recursive: true });
     } catch (error) {
-      // Directory already exists, continue
+      // Directory already exists, friday
     }
 
     const sessionFiles = (await fs.readdir(sessionDir)).filter(
@@ -84,8 +85,8 @@ describe("E2E: Resume Flag", () => {
     const resumeResult = await runCLI(context, {
       args: ["-p", "--resume", "--config", context.configPath],
       env: {
-        CONTINUE_CLI_TEST_SESSION_ID: "test-session-123",
-        CONTINUE_GLOBAL_DIR: path.join(context.testDir, ".continue"),
+        FRIDAY_CLI_TEST_SESSION_ID: "test-session-123",
+        FRIDAY_GLOBAL_DIR: path.join(context.testDir, ".friday"),
       },
       timeout: 15000,
     });
@@ -103,8 +104,8 @@ describe("E2E: Resume Flag", () => {
     const result = await runCLI(context, {
       args: ["-p", "--resume", "--config", context.configPath],
       env: {
-        CONTINUE_CLI_TEST_SESSION_ID: "no-session-456",
-        CONTINUE_GLOBAL_DIR: path.join(context.testDir, ".continue"),
+        FRIDAY_CLI_TEST_SESSION_ID: "no-session-456",
+        FRIDAY_GLOBAL_DIR: path.join(context.testDir, ".friday"),
       },
       timeout: 15000,
     });
@@ -141,8 +142,8 @@ describe("E2E: Resume Flag", () => {
     const firstResult = await runCLI(context, {
       args: ["-p", "--config", context.configPath, "first message"],
       env: {
-        CONTINUE_CLI_TEST_SESSION_ID: sessionId,
-        CONTINUE_GLOBAL_DIR: path.join(context.testDir, ".continue"),
+        FRIDAY_CLI_TEST_SESSION_ID: sessionId,
+        FRIDAY_GLOBAL_DIR: path.join(context.testDir, ".friday"),
       },
       timeout: 15000,
     });
@@ -151,13 +152,13 @@ describe("E2E: Resume Flag", () => {
     expect(firstResult.stdout).toContain("First response");
 
     // Verify the first session was saved correctly
-    const sessionDir = path.join(context.testDir, ".continue", "sessions");
+    const sessionDir = path.join(context.testDir, ".friday", "sessions");
 
     // Ensure session directory exists
     try {
       await fs.mkdir(sessionDir, { recursive: true });
     } catch (error) {
-      // Directory already exists, continue
+      // Directory already exists, friday
     }
 
     let sessionFiles = (await fs.readdir(sessionDir)).filter(
@@ -180,8 +181,8 @@ describe("E2E: Resume Flag", () => {
         "second message",
       ],
       env: {
-        CONTINUE_CLI_TEST_SESSION_ID: sessionId,
-        CONTINUE_GLOBAL_DIR: path.join(context.testDir, ".continue"),
+        FRIDAY_CLI_TEST_SESSION_ID: sessionId,
+        FRIDAY_GLOBAL_DIR: path.join(context.testDir, ".friday"),
       },
       timeout: 15000,
     });

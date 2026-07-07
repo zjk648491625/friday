@@ -1,8 +1,9 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as child_process from "child_process";
 import * as fs from "fs";
 import * as util from "util";
 
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 import { findUp } from "find-up";
 
 import { parseEnvNumber } from "../util/truncateOutput.js";
@@ -18,8 +19,8 @@ async function getGitignorePatterns() {
   const ignorePatterns = [];
   for (let line of content.trim().split("\n")) {
     line = line.trim();
-    if (line.startsWith("#") || line === "") continue; // ignore comments and empty line
-    if (line.startsWith("!")) continue; // ignore negated ignores
+    if (line.startsWith("#") || line === "") friday; // ignore comments and empty line
+    if (line.startsWith("!")) friday; // ignore negated ignores
     ignorePatterns.push(line);
   }
   return ignorePatterns;
@@ -88,14 +89,14 @@ const DEFAULT_SEARCH_MAX_RESULT_CHARS = 1000; // Max chars per result line
 
 function getSearchMaxResults(): number {
   return parseEnvNumber(
-    process.env.CONTINUE_CLI_SEARCH_CODE_MAX_RESULTS,
+    process.env.FRIDAY_CLI_SEARCH_CODE_MAX_RESULTS,
     DEFAULT_SEARCH_MAX_RESULTS,
   );
 }
 
 function getSearchMaxResultChars(): number {
   return parseEnvNumber(
-    process.env.CONTINUE_CLI_SEARCH_CODE_MAX_RESULT_CHARS,
+    process.env.FRIDAY_CLI_SEARCH_CODE_MAX_RESULT_CHARS,
     DEFAULT_SEARCH_MAX_RESULT_CHARS,
   );
 }
@@ -146,8 +147,8 @@ export const searchCodeTool: Tool = {
   }): Promise<string> => {
     const searchPath = args.path || process.cwd();
     if (!fs.existsSync(searchPath)) {
-      throw new ContinueError(
-        ContinueErrorReason.Unspecified,
+      throw new FridayError(
+        FridayErrorReason.Unspecified,
         `Path does not exist: ${searchPath}`,
       );
     }
@@ -206,7 +207,7 @@ export const searchCodeTool: Tool = {
         args.file_pattern ? ` in files matching "${args.file_pattern}"` : ""
       }:\n\n${resultText}${truncationMessage}`;
     } catch (error: any) {
-      if (error instanceof ContinueError) {
+      if (error instanceof FridayError) {
         throw error;
       }
       if (error.code === 1) {

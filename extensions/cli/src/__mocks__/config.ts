@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { vi } from "vitest";
 
 export const getApiClient = vi.fn<(accessToken: string | null) => any>(

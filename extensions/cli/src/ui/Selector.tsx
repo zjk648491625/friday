@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text, useInput } from "ink";
 import React, { ReactNode } from "react";
 

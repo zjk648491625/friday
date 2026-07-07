@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AssistantUnrolled, ModelConfig } from "@continuedev/config-yaml";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 
@@ -136,12 +137,12 @@ describe("ModelService", () => {
       );
     });
 
-    test("should handle continue-proxy provider specially", async () => {
+    test("should handle friday-proxy provider specially", async () => {
       const proxyModel = {
-        provider: "continue-proxy",
+        provider: "friday-proxy",
         model: "proxy-model",
         name: "Proxy Model",
-        apiBase: "https://proxy.continue.dev",
+        apiBase: "https://proxy.friday.dev",
         apiKeyLocation: "env.PROXY_KEY",
         roles: ["chat"],
       } as ModelConfig;

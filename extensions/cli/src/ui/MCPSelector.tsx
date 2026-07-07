@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text, useInput } from "ink";
 import React, { useState } from "react";
 import { quote } from "shell-quote";
@@ -288,7 +289,7 @@ export const MCPSelector: React.FC<MCPSelectorProps> = ({ onCancel }) => {
       case "explore-mcp-servers":
         // Open the MCP servers hub in the default browser
         const open = (await import("open")).default;
-        await open("https://continue.dev/hub?type=mcpServers");
+        await open("https://friday.dev/hub?type=mcpServers");
         setMessage("Opened MCP servers hub in browser");
         break;
       case "back":

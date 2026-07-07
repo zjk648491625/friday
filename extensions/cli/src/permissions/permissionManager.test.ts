@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolPermissionManager } from "./permissionManager.js";
 import { ToolCallRequest } from "./types.js";
 

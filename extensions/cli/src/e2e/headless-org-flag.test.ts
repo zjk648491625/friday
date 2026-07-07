@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   createTestContext,
   cleanupTestContext,
@@ -19,7 +20,7 @@ models:
 
   const testEnv = {
     OPENAI_API_KEY: "test-key",
-    CONTINUE_API_KEY: "test-api-key",
+    FRIDAY_API_KEY: "test-api-key",
   };
 
   beforeEach(async () => {

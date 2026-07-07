@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Text } from "ink";
 import React, { useEffect, useState } from "react";
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { execSync } from "child_process";
 import fs from "fs/promises";
 import path from "path";
@@ -72,7 +73,7 @@ models:
 
         // The help command should succeed
         expect(result.exitCode).toBe(0);
-        expect(result.stdout).toContain("Continue CLI");
+        expect(result.stdout).toContain("Friday CLI");
 
         // Now let's test that our git utils work in this context
         // We can't easily test the full TUI display, but we can verify the git functions work
@@ -105,7 +106,7 @@ models:
       });
 
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("Continue CLI");
+      expect(result.stdout).toContain("Friday CLI");
     });
 
     it("should handle detached HEAD state", async () => {

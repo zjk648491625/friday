@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import fsPromises from "fs/promises";
 import * as path from "path";
@@ -93,9 +94,9 @@ export async function loadMarkdownSkills(): Promise<LoadSkillsResult> {
 
   try {
     const skillsDirs = [
-      path.join(cwd, ".continue", SKILLS_DIR),
+      path.join(cwd, ".friday", SKILLS_DIR),
       path.join(cwd, ".claude", SKILLS_DIR),
-      path.join(env.continueHome, SKILLS_DIR),
+      path.join(env.fridayHome, SKILLS_DIR),
     ];
 
     const skillFilePaths = (

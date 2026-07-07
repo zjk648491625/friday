@@ -1,27 +1,28 @@
-import { Continue, ContinueClient } from "@continuedev/sdk";
+// Modified by Friday AI Team - Rebranded from Continue
+import { Friday, FridayClient } from "@continuedev/sdk";
 import chalk from "chalk";
 
 import { env } from "./env.js";
 
 /**
- * Initialize the Continue SDK with the given parameters
+ * Initialize the Friday SDK with the given parameters
  * @param apiKey - API key to use for authentication
  * @param assistantSlug - Slug of the assistant to use
  * @param organizationId - Optional organization ID
- * @returns Promise resolving to the Continue SDK instance
+ * @returns Promise resolving to the Friday SDK instance
  */
-export async function initializeContinueSDK(
+export async function initializeFridaySDK(
   apiKey: string | undefined,
   assistantSlug: string,
   organizationId?: string,
-): Promise<ContinueClient> {
+): Promise<FridayClient> {
   if (!apiKey) {
-    console.error(chalk.red("Error: No API key provided for Continue SDK"));
-    throw new Error("No API key provided for Continue SDK");
+    console.error(chalk.red("Error: No API key provided for Friday SDK"));
+    throw new Error("No API key provided for Friday SDK");
   }
 
   try {
-    return await Continue.from({
+    return await Friday.from({
       apiKey,
       assistant: assistantSlug,
       organizationId,
@@ -29,7 +30,7 @@ export async function initializeContinueSDK(
     });
   } catch (error) {
     console.error(
-      chalk.red("Error initializing Continue SDK:"),
+      chalk.red("Error initializing Friday SDK:"),
       error instanceof Error ? error.message : String(error),
     );
     throw error;

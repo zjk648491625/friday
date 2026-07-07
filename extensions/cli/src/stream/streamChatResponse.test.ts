@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelConfig } from "@continuedev/config-yaml";
 import { BaseLlmApi } from "@continuedev/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
@@ -234,7 +235,7 @@ describe("processStreamingResponse - content preservation", () => {
     // Verify the tool call was assembled correctly
     expect(result.toolCalls[0].name).toBe("Read");
     expect(result.toolCalls[0].argumentsStr).toBe(
-      '{"filepath": "/Users/nate/gh/continuedev/cli/README.md"}',
+      '{"filepath": "/Users/nate/gh/friday-ai/cli/README.md"}',
     );
   });
 
@@ -383,7 +384,7 @@ describe("processStreamingResponse - content preservation", () => {
       name: "searchDocs",
       arguments: { query: "unit tests" },
     });
-    expect(result.shouldContinue).toBe(true);
+    expect(result.shouldFriday).toBe(true);
   });
 
   it("handles provider that only sends tool ID in first chunk then uses index", async () => {
@@ -401,7 +402,7 @@ describe("processStreamingResponse - content preservation", () => {
         0,
         undefined,
         undefined,
-        '{"filepath": "/Users/nate/gh/continuedev/cli/README.md"}',
+        '{"filepath": "/Users/nate/gh/friday-ai/cli/README.md"}',
       ),
     ];
 
@@ -427,7 +428,7 @@ describe("processStreamingResponse - content preservation", () => {
     // Tool call arguments are preserved using index mapping
     expect(result.toolCalls[0].name).toBe("Read");
     expect(result.toolCalls[0].argumentsStr).toBe(
-      '{"filepath": "/Users/nate/gh/continuedev/cli/README.md"}',
+      '{"filepath": "/Users/nate/gh/friday-ai/cli/README.md"}',
     );
   });
 
@@ -473,7 +474,7 @@ describe("processStreamingResponse - content preservation", () => {
     // 2. Tool call arguments are assembled correctly
     expect(result.toolCalls[0].name).toBe("Read");
     expect(result.toolCalls[0].argumentsStr).toBe(
-      '{"filepath": "/Users/nate/gh/continuedev/cli/README.md"}',
+      '{"filepath": "/Users/nate/gh/friday-ai/cli/README.md"}',
     );
   });
 

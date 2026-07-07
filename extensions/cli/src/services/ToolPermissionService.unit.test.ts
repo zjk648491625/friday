@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ToolPermissionService } from "./ToolPermissionService.js";
 
 describe("ToolPermissionService unit tests", () => {

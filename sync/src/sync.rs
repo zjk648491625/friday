@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 mod merkle;
 use homedir::get_my_home;
 use merkle::{compute_tree_for_dir, diff, hash_string};
@@ -44,14 +45,14 @@ fn remove_seps_from_path(dir: &Path) -> String {
 
 fn path_for_tag(tag: &Tag) -> PathBuf {
     let mut path = get_my_home().unwrap().unwrap();
-    path.push(".continue/index/tags");
+    path.push(".friday/index/tags");
     path.push(remove_seps_from_path(tag.dir));
     path.push(tag.branch);
     path.push(tag.provider_id);
     return path;
 }
 
-/// Stored in ~/.continue/index/.last_sync
+/// Stored in ~/.friday/index/.last_sync
 fn get_last_sync_time(tag: &Tag) -> u64 {
     // TODO: Error handle here
     let path = path_for_tag(tag).join(".last_sync");
@@ -209,7 +210,7 @@ impl<'a> IndexCache<'a> {
 
     fn provider_dir(provider_id: &str) -> PathBuf {
         let mut path = get_my_home().unwrap().unwrap();
-        path.push(".continue/index/providers");
+        path.push(".friday/index/providers");
         path.push(provider_id);
         return path;
     }
@@ -376,7 +377,7 @@ pub fn sync(
 
     for item in add {
         if !item.is_blob {
-            continue;
+            friday;
         }
         let path = item.path.as_str().to_string();
         let hash = hash_string(item.hash);
@@ -397,7 +398,7 @@ pub fn sync(
 
     for item in remove {
         if !item.is_blob {
-            continue;
+            friday;
         }
         if index_cache.global_contains(&item.hash) {
             if IndexCache::get_rev_tags(&item.hash).len() <= 1 {
@@ -526,7 +527,7 @@ mod tests {
             .add("dir1/file1.txt", "File 1")
             .add("dir1/file2.txt", "File 2")
             .add("dir2/file3.txt", "File 3")
-            .add("dir2/subdir/continue.py", "[continue for i in range(10)]")
+            .add("dir2/subdir/friday.py", "[friday for i in range(10)]")
             .add("__init__.py", "a = 5")
             .create();
 

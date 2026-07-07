@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as readline from "readline";
 
 import {
@@ -246,7 +247,7 @@ describe("prompt utilities", () => {
     });
 
     it("should handle empty string as valid choice", async () => {
-      const promptText = "Press Enter to continue or type 'cancel': ";
+      const promptText = "Press Enter to friday or type 'cancel': ";
       const choices = ["", "cancel"];
 
       mockInterface.question.mockImplementationOnce(

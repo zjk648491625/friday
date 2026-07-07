@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { Tool } from "./types.js";
 
 export const writeChecklistTool: Tool = {

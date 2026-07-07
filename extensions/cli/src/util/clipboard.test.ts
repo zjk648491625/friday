@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock child_process
@@ -150,7 +151,7 @@ describe("clipboard utilities", () => {
       vi.mocked(os.default.platform).mockReturnValue("darwin");
       vi.mocked(os.default.tmpdir).mockReturnValue("/tmp");
       vi.mocked(path.default.join).mockReturnValue(
-        "/tmp/continue-clipboard-123.png",
+        "/tmp/friday-clipboard-123.png",
       );
       mockExecAsync.mockResolvedValue({ stdout: "", stderr: "" });
       vi.mocked(fs.readFile).mockResolvedValue(mockImageBuffer);
@@ -169,7 +170,7 @@ describe("clipboard utilities", () => {
       vi.mocked(os.default.platform).mockReturnValue("win32");
       vi.mocked(os.default.tmpdir).mockReturnValue("C:\\temp");
       vi.mocked(path.default.join).mockReturnValue(
-        "C:\\temp\\continue-clipboard-123.png",
+        "C:\\temp\\friday-clipboard-123.png",
       );
       mockExecAsync.mockResolvedValue({ stdout: "", stderr: "" });
       vi.mocked(fs.readFile).mockResolvedValue(mockImageBuffer);
@@ -188,7 +189,7 @@ describe("clipboard utilities", () => {
       vi.mocked(os.default.platform).mockReturnValue("linux");
       vi.mocked(os.default.tmpdir).mockReturnValue("/tmp");
       vi.mocked(path.default.join).mockReturnValue(
-        "/tmp/continue-clipboard-123.png",
+        "/tmp/friday-clipboard-123.png",
       );
       mockExecAsync.mockResolvedValue({ stdout: "", stderr: "" });
       vi.mocked(fs.readFile).mockResolvedValue(mockImageBuffer);
@@ -215,7 +216,7 @@ describe("clipboard utilities", () => {
       vi.mocked(os.default.platform).mockReturnValue("darwin");
       vi.mocked(os.default.tmpdir).mockReturnValue("/tmp");
       vi.mocked(path.default.join).mockReturnValue(
-        "/tmp/continue-clipboard-123.png",
+        "/tmp/friday-clipboard-123.png",
       );
       mockExecAsync.mockResolvedValue({ stdout: "", stderr: "" });
       vi.mocked(fs.readFile).mockResolvedValue(mockImageBuffer);

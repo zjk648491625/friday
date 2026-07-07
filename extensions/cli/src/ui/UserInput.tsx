@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-lines */
 
 import { type AssistantConfig } from "@continuedev/sdk";
@@ -36,7 +37,7 @@ const InterruptedBanner: React.FC<{ wasInterrupted: boolean }> = ({
   if (!wasInterrupted) return null;
   return (
     <Box paddingX={1} marginBottom={0}>
-      <Text color="yellow">Interrupted by user - Press enter to continue</Text>
+      <Text color="yellow">Interrupted by user - Press enter to friday</Text>
     </Box>
   );
 };

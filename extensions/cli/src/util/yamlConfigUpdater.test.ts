@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { parse } from "yaml";
 
 import { updateAnthropicModelInYaml } from "./yamlConfigUpdater.js";
@@ -31,7 +32,7 @@ describe("updateAnthropicModelInYaml", () => {
 
   describe("comment preservation", () => {
     it("should preserve comments when adding new model", () => {
-      const yamlWithComments = `# My Continue config
+      const yamlWithComments = `# My Friday config
 name: Main Config
 version: 1.0.0
 schema: v1
@@ -45,7 +46,7 @@ models:
 
       const result = updateAnthropicModelInYaml(yamlWithComments, testApiKey);
 
-      expect(result).toContain("# My Continue config");
+      expect(result).toContain("# My Friday config");
       expect(result).toContain("# List of available models");
       expect(result).toContain("model: gpt-4");
       expect(result).toContain("model: claude-sonnet-4-6");
@@ -53,7 +54,7 @@ models:
     });
 
     it("should preserve comments when updating existing model", () => {
-      const yamlWithComments = `# My Continue config
+      const yamlWithComments = `# My Friday config
 name: Main Config
 version: 1.0.0
 schema: v1
@@ -67,7 +68,7 @@ models:
 
       const result = updateAnthropicModelInYaml(yamlWithComments, testApiKey);
 
-      expect(result).toContain("# My Continue config");
+      expect(result).toContain("# My Friday config");
       expect(result).toContain("# List of available models");
       expect(result).toContain("model: claude-sonnet-4-6");
       expect(result).toContain("apiKey: sk-ant-test123456789");

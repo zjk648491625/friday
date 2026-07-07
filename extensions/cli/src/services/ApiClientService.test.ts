@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, test, beforeEach, vi } from "vitest";
 
 // Mock the config module

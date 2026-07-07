@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import {
@@ -11,7 +12,7 @@ import {
 
 vi.mock("../env.js", () => ({
   env: {
-    apiBase: "https://api.continue.dev",
+    apiBase: "https://api.friday.dev",
   },
 }));
 
@@ -54,7 +55,7 @@ describe("apiClient", () => {
       });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        new URL("test-endpoint", "https://api.continue.dev"),
+        new URL("test-endpoint", "https://api.friday.dev"),
         {
           method: "POST",
           headers: {

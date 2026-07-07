@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelConfig } from "@continuedev/config-yaml";
 import { BaseLlmApi } from "@continuedev/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
@@ -132,7 +133,7 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
     } as unknown as AbortController;
   });
 
-  it("should automatically continue after compaction when no tool calls remain", async () => {
+  it("should automatically friday after compaction when no tool calls remain", async () => {
     const { services } = await import("../services/index.js");
     const { handleNormalAutoCompaction } = await import(
       "./streamChatResponse.compactionHelpers.js"
@@ -160,18 +161,18 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
       });
     });
 
-    // Simulate: first response completes (no tool calls), triggering auto-continue
+    // Simulate: first response completes (no tool calls), triggering auto-friday
     let callCount = 0;
     mockLlmApi.chatCompletionStream = vi
       .fn()
       .mockImplementation(async function* () {
         callCount++;
         if (callCount === 1) {
-          // First call: just content, no tool calls (shouldContinue = false)
+          // First call: just content, no tool calls (shouldFriday = false)
           yield contentChunk("First response");
         } else if (callCount === 2) {
           // Second call: after auto-continuation
-          yield contentChunk("Continued after compaction");
+          yield contentChunk("Fridayd after compaction");
         }
       }) as any;
 
@@ -182,8 +183,8 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
       mockAbortController,
     );
 
-    // Verify "continue" message was added
-    expect(historyUpdates).toContain("continue");
+    // Verify "friday" message was added
+    expect(historyUpdates).toContain("friday");
 
     // Verify logging occurred
     expect(logger.debug).toHaveBeenCalledWith(
@@ -197,7 +198,7 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
     expect(callCount).toBeGreaterThan(1);
   });
 
-  it("should not auto-continue if compaction occurs with tool calls pending", async () => {
+  it("should not auto-friday if compaction occurs with tool calls pending", async () => {
     const { services } = await import("../services/index.js");
     const { handleNormalAutoCompaction } = await import(
       "./streamChatResponse.compactionHelpers.js"
@@ -219,7 +220,7 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
       wasCompacted: true,
     });
 
-    // But tool calls are still being processed (shouldContinue = true)
+    // But tool calls are still being processed (shouldFriday = true)
     // This is simulated by having handleToolCalls return true (shouldReturn)
     vi.mocked(handleToolCalls).mockResolvedValue(true);
 
@@ -261,8 +262,8 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
       mockAbortController,
     );
 
-    // Should NOT auto-continue because tool calls are pending
-    expect(historyUpdates).not.toContain("continue");
+    // Should NOT auto-friday because tool calls are pending
+    expect(historyUpdates).not.toContain("friday");
   });
 
   it("should not create infinite loops - flag is reset after continuation", async () => {
@@ -306,12 +307,12 @@ describe("streamChatResponse - auto-continuation after compaction", () => {
       mockAbortController,
     );
 
-    // Should only add "continue" once
+    // Should only add "friday" once
     // The flag is reset after the first continuation
-    const continueCount = historyUpdates.filter(
-      (msg) => msg === "continue",
+    const fridayCount = historyUpdates.filter(
+      (msg) => msg === "friday",
     ).length;
-    expect(continueCount).toBeLessThanOrEqual(1);
+    expect(fridayCount).toBeLessThanOrEqual(1);
 
     // Should have called the LLM at least once
     expect(streamCallCount).toBeGreaterThanOrEqual(1);

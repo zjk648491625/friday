@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { writeChecklistTool } from "./writeChecklist.js";
 
 describe("writeChecklistTool", () => {

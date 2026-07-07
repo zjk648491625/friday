@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { type AssistantConfig } from "@continuedev/sdk";
 
 import {
@@ -35,7 +36,7 @@ export const SYSTEM_SLASH_COMMANDS: SystemCommand[] = [
   },
   {
     name: "update",
-    description: "Update the Continue CLI",
+    description: "Update the Friday CLI",
     category: "system",
   },
   {
@@ -110,7 +111,7 @@ export const SYSTEM_SLASH_COMMANDS: SystemCommand[] = [
   },
   {
     name: "import-skill",
-    description: "Import a skill from a URL or name into ~/.continue/skills",
+    description: "Import a skill from a URL or name into ~/.friday/skills",
     category: "system",
   },
   {

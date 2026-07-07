@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { render } from "ink-testing-library";
 import React from "react";
 import { vi } from "vitest";
@@ -409,7 +410,7 @@ export async function sendMessage(
         2000,
       );
     } catch (error) {
-      // If waiting fails, continue anyway - the server might be slow
+      // If waiting fails, friday anyway - the server might be slow
       console.warn(
         "Warning: Message might not have been processed by server:",
         error,
@@ -455,7 +456,7 @@ export function expectNormalMode(frame: string | undefined) {
 
   // Should show normal indicator
   expect(frame).toContain("●");
-  expect(frame).toContain("Continue CLI");
+  expect(frame).toContain("Friday CLI");
 }
 
 /**

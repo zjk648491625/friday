@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Type definitions for selectors - compatible with existing hook interfaces
  */

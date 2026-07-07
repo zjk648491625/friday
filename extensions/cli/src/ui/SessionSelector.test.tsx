@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { addHours, startOfDay, subDays, subMonths, subYears } from "date-fns";
 import { render } from "ink-testing-library";
 import React from "react";

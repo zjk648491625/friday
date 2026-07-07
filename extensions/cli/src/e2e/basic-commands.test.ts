@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   cleanupTestContext,
   createTestContext,
@@ -31,7 +32,7 @@ describe("E2E: Basic Commands", () => {
       const result = await runCLI(context, { args: ["--help"] });
 
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain("Continue CLI");
+      expect(result.stdout).toContain("Friday CLI");
       expect(result.stdout).toContain("AI-powered development assistant");
       expect(result.stdout).toContain("Options:");
       expect(result.stdout).toContain("-p, --print");

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AuthConfig } from "../auth/workos.js";
 import { getApiClient } from "../config.js";
 import { logger } from "../util/logger.js";
@@ -7,7 +8,7 @@ import { ApiClientServiceState } from "./types.js";
 
 /**
  * Service for managing API client state
- * Provides access to the Continue SDK API client
+ * Provides access to the Friday SDK API client
  */
 export class ApiClientService
   extends BaseService<ApiClientServiceState>

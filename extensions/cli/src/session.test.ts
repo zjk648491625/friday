@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import os from "os";
 
@@ -41,7 +42,7 @@ const mockHistoryManager: any = vi.hoisted(() => ({
   save: vi.fn((session: any) => {
     // Mimic writing the session payload to disk so expectations on fs still work
     fs.writeFileSync(
-      `/home/test/.continue/sessions/${session.sessionId}.json`,
+      `/home/test/.friday/sessions/${session.sessionId}.json`,
       JSON.stringify(session),
     );
   }),

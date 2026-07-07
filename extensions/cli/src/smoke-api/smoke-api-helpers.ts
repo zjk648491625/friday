@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
@@ -25,10 +26,10 @@ export async function createSmokeContext(): Promise<SmokeTestContext> {
   const testDir = await fs.mkdtemp(path.join(os.tmpdir(), "cn-smoke-"));
 
   // Create onboarding flag so the CLI skips onboarding flow
-  const continueDir = path.join(testDir, ".continue");
-  await fs.mkdir(continueDir, { recursive: true });
+  const fridayDir = path.join(testDir, ".friday");
+  await fs.mkdir(fridayDir, { recursive: true });
   await fs.writeFile(
-    path.join(continueDir, ".onboarding_complete"),
+    path.join(fridayDir, ".onboarding_complete"),
     new Date().toISOString(),
   );
 
@@ -78,15 +79,15 @@ models:
   return configPath;
 }
 
-// continue-proxy requires a 4-part model name (owner/package/provider/model).
+// friday-proxy requires a 4-part model name (owner/package/provider/model).
 // Override via SMOKE_PROXY_MODEL env var.
 const SMOKE_PROXY_MODEL = process.env.SMOKE_PROXY_MODEL || "";
 
 /**
- * Writes a YAML config that uses the Continue proxy (CONTINUE_API_KEY).
+ * Writes a YAML config that uses the Friday proxy (FRIDAY_API_KEY).
  * Requires SMOKE_PROXY_MODEL to be set to a valid proxy model name.
  */
-export async function writeContinueProxyConfig(
+export async function writeFridayProxyConfig(
   ctx: SmokeTestContext,
   apiKey: string,
 ): Promise<string> {
@@ -96,7 +97,7 @@ schema: v1
 models:
   - name: smoke-haiku
     model: ${SMOKE_PROXY_MODEL}
-    provider: continue-proxy
+    provider: friday-proxy
     apiKey: "${apiKey}"
     defaultCompletionOptions:
       maxTokens: 1024
@@ -123,7 +124,7 @@ export async function runHeadless(
     cwd: ctx.testDir,
     env: {
       ...process.env,
-      CONTINUE_CLI_TEST: "true",
+      FRIDAY_CLI_TEST: "true",
       HOME: ctx.testDir,
       USERPROFILE: ctx.testDir,
       FORCE_NO_TTY: "true",
@@ -153,7 +154,7 @@ export function spawnServe(
     cwd: ctx.testDir,
     env: {
       ...process.env,
-      CONTINUE_CLI_TEST: "true",
+      FRIDAY_CLI_TEST: "true",
       HOME: ctx.testDir,
       USERPROFILE: ctx.testDir,
       ...opts.env,

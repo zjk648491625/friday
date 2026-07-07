@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { normalize } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 

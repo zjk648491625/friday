@@ -1,4 +1,5 @@
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+// Modified by Friday AI Team - Rebranded from Continue
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 
 import {
   ApiRequestError,
@@ -56,7 +57,7 @@ You should use this tool to notify the user whenever the state of your work chan
         const errorMessage =
           "Agent ID is required. Please use the --id flag with cn serve.";
         logger.error(errorMessage);
-        throw new ContinueError(ContinueErrorReason.Unspecified, errorMessage);
+        throw new FridayError(FridayErrorReason.Unspecified, errorMessage);
       }
 
       // Call the API endpoint using shared client
@@ -83,7 +84,7 @@ You should use this tool to notify the user whenever the state of your work chan
 
       return `Status set: ${args.status}`;
     } catch (error) {
-      if (error instanceof ContinueError) {
+      if (error instanceof FridayError) {
         throw error;
       }
 

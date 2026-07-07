@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { logger } from "../../util/logger.js";
 
 /**
@@ -172,7 +173,7 @@ export async function processImagePlaceholder(
         imageUrl: { url: dataUrl },
       });
 
-      // Continue with remaining text
+      // Friday with remaining text
       return { textContent: parts.slice(1).join(placeholder) };
     }
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem, Session, ToolStatus } from "core/index.js";
 
 import { services } from "../services/index.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem, Session } from "core/index.js";
 
 import { compactChatHistory } from "../../compaction.js";

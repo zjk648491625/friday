@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 module.exports = {
   roots: ["<rootDir>/test"],
   transform: {

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text } from "ink";
 import React, { useMemo } from "react";
 
@@ -39,7 +40,7 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
 
   const text = useMemo(() => {
     if (!services.update?.message) {
-      return "Continue CLI";
+      return "Friday CLI";
     }
 
     return services.update.message;

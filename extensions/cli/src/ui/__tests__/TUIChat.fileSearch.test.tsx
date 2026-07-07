@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { renderInMode, testSingleMode } from "./TUIChat.dualModeHelper.js";
 import { waitForCondition } from "./TUIChat.testHelper.js";
 
@@ -22,7 +23,7 @@ describe("TUIChat - @ File Search Tests", () => {
 
     // Local mode specific UI expectations
     expect(frame).not.toContain("Remote Mode");
-    expect(frame).toContain("Continue CLI");
+    expect(frame).toContain("Friday CLI");
   });
 
   testSingleMode(
@@ -73,7 +74,7 @@ describe("TUIChat - @ File Search Tests", () => {
     expect(frame).toContain("@@test");
 
     // Local mode specific UI elements
-    expect(frame).toContain("Continue CLI");
+    expect(frame).toContain("Friday CLI");
   });
 
   testSingleMode(

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 
 import { get, post } from "../util/apiClient.js";

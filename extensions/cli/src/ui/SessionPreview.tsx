@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem } from "core/index.js";
 import { Box, Text } from "ink";
 import React, { useMemo } from "react";

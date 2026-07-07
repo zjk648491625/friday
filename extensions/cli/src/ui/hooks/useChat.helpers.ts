@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as path from "node:path";
 
 import type { ChatHistoryItem } from "core/index.js";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatCompletionTool } from "openai/resources.mjs";
 import { describe, expect, it } from "vitest";
 

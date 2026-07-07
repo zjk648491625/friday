@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 
 import YAML from "yaml";
@@ -57,8 +58,8 @@ export async function addPolicyToYaml(policyRule: string): Promise<void> {
       const yamlContent = YAML.stringify(config);
 
       // Add header comment
-      const finalContent = `# Continue CLI Permissions Configuration
-# This file is managed by the Continue CLI and should not be edited manually.
+      const finalContent = `# Friday CLI Permissions Configuration
+# This file is managed by the Friday CLI and should not be edited manually.
 # Use the TUI to modify permissions interactively.
 
 ${yamlContent}`;

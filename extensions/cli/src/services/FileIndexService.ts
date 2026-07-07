@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fdir } from "fdir";
 import { AsyncFzf, FzfResultItem } from "fzf";
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IProtocol } from "core/protocol";
 import { IMessenger, Message } from "core/protocol/messenger";
 import net from "net";

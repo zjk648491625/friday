@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Validates an Anthropic API key format
  * @param apiKey The API key to validate

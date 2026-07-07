@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { formatError, formatAnthropicError } from "./formatError.js";
 
 describe("formatError", () => {

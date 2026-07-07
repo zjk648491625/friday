@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { decodePackageIdentifier } from "@continuedev/config-yaml";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

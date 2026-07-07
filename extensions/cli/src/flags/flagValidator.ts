@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Centralized command line flag validation
  * Provides consistent validation across all commands and proper error reporting

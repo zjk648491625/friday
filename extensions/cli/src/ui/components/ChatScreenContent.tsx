@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { AssistantConfig } from "@continuedev/sdk";
 import React from "react";
 

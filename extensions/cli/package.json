@@ -1,7 +1,7 @@
 {
   "name": "@continuedev/cli",
   "version": "0.0.0-dev",
-  "description": "Continue CLI",
+  "description": "Friday CLI",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -29,21 +29,21 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "watch:logs": "touch ~/.continue/logs/cn.log && tail -f ~/.continue/logs/cn.log",
+    "watch:logs": "touch ~/.friday/logs/cn.log && tail -f ~/.friday/logs/cn.log",
     "prepare": "npm run build",
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run"
   },
-  "author": "Continue Dev, Inc.",
+  "author": "Friday AI, Inc.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/continuedev/continue.git"
+    "url": "https://github.com/friday-ai/friday.git"
   },
   "bugs": {
-    "url": "https://github.com/continuedev/continue/issues"
+    "url": "https://github.com/friday-ai/friday/issues"
   },
-  "homepage": "https://continue.dev",
+  "homepage": "https://friday.dev",
   "dependencies": {
     "fdir": "^6.4.2",
     "find-up": "^8.0.0",

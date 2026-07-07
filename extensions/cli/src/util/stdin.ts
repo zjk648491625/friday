@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 
 import { hasSuppliedPrompt, isHeadlessMode } from "./cli.js";
@@ -14,7 +15,7 @@ export function readStdinSync(): string | null {
       process.env.NODE_ENV === "test" ||
       process.env.VITEST === "true" ||
       process.env.JEST_WORKER_ID !== undefined ||
-      process.env.CONTINUE_CLI_TEST === "true"
+      process.env.FRIDAY_CLI_TEST === "true"
     ) {
       return null;
     }

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs/promises";
 import * as http from "http";
 import * as path from "path";
@@ -226,7 +227,7 @@ export async function setupMockLLMTest(
   // Create onboarding flag to skip onboarding
   const onboardingFlagPath = path.join(
     context.testDir,
-    ".continue",
+    ".friday",
     ".onboarding_complete",
   );
   await fs.mkdir(path.dirname(onboardingFlagPath), { recursive: true });

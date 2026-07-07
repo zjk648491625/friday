@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Runtime permission overrides that are set synchronously from command line
  * This ensures they're available immediately, before services are initialized

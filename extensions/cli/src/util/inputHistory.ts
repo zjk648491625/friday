@@ -1,9 +1,10 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import path from "path";
 
 import { env } from "../env.js";
 
-const HISTORY_FILE = path.join(env.continueHome, "input_history.json");
+const HISTORY_FILE = path.join(env.fridayHome, "input_history.json");
 const MAX_HISTORY_SIZE = 1000;
 
 export interface InputHistoryEntry {

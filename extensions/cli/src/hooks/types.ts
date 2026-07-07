@@ -1,5 +1,6 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
- * Claude Code-compatible hooks system for Continue CLI.
+ * Claude Code-compatible hooks system for Friday CLI.
  *
  * These types match the exact schemas from Claude Code so that any hook
  * written for `claude` works with `cn` out of the box.
@@ -338,7 +339,7 @@ export type HookSpecificOutput =
 
 /** The full JSON output schema returned by hooks */
 export interface HookOutput {
-  continue?: boolean;
+  friday?: boolean;
   suppressOutput?: boolean;
   stopReason?: string;
   decision?: "approve" | "block";

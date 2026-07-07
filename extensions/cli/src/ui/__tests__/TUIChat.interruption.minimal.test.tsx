@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { render } from "ink-testing-library";
 import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -33,7 +34,7 @@ describe("TUIChat - Interruption UI (Minimal Test)", () => {
       let frame = lastFrame();
       expect(frame).toBeDefined();
       expect(frame).not.toContain("Interrupted by user");
-      expect(frame).not.toContain("Press enter to continue");
+      expect(frame).not.toContain("Press enter to friday");
 
       // Re-render with wasInterrupted: true
       rerender(
@@ -50,7 +51,7 @@ describe("TUIChat - Interruption UI (Minimal Test)", () => {
       frame = lastFrame();
       expect(frame).toBeDefined();
       expect(frame).toContain("Interrupted by user");
-      expect(frame).toContain("Press enter to continue");
+      expect(frame).toContain("Press enter to friday");
     } finally {
       unmount();
     }
@@ -75,7 +76,7 @@ describe("TUIChat - Interruption UI (Minimal Test)", () => {
       let frame = lastFrame();
       expect(frame).toBeDefined();
       expect(frame).toContain("Interrupted by user");
-      expect(frame).toContain("Press enter to continue");
+      expect(frame).toContain("Press enter to friday");
 
       // Re-render with wasInterrupted: false
       rerender(
@@ -92,7 +93,7 @@ describe("TUIChat - Interruption UI (Minimal Test)", () => {
       frame = lastFrame();
       expect(frame).toBeDefined();
       expect(frame).not.toContain("Interrupted by user");
-      expect(frame).not.toContain("Press enter to continue");
+      expect(frame).not.toContain("Press enter to friday");
     } finally {
       unmount();
     }

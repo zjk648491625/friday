@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getDefaultToolPolicies } from "./defaultPolicies.js";
 import {
   loadPermissionsYaml,
@@ -12,7 +13,7 @@ export interface PermissionSources {
     ask?: string[];
     exclude?: string[];
   };
-  /** ~/.continue/permissions.yaml - third precedence */
+  /** ~/.friday/permissions.yaml - third precedence */
   personalSettings?: boolean; // Whether to load from permissions.yaml
   /** Default policies - lowest precedence */
   isHeadless?: boolean;
@@ -25,7 +26,7 @@ export interface PermissionSources {
  *
  * 1. Command line flags (highest)
  * 2. Permissions in config.yaml (when implemented)
- * 3. Permissions in ~/.continue/permissions.yaml
+ * 3. Permissions in ~/.friday/permissions.yaml
  * 4. Default policies (lowest)
  *
  * Earlier sources completely override later ones on a per-tool basis.
@@ -41,7 +42,7 @@ export function resolvePermissionPrecedence(
     policies.push(...cliPolicies);
   }
 
-  // Layer 2: Personal settings from ~/.continue/permissions.yaml
+  // Layer 2: Personal settings from ~/.friday/permissions.yaml
   if (sources.personalSettings !== false) {
     const yamlConfig = loadPermissionsYaml();
     if (yamlConfig) {

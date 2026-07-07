@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as path from "path";
 
@@ -11,7 +12,7 @@ vi.mock("../../auth/workos.js", () => ({
 }));
 
 vi.mock("../../env.js", () => ({
-  env: { apiBase: "https://api.continue.dev" },
+  env: { apiBase: "https://api.friday.dev" },
 }));
 
 vi.mock("../../util/logger.js", () => ({
@@ -41,12 +42,12 @@ describe("resolveReviews local discovery", () => {
     vi.restoreAllMocks();
   });
 
-  it("discovers files from .continue/agents/", async () => {
+  it("discovers files from .friday/agents/", async () => {
     vi.mocked(fs.existsSync).mockImplementation((p) => {
-      return p === path.join("/test/repo", ".continue", "agents");
+      return p === path.join("/test/repo", ".friday", "agents");
     });
     vi.mocked(fs.readdirSync).mockImplementation(((p: fs.PathLike) => {
-      if (p === path.join("/test/repo", ".continue", "agents")) {
+      if (p === path.join("/test/repo", ".friday", "agents")) {
         return ["security-review.md", "style-check.md"];
       }
       return [];
@@ -59,12 +60,12 @@ describe("resolveReviews local discovery", () => {
     expect(reviews[0].source).toContain("agents");
   });
 
-  it("discovers files from .continue/checks/", async () => {
+  it("discovers files from .friday/checks/", async () => {
     vi.mocked(fs.existsSync).mockImplementation((p) => {
-      return p === path.join("/test/repo", ".continue", "checks");
+      return p === path.join("/test/repo", ".friday", "checks");
     });
     vi.mocked(fs.readdirSync).mockImplementation(((p: fs.PathLike) => {
-      if (p === path.join("/test/repo", ".continue", "checks")) {
+      if (p === path.join("/test/repo", ".friday", "checks")) {
         return ["anti-slop.md"];
       }
       return [];

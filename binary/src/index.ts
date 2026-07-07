@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 process.env.IS_BINARY = "true";
 import { Command } from "commander";
 import { Core } from "core/core";
@@ -12,14 +13,14 @@ import { setupCoreLogging } from "./logging";
 import { TcpMessenger } from "./TcpMessenger";
 
 const logFilePath = getCoreLogsPath();
-fs.appendFileSync(logFilePath, "[info] Starting Continue core...\n");
+fs.appendFileSync(logFilePath, "[info] Starting Friday core...\n");
 
 const program = new Command();
 
 program.action(async () => {
   try {
     let messenger: IMessenger<ToCoreProtocol, FromCoreProtocol>;
-    if (process.env.CONTINUE_DEVELOPMENT === "true") {
+    if (process.env.FRIDAY_DEVELOPMENT === "true") {
       messenger = new TcpMessenger<ToCoreProtocol, FromCoreProtocol>();
       console.log("[binary] Waiting for connection");
       await (

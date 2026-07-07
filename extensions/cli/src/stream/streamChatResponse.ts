@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelConfig } from "@continuedev/config-yaml";
 import { BaseLlmApi } from "@continuedev/openai-adapters";
 import type { ChatHistoryItem } from "core/index.js";
@@ -42,11 +43,11 @@ dotenv.config();
 
 function updateFinalResponse(
   content: string,
-  shouldContinue: boolean,
+  shouldFriday: boolean,
   isHeadless: boolean,
   currentFinalResponse: string,
 ): string {
-  if (!shouldContinue) {
+  if (!shouldFriday) {
     return content;
   } else if (isHeadless && content) {
     return content;
@@ -94,11 +95,11 @@ function refreshChatHistoryFromService(
 // Helper function to handle auto-continuation after compaction
 function handleAutoContinuation(
   compactionOccurred: boolean,
-  shouldContinue: boolean,
+  shouldFriday: boolean,
   chatHistory: ChatHistoryItem[],
-): { shouldAutoContinue: boolean; chatHistory: ChatHistoryItem[] } {
-  if (!compactionOccurred || shouldContinue) {
-    return { shouldAutoContinue: false, chatHistory };
+): { shouldAutoFriday: boolean; chatHistory: ChatHistoryItem[] } {
+  if (!compactionOccurred || shouldFriday) {
+    return { shouldAutoFriday: false, chatHistory };
   }
 
   logger.debug(
@@ -111,20 +112,20 @@ function handleAutoContinuation(
     typeof chatHistorySvc?.isReady === "function" &&
     chatHistorySvc.isReady()
   ) {
-    chatHistorySvc.addUserMessage("continue");
+    chatHistorySvc.addUserMessage("friday");
     chatHistory = chatHistorySvc.getHistory();
   } else {
     chatHistory.push({
       message: {
         role: "user",
-        content: "continue",
+        content: "friday",
       },
       contextItems: [],
     });
   }
 
   logger.debug("Added continuation message after compaction");
-  return { shouldAutoContinue: true, chatHistory };
+  return { shouldAutoFriday: true, chatHistory };
 }
 
 // Helper function to process a single chunk
@@ -139,7 +140,7 @@ interface ProcessChunkOptions {
 
 function processChunk(options: ProcessChunkOptions): {
   aiResponse: string;
-  shouldContinue: boolean;
+  shouldFriday: boolean;
 } {
   const {
     chunk,
@@ -151,12 +152,12 @@ function processChunk(options: ProcessChunkOptions): {
   } = options;
   // Safety check: ensure chunk has the expected structure
   if (!chunk.choices || !chunk.choices[0]) {
-    return { aiResponse, shouldContinue: true };
+    return { aiResponse, shouldFriday: true };
   }
 
   const choice = chunk.choices[0];
   if (!choice.delta) {
-    return { aiResponse, shouldContinue: true };
+    return { aiResponse, shouldFriday: true };
   }
 
   let updatedResponse = aiResponse;
@@ -178,7 +179,7 @@ function processChunk(options: ProcessChunkOptions): {
     }
   }
 
-  return { aiResponse: updatedResponse, shouldContinue: true };
+  return { aiResponse: updatedResponse, shouldFriday: true };
 }
 
 interface ProcessStreamingResponseOptions {
@@ -192,7 +193,7 @@ interface ProcessStreamingResponseOptions {
   systemMessage: string;
 }
 
-// Process a single streaming response and return whether we need to continue
+// Process a single streaming response and return whether we need to friday
 // eslint-disable-next-line max-statements, complexity
 export async function processStreamingResponse(
   options: ProcessStreamingResponseOptions,
@@ -200,7 +201,7 @@ export async function processStreamingResponse(
   content: string;
   finalContent: string; // Added field for final content only
   toolCalls: ToolCall[];
-  shouldContinue: boolean;
+  shouldFriday: boolean;
   usage?: any;
 }> {
   const {
@@ -327,7 +328,7 @@ export async function processStreamingResponse(
         isHeadless,
       });
       aiResponse = result.aiResponse;
-      if (!result.shouldContinue) break;
+      if (!result.shouldFriday) break;
     }
 
     const responseEndTime = Date.now();
@@ -376,7 +377,7 @@ export async function processStreamingResponse(
         content: aiResponse,
         finalContent: aiResponse,
         toolCalls: [],
-        shouldContinue: false,
+        shouldFriday: false,
         usage: fullUsage,
       };
     }
@@ -413,7 +414,7 @@ export async function processStreamingResponse(
     content: aiResponse,
     finalContent: finalContent,
     toolCalls: validToolCalls,
-    shouldContinue: validToolCalls.length > 0,
+    shouldFriday: validToolCalls.length > 0,
     usage: fullUsage,
   };
 }
@@ -478,7 +479,7 @@ export async function streamChatResponse(
     });
 
     // Get response from LLM
-    const { content, toolCalls, shouldContinue, usage } =
+    const { content, toolCalls, shouldFriday, usage } =
       await processStreamingResponse({
         isHeadless,
         chatHistory,
@@ -499,7 +500,7 @@ export async function streamChatResponse(
     // Update final response based on mode
     finalResponse = updateFinalResponse(
       content,
-      shouldContinue,
+      shouldFriday,
       isHeadless,
       finalResponse,
     );
@@ -543,7 +544,7 @@ export async function streamChatResponse(
     // Normal auto-compaction check at 80% threshold
     const compactionResult = await handleNormalAutoCompaction(
       chatHistory,
-      shouldContinue,
+      shouldFriday,
       {
         model,
         llmApi,
@@ -561,21 +562,21 @@ export async function streamChatResponse(
 
     // If compaction happened during this turn and we're about to stop,
     // automatically send a continuation message to keep the agent going
-    const autoContinueResult = handleAutoContinuation(
+    const autoFridayResult = handleAutoContinuation(
       compactionOccurredThisTurn,
-      shouldContinue,
+      shouldFriday,
       chatHistory,
     );
-    chatHistory = autoContinueResult.chatHistory;
-    const shouldAutoContinue = autoContinueResult.shouldAutoContinue;
+    chatHistory = autoFridayResult.chatHistory;
+    const shouldAutoFriday = autoFridayResult.shouldAutoFriday;
 
     // Reset flag to avoid infinite continuation
-    if (shouldAutoContinue) {
+    if (shouldAutoFriday) {
       compactionOccurredThisTurn = false;
     }
 
-    // Check if we should continue (skip break if auto-continuing after compaction)
-    if (!shouldContinue && !shouldAutoContinue) {
+    // Check if we should friday (skip break if auto-continuing after compaction)
+    if (!shouldFriday && !shouldAutoFriday) {
       break;
     }
   }

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as nodeUtil from "util";
 
 import { vi } from "vitest";

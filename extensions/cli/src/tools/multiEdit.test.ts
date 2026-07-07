@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as path from "path";
 
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
@@ -73,8 +74,8 @@ describe("multiEditTool CLI specific", () => {
       };
 
       const error = await multiEditTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
-      expect(error.reason).toBe(ContinueErrorReason.EditToolFileNotRead);
+      expect(error).toBeInstanceOf(FridayError);
+      expect(error.reason).toBe(FridayErrorReason.EditToolFileNotRead);
     });
 
     it("should throw error if file does not exist", async () => {
@@ -93,8 +94,8 @@ describe("multiEditTool CLI specific", () => {
       };
 
       const error = await multiEditTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
-      expect(error.reason).toBe(ContinueErrorReason.FileNotFound);
+      expect(error).toBeInstanceOf(FridayError);
+      expect(error.reason).toBe(FridayErrorReason.FileNotFound);
     });
 
     it("should throw error if file_path is missing", async () => {
@@ -108,9 +109,9 @@ describe("multiEditTool CLI specific", () => {
       };
 
       const error = await multiEditTool.preprocess!(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
+      expect(error).toBeInstanceOf(FridayError);
       expect(error.reason).toBe(
-        ContinueErrorReason.FindAndReplaceMissingFilepath,
+        FridayErrorReason.FindAndReplaceMissingFilepath,
       );
     });
   });
@@ -193,8 +194,8 @@ describe("multiEditTool CLI specific", () => {
       };
 
       const error = await multiEditTool.run(args).catch((e) => e);
-      expect(error).toBeInstanceOf(ContinueError);
-      expect(error.reason).toBe(ContinueErrorReason.FileWriteError);
+      expect(error).toBeInstanceOf(FridayError);
+      expect(error.reason).toBe(FridayErrorReason.FileWriteError);
     });
   });
 

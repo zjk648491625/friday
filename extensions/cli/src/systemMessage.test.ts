@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it, vi } from "vitest";
 
 // Use the actual implementation instead of the mocked one
@@ -26,7 +27,7 @@ describe("constructSystemMessage", () => {
     const rules = ["These are the rules for the assistant."];
     const result = await constructSystemMessage("normal", rules);
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain('<context name="userRules">');
     expect(result).toContain(rules[0]);
     expect(result).toContain("</context>");
@@ -36,7 +37,7 @@ describe("constructSystemMessage", () => {
     // The implementation checks for agent files like AGENTS.md which exists in this project
     const result = await constructSystemMessage("normal");
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain('<context name="userRules">');
     expect(result).toContain("AGENTS.md");
   });
@@ -44,7 +45,7 @@ describe("constructSystemMessage", () => {
   it("should include base system message components", async () => {
     const result = await constructSystemMessage("normal");
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain("<env>");
     expect(result).toContain('<context name="gitStatus">');
   });
@@ -52,7 +53,7 @@ describe("constructSystemMessage", () => {
   it("should handle whitespace-only rules message", async () => {
     const result = await constructSystemMessage("normal", ["   "]);
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain('<context name="userRules">');
   });
 
@@ -130,7 +131,7 @@ Rule 3: Third rule`;
       true,
     );
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain("IMPORTANT: You are running in headless mode");
     expect(result).toContain("Provide ONLY your final answer");
     expect(result).toContain(
@@ -146,7 +147,7 @@ Rule 3: Third rule`;
       false,
     );
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).not.toContain("IMPORTANT: You are running in headless mode");
     expect(result).not.toContain("Provide ONLY your final answer");
   });
@@ -154,7 +155,7 @@ Rule 3: Third rule`;
   it("should not add headless mode instructions when headless is undefined", async () => {
     const result = await constructSystemMessage("normal");
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).not.toContain("IMPORTANT: You are running in headless mode");
     expect(result).not.toContain("Provide ONLY your final answer");
   });
@@ -162,7 +163,7 @@ Rule 3: Third rule`;
   it("should add JSON format instructions when format is json", async () => {
     const result = await constructSystemMessage("normal", undefined, "json");
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain(
       "IMPORTANT: You are operating in JSON output mode",
     );
@@ -178,7 +179,7 @@ Rule 3: Third rule`;
       false,
     );
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).toContain(PLAN_MODE_STRING);
     expect(result).toContain(
       "which means that your goal is to help the user investigate their ideas",
@@ -198,7 +199,7 @@ Rule 3: Third rule`;
       false,
     );
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).not.toContain(PLAN_MODE_STRING);
     expect(result).not.toContain(
       "which means that your goal is to help the user investigate their ideas",
@@ -208,7 +209,7 @@ Rule 3: Third rule`;
   it("should not add plan mode instructions when mode is normal", async () => {
     const result = await constructSystemMessage("normal");
 
-    expect(result).toContain("You are an agent in the Continue CLI");
+    expect(result).toContain("You are an agent in the Friday CLI");
     expect(result).not.toContain(PLAN_MODE_STRING);
     expect(result).not.toContain(
       "which means that your goal is to help the user investigate their ideas",

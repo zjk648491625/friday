@@ -2,7 +2,7 @@
 
 ## Overview
 
-The artifact upload feature enables Continue agents running in devboxes to upload arbitrary files (screenshots, videos, logs) to agent session storage for review and debugging purposes. The architecture uses a two-step presigned URL pattern for secure, performant uploads.
+The artifact upload feature enables Friday agents running in devboxes to upload arbitrary files (screenshots, videos, logs) to agent session storage for review and debugging purposes. The architecture uses a two-step presigned URL pattern for secure, performant uploads.
 
 ## Architecture Pattern: Presigned URLs
 
@@ -28,7 +28,7 @@ The agent requests a presigned upload URL from the backend:
 
 ```http
 POST /agents/artifacts/upload-url
-Authorization: Bearer <CONTINUE_API_KEY>
+Authorization: Bearer <FRIDAY_API_KEY>
 Content-Type: application/json
 
 {
@@ -178,7 +178,7 @@ import { services } from "./services/index.js";
 const result = await services.artifactUpload.uploadArtifact({
   agentSessionId: process.env.AGENT_SESSION_ID,
   filePath: "/tmp/screenshot.png",
-  accessToken: process.env.CONTINUE_API_KEY,
+  accessToken: process.env.FRIDAY_API_KEY,
 });
 
 if (result.success) {
@@ -194,7 +194,7 @@ if (result.success) {
 const results = await services.artifactUpload.uploadArtifacts(
   process.env.AGENT_SESSION_ID,
   ["/tmp/screenshot1.png", "/tmp/screenshot2.png", "/tmp/debug.log"],
-  process.env.CONTINUE_API_KEY,
+  process.env.FRIDAY_API_KEY,
 );
 
 results.forEach((result) => {
@@ -206,11 +206,11 @@ results.forEach((result) => {
 
 The CLI requires these environment variables for artifact uploads:
 
-- `CONTINUE_API_KEY`: Bearer token for backend authentication
-- `CONTINUE_API_BASE`: API base URL (defaults to `https://api.continue.dev/`)
+- `FRIDAY_API_KEY`: Bearer token for backend authentication
+- `FRIDAY_API_BASE`: API base URL (defaults to `https://api.friday.dev/`)
 - `AGENT_SESSION_ID`: The current agent session identifier
 
-These are automatically provided when running in Continue's devbox environment.
+These are automatically provided when running in Friday's devbox environment.
 
 ## Error Handling
 

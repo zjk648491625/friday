@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import { dirname } from "node:path";
 import * as path from "path";
@@ -92,7 +93,7 @@ function determineConfigSource(
   }
 
   // Priority 2: Check for default config.yaml, then fallback to default config
-  const defaultConfigPath = path.join(env.continueHome, "config.yaml");
+  const defaultConfigPath = path.join(env.fridayHome, "config.yaml");
   if (fs.existsSync(defaultConfigPath)) {
     return { type: "local-config-yaml" };
   }
@@ -302,7 +303,7 @@ async function loadUserAssistantWithFallback(
 }
 
 /**
- * Loads default config.yaml from ~/.continue/config.yaml
+ * Loads default config.yaml from ~/.friday/config.yaml
  */
 async function loadLocalConfigYaml(
   accessToken: string | null,
@@ -310,7 +311,7 @@ async function loadLocalConfigYaml(
   apiClient: DefaultApiInterface,
   injectBlocks: PackageIdentifier[],
 ): Promise<AssistantUnrolled> {
-  const defaultConfigPath = path.join(env.continueHome, "config.yaml");
+  const defaultConfigPath = path.join(env.fridayHome, "config.yaml");
   return await loadConfigYaml(
     defaultConfigPath,
     accessToken,
@@ -321,7 +322,7 @@ async function loadLocalConfigYaml(
 }
 
 /**
- * Loads the default continuedev/default-config
+ * Loads the default friday-ai/default-config
  */
 async function loadDefaultConfig(
   organizationId: string | null,
@@ -330,7 +331,7 @@ async function loadDefaultConfig(
   injectBlocks: PackageIdentifier[],
 ): Promise<AssistantUnrolled> {
   const resp = await apiClient.getAssistant({
-    ownerSlug: "continuedev",
+    ownerSlug: "friday-ai",
     packageSlug: "default-cli-config",
     organizationId: organizationId ?? undefined,
   });
@@ -447,7 +448,7 @@ async function loadConfigYaml(
 }
 
 /**
- * Loads an assistant by slug from the Continue platform
+ * Loads an assistant by slug from the Friday platform
  */
 async function loadAssistantSlug(
   slug: string,
@@ -536,7 +537,7 @@ function getUriFromSource(source: ConfigSource): string | null {
     case "saved-uri":
       return source.uri;
     case "local-config-yaml":
-      return `file://${path.join(env.continueHome, "config.yaml")}`;
+      return `file://${path.join(env.fridayHome, "config.yaml")}`;
     default:
       return null;
   }

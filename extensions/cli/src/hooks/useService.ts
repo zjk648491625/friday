@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { useCallback, useEffect, useState } from "react";
 
 import { useServiceContainer } from "../services/ServiceContainerContext.js";

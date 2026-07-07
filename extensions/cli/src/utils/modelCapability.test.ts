@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { isModelCapable } from "./modelCapability.js";
 
 describe("isModelCapable", () => {
@@ -96,9 +97,9 @@ describe("isModelCapable", () => {
     });
   });
 
-  describe("Continue Proxy models", () => {
-    test("should consider continue-proxy models as not capable", () => {
-      expect(isModelCapable("continue-proxy", "any-model")).toBe(false);
+  describe("Friday Proxy models", () => {
+    test("should consider friday-proxy models as not capable", () => {
+      expect(isModelCapable("friday-proxy", "any-model")).toBe(false);
     });
   });
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ChildProcess, spawn } from "child_process";
 import fs from "fs";
 
@@ -50,14 +51,14 @@ export function isRunningInWsl(): boolean {
 
 function getBashMaxChars(): number {
   return parseEnvNumber(
-    process.env.CONTINUE_CLI_BASH_MAX_OUTPUT_CHARS,
+    process.env.FRIDAY_CLI_BASH_MAX_OUTPUT_CHARS,
     DEFAULT_BASH_MAX_CHARS,
   );
 }
 
 function getBashMaxLines(): number {
   return parseEnvNumber(
-    process.env.CONTINUE_CLI_BASH_MAX_OUTPUT_LINES,
+    process.env.FRIDAY_CLI_BASH_MAX_OUTPUT_LINES,
     DEFAULT_BASH_MAX_LINES,
   );
 }
@@ -256,7 +257,7 @@ IMPORTANT: To edit files, use Edit/MultiEdit tools instead of bash commands (sed
           );
         } else {
           resolve(
-            `Failed to move to background (job limit reached). Command continues in foreground.\nOutput so far: ${stdout}`,
+            `Failed to move to background (job limit reached). Command fridays in foreground.\nOutput so far: ${stdout}`,
           );
         }
       };

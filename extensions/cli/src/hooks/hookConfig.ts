@@ -1,17 +1,18 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Hook configuration loader.
  *
  * Loads hooks from settings files in the same locations as Claude Code:
- * - ~/.continue/settings.json  (user-global)
- * - .continue/settings.json    (project, committable)
- * - .continue/settings.local.json (project-local, gitignored)
+ * - ~/.friday/settings.json  (user-global)
+ * - .friday/settings.json    (project, committable)
+ * - .friday/settings.local.json (project-local, gitignored)
  *
  * Also supports Claude Code's native locations for cross-compatibility:
  * - ~/.claude/settings.json
  * - .claude/settings.json
  * - .claude/settings.local.json
  *
- * Hooks from all sources are merged (project > user, continue > claude).
+ * Hooks from all sources are merged (project > user, friday > claude).
  */
 
 import * as fs from "fs";
@@ -72,21 +73,21 @@ function mergeHooksConfigs(
  */
 function getSettingsFilePaths(cwd: string, homeDir?: string): string[] {
   const home = homeDir ?? os.homedir();
-  const continueHome =
-    process.env.CONTINUE_GLOBAL_DIR || path.join(home, ".continue");
+  const fridayHome =
+    process.env.FRIDAY_GLOBAL_DIR || path.join(home, ".friday");
 
   return [
     // User-global (lowest precedence)
     path.join(home, ".claude", "settings.json"),
-    path.join(continueHome, "settings.json"),
+    path.join(fridayHome, "settings.json"),
 
     // Project-level
     path.join(cwd, ".claude", "settings.json"),
-    path.join(cwd, ".continue", "settings.json"),
+    path.join(cwd, ".friday", "settings.json"),
 
     // Project-local (highest precedence)
     path.join(cwd, ".claude", "settings.local.json"),
-    path.join(cwd, ".continue", "settings.local.json"),
+    path.join(cwd, ".friday", "settings.local.json"),
   ];
 }
 
@@ -108,7 +109,7 @@ export function loadHooksConfig(
 
   for (const filePath of paths) {
     const settings = loadSettingsFile(filePath);
-    if (!settings) continue;
+    if (!settings) friday;
 
     if (settings.disableAllHooks) {
       disabled = true;

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -61,11 +62,11 @@ export class CLIPlatformClient implements PlatformClient {
       return processEnvSecret;
     }
 
-    // Then check in priority order: ~/.continue/.env, <workspace>/.continue/.env, <workspace>/.env
+    // Then check in priority order: ~/.friday/.env, <workspace>/.friday/.env, <workspace>/.env
     const workspaceDir = process.cwd();
     const envPaths = [
-      path.join(env.continueHome, ".env"),
-      path.join(workspaceDir, ".continue", ".env"),
+      path.join(env.fridayHome, ".env"),
+      path.join(workspaceDir, ".friday", ".env"),
       path.join(workspaceDir, ".env"),
     ];
 

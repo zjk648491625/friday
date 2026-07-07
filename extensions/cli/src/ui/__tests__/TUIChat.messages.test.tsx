@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { createUITestContext } from "../../test-helpers/ui-test-context.js";
 
 import { testBothModes, renderInMode } from "./TUIChat.dualModeHelper.js";
@@ -19,7 +20,7 @@ describe("TUIChat - Message Display Tests", () => {
       expect(frame).toContain("Remote Mode");
     } else {
       expect(frame).not.toContain("Remote Mode");
-      expect(frame).toContain("Continue CLI");
+      expect(frame).toContain("Friday CLI");
     }
   });
 
@@ -43,7 +44,7 @@ describe("TUIChat - Message Display Tests", () => {
     if (mode === "remote") {
       expect(frame).toContain("Remote Mode");
     } else {
-      expect(frame).toContain("Continue CLI");
+      expect(frame).toContain("Friday CLI");
     }
   });
 

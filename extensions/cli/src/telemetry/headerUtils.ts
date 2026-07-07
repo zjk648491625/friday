@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export function parseOtelHeaders(headersStr: string): Record<string, string> {
   const headers: Record<string, string> = {};
   if (!headersStr) return headers;

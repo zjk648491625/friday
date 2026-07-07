@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getGitDiffSnapshot } from "../util/git.js";
@@ -91,7 +92,7 @@ describe("StorageSyncService", () => {
 
     expect(result).toBe(false);
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining("no Continue API key"),
+      expect.stringContaining("no Friday API key"),
     );
     warnSpy.mockRestore();
   });

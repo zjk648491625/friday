@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { exec } from "child_process";
 import * as os from "os";
 import { promisify } from "util";
@@ -219,7 +220,7 @@ class ResourceMonitoringService {
       }
 
       // Periodically update file descriptor count to prevent lsof command leak
-      // Issue: https://github.com/continuedev/continue/issues/9422
+      // Issue: https://github.com/friday-ai/friday/issues/9422
       const now = Date.now();
       if (now - this.lastFdCheckTime >= this.fdCheckIntervalMs) {
         this.updateFileDescriptorCount();

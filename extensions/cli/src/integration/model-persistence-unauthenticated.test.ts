@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -18,7 +19,7 @@ vi.mock("../config.js");
 
 describe("Model Persistence (Hub auth removed)", () => {
   let testDir: string;
-  let originalContinueHome: string | undefined;
+  let originalFridayHome: string | undefined;
   let mockAssistant: AssistantUnrolled;
   const mockLlmApi = { complete: vi.fn(), stream: vi.fn() };
 
@@ -26,9 +27,9 @@ describe("Model Persistence (Hub auth removed)", () => {
     vi.clearAllMocks();
 
     // Create a temporary directory for testing
-    testDir = fs.mkdtempSync(path.join(os.tmpdir(), "continue-test-"));
-    originalContinueHome = process.env.CONTINUE_GLOBAL_DIR;
-    process.env.CONTINUE_GLOBAL_DIR = testDir;
+    testDir = fs.mkdtempSync(path.join(os.tmpdir(), "friday-test-"));
+    originalFridayHome = process.env.FRIDAY_GLOBAL_DIR;
+    process.env.FRIDAY_GLOBAL_DIR = testDir;
 
     // Clear GlobalContext for clean test state
     persistModelName(null);
@@ -74,10 +75,10 @@ describe("Model Persistence (Hub auth removed)", () => {
     if (fs.existsSync(testDir)) {
       fs.rmSync(testDir, { recursive: true });
     }
-    if (originalContinueHome) {
-      process.env.CONTINUE_GLOBAL_DIR = originalContinueHome;
+    if (originalFridayHome) {
+      process.env.FRIDAY_GLOBAL_DIR = originalFridayHome;
     } else {
-      delete process.env.CONTINUE_GLOBAL_DIR;
+      delete process.env.FRIDAY_GLOBAL_DIR;
     }
   });
 

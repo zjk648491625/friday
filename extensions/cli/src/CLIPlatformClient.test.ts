@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 
 import { FQSN, SecretResult, SecretType } from "@continuedev/config-yaml";
@@ -14,7 +15,7 @@ vi.mock("node:fs", () => ({
 // Mock env module
 vi.mock("./env.js", () => ({
   env: {
-    continueHome: "/home/user/.continue",
+    fridayHome: "/home/user/.friday",
   },
 }));
 

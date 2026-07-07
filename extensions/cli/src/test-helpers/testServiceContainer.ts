@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ServiceContainer } from "../services/ServiceContainer.js";
 import { ServiceState } from "../services/types.js";
 

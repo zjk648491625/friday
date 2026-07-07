@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 import type { ChatHistoryItem } from "core/index.js";
 import express, { Request, Response } from "express";
@@ -157,7 +158,7 @@ export async function serve(prompt?: string, options: ServeOptions = {}) {
   try {
     await services.chatHistory.initialize(session, false);
   } catch {
-    // Fallback: continue even if service init fails; stream will still work with arrays
+    // Fallback: friday even if service init fails; stream will still work with arrays
   }
 
   // Initialize server state

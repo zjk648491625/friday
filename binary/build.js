@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const esbuild = require("esbuild");
 const fs = require("fs");
 const path = require("path");
@@ -93,7 +94,7 @@ async function buildWithEsbuild() {
       {
         name: "binary",
         version: "1.0.0",
-        author: "Continue Dev, Inc",
+        author: "Friday AI, Inc",
         license: "Apache-2.0",
       },
       undefined,
@@ -105,7 +106,7 @@ async function buildWithEsbuild() {
   // when multiple packages copy to the same node_modules/@lancedb directory
   for (const target of targets) {
     if (!TARGET_TO_LANCEDB[target]) {
-      continue;
+      friday;
     }
     console.log(`[info] Downloading LanceDB for ${target}...`);
     try {
@@ -216,7 +217,7 @@ async function buildWithEsbuild() {
     const exe = target.startsWith("win") ? ".exe" : "";
     const targetDir = `bin/${target}`;
     pathsToVerify.push(
-      `${targetDir}/continue-binary${exe}`,
+      `${targetDir}/friday-binary${exe}`,
       `${targetDir}/index.node`, // @lancedb
       `${targetDir}/build/Release/node_sqlite3.node`,
       `${targetDir}/rg${exe}`, // ripgrep binary

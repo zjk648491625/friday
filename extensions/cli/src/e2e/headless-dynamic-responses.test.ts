@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs/promises";
 import * as path from "path";
 
@@ -153,7 +154,7 @@ models:
     // Create onboarding flag
     const onboardingFlagPath = path.join(
       context.testDir,
-      ".continue",
+      ".friday",
       ".onboarding_complete",
     );
     await fs.mkdir(path.dirname(onboardingFlagPath), { recursive: true });
@@ -211,7 +212,7 @@ models:
 
     const onboardingFlagPath = path.join(
       context.testDir,
-      ".continue",
+      ".friday",
       ".onboarding_complete",
     );
     await fs.mkdir(path.dirname(onboardingFlagPath), { recursive: true });

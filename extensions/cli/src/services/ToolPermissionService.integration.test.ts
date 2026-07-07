@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getDefaultToolPolicies } from "../permissions/defaultPolicies.js";
 
 import { ToolPermissionService } from "./ToolPermissionService.js";

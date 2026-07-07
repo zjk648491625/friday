@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 
 import { env } from "../env.js";
@@ -84,7 +85,7 @@ export class StorageSyncService {
 
     if (!accessToken) {
       logger.warn(
-        "Storage sync requested but no Continue API key is available; skipping uploads.",
+        "Storage sync requested but no Friday API key is available; skipping uploads.",
       );
       return false;
     }

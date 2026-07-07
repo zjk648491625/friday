@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { renderInMode, testBothModes } from "./TUIChat.dualModeHelper.js";
 import { waitForNextRender } from "./TUIChat.testHelper.js";
 
@@ -67,7 +68,7 @@ describe("TUIChat - User Input Tests", () => {
       // so the input may not be reflected in the frame
       if (mode === "local") {
         expect(frame).toContain("!@#$%^&*()");
-        expect(frame).toContain("Continue CLI");
+        expect(frame).toContain("Friday CLI");
       }
     },
   );

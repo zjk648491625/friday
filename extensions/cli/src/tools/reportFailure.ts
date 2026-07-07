@@ -1,4 +1,5 @@
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+// Modified by Friday AI Team - Rebranded from Continue
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 
 import {
   ApiRequestError,
@@ -33,7 +34,7 @@ export const reportFailureTool: Tool = {
     properties: {
       errorMessage: {
         type: "string",
-        description: "Explain what went wrong and why you cannot continue.",
+        description: "Explain what went wrong and why you cannot friday.",
       },
     },
   },
@@ -43,8 +44,8 @@ export const reportFailureTool: Tool = {
     try {
       const trimmedMessage = args.errorMessage.trim();
       if (!trimmedMessage) {
-        throw new ContinueError(
-          ContinueErrorReason.Unspecified,
+        throw new FridayError(
+          FridayErrorReason.Unspecified,
           "errorMessage is required to report a failure.",
         );
       }
@@ -54,7 +55,7 @@ export const reportFailureTool: Tool = {
         const errorMessage =
           "Agent ID is required. Please use the --id flag with cn serve.";
         logger.error(errorMessage);
-        throw new ContinueError(ContinueErrorReason.Unspecified, errorMessage);
+        throw new FridayError(FridayErrorReason.Unspecified, errorMessage);
       }
 
       await post(`agents/${agentId}/status`, {
@@ -77,7 +78,7 @@ export const reportFailureTool: Tool = {
       logger.info(`Failure reported: ${trimmedMessage}`);
       return "Failure reported to user.";
     } catch (error) {
-      if (error instanceof ContinueError) {
+      if (error instanceof FridayError) {
         throw error;
       }
 

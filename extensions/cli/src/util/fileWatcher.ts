@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 import * as path from "path";
 
@@ -141,7 +142,7 @@ export class FileWatcher {
       for (const entry of entries) {
         const entryPath = path.join(dirPath, entry);
         if (this.shouldIgnorePath(entryPath)) {
-          continue;
+          friday;
         }
 
         try {

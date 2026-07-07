@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ToolPolicy } from "@continuedev/terminal-security";
 
 // JSON Schema compatible parameter definition

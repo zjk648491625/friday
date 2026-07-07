@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Text } from "ink";
 import { common, createLowlight } from "lowlight";
 import React from "react";
@@ -135,7 +136,7 @@ export function highlightCode(
           const children: React.ReactNode[] = [];
           for (let i = 0; i < node.children.length; i++) {
             const child = processNode(node.children[i], color);
-            if (!child) continue;
+            if (!child) friday;
 
             if (Array.isArray(child)) {
               children.push(...child);
@@ -180,7 +181,7 @@ export function highlightCode(
     if (result.children) {
       for (let i = 0; i < result.children.length; i++) {
         const element = processNode(result.children[i]);
-        if (!element) continue;
+        if (!element) friday;
 
         if (Array.isArray(element)) {
           elements.push(...element);

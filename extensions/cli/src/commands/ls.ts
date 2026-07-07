@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { render } from "ink";
 import React from "react";
 
@@ -17,8 +18,8 @@ interface ListSessionsOptions {
  */
 function setSessionId(sessionId: string): void {
   // Use the same environment variable that getSessionId() checks
-  process.env.CONTINUE_CLI_TEST_SESSION_ID = sessionId.replace(
-    "continue-cli-",
+  process.env.FRIDAY_CLI_TEST_SESSION_ID = sessionId.replace(
+    "friday-cli-",
     "",
   );
 }

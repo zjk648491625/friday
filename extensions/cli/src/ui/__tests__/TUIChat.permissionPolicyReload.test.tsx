@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { services } from "../../services/index.js";
@@ -138,7 +139,7 @@ describe("Permission Policy Reload Workflow", () => {
     };
 
     // BEFORE: User has to approve tool permission
-    // Simulate user choosing "Continue + don't ask again"
+    // Simulate user choosing "Friday + don't ask again"
     const approved = true;
     const createPolicy = true;
 
@@ -164,6 +165,6 @@ describe("Permission Policy Reload Workflow", () => {
     expect(services.toolPermissions.reloadPermissions).toHaveBeenCalled();
 
     // This represents the improvement: the new policy takes effect immediately
-    // without requiring the user to restart the Continue CLI
+    // without requiring the user to restart the Friday CLI
   });
 });

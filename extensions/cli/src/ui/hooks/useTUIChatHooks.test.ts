@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { getResponsiveRepoText, getRepoInfo } from "./useTUIChatHooks.js";

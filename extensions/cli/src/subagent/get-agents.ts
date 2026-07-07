@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ModelService } from "../services/ModelService.js";
 import type { ModelServiceState } from "../services/types.js";
 

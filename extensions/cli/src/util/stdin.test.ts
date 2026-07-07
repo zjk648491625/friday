@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -31,8 +32,8 @@ describe("stdin handling", () => {
       expect(result).toBe(null);
     });
 
-    it("should return null when CONTINUE_CLI_TEST is set", async () => {
-      process.env.CONTINUE_CLI_TEST = "true";
+    it("should return null when FRIDAY_CLI_TEST is set", async () => {
+      process.env.FRIDAY_CLI_TEST = "true";
 
       const { readStdinSync } = await import("./stdin.js");
       const result = readStdinSync();
@@ -53,7 +54,7 @@ describe("stdin handling", () => {
       // Clear test environment variables
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
 
       // Mock stdin as TTY
@@ -69,7 +70,7 @@ describe("stdin handling", () => {
       // Clear test environment variables
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
 
       // Mock stdin as not TTY (piped)
@@ -90,7 +91,7 @@ describe("stdin handling", () => {
       // Clear test environment variables
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
 
       // Mock stdin as not TTY
@@ -112,7 +113,7 @@ describe("stdin handling", () => {
       // Clear test environment variables
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
 
       // Mock stdin as not TTY
@@ -132,7 +133,7 @@ describe("stdin handling", () => {
       // Clear test environment variables
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
 
       // Mock stdin with undefined isTTY (some environments)
@@ -153,7 +154,7 @@ describe("stdin handling", () => {
       // Clear test environment variables except CI
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
       process.env.CI = "true";
 
@@ -181,7 +182,7 @@ describe("stdin handling", () => {
       // Clear test environment variables
       delete process.env.NODE_ENV;
       delete process.env.VITEST;
-      delete process.env.CONTINUE_CLI_TEST;
+      delete process.env.FRIDAY_CLI_TEST;
       delete process.env.JEST_WORKER_ID;
 
       (process.stdin as any).isTTY = false;

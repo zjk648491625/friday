@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Agent as HttpsAgent } from "https";
 
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";

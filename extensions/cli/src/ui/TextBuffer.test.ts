@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   COLLAPSE_SIZE,
   RAPID_INPUT_THRESHOLD,

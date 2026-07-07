@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 import { mind } from "gradient-string";
 
@@ -5,7 +6,7 @@ import { getVersion } from "./version.js";
 
 const d = chalk.dim;
 
-export const CONTINUE_ASCII_ART = `
+export const FRIDAY_ASCII_ART = `
 ${mind.multiline(`  ██████╗ ██████╗ ███╗   ██╗████████╗██╗███╗   ██╗██╗   ██╗███████╗
  ██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██║████╗  ██║██║   ██║██╔════╝
  ██║     ██║   ██║██╔██╗ ██║   ██║   ██║██╔██╗ ██║██║   ██║█████╗
@@ -35,14 +36,14 @@ export function getDisplayableAsciiArt(): string {
   const terminalWidth = process.stdout.columns || 80;
 
   if (terminalWidth >= MIN_WIDTH_FOR_ASCII_ART) {
-    return CONTINUE_ASCII_ART;
+    return FRIDAY_ASCII_ART;
   }
 
   // If terminal is too narrow, show just "CN" ASCII art
   return CN_ASCII_ART;
 }
 
-export const CONTINUE_LOGO_ASCII_ART = `
+export const FRIDAY_LOGO_ASCII_ART = `
                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@
                  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@
@@ -68,7 +69,7 @@ export const CONTINUE_LOGO_ASCII_ART = `
   @@@@@@@@@@@@  @@@@@                                                    @@@@@@@@@@@@ @@@@@@@@@@@@
     @@@@@@@@@@@  @@@                                                      @@@@@@@@@@@@  @@@@@@@@@@@
      @@@@@@@@@@@                                                           @@@@@@@@@@@@  @@@@@@@@@@@
-                                          CONTINUE                                       @@@@@@@@@@@@
+                                          FRIDAY                                       @@@@@@@@@@@@
      @@@@@@@@@@@                                                           @@@@@@@@@@@@  @@@@@@@@@@@
    @@@@@@@@@@@@  @@@                                                      @@@@@@@@@@@@  @@@@@@@@@@@
   @@@@@@@@@@@@  @@@@@                                                    @@@@@@@@@@@@ @@@@@@@@@@@@

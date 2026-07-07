@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import os from "node:os";
 import path from "node:path";
 

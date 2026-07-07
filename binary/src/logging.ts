@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { getCoreLogsPath } from "core/util/paths";
 import fs from "node:fs";
 
@@ -12,5 +13,5 @@ export function setupCoreLogging() {
   console.error = logger;
   console.warn = logger;
   console.debug = logger;
-  console.log("[info] Starting Continue core...");
+  console.log("[info] Starting Friday core...");
 }

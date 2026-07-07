@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import type { ChildProcess } from "child_process";
 import { EventEmitter } from "events";
 
@@ -63,7 +64,7 @@ describe("GitAiIntegrationService", () => {
     });
 
     mockGetSessionFilePath.mockReturnValue(
-      "/test/.continue/sessions/test-session-id.json",
+      "/test/.friday/sessions/test-session-id.json",
     );
 
     mockServiceContainer.getSync.mockReturnValue({
@@ -154,7 +155,7 @@ describe("GitAiIntegrationService", () => {
 
       expect(mockSpawn).toHaveBeenCalledWith(
         "git-ai",
-        ["checkpoint", "continue-cli", "--hook-input", "stdin"],
+        ["checkpoint", "friday-cli", "--hook-input", "stdin"],
         { cwd: "/test/workspace" },
       );
 
@@ -164,7 +165,7 @@ describe("GitAiIntegrationService", () => {
 
       expect(hookInput).toMatchObject({
         session_id: "test-session-id",
-        transcript_path: "/test/.continue/sessions/test-session-id.json",
+        transcript_path: "/test/.friday/sessions/test-session-id.json",
         cwd: "/test/workspace",
         model: "claude-sonnet-4-5",
         hook_event_name: "PreToolUse",

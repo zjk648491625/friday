@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text } from "ink";
 import React, { useMemo } from "react";
 
-// Array of helpful tips for Continue CLI users
-const CONTINUE_CLI_TIPS = [
+// Array of helpful tips for Friday CLI users
+const FRIDAY_CLI_TIPS = [
   "Use `/help` to learn keyboard shortcuts",
-  "Press escape to pause cn, and press enter to continue",
+  "Press escape to pause cn, and press enter to friday",
   "Use arrow keys (↑/↓) to navigate through your input history",
   'Multi-line input is supported by typing "\\" and pressing enter',
   "Use `cn ls` or `/resume` to resume a previous conversation",
@@ -17,14 +18,14 @@ interface TipsDisplayProps {
 }
 
 /**
- * Randomly selects and displays a tip from the CONTINUE_CLI_TIPS array.
+ * Randomly selects and displays a tip from the FRIDAY_CLI_TIPS array.
  * Should only be shown 1 in 5 times (20% chance).
  */
 const TipsDisplay: React.FC<TipsDisplayProps> = () => {
   // Randomly select a tip, memoized to prevent changing on re-renders
   const randomTip = useMemo(
     () =>
-      CONTINUE_CLI_TIPS[Math.floor(Math.random() * CONTINUE_CLI_TIPS.length)],
+      FRIDAY_CLI_TIPS[Math.floor(Math.random() * FRIDAY_CLI_TIPS.length)],
     [],
   );
 
@@ -49,4 +50,4 @@ export function shouldShowTip(): boolean {
   return Math.random() < 0.2; // 20% chance (1 in 5)
 }
 
-export { CONTINUE_CLI_TIPS, TipsDisplay };
+export { FRIDAY_CLI_TIPS, TipsDisplay };

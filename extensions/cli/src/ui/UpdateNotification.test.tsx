@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Mock useTerminalSize hook
 vi.mock("./hooks/useTerminalSize.js", () => ({
   useTerminalSize: () => ({ columns: 80, rows: 24 }),
@@ -26,7 +27,7 @@ describe("UpdateNotification", () => {
         update: {
           autoUpdate: true,
           status: UpdateStatus.IDLE,
-          message: "Continue CLI v1.0.0",
+          message: "Friday CLI v1.0.0",
           error: null,
           isUpdateAvailable: false,
           latestVersion: null,
@@ -43,7 +44,7 @@ describe("UpdateNotification", () => {
   it("should show default message when no update is available", () => {
     const { lastFrame } = render(<UpdateNotification />);
 
-    expect(lastFrame()).toContain("◉ Continue CLI v1.0.0");
+    expect(lastFrame()).toContain("◉ Friday CLI v1.0.0");
   });
 
   it("should show update available message when update is available", () => {
@@ -152,7 +153,7 @@ describe("UpdateNotification", () => {
         update: {
           autoUpdate: true,
           status: UpdateStatus.IDLE,
-          message: "Continue CLI v1.0.0",
+          message: "Friday CLI v1.0.0",
           error: null,
           isUpdateAvailable: false,
           latestVersion: null,
@@ -203,6 +204,6 @@ describe("UpdateNotification", () => {
 
     const { lastFrame } = render(<UpdateNotification />);
 
-    expect(lastFrame()).toContain("◉ Continue CLI");
+    expect(lastFrame()).toContain("◉ Friday CLI");
   });
 });

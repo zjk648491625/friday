@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 use ndarray::{Array1, Array2};
 use rusqlite::Connection;
 use std::fs;
@@ -57,7 +58,7 @@ pub fn text_to_embedding(text: String) -> Result<Vec<f32>, &'static str> {
 fn get_conn() -> Connection {
     let path = dirs::home_dir()
         .unwrap()
-        .join(".continue")
+        .join(".friday")
         .join("index")
         .join("sync.db");
     fs::create_dir_all(path.parent().unwrap()).unwrap();

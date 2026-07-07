@@ -1,8 +1,9 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 
 import { validateMultiEdit } from "core/edit/searchAndReplace/multiEditValidation.js";
 import { executeMultiFindAndReplace } from "core/edit/searchAndReplace/performReplace.js";
-import { ContinueError, ContinueErrorReason } from "core/util/errors.js";
+import { FridayError, FridayErrorReason } from "core/util/errors.js";
 
 import { telemetryService } from "../telemetry/telemetryService.js";
 import {
@@ -168,11 +169,11 @@ WARNINGS:
 
       return `Successfully edited ${args.file_path} with ${args.editCount} edit${args.editCount === 1 ? "" : "s"}\nDiff:\n${diff}`;
     } catch (error) {
-      if (error instanceof ContinueError) {
+      if (error instanceof FridayError) {
         throw error;
       }
-      throw new ContinueError(
-        ContinueErrorReason.FileWriteError,
+      throw new FridayError(
+        FridayErrorReason.FileWriteError,
         `Error: failed to edit ${args.file_path}: ${
           error instanceof Error ? error.message : String(error)
         }`,

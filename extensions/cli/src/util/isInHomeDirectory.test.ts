@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // eslint-disable-next-line import/order
 import { vi } from "vitest";
 

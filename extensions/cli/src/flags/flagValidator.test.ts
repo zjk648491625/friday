@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { validateFlags, handleValidationErrors } from "./flagValidator.js";
 
 describe("validateFlags", () => {

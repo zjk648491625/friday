@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const fs = require("fs");
 const path = require("path");
 
@@ -5,7 +6,7 @@ const logDirPath = path.join(
   __dirname,
   "..",
   "extensions",
-  ".continue-debug",
+  ".friday-debug",
   "logs",
 );
 const logFilePath = path.join(logDirPath, "prompt.log");
