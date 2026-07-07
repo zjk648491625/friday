@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import vscode from "vscode";
 class EditDecorationManager {
   private _lastEditor: vscode.TextEditor | undefined;
@@ -19,7 +20,7 @@ class EditDecorationManager {
   private updateInEditMode(inEditMode: boolean) {
     vscode.commands.executeCommand(
       "setContext",
-      "continue.inEditMode",
+      "friday.inEditMode",
       inEditMode,
     );
   }
@@ -46,7 +47,7 @@ class EditDecorationManager {
 
     for (const [key, existingRange] of this.activeRangesMap.entries()) {
       if (!this.rangesCoincide(mergedRange, existingRange)) {
-        continue;
+        friday;
       }
       mergedRange = mergedRange.union(existingRange);
       rangesToPrune.push(key);

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const fs = require("fs");
 const path = require("path");
 
@@ -6,7 +7,7 @@ const { rimrafSync } = require("rimraf");
 
 const { execCmdSync } = require("../../../scripts/util/index");
 
-const continueDir = path.join(__dirname, "..", "..", "..");
+const fridayDir = path.join(__dirname, "..", "..", "..");
 
 function copyTokenizers() {
   fs.copyFileSync(
@@ -25,7 +26,7 @@ function copyTokenizers() {
 async function buildGui(isGhAction) {
   // Make sure we are in the right directory
   if (!process.cwd().endsWith("gui")) {
-    process.chdir(path.join(continueDir, "gui"));
+    process.chdir(path.join(fridayDir, "gui"));
   }
   if (isGhAction) {
     execCmdSync("npm run build");
@@ -96,7 +97,7 @@ async function buildGui(isGhAction) {
 }
 
 async function copyOnnxRuntimeFromNodeModules(target) {
-  process.chdir(path.join(continueDir, "extensions", "vscode"));
+  process.chdir(path.join(fridayDir, "extensions", "vscode"));
   fs.mkdirSync("bin", { recursive: true });
 
   await new Promise((resolve, reject) => {
@@ -154,7 +155,7 @@ async function copyOnnxRuntimeFromNodeModules(target) {
 }
 
 async function copyTreeSitterWasms() {
-  process.chdir(path.join(continueDir, "extensions", "vscode"));
+  process.chdir(path.join(fridayDir, "extensions", "vscode"));
   fs.mkdirSync("out", { recursive: true });
 
   await new Promise((resolve, reject) => {
@@ -182,7 +183,7 @@ async function copyTreeSitterWasms() {
 
 async function copyNodeModules() {
   // Copy node_modules for pre-built binaries
-  process.chdir(path.join(continueDir, "extensions", "vscode"));
+  process.chdir(path.join(fridayDir, "extensions", "vscode"));
 
   const NODE_MODULES_TO_COPY = ["@lancedb", "@vscode/ripgrep", "workerpool"];
   fs.mkdirSync("out/node_modules", { recursive: true });
@@ -238,7 +239,7 @@ async function downloadSqliteBinary(target) {
 }
 
 async function copySqliteBinary() {
-  process.chdir(path.join(continueDir, "extensions", "vscode"));
+  process.chdir(path.join(fridayDir, "extensions", "vscode"));
   console.log("[info] Copying sqlite node binding from core");
   await new Promise((resolve, reject) => {
     ncp(
@@ -300,7 +301,7 @@ async function installNodeModuleInTempDirAndCopyToCurrent(packageName, toCopy) {
   // Create a temporary directory for installing the package
   const adjustedName = packageName.replace(/@/g, "").replace("/", "-");
 
-  const tempDir = `/tmp/continue-node_modules-${adjustedName}`;
+  const tempDir = `/tmp/friday-node_modules-${adjustedName}`;
   const currentDir = process.cwd();
 
   // Remove the dir we will be copying to
@@ -354,7 +355,7 @@ async function installNodeModuleInTempDirAndCopyToCurrent(packageName, toCopy) {
 }
 
 async function copyScripts() {
-  process.chdir(path.join(continueDir, "extensions", "vscode"));
+  process.chdir(path.join(fridayDir, "extensions", "vscode"));
   console.log("[info] Copying scripts from core");
   fs.copyFileSync(
     path.join(__dirname, "../../../core/util/start_ollama.sh"),
@@ -372,13 +373,13 @@ async function copyScripts() {
 // in the build
 function writeBuildTimestamp() {
   fs.writeFileSync(
-    path.join(continueDir, "extensions/vscode", "src/.buildTimestamp.ts"),
+    path.join(fridayDir, "extensions/vscode", "src/.buildTimestamp.ts"),
     `export default "${new Date().toISOString()}";\n`,
   );
 }
 
 module.exports = {
-  continueDir,
+  fridayDir,
   buildGui,
   copyOnnxRuntimeFromNodeModules,
   copyTreeSitterWasms,

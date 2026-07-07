@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 
 import { getConfigYamlPath } from "core/util/paths";
@@ -11,7 +12,7 @@ export class ConfigJsonConverterCodeLensProvider
     _: vscode.CancellationToken,
   ): vscode.CodeLens[] | Thenable<vscode.CodeLens[]> {
     if (
-      !document.uri.fsPath.includes(".continue") ||
+      !document.uri.fsPath.includes(".friday") ||
       !document.uri.fsPath.endsWith("config.json")
     ) {
       return [];
@@ -24,7 +25,7 @@ export class ConfigJsonConverterCodeLensProvider
     return [
       new vscode.CodeLens(new vscode.Range(0, 0, 0, 0), {
         title: "config.json is being deprecated. Convert to config.yaml",
-        command: "continue.convertConfigJsonToConfigYaml",
+        command: "friday.convertConfigJsonToConfigYaml",
       }),
     ];
   }

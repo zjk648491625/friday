@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const fs = require("fs");
 const path = require("path");
 
@@ -14,7 +15,7 @@ const { copySqlite } = require("./download-copy-sqlite");
 const { generateAndCopyConfigYamlSchema } = require("./generate-copy-config");
 const { installAndCopyNodeModules } = require("./install-copy-nodemodule");
 const { npmInstall } = require("./npm-install");
-const { writeBuildTimestamp, continueDir } = require("./utils");
+const { writeBuildTimestamp, fridayDir } = require("./utils");
 
 // Clear folders that will be packaged to ensure clean slate
 rimrafSync(path.join(__dirname, "..", "bin"));
@@ -37,8 +38,8 @@ if (args[2] === "--target") {
 }
 if (!target) {
   const envTarget =
-    process.env.CONTINUE_VSCODE_TARGET ||
-    process.env.CONTINUE_BUILD_TARGET ||
+    process.env.FRIDAY_VSCODE_TARGET ||
+    process.env.FRIDAY_BUILD_TARGET ||
     process.env.VSCODE_TARGET;
   if (envTarget && typeof envTarget === "string") {
     target = envTarget.trim();
@@ -86,7 +87,7 @@ void (async () => {
     );
   }
 
-  process.chdir(path.join(continueDir, "gui"));
+  process.chdir(path.join(fridayDir, "gui"));
 
   // Copy over the dist folder to the JetBrains extension //
   const intellijExtensionWebviewPath = path.join(
@@ -463,7 +464,7 @@ void (async () => {
 
     // Tutorial
     "media/move-chat-panel-right.md",
-    "continue_tutorial.py",
+    "friday_tutorial.py",
     "config_schema.json",
 
     // Embeddings model

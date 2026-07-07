@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "core";
 import { walkDirs } from "core/indexing/walkDir";
 import { deduplicateArray, splitCamelCaseAndNonAlphaNumeric } from "core/util";

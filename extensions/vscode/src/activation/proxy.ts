@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import cors from "cors";
 import express from "express";
 import { http, https } from "follow-redirects";
@@ -9,7 +10,7 @@ app.use(cors());
 app.use((req, res, next) => {
   // Proxy the request
   const { origin, host, ...headers } = req.headers;
-  const url = req.headers["x-continue-url"] as string;
+  const url = req.headers["x-friday-url"] as string;
   const parsedUrl = new URL(url);
   const protocolString = url.split("://")[0];
   const protocol = protocolString === "https" ? https : http;
@@ -28,7 +29,7 @@ app.use((req, res, next) => {
         response.rawHeaders[i - 1].toLowerCase() ===
         "access-control-allow-origin"
       ) {
-        continue;
+        friday;
       }
       res.setHeader(response.rawHeaders[i - 1], response.rawHeaders[i]);
     }
@@ -46,7 +47,7 @@ app.use((req, res, next) => {
 // http-middleware-proxy
 // app.use("/", (req, res, next) => {
 //   // Extract the target from the request URL
-//   const target = req.headers["x-continue-url"] as string;
+//   const target = req.headers["x-friday-url"] as string;
 //   const { origin, ...headers } = req.headers;
 
 //   // Create a new proxy middleware for this request

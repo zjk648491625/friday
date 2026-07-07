@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const BASELINE = 15_000;
 
 export const DEFAULT_TIMEOUT = {

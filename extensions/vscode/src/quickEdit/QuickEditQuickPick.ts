@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable @typescript-eslint/naming-convention */
 import { IDE, ILLM, RuleWithSource } from "core";
 import { ConfigHandler } from "core/config/ConfigHandler";
@@ -193,14 +194,14 @@ export class QuickEdit {
       const { label } = quickPick.selectedItems[0];
       switch (label) {
         case UserPromptLabels.AcceptAll:
-          vscode.commands.executeCommand("continue.acceptDiff", path);
+          vscode.commands.executeCommand("friday.acceptDiff", path);
           break;
         case UserPromptLabels.RejectAll:
-          vscode.commands.executeCommand("continue.rejectDiff", path);
+          vscode.commands.executeCommand("friday.rejectDiff", path);
           break;
         case QuickEditInitialItemLabels.Submit:
           if (quickPick.value) {
-            await vscode.commands.executeCommand("continue.rejectDiff", path);
+            await vscode.commands.executeCommand("friday.rejectDiff", path);
             const newPrompt = quickPick.value;
             appendToHistory(newPrompt, this.context);
             this.handleUserPrompt(newPrompt, path);
@@ -469,7 +470,7 @@ export class QuickEdit {
   }) => {
     const { label } = quickPick.selectedItems[0];
 
-    // If not an initial item, it's a file selection. Allow continued prompt editing.
+    // If not an initial item, it's a file selection. Allow fridayd prompt editing.
     const isFileSelection = !Object.values(QuickEditInitialItemLabels).includes(
       label as QuickEditInitialItemLabels,
     );

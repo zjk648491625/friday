@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { By, WebDriver, WebView } from "vscode-extension-tester";
 
 import { SelectorUtils } from "./SelectorUtils";
@@ -172,7 +173,7 @@ export class GUISelectors {
     return codeBlockElement;
   }
 
-  public static getContinueExtensionBadge(view: WebView) {
-    return SelectorUtils.getElementByAriaLabel(view, "Continue");
+  public static getFridayExtensionBadge(view: WebView) {
+    return SelectorUtils.getElementByAriaLabel(view, "Friday");
   }
 }

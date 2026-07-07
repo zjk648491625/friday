@@ -1,9 +1,10 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "core";
 import * as vscode from "vscode";
 
 import { getExtensionUri } from "./vscode";
 
-const TUTORIAL_FILE_NAME = "continue_tutorial.py";
+const TUTORIAL_FILE_NAME = "friday_tutorial.py";
 export function getTutorialUri(): vscode.Uri {
   return vscode.Uri.joinPath(getExtensionUri(), TUTORIAL_FILE_NAME);
 }

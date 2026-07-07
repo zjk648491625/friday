@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * If we wanted to run or use another language server from our extension, this is how we would do it.
  */

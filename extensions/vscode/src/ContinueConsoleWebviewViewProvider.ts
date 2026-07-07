@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { LLMInteractionItem } from "core";
 import { EXTENSION_NAME } from "core/util/constants";
 import { LLMLogger } from "core/llm/logger";
@@ -14,10 +15,10 @@ interface FromConsoleView {
 // oldest and also send a message to the view to do the same.
 const MAX_INTERACTIONS = 50;
 
-export class ContinueConsoleWebviewViewProvider
+export class FridayConsoleWebviewViewProvider
   implements vscode.WebviewViewProvider
 {
-  public static readonly viewType = "continue.continueConsoleView";
+  public static readonly viewType = "friday.fridayConsoleView";
 
   resolveWebviewView(
     webviewView: vscode.WebviewView,
@@ -198,7 +199,7 @@ export class ContinueConsoleWebviewViewProvider
         <script>const vscode = acquireVsCodeApi();</script>
         <link href="${styleMainUri}" rel="stylesheet">
 
-        <title>Continue</title>
+        <title>Friday</title>
       </head>
       <body>
         <div id="root"></div>

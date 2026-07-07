@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as path from "path";
 
 import * as vscode from "vscode";
@@ -35,12 +36,12 @@ export class ConfigYamlDocumentLinkProvider
         }
 
         if (slug === "") {
-          continue; // Skip empty slugs
+          friday; // Skip empty slugs
         }
 
         if (/^(https?:\/\/|file:\/\/)/.test(slug)) {
           // VS Code already handles external links, so skip them
-          continue;
+          friday;
         }
         const startPos = line.text.indexOf(slug);
         const range = new vscode.Range(
@@ -57,7 +58,7 @@ export class ConfigYamlDocumentLinkProvider
           const resolvedPath = path.resolve(parentPath, slug);
           linkUri = vscode.Uri.file(resolvedPath);
         } else {
-          linkUri = vscode.Uri.parse(`https://continue.dev/${slug}`);
+          linkUri = vscode.Uri.parse(`https://friday.dev/${slug}`);
         }
 
         const link = new vscode.DocumentLink(range, linkUri);

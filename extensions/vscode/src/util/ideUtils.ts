@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { EXTENSION_NAME } from "core/util/constants";
 import { findUriInDirs } from "core/util/uri";
 import _ from "lodash";
@@ -233,7 +234,7 @@ export class VsCodeIdeUtils {
       .openTextDocument(
         vscode.Uri.parse(
           `${
-            VsCodeExtension.continueVirtualDocumentScheme
+            VsCodeExtension.fridayVirtualDocumentScheme
           }:${encodeURIComponent(name)}?${encodeURIComponent(contents)}`,
         ),
       )
@@ -251,7 +252,7 @@ export class VsCodeIdeUtils {
 
     // If not, ask user for secret
     secret = await vscode.window.showInputBox({
-      prompt: `Either enter secret for ${key} or press enter to try Continue for free.`,
+      prompt: `Either enter secret for ${key} or press enter to try Friday for free.`,
       password: true,
     });
 

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as vscode from "vscode";
 
 import { VerticalDiffManager } from "../diff/vertical/manager";
@@ -30,7 +31,7 @@ export async function addCurrentSelectionToEdit({
 
   // If there's a diff currently being applied, then we just toggle focus back to the input
   if (existingDiff) {
-    webviewProtocol?.request("focusContinueInput", undefined);
+    webviewProtocol?.request("focusFridayInput", undefined);
     return;
   }
 

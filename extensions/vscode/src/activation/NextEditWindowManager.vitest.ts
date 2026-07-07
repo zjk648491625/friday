@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   afterEach,
   beforeEach,
@@ -78,7 +79,7 @@ vi.mock("vscode", () => ({
 }));
 
 vi.mock("core/util/constants", () => ({
-  EXTENSION_NAME: "continue",
+  EXTENSION_NAME: "friday",
 }));
 
 vi.mock("../util/getTheme", () => ({

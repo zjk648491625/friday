@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "core";
 
 export const FAST_APPLY_MODELS: Array<ILLM["model"]> = ["Fast-Apply"];
 
 /**
  * Checks against model names, which can include proxy prefixes
- * such as `continuedev/hub`
+ * such as `friday-ai/hub`
  * @param llm
  * @returns
  */

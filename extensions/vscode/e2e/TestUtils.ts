@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect } from "chai";
 import { Key } from "vscode-extension-tester";
 
@@ -6,11 +7,11 @@ import * as path from "path";
 import { DEFAULT_TIMEOUT } from "./constants";
 
 export class TestUtils {
-  public static CONTINUE_GLOBAL_DIR = process.env.CONTINUE_GLOBAL_DIR ?? "";
+  public static FRIDAY_GLOBAL_DIR = process.env.FRIDAY_GLOBAL_DIR ?? "";
 
   public static getGlobalContextFilePath(): string {
     return path.join(
-      TestUtils.CONTINUE_GLOBAL_DIR,
+      TestUtils.FRIDAY_GLOBAL_DIR,
       "index",
       "globalContext.json",
     );
@@ -85,7 +86,7 @@ export class TestUtils {
           break;
         }
       } catch (e) {
-        // Continue if there's an error (element not found)
+        // Friday if there's an error (element not found)
       }
       await new Promise((resolve) => setTimeout(resolve, interval));
     }

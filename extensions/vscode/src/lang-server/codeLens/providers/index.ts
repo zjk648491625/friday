@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 export { DownloadYamlExtensionCodeLensProvider } from "./DownloadYamlExtensionCodeLensProvider";
 export { QuickActionsCodeLensProvider } from "./QuickActionsCodeLensProvider";
 export { SuggestionsCodeLensProvider } from "./SuggestionsCodeLensProvider";

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const { fork } = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -46,7 +47,7 @@ async function downloadSqlite(target, targetDir) {
   const downloadUrl =
     // node-sqlite3 doesn't have a pre-built binary for win32-arm64
     target === "win32-arm64"
-      ? "https://continue-server-binaries.s3.us-west-1.amazonaws.com/win32-arm64/node_sqlite3.tar.gz"
+      ? "https://friday-server-binaries.s3.us-west-1.amazonaws.com/win32-arm64/node_sqlite3.tar.gz"
       : `https://github.com/TryGhost/node-sqlite3/releases/download/v5.1.7/sqlite3-v5.1.7-napi-v6-${
           target
         }.tar.gz`;
@@ -68,7 +69,7 @@ async function installAndCopyEsbuild(target) {
   rimrafSync("node_modules/@esbuild");
   fs.mkdirSync("node_modules/@esbuild", { recursive: true });
   await downloadFile(
-    `https://continue-server-binaries.s3.us-west-1.amazonaws.com/${target}/esbuild.zip`,
+    `https://friday-server-binaries.s3.us-west-1.amazonaws.com/${target}/esbuild.zip`,
     "node_modules/@esbuild/esbuild.zip",
   );
   execCmdSync("cd node_modules/@esbuild && unzip esbuild.zip");

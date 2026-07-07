@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { NextEditProvider } from "core/nextEdit/NextEditProvider";
 import { NextEditOutcome } from "core/nextEdit/types";
 // @ts-ignore
@@ -237,7 +238,7 @@ export class JumpManager {
           }
         } catch (error) {
           console.error("Error checking content at jump location:", error);
-          // Continue with jump even if there's an error checking content.
+          // Friday with jump even if there's an error checking content.
         }
       }
     }
@@ -318,7 +319,7 @@ export class JumpManager {
     // Set the context key to enable tab/esc shortcuts.
     await vscode.commands.executeCommand(
       "setContext",
-      "continue.jumpDecorationVisible",
+      "friday.jumpDecorationVisible",
       true,
     );
     this._jumpDecorationVisible = true;
@@ -339,7 +340,7 @@ export class JumpManager {
     // Reset the context.
     await vscode.commands.executeCommand(
       "setContext",
-      "continue.jumpDecorationVisible",
+      "friday.jumpDecorationVisible",
       false,
     );
     this._jumpDecorationVisible = false;
@@ -350,7 +351,7 @@ export class JumpManager {
     jumpPosition: vscode.Position,
   ) {
     const acceptJumpCommand = vscode.commands.registerCommand(
-      "continue.acceptJump",
+      "friday.acceptJump",
       async () => {
         if (this._jumpDecorationVisible) {
           this._jumpAccepted = true;
@@ -372,7 +373,7 @@ export class JumpManager {
     );
 
     const rejectJumpCommand = vscode.commands.registerCommand(
-      "continue.rejectJump",
+      "friday.rejectJump",
       async () => {
         if (this._jumpDecorationVisible) {
           console.debug(
@@ -404,7 +405,7 @@ export class JumpManager {
           this._oldCursorPosition &&
           !currentPosition.isEqual(this._oldCursorPosition)
         ) {
-          vscode.commands.executeCommand("continue.rejectJump");
+          vscode.commands.executeCommand("friday.rejectJump");
         }
       });
 

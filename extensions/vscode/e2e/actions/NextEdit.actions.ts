@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect } from "chai";
 import { TextEditor, VSBrowser, Workbench } from "vscode-extension-tester";
 
@@ -14,7 +15,7 @@ export class NextEditActions {
     expect(hasDecoration).to.be.true;
 
     await new Workbench().executeCommand(
-      "Continue: Accept Next Edit Suggestion",
+      "Friday: Accept Next Edit Suggestion",
     );
 
     // Check if HELLO is written into the editor.
@@ -30,7 +31,7 @@ export class NextEditActions {
     const hasDecoration = await NextEditActions.forceNextEdit(editor);
     expect(hasDecoration).to.be.true;
 
-    await new Workbench().executeCommand("Continue: Hide Next Edit Suggestion");
+    await new Workbench().executeCommand("Friday: Hide Next Edit Suggestion");
 
     // Check if the editor text didn't change.
     const editorText = await editor.getText();
@@ -48,7 +49,7 @@ export class NextEditActions {
     await editor.moveCursor(2, 4);
     console.log("Cursor moved to position 2, 4");
 
-    await new Workbench().executeCommand("Continue: Force Next Edit");
+    await new Workbench().executeCommand("Friday: Force Next Edit");
     console.log("Executed 'Force Next Edit' command");
 
     // console.log("Waiting for SVG decoration to appear...");

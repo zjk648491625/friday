@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import path from "path";
 
@@ -11,20 +12,20 @@ import {
   getConfigJsonPath,
   getConfigTsPath,
   getConfigYamlPath,
-  getContinueGlobalPath,
+  getFridayGlobalPath,
 } from "core/util/paths";
 import { v4 as uuidv4 } from "uuid";
 import * as vscode from "vscode";
 
-import { ContinueCompletionProvider } from "../autocomplete/completionProvider";
+import { FridayCompletionProvider } from "../autocomplete/completionProvider";
 import {
   monitorBatteryChanges,
   setupStatusBar,
   StatusBarStatus,
 } from "../autocomplete/statusBar";
 import { registerAllCommands } from "../commands";
-import { ContinueConsoleWebviewViewProvider } from "../ContinueConsoleWebviewViewProvider";
-import { ContinueGUIWebviewViewProvider } from "../ContinueGUIWebviewViewProvider";
+import { FridayConsoleWebviewViewProvider } from "../FridayConsoleWebviewViewProvider";
+import { FridayGUIWebviewViewProvider } from "../FridayGUIWebviewViewProvider";
 import { VerticalDiffManager } from "../diff/vertical/manager";
 import { registerAllCodeLensProviders } from "../lang-server/codeLens";
 import { registerAllPromptFilesCompletionProviders } from "../lang-server/promptFileCompletions";
@@ -67,8 +68,8 @@ export class VsCodeExtension {
   private extensionContext: vscode.ExtensionContext;
   private ide: VsCodeIde;
   private ideUtils: VsCodeIdeUtils;
-  private consoleView: ContinueConsoleWebviewViewProvider;
-  private sidebar: ContinueGUIWebviewViewProvider;
+  private consoleView: FridayConsoleWebviewViewProvider;
+  private sidebar: FridayGUIWebviewViewProvider;
   private windowId: string;
   private editDecorationManager: EditDecorationManager;
   private verticalDiffManager: VerticalDiffManager;
@@ -77,7 +78,7 @@ export class VsCodeExtension {
   private battery: Battery;
   private fileSearch: FileSearch;
   private uriHandler = new UriEventHandler();
-  private completionProvider: ContinueCompletionProvider;
+  private completionProvider: FridayCompletionProvider;
 
   private ARBITRARY_TYPING_DELAY = 2000;
 
@@ -90,8 +91,8 @@ export class VsCodeExtension {
   private async updateNextEditState(
     context: vscode.ExtensionContext,
   ): Promise<void> {
-    const { config: continueConfig } = await this.configHandler.loadConfig();
-    const autocompleteModel = continueConfig?.selectedModelByRole.autocomplete;
+    const { config: fridayConfig } = await this.configHandler.loadConfig();
+    const autocompleteModel = fridayConfig?.selectedModelByRole.autocomplete;
     const vscodeConfig = vscode.workspace.getConfiguration(EXTENSION_NAME);
 
     const modelSupportsNext =
@@ -119,7 +120,7 @@ export class VsCodeExtension {
       nextEditEnabled &&
       !modelSupportsNext &&
       !isNextEditTest() &&
-      process.env.CONTINUE_E2E_NON_NEXT_EDIT_TEST === "true"
+      process.env.FRIDAY_E2E_NON_NEXT_EDIT_TEST === "true"
     ) {
       vscode.window
         .showWarningMessage(
@@ -136,7 +137,7 @@ export class VsCodeExtension {
             );
           } else if (selection === "Select different model") {
             vscode.commands.executeCommand(
-              "continue.openTabAutocompleteConfigMenu",
+              "friday.openTabAutocompleteConfigMenu",
             );
           }
         });
@@ -245,7 +246,7 @@ export class VsCodeExtension {
     const configHandlerPromise = new Promise<ConfigHandler>((resolve) => {
       resolveConfigHandler = resolve;
     });
-    this.sidebar = new ContinueGUIWebviewViewProvider(
+    this.sidebar = new FridayGUIWebviewViewProvider(
       this.windowId,
       this.extensionContext,
     );
@@ -253,7 +254,7 @@ export class VsCodeExtension {
     // Sidebar
     context.subscriptions.push(
       vscode.window.registerWebviewViewProvider(
-        "continue.continueGUIView",
+        "friday.fridayGUIView",
         this.sidebar,
         {
           webviewOptions: { retainContextWhenHidden: true },
@@ -337,7 +338,7 @@ export class VsCodeExtension {
     setupStatusBar(
       enabled ? StatusBarStatus.Enabled : StatusBarStatus.Disabled,
     );
-    this.completionProvider = new ContinueCompletionProvider(
+    this.completionProvider = new FridayCompletionProvider(
       this.configHandler,
       this.ide,
       this.sidebar.webviewProtocol,
@@ -385,7 +386,7 @@ export class VsCodeExtension {
     );
 
     // LLM Log view
-    this.consoleView = new ContinueConsoleWebviewViewProvider(
+    this.consoleView = new FridayConsoleWebviewViewProvider(
       this.windowId,
       this.extensionContext,
       this.core.llmLogger,
@@ -393,7 +394,7 @@ export class VsCodeExtension {
 
     context.subscriptions.push(
       vscode.window.registerWebviewViewProvider(
-        "continue.continueConsoleView",
+        "friday.fridayConsoleView",
         this.consoleView,
       ),
     );
@@ -448,7 +449,7 @@ export class VsCodeExtension {
     });
 
     // watch global rules directory for changes
-    const globalRulesDir = path.join(getContinueGlobalPath(), "rules");
+    const globalRulesDir = path.join(getFridayGlobalPath(), "rules");
     if (fs.existsSync(globalRulesDir)) {
       fs.watch(globalRulesDir, { recursive: true }, (eventType, filename) => {
         if (filename && filename.endsWith(".md")) {
@@ -525,7 +526,7 @@ export class VsCodeExtension {
       });
     });
 
-    // TODO merge this and re-enable https://github.com/continuedev/continue/pull/8364
+    // TODO merge this and re-enable https://github.com/friday-ai/friday/pull/8364
     // vscode.workspace.onDidOpenTextDocument(async (event) => {
     //   const ast = await getAst(event.fileName, event.getText());
     //   if (ast) {
@@ -590,7 +591,7 @@ export class VsCodeExtension {
     })();
     context.subscriptions.push(
       vscode.workspace.registerTextDocumentContentProvider(
-        VsCodeExtension.continueVirtualDocumentScheme,
+        VsCodeExtension.fridayVirtualDocumentScheme,
         documentContentProvider,
       ),
     );
@@ -625,7 +626,7 @@ export class VsCodeExtension {
     });
   }
 
-  static continueVirtualDocumentScheme = EXTENSION_NAME;
+  static fridayVirtualDocumentScheme = EXTENSION_NAME;
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   private PREVIOUS_BRANCH_FOR_WORKSPACE_DIR: { [dir: string]: string } = {};

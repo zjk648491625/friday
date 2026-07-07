@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { fetchwithRequestOptions } from "@continuedev/fetch";
-import { ContinueConfig, IDE } from "core";
+import { FridayConfig, IDE } from "core";
 import { QuickPickItem, window } from "vscode";
 
 export async function getContextProviderItems({
   contextProviders,
-}: ContinueConfig): Promise<QuickPickItem[]> {
+}: FridayConfig): Promise<QuickPickItem[]> {
   if (!contextProviders) {
     return [];
   }
@@ -23,7 +24,7 @@ export async function getContextProviderItems({
 
 export async function getContextProvidersString(
   selectedProviders: QuickPickItem[] | undefined,
-  config: ContinueConfig,
+  config: FridayConfig,
   ide: IDE,
 ): Promise<string> {
   const contextItems = (
@@ -58,7 +59,7 @@ export async function getContextProvidersString(
 }
 
 export async function getContextProviderQuickPickVal(
-  config: ContinueConfig,
+  config: FridayConfig,
   ide: IDE,
 ) {
   const contextProviderItems = await getContextProviderItems(config);

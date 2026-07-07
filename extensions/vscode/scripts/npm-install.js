@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Install node modules for the VS Code extension and gui. This is also intended to run as a child process.
  */
@@ -7,16 +8,16 @@ const path = require("path");
 
 const { execCmdSync } = require("../../../scripts/util");
 
-const { continueDir } = require("./utils");
+const { fridayDir } = require("./utils");
 
 async function installNodeModulesInGui() {
-  process.chdir(path.join(continueDir, "gui"));
+  process.chdir(path.join(fridayDir, "gui"));
   execCmdSync("npm install");
   console.log("[info] npm install in gui completed");
 }
 
 async function installNodeModulesInVscode() {
-  process.chdir(path.join(continueDir, "extensions", "vscode"));
+  process.chdir(path.join(fridayDir, "extensions", "vscode"));
   execCmdSync("npm install");
   console.log("[info] npm install in extensions/vscode completed");
 }

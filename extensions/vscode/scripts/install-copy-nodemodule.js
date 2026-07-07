@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Copy lancedb to the current directory. It is also intended to run as a child process.
  */
@@ -20,7 +21,7 @@ async function installNodeModuleInTempDirAndCopyToCurrent(packageName, toCopy) {
   const tempDir = path.join(
     currentDir,
     "tmp",
-    `continue-node_modules-${adjustedName}`,
+    `friday-node_modules-${adjustedName}`,
   );
 
   // // Remove the dir we will be copying to

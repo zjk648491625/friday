@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as vscode from "vscode";
 import { GhostTextAcceptanceTracker } from "./GhostTextAcceptanceTracker";

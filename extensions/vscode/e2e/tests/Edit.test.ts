@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { expect } from "chai";
 import {
   CodeLens,
@@ -21,7 +22,7 @@ describe("Edit Test", () => {
 
   before(async function () {
     this.timeout(DEFAULT_TIMEOUT.XL);
-    await GUIActions.moveContinueToSidebar(VSBrowser.instance.driver);
+    await GUIActions.moveFridayToSidebar(VSBrowser.instance.driver);
     await GlobalActions.openTestWorkspace();
     ({ editor } = await GlobalActions.createAndOpenNewTextFile());
     await GlobalActions.disableNextEdit();

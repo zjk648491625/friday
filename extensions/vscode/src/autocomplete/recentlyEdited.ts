@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { RangeInFileWithContents } from "core";
 import { getSymbolsForSnippet } from "core/autocomplete/context/ranking";
 import { RecentlyEditedRange } from "core/autocomplete/util/types";
@@ -24,7 +25,7 @@ export class RecentlyEditedTracker {
   private static maxRecentlyEditedDocuments = 10;
 
   constructor(private ideUtils: VsCodeIdeUtils) {
-    // TODO merge this and re-enable https://github.com/continuedev/continue/pull/8364
+    // TODO merge this and re-enable https://github.com/friday-ai/friday/pull/8364
     // vscode.workspace.onDidChangeTextDocument((event) => {
     //   event.contentChanges.forEach((change) => {
     //     const editedRange = {

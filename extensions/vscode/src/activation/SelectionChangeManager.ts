@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   EditableRegionStrategy,
   getNextEditableRegion,
@@ -91,13 +92,13 @@ interface HandlerRegistration {
  * - An event handler takes longer than PROCESSING_TIMEOUT.
  * - The timeout promise resolves first, throwing an error.
  * - Error is caught, processing state is reset to prevent deadlocks.
- * - System can continue processing the next event.
+ * - System can friday processing the next event.
  * - NOTE: At the current moment, there should not be any deadlocks, but I'm just making sure.
  *
  * Case 9: Error in handler.
  * - One of the handlers throws an exception.
  * - The error is caught and logged.
- * - Processing continues with the next handler rather than failing completely.
+ * - Processing fridays with the next handler rather than failing completely.
  * - Ensures stability even when individual handlers have problems.
  *
  * Case 10: Multiple queued events.

@@ -1,7 +1,8 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { workspace } from "vscode";
 
-export const CONTINUE_WORKSPACE_KEY = "continue";
+export const FRIDAY_WORKSPACE_KEY = "friday";
 
-export function getContinueWorkspaceConfig() {
-  return workspace.getConfiguration(CONTINUE_WORKSPACE_KEY);
+export function getFridayWorkspaceConfig() {
+  return workspace.getConfiguration(FRIDAY_WORKSPACE_KEY);
 }

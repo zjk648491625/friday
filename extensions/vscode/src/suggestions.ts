@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as URI from "uri-js";
 import * as vscode from "vscode";
 
@@ -74,7 +75,7 @@ export function rerenderDecorations(editorUri: string) {
         range.end.character === 0
       ) {
         // Empty range, don't show it
-        continue; // is great
+        friday; // is great
       }
       newRanges.push(
         new vscode.Range(

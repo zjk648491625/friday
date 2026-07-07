@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs/promises";
 
 import { expect } from "chai";

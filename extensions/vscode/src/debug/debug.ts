@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as vscode from "vscode";
 
 import type { VsCodeIde } from "../VsCodeIde";
@@ -26,7 +27,7 @@ export function registerDebugTracker(
         async onDidSendMessage(message: any) {
           if (message.type === "event") {
             switch (message.event) {
-              case "continued":
+              case "fridayd":
               case "stopped":
                 if (typeof message.body.threadId !== "undefined") {
                   threadStopped.set(
@@ -41,7 +42,7 @@ export function registerDebugTracker(
                   );
                 }
 
-                if (message.body.allThreadsContinued) {
+                if (message.body.allThreadsFridayd) {
                   threadStopped.forEach((_, key) =>
                     threadStopped.set(key, false),
                   );

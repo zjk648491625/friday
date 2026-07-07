@@ -1,8 +1,9 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as vscode from "vscode";
 
-import { ContinueCompletionProvider } from "../completionProvider";
+import { FridayCompletionProvider } from "../completionProvider";
 
 import * as NextEditLoggingServiceModule from "core/nextEdit/NextEditLoggingService";
 import * as PrefetchQueueModule from "core/nextEdit/NextEditPrefetchQueue";
@@ -48,7 +49,7 @@ beforeEach(() => {
   (vscode.window as any).activeTextEditor = null;
 });
 
-describe("ContinueCompletionProvider triggering logic", () => {
+describe("FridayCompletionProvider triggering logic", () => {
   it("starts a new chain when none exists", async () => {
     const document = createDocument();
     setActiveEditor(document);
@@ -169,7 +170,7 @@ function buildProvider(options: { usingFullFileDiff?: boolean } = {}) {
   const ide = { ideUtils: {} } as any;
   const webviewProtocol = {} as any;
 
-  const provider = new ContinueCompletionProvider(
+  const provider = new FridayCompletionProvider(
     configHandler,
     ide,
     webviewProtocol,

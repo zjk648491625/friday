@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "core";
 import { EXTENSION_NAME } from "core/util/constants";
 import * as vscode from "vscode";
@@ -5,8 +6,8 @@ import * as vscode from "vscode";
 import { Battery } from "../util/battery";
 import { getMetaKeyLabel } from "../util/util";
 import {
-  CONTINUE_WORKSPACE_KEY,
-  getContinueWorkspaceConfig,
+  FRIDAY_WORKSPACE_KEY,
+  getFridayWorkspaceConfig,
 } from "../util/workspaceConfig";
 
 export enum StatusBarStatus {
@@ -48,29 +49,29 @@ const statusBarItemText = (
   error?: boolean,
 ) => {
   if (error) {
-    return "$(alert) Continue (config error)";
+    return "$(alert) Friday (config error)";
   }
 
   let text: string;
   switch (status) {
     case undefined:
       if (loading) {
-        text = "$(loading~spin) Continue";
+        text = "$(loading~spin) Friday";
       } else {
-        text = "Continue";
+        text = "Friday";
       }
       break;
     case StatusBarStatus.Disabled:
-      text = "$(circle-slash) Continue";
+      text = "$(circle-slash) Friday";
       break;
     case StatusBarStatus.Enabled:
-      text = "$(check) Continue";
+      text = "$(check) Friday";
       break;
     case StatusBarStatus.Paused:
-      text = "$(debug-pause) Continue";
+      text = "$(debug-pause) Friday";
       break;
     default:
-      text = "Continue";
+      text = "Friday";
   }
 
   // Append Next Edit indicator if enabled.
@@ -147,7 +148,7 @@ export function setupStatusBar(
 
   statusBarItem.text = statusBarItemText(status, loading, statusBarError);
   statusBarItem.tooltip = statusBarItemTooltip(status ?? statusBarStatus);
-  statusBarItem.command = "continue.openTabAutocompleteConfigMenu";
+  statusBarItem.command = "friday.openTabAutocompleteConfigMenu";
 
   statusBarItem.show();
   if (status !== undefined) {
@@ -159,8 +160,8 @@ export function setupStatusBar(
   if (!configListenerRegistered) {
     configListenerRegistered = true;
     vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration(CONTINUE_WORKSPACE_KEY)) {
-        const enabled = getContinueWorkspaceConfig().get<boolean>(
+      if (event.affectsConfiguration(FRIDAY_WORKSPACE_KEY)) {
+        const enabled = getFridayWorkspaceConfig().get<boolean>(
           "enableTabAutocomplete",
         );
         if (enabled && statusBarStatus === StatusBarStatus.Paused) {

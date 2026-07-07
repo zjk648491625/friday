@@ -1,4 +1,5 @@
-import { ContinueConfig } from "core";
+// Modified by Friday AI Team - Rebranded from Continue
+import { FridayConfig } from "core";
 import * as vscode from "vscode";
 
 import { VerticalDiffCodeLens } from "../../diff/vertical/manager";
@@ -33,11 +34,11 @@ let downloadYamlExtensionCodeLensDisposable: vscode.Disposable | undefined =
  *
  * If a previous provider was registered, it is disposed of before the new one is created.
  *
- * @param config - The Continue configuration object
+ * @param config - The Friday configuration object
  * @param context - The VS Code extension context
  */
 function registerQuickActionsProvider(
-  config: ContinueConfig,
+  config: FridayConfig,
   context: vscode.ExtensionContext,
 ) {
   if (quickActionsCodeLensDisposable) {
@@ -57,7 +58,7 @@ function registerQuickActionsProvider(
 }
 
 /**
- * Registers all CodeLens providers for the Continue extension.
+ * Registers all CodeLens providers for the Friday extension.
  *
  * This function disposes of any existing CodeLens providers and registers new ones for:
  * - Vertical per-line diffs
@@ -71,14 +72,14 @@ function registerQuickActionsProvider(
  *
  * @param context - The VS Code extension context
  * @param editorToVerticalDiffCodeLens - A Map of editor IDs to VerticalDiffCodeLens arrays
- * @param config - The Continue configuration object
+ * @param config - The Friday configuration object
  *
  * @returns An object containing the verticalDiffCodeLens provider
  */
 export function registerAllCodeLensProviders(
   context: vscode.ExtensionContext,
   editorToVerticalDiffCodeLens: Map<string, VerticalDiffCodeLens[]>,
-  config: ContinueConfig | undefined,
+  config: FridayConfig | undefined,
 ) {
   if (verticalPerLineCodeLensProvider) {
     verticalPerLineCodeLensProvider.dispose();

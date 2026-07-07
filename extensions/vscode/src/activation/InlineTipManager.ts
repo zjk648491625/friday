@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable @typescript-eslint/naming-convention */
 import { EXTENSION_NAME } from "core/util/constants";
 // @ts-ignore
@@ -76,7 +77,7 @@ export class InlineTipManager {
   private static instance: InlineTipManager;
 
   private readonly excludedURIPrefixes = ["output:", "vscode://inline-chat"];
-  private readonly hideCommand = "continue.hideInlineTip";
+  private readonly hideCommand = "friday.hideInlineTip";
   private svgTooltip: vscode.Uri | undefined = undefined;
 
   private debounceTimer: NodeJS.Timeout | undefined;

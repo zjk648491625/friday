@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 // Make sure odd-numbered version isn't published to main release. This will irreversibly cause us to bump the minor version by 2
 const fs = require("fs");
 

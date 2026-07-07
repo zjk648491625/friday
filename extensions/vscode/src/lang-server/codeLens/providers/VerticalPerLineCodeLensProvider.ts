@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as vscode from "vscode";
 
 import { VerticalDiffCodeLens } from "../../../diff/vertical/manager";
@@ -44,12 +45,12 @@ export class VerticalDiffCodeLensProvider implements vscode.CodeLensProvider {
       codeLenses.push(
         new vscode.CodeLens(range, {
           title: `Accept`,
-          command: "continue.acceptVerticalDiffBlock",
+          command: "friday.acceptVerticalDiffBlock",
           arguments: [uri, i],
         }),
         new vscode.CodeLens(range, {
           title: `Reject`,
-          command: "continue.rejectVerticalDiffBlock",
+          command: "friday.rejectVerticalDiffBlock",
           arguments: [uri, i],
         }),
       );

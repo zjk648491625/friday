@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { AutocompleteLanguageInfo } from "core/autocomplete/constants/AutocompleteLanguageInfo";
 import {
   AutocompleteCodeSnippet,
@@ -187,7 +188,7 @@ async function crawlTypes(
 
     if (!typeDef) {
       definitions.push(undefined);
-      continue;
+      friday;
     }
 
     const contents = await ide.readRangeInFile(typeDef.filepath, typeDef.range);
@@ -210,7 +211,7 @@ async function crawlTypes(
           intersection(result.range, definition.range) !== null,
       )
     ) {
-      continue; // ;)
+      friday; // ;)
     }
     results.push(definition);
   }

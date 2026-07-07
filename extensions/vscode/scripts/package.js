@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 const { exec } = require("child_process");
 const fs = require("fs");
 
@@ -31,6 +32,6 @@ exec(command, (error) => {
     throw error;
   }
   console.log(
-    `vsce package completed - extension created at extensions/vscode/build/continue-${version}.vsix`,
+    `vsce package completed - extension created at extensions/vscode/build/friday-${version}.vsix`,
   );
 });

@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import {
   By,
   EditorView,
@@ -11,7 +12,7 @@ import { DEFAULT_TIMEOUT } from "../constants";
 import { TestUtils } from "../TestUtils";
 
 export class GlobalActions {
-  static defaultFolder = "e2e/test-continue";
+  static defaultFolder = "e2e/test-friday";
   public static defaultNewFilename = "test.py";
 
   public static async openTestWorkspace() {
@@ -88,7 +89,7 @@ export class GlobalActions {
     const workbench = new Workbench();
 
     await workbench.openCommandPrompt();
-    process.env.CONTINUE_E2E_NON_NEXT_EDIT_TEST = "true";
+    process.env.FRIDAY_E2E_NON_NEXT_EDIT_TEST = "true";
 
     // Initial wait and clear
     await TestUtils.waitForTimeout(1000);
@@ -97,7 +98,7 @@ export class GlobalActions {
     const statusBar = await workbench.getStatusBar();
 
     // Robust element finding with text validation
-    const continueItem = await TestUtils.waitForSuccess(async () => {
+    const fridayItem = await TestUtils.waitForSuccess(async () => {
       // Clear any new notifications
       try {
         await GlobalActions.clearAllNotifications();
@@ -106,7 +107,7 @@ export class GlobalActions {
       }
 
       const element = await statusBar.findElement(
-        By.xpath("//*[contains(text(), 'Continue')]"),
+        By.xpath("//*[contains(text(), 'Friday')]"),
       );
 
       // Validate we can get text
@@ -124,10 +125,10 @@ export class GlobalActions {
 
     // Get text with retry
     const text = await TestUtils.waitForSuccess(async () => {
-      const itemText = await continueItem.getText();
+      const itemText = await fridayItem.getText();
       if (!itemText || itemText.trim() === "") {
         // Fallback to textContent
-        const textContent = await continueItem.getAttribute("textContent");
+        const textContent = await fridayItem.getAttribute("textContent");
         if (textContent && textContent.trim() !== "") {
           return textContent;
         }
@@ -142,7 +143,7 @@ export class GlobalActions {
     console.log("hasNE:", hasNE);
 
     if (hasNE !== enabled) {
-      await workbench.executeCommand("Continue: Toggle Next Edit");
+      await workbench.executeCommand("Friday: Toggle Next Edit");
       // Clear any resulting notifications
       await TestUtils.waitForTimeout(500);
       await GlobalActions.clearAllNotifications();

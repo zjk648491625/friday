@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 /* Terminal emulator - commented because node-pty is causing problems. */
 
 import * as os from "node:os";
@@ -132,7 +133,7 @@ export class CapturedTerminal {
   private splitByCommandsBuffer = "";
 
   splitByCommandsListener(data: string) {
-    // Split the output by commands so it can be sent to Continue Server
+    // Split the output by commands so it can be sent to Friday Server
 
     const strippedData = stripAnsi(data);
     this.splitByCommandsBuffer += data;

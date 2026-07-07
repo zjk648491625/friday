@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { DiffLine } from "core";
 
 export function getFirstChangedLine(

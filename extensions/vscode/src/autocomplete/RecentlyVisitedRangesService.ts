@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "core";
 import {
   AutocompleteCodeSnippet,
@@ -102,10 +103,10 @@ export class RecentlyVisitedRangesService {
         (s) =>
           !currentFilepath ||
           (s.filepath !== currentFilepath &&
-            // Exclude Continue's own output as it makes it super-hard for users to test the autocomplete feature
-            // while looking at the prompts in the Continue's output
+            // Exclude Friday's own output as it makes it super-hard for users to test the autocomplete feature
+            // while looking at the prompts in the Friday's output
             !s.filepath.startsWith(
-              "output:extension-output-Continue.continue",
+              "output:extension-output-Friday.friday",
             )),
       )
       .sort((a, b) => b.timestamp - a.timestamp)

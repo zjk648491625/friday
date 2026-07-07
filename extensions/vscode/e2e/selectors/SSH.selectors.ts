@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { By, SideBarView } from "vscode-extension-tester";
 
 export class SSHSelectors {

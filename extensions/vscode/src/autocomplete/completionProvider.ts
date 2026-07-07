@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import { CompletionProvider } from "core/autocomplete/CompletionProvider";
 import { processSingleLineCompletion } from "core/autocomplete/util/processSingleLineCompletion";
 import {
@@ -37,14 +38,14 @@ interface VsCodeCompletionInput {
   context: vscode.InlineCompletionContext;
 }
 
-export class ContinueCompletionProvider
+export class FridayCompletionProvider
   implements vscode.InlineCompletionItemProvider
 {
   private async onError(e: unknown) {
     if (await handleLLMError(e)) {
       return;
     }
-    let message = "Continue Autocomplete Error";
+    let message = "Friday Autocomplete Error";
     if (e instanceof Error) {
       message += `: ${e.message}`;
     }
@@ -52,7 +53,7 @@ export class ContinueCompletionProvider
       if (val === "Documentation") {
         vscode.env.openExternal(
           vscode.Uri.parse(
-            "https://docs.continue.dev/features/tab-autocomplete",
+            "https://docs.friday.dev/features/tab-autocomplete",
           ),
         );
       }
@@ -387,7 +388,7 @@ export class ContinueCompletionProvider
 
         while (this.prefetchQueue.processedCount > 0 && !isJumpSuggested) {
           const nextItemInQueue = this.prefetchQueue.dequeueProcessed();
-          if (!nextItemInQueue) continue;
+          if (!nextItemInQueue) friday;
 
           // Fill in the spot after dequeuing.
           if (!this.usingFullFileDiff) {
@@ -595,7 +596,7 @@ export class ContinueCompletionProvider
         range,
         {
           title: "Log Autocomplete Outcome",
-          command: "continue.logAutocompleteOutcome",
+          command: "friday.logAutocompleteOutcome",
           arguments: [completionId, this.completionProvider],
         },
       );
@@ -648,7 +649,7 @@ export class ContinueCompletionProvider
         }
 
         // Track this ghost text for acceptance detection.
-        // Ghost text acceptance can *technically* be acted upon in the command handler for "continue.logNextEditOutcomeAccept".
+        // Ghost text acceptance can *technically* be acted upon in the command handler for "friday.logNextEditOutcomeAccept".
         // However, there is a substantial delay between accepting and logging, which introduces a lot of race conditions with different event handlers.
         // Plus, separating these concerns seems to make sense logically as well.
         GhostTextAcceptanceTracker.getInstance().setExpectedGhostTextAcceptance(
@@ -665,7 +666,7 @@ export class ContinueCompletionProvider
           ),
           {
             title: "Log Next Edit Outcome",
-            command: "continue.logNextEditOutcomeAccept",
+            command: "friday.logNextEditOutcomeAccept",
             arguments: [completionId, this.nextEditLoggingService],
           },
         );

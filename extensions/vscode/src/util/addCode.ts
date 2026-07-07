@@ -1,3 +1,4 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as os from "node:os";
 
 import { RangeInFileWithContents } from "core";
@@ -94,7 +95,7 @@ export function getRangeInFileWithContents(
 export async function addHighlightedCodeToContext(
   webviewProtocol: VsCodeWebviewProtocol | undefined,
 ) {
-  // the passed argument below was set to true in https://github.com/continuedev/continue/pull/6711
+  // the passed argument below was set to true in https://github.com/friday-ai/friday/pull/6711
   // which would add the entire file contents when selection is empty
   // some of this behaviour is reverted and needs further investigation
   const rangeInFileWithContents = getRangeInFileWithContents(false);

@@ -1,10 +1,11 @@
+// Modified by Friday AI Team - Rebranded from Continue
 import * as crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 
 import * as vscode from "vscode";
 
-const ENCRYPTION_KEY_NAME = "dev.continue.continue";
+const ENCRYPTION_KEY_NAME = "dev.friday.friday";
 
 /**
  * vscode.SecretStorage is not reliable (often loads older values for a key)
