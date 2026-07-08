@@ -26,46 +26,30 @@ class FridayBinaryProcess(
         process.destroy()
 
     private fun startBinaryProcess(): Process {
-        val path = getFridayBinaryPath()
-        runBlocking(Dispatchers.IO) {
-            setPermissions()
-        }
-
-        val builder = ProcessBuilder(path)
+        val jsPath = getFridayBinaryPath()
+        val nodeExe = findNodeExe() ?: "node"
+        
+        val builder = ProcessBuilder(nodeExe, jsPath)
         builder.environment() += ProxySettings.getSettings().toFridayEnvVars()
         return builder
-            .directory(File(path).parentFile)
+            .directory(File(jsPath).parentFile)
+            .redirectErrorStream(true)
             .start()
-            // Friday AI: Telemetry removed (local-only mode)
             .apply { onExit().thenRun(onUnexpectedExit) }
     }
-
-    private companion object {
-
-        private fun setPermissions() {
-            val os = getOS()
-            when (os) {
-                OS.MAC -> setMacOsPermissions()
-                OS.WINDOWS -> {}
-                OS.LINUX -> elevatePermissions()
-            }
-        }
-
-        private fun setMacOsPermissions() {
-            ProcessBuilder("xattr", "-dr", "com.apple.quarantine", getFridayBinaryPath()).start().waitFor()
-            elevatePermissions()
-        }
-
-        // todo: consider setting permissions ahead-of-time during build/packaging, not at runtime
-        private fun elevatePermissions() {
-            val path = getFridayBinaryPath()
-            val permissions = setOf(
-                PosixFilePermission.OWNER_READ,
-                PosixFilePermission.OWNER_WRITE,
-                PosixFilePermission.OWNER_EXECUTE
-            )
-            Files.setPosixFilePermissions(Paths.get(path), permissions)
-        }
+    
+    private fun findNodeExe(): String? {
+        // Try nvs-managed Node.js first
+        val nvsNode = listOf(
+            System.getenv("LOCALAPPDATA")?.let { "$it\\nvs\\default\\node.exe" },
+            System.getenv("LOCALAPPDATA")?.let { "$it\\nvs\\node\\20.20.1\\x64\\node.exe" },
+        ).firstOrNull { it != null && File(it).exists() }
+        if (nvsNode != null) return nvsNode
+        
+        // Try PATH
+        return try {
+            ProcessBuilder("where", "node").start().inputStream.bufferedReader().readLine()?.trim()
+        } catch (_: Exception) { null }
     }
 
 }

@@ -121,6 +121,10 @@ tasks {
         argumentProviders += CommandLineArgumentProvider {
             listOf(openProject, "$openProject/test.kt")
         }
+        jvmArgs = listOf(
+            "-Dide.browser.jcef.debug.port=9222",
+            "-Dide.browser.jcef.contextMenu.devTools.enabled=true"
+        )
     }
 
     test {

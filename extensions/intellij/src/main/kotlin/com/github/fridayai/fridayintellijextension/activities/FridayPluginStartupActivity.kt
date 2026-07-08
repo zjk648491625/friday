@@ -113,7 +113,7 @@ class FridayPluginStartupActivity : StartupActivity, DumbAware {
 
         for (actionId in actionIds) {
             if (actionId.startsWith("friday")) {
-                friday
+                continue
             }
             val shortcuts = keymap.getShortcuts(actionId)
             for (shortcut in shortcuts) {
@@ -153,13 +153,7 @@ class FridayPluginStartupActivity : StartupActivity, DumbAware {
             val connection = ApplicationManager.getApplication().messageBus.connect()
             connection.subscribe(SettingsListener.TOPIC, object : SettingsListener {
                 override fun settingsUpdated(settings: FridayExtensionSettings.FridayState) {
-                    fridayPluginService.coreMessenger?.request(
-                        "config/ideSettingsUpdate", mapOf(
-                            "remoteConfigServerUrl" to settings.remoteConfigServerUrl,
-                            "remoteConfigSyncPeriod" to settings.remoteConfigSyncPeriod,
-                            "userToken" to settings.userToken,
-                        ), null
-                    ) { _ -> }
+                    // Friday AI: Remote config sync disabled (local-only mode)
                 }
             })
 

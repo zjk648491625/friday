@@ -40,9 +40,7 @@ fun getFridayCorePath(): String {
  */
 fun getFridayBinaryPath(): String {
     val targetPath = getFridayCorePath()
-    val os = getOS()
-    val exeSuffix = if (os == OS.WINDOWS) ".exe" else ""
-    return Paths.get(targetPath, "friday-binary$exeSuffix").toString()
+    return Paths.get(targetPath, "friday-binary.js").toString()
 }
 
 /**

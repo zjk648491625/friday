@@ -17,8 +17,8 @@ class FridayProcessHandler(
     private val innerJob = Job()
     private val scope = CoroutineScope(parentScope.coroutineContext + innerJob)
     private val pendingWrites = Channel<String>(Channel.UNLIMITED)
-    private val writer = OutputStreamWriter(process.output)
-    private val reader = BufferedReader(InputStreamReader(process.input))
+    private val writer = OutputStreamWriter(process.output, Charsets.UTF_8)
+    private val reader = BufferedReader(InputStreamReader(process.input, Charsets.UTF_8))
     private val log = Logger.getInstance(FridayProcessHandler::class.java)
 
     init {

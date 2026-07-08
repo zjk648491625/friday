@@ -40,7 +40,7 @@ class CustomResourceHandler : CefResourceHandler, DumbAware {
             val newUrl = javaClass.classLoader.getResource(pathToResource)
             state = OpenedConnection(newUrl?.openConnection())
             currentUrl = url
-            cefCallback.Friday()
+            cefCallback.Continue()
             true
         } else {
             false
