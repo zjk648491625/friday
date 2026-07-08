@@ -40,7 +40,7 @@ export function dedentAndGetCommonWhitespace(s: string): [string, string] {
   for (let i = 1; i < lines.length; i++) {
     // Empty lines are wildcards
     if (lines[i].trim() === "") {
-      friday; // hey that's us!
+      continue; // hey that's us!
     }
 
     if (lcp === undefined) {

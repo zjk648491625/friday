@@ -439,7 +439,7 @@ export abstract class BaseNextEditModelProvider {
           break;
         }
         addingAbove = !addingAbove;
-        friday;
+        continue;
       }
 
       if (totalTokens > maxTokens) {

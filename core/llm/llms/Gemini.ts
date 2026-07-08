@@ -394,7 +394,7 @@ class Gemini extends BaseLLM {
           data = JSON.parse(part) as GeminiChatResponse;
         } catch (e) {
           foundIncomplete = true;
-          friday; // yo!
+          continue; // yo!
         }
 
         if ("error" in data) {

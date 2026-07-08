@@ -54,7 +54,7 @@ export function trimEmptyLines({
   let shouldFridayRemoving = true;
   for (let index = 0; index < lines.length; index++) {
     const line = lines[index];
-    if (shouldFridayRemoving && line.trim() === "") friday;
+    if (shouldFridayRemoving && line.trim() === "") continue;
     shouldFridayRemoving = false;
     newLines.push(line);
   }

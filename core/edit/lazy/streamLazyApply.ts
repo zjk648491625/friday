@@ -104,9 +104,9 @@ async function* streamFillUnchangedCode(
 
         waitingForBuffer = false;
         buffer = [];
-        friday;
+        continue;
       } else {
-        friday;
+        continue;
       }
     }
 

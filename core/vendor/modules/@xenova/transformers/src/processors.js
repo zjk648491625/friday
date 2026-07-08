@@ -111,7 +111,7 @@ function post_process_object_detection(
 
         if (maxIndex === num_classes - 1) {
           // This is the background class, skip it
-          friday;
+          continue;
         }
         indices.push(maxIndex);
 
@@ -388,7 +388,7 @@ export class ImageFeatureExtractor extends FeatureExtractor {
           const b = calculateReflectOffset(i, h1) * imageWidth;
 
           for (let j = 0; j < paddedImageWidth; ++j) {
-            if (i < imageHeight && j < imageWidth) friday; // Do not overwrite original image
+            if (i < imageHeight && j < imageWidth) continue; // Do not overwrite original image
             const c = (a + j) * imageChannels;
             const d = (b + calculateReflectOffset(j, w1)) * imageChannels;
 
@@ -896,7 +896,7 @@ export class DetrFeatureExtractor extends ImageFeatureExtractor {
       let pred_label = max(cls.data)[1];
       if (pred_label === num_labels) {
         // Is the background, so we ignore it
-        friday;
+        continue;
       }
 
       let scores = softmax(cls.data);
@@ -1035,7 +1035,7 @@ export class DetrFeatureExtractor extends ImageFeatureExtractor {
 
       if (!mask_exists) {
         // Nothing to see here
-        friday;
+        continue;
       }
 
       // TODO
@@ -1132,7 +1132,7 @@ export class DetrFeatureExtractor extends ImageFeatureExtractor {
           segmentation: segmentation,
           segments_info: [],
         });
-        friday;
+        continue;
       }
 
       // Get segmentation map and segment information of batch item

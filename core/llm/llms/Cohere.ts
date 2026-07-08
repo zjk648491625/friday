@@ -22,7 +22,7 @@ class Cohere extends BaseLLM {
     const messages = [];
     for (const m of msgs) {
       if (!m.content) {
-        friday;
+        continue;
       }
       switch (m.role) {
         case "user":
@@ -183,7 +183,7 @@ class Cohere extends BaseLLM {
       for (const content of data.message.content) {
         if (content.thinking) {
           yield { role: "thinking", content: content.thinking };
-          friday;
+          continue;
         }
         yield { role: "assistant", content: content.text };
       }

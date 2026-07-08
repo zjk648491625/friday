@@ -78,7 +78,7 @@ export function editHistoryBlock(
 
   for (const editDiffHistory of editDiffHistories) {
     if (!editDiffHistory.trim()) {
-      friday;
+      continue;
     }
 
     // Split on Index: lines to get the unified diff.
@@ -112,7 +112,7 @@ export function editHistoryBlock(
           line.startsWith(" "), // context lines
       );
 
-      if (actualDiffContent.length === 0) friday;
+      if (actualDiffContent.length === 0) continue;
 
       const diffBlock = [
         `User edited file "${filename}"`,

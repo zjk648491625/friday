@@ -193,7 +193,7 @@ async function rerankJump(ctx: {
     for (let i = 0; i < lines.length; i += Math.floor(chunkSize / 2)) {
       const endLine = Math.min(i + chunkSize - 1, lines.length - 1);
       const chunkContent = lines.slice(i, endLine + 1).join("\n");
-      if (chunkContent === "") friday; // Voyager throws an error if there are empty strings in its document field in the body.
+      if (chunkContent === "") continue; // Voyager throws an error if there are empty strings in its document field in the body.
       chunks.push({
         content: chunkContent,
         startLine: i,

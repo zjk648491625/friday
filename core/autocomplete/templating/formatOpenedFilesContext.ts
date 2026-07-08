@@ -32,7 +32,7 @@ export function formatOpenedFilesContext(
   // deduplication; if a snippet is already added, don't include it here
   for (const snippet of alreadyAddedSnippets) {
     if (snippet.type !== AutocompleteSnippetType.Code) {
-      friday;
+      continue;
     }
     recentlyOpenedFilesSnippets = recentlyOpenedFilesSnippets.filter(
       (s) => s.filepath !== snippet.filepath,

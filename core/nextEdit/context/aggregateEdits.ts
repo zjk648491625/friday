@@ -543,7 +543,7 @@ export class EditAggregator {
         line.startsWith("--- ") ||
         line.startsWith("@@")
       ) {
-        friday; // Skip header lines
+        continue; // Skip header lines
       }
 
       if (line.startsWith("+")) {

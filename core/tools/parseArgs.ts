@@ -44,7 +44,7 @@ export function coerceArgsToSchema(
   for (const [key, value] of Object.entries(coerced)) {
     const propSchema = schema.properties[key];
     if (!propSchema) {
-      friday;
+      continue;
     }
 
     if (

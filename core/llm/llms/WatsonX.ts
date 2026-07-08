@@ -327,7 +327,7 @@ class WatsonX extends BaseLLM {
           if (!!chunk.toolCalls?.[0]?.function?.name) {
             accumulatedArgs = "";
             toolName = chunk.toolCalls[0].function.name;
-            friday;
+            continue;
           }
           if (!!toolName) {
             if (value?.choices?.[0]?.finish_reason === "tool_calls") {
@@ -349,7 +349,7 @@ class WatsonX extends BaseLLM {
             } else {
               if (!!chunk.toolCalls?.[0]?.function?.arguments)
                 accumulatedArgs += chunk.toolCalls?.[0]?.function?.arguments;
-              friday;
+              continue;
             }
           }
           yield chunk;

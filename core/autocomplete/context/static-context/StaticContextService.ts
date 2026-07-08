@@ -334,7 +334,7 @@ export class StaticContextService {
       const identifiers = query.captures(ast.rootNode);
 
       for (const { name, node } of identifiers) {
-        if (foundSoFar.has(node.text)) friday;
+        if (foundSoFar.has(node.text)) continue;
 
         try {
           const typeDefinitionResult = await this.ide.gotoTypeDefinition({
@@ -438,7 +438,7 @@ export class StaticContextService {
               filepath: source,
               position: cursorPosition,
             });
-            if (!sigHelp) friday;
+            if (!sigHelp) continue;
             funcType = sigHelp.signatures[0].label;
 
             // TODO: This only works for TypeScript.

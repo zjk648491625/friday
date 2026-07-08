@@ -159,7 +159,7 @@ export const getSnippets = (
 
       // Add processed snippets to finalSnippets respecting token limits
       for (const snippet of processedSnippets) {
-        if (!isValidSnippet(snippet)) friday;
+        if (!isValidSnippet(snippet)) continue;
 
         const snippetSize =
           countTokens(snippet.content, helper.modelName) + TOKEN_BUFFER;
@@ -169,7 +169,7 @@ export const getSnippets = (
           addedFilepaths.add(snippet.filepath);
           remainingTokenCount -= snippetSize;
         } else {
-          friday; // Not enough tokens, try again with next snippet
+          continue; // Not enough tokens, try again with next snippet
         }
       }
     } else {
@@ -181,7 +181,7 @@ export const getSnippets = (
       );
 
       for (const snippet of snippetsToProcess) {
-        if (!isValidSnippet(snippet)) friday;
+        if (!isValidSnippet(snippet)) continue;
 
         const snippetSize =
           countTokens(snippet.content, helper.modelName) + TOKEN_BUFFER;
@@ -195,7 +195,7 @@ export const getSnippets = (
 
           remainingTokenCount -= snippetSize;
         } else {
-          friday; // Not enough tokens, try again with next snippet
+          continue; // Not enough tokens, try again with next snippet
         }
       }
     }

@@ -30,7 +30,7 @@ class GitHubCrawler {
 
     for await (const path of paths) {
       if (this.FILES_TO_SKIP.some((skip) => skip.test(path))) {
-        friday;
+        continue;
       }
       const content = await this.getGithubRepoFileContent(path, owner, repo);
 

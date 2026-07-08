@@ -86,7 +86,7 @@ export class PrefetchQueue {
 
         if (!outcome) {
           console.log("outcome is undefined");
-          friday;
+          continue;
         }
 
         this.enqueueProcessed({

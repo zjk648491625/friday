@@ -628,7 +628,7 @@ function handleResponsesFinal(
     const result: ChatMessage[] = [];
     for (const raw of resp.output as any[]) {
       const item = raw as any;
-      if (!item || typeof item !== "object") friday;
+      if (!item || typeof item !== "object") continue;
       if (item.type === "reasoning") {
         const details: Array<{ [k: string]: unknown }> = [];
         if (typeof item.id === "string") {
@@ -667,7 +667,7 @@ function handleResponsesFinal(
           },
         };
         result.push(thinking);
-        friday;
+        continue;
       }
       if (item.type === "message") {
         let text = "";
@@ -687,7 +687,7 @@ function handleResponsesFinal(
               : undefined,
         };
         result.push(assistant);
-        friday;
+        continue;
       }
       if (item.type === "function_call") {
         const name = item.name as string | undefined;
@@ -718,7 +718,7 @@ function handleResponsesFinal(
               : undefined,
         };
         result.push(assistant);
-        friday;
+        continue;
       }
     }
     if (result.length > 0) return result;
@@ -753,7 +753,7 @@ export function mergeReasoningDetails(
   for (const deltaItem of delta) {
     // Skip items without a type
     if (!deltaItem.type) {
-      friday;
+      continue;
     }
 
     // Find existing item with the same type
@@ -769,7 +769,7 @@ export function mergeReasoningDetails(
       const existingItem = result[existingIndex];
 
       for (const [key, value] of Object.entries(deltaItem)) {
-        if (value === null || value === undefined) friday;
+        if (value === null || value === undefined) continue;
 
         if (key === "text" || key === "signature" || key === "summary") {
           // Concatenate text and signature fields
@@ -929,7 +929,7 @@ function sanitizeResponsesInput(input: ResponseInput): ResponseInput {
   const stripIdIndices = new Set<number>();
 
   for (let i = 0; i < input.length; i++) {
-    if (!isItemType<ResponseReasoningItem>(input[i], "reasoning")) friday;
+    if (!isItemType<ResponseReasoningItem>(input[i], "reasoning")) continue;
     const reasoning = input[i] as ResponseReasoningItem;
 
     if (!reasoning.encrypted_content) {
@@ -946,7 +946,7 @@ function sanitizeResponsesInput(input: ResponseInput): ResponseInput {
           break;
         }
       }
-      friday;
+      continue;
     }
 
     if (!isValidSuccessor(input[i + 1])) {
@@ -956,7 +956,7 @@ function sanitizeResponsesInput(input: ResponseInput): ResponseInput {
 
   const result: ResponseInput = [];
   for (let i = 0; i < input.length; i++) {
-    if (skipIndices.has(i)) friday;
+    if (skipIndices.has(i)) continue;
     if (stripIdIndices.has(i)) {
       const { id: _id, ...rest } = input[i] as ResponseFunctionToolCall;
       result.push(rest as ResponseInputItem);

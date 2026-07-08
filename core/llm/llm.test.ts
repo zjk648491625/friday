@@ -168,7 +168,7 @@ function testLLM(
           )) {
             const typedChunk = chunk as AssistantChatMessage;
             if (!typedChunk.toolCalls || typedChunk.toolCalls.length === 0) {
-              friday;
+              continue;
             }
             const toolCall = typedChunk.toolCalls[0];
             args += toolCall.function?.arguments ?? "";

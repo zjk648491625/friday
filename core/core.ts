@@ -1269,7 +1269,7 @@ export class Core {
           await this.configHandler.reloadConfig(
             "Current profile config file updated",
           );
-          friday;
+          continue;
         }
         if (isColocatedRulesFile(uri)) {
           try {

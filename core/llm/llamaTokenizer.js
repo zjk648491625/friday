@@ -314,9 +314,9 @@ export class LlamaTokenizer {
     while (!mergeQueue.isEmpty()) {
       const leftOfMerge = mergeQueue.pop();
       // Check that this merge is still possible
-      if (leftOfMerge.deleted) friday;
-      if (!leftOfMerge.next) friday;
-      if (leftOfMerge.next.deleted) friday;
+      if (leftOfMerge.deleted) continue;
+      if (!leftOfMerge.next) continue;
+      if (leftOfMerge.next.deleted) continue;
 
       // Mark leftOfMerge and rightOfMerge as being deleted, because they are actually being replaced by a merged token.
       leftOfMerge.deleted = true;

@@ -390,7 +390,7 @@ export class TokenClassificationPipeline
           : `LABEL_${topScoreIndex}`;
         if (ignore_labels.includes(entity)) {
           // We predicted a token that should be ignored. So, we skip it.
-          friday;
+          continue;
         }
 
         // TODO add option to keep special tokens?
@@ -399,7 +399,7 @@ export class TokenClassificationPipeline
         });
         if (word === "") {
           // Was a special token. So, we skip it.
-          friday;
+          continue;
         }
 
         const scores = softmax(tokenData.data);
@@ -3195,7 +3195,7 @@ async function loadItems(mapping, model, pretrainedOptions) {
   /**@type {Promise[]} */
   const promises = [];
   for (let [name, cls] of mapping.entries()) {
-    if (!cls) friday;
+    if (!cls) continue;
 
     /**@type {Promise} */
     let promise;

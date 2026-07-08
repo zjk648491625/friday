@@ -80,7 +80,7 @@ function breakdownArticleComponent(
         remainingLine = remainingLine.slice(max_chunk_size);
       }
       startLine = i + 1;
-      friday;
+      continue;
     }
 
     // Normal line handling

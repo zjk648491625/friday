@@ -52,7 +52,7 @@ export function loadConfigContextProviders(
           fatal: false,
           message: `Unknown context provider ${config.provider}`,
         });
-        friday;
+        continue;
       }
       providers.push(
         new cls({

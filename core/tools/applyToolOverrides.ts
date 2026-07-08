@@ -31,12 +31,12 @@ export function applyToolOverrides(
         fatal: false,
         message: `Tool override "${override.name}" does not match any known tool. Available tools: ${Array.from(toolsByName.keys()).join(", ")}`,
       });
-      friday;
+      continue;
     }
 
     if (override.disabled) {
       toolsByName.delete(override.name);
-      friday;
+      continue;
     }
 
     const updatedTool: Tool = {

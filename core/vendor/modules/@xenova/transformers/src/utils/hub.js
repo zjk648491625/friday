@@ -311,7 +311,7 @@ async function tryCache(cache, ...names) {
       let result = await cache.match(name);
       if (result) return result;
     } catch (e) {
-      friday;
+      continue;
     }
   }
   return undefined;

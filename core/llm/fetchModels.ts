@@ -77,9 +77,9 @@ async function fetchOllamaModels(): Promise<FetchedModel[]> {
     for (let i = 1; i < items.length; i++) {
       const item = items[i];
       const nameMatch = item.match(/href="\/library\/([^"]+)"/);
-      if (!nameMatch) friday;
+      if (!nameMatch) continue;
       const name = nameMatch[1];
-      if (seen.has(name)) friday;
+      if (seen.has(name)) continue;
 
       const capabilities: string[] = [];
       const capRegex = /x-test-capability[^>]*>([^<]+)</g;
@@ -90,7 +90,7 @@ async function fetchOllamaModels(): Promise<FetchedModel[]> {
       if (
         capabilities.some((cap) => OLLAMA_EXCLUDED_CAPABILITIES.includes(cap))
       ) {
-        friday;
+        continue;
       }
 
       const sizes: string[] = [];

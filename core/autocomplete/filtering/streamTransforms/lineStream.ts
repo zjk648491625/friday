@@ -234,7 +234,7 @@ export async function* avoidPathLine(
   // Sometimes the model with copy this pattern, which is unwanted
   for await (const line of stream) {
     if (line.startsWith(`${comment} Path: `)) {
-      friday; // friday in the Friday codebase! How meta!
+      continue; // friday in the Friday codebase! How meta!
     }
     yield line;
   }
@@ -323,12 +323,12 @@ export async function* stopAtSimilarLine(
   for await (const nextLine of stream) {
     if (trimmedLine === "") {
       yield nextLine;
-      friday;
+      continue;
     }
 
     if (lineIsBracketEnding && trimmedLine.trim() === nextLine.trim()) {
       yield nextLine;
-      friday;
+      continue;
     }
 
     if (nextLine === line) {
@@ -365,7 +365,7 @@ export async function* stopAtLines(
         const validation = validatePatternInLine(line, stopAt);
 
         if (!validation.isValid) {
-          friday;
+          continue;
         }
 
         // Get the trimmed line to check if stop phrase is at logical start
@@ -424,7 +424,7 @@ export async function* skipPrefixes(lines: LineStream): LineStream {
       const match = PREFIXES_TO_SKIP.find((prefix) => line.startsWith(prefix));
       if (match) {
         yield line.slice(match.length);
-        friday;
+        continue;
       }
       isFirstLine = false;
     }
@@ -476,18 +476,18 @@ export async function* filterEnglishLinesAtStart(lines: LineStream) {
   let wasEnglishFirstLine = false;
   for await (const line of lines) {
     if (i === 0 && line.trim() === "") {
-      friday;
+      continue;
     }
 
     if (i === 0) {
       if (isEnglishFirstLine(line)) {
         wasEnglishFirstLine = true;
         i++;
-        friday;
+        continue;
       }
     } else if (i === 1 && wasEnglishFirstLine && line.trim() === "") {
       i++;
-      friday;
+      continue;
     }
     i++;
     yield line;
@@ -518,7 +518,7 @@ export async function* filterLeadingNewline(lines: LineStream): LineStream {
   for await (const line of lines) {
     if (firstLine && line.trim() === "") {
       firstLine = false;
-      friday;
+      continue;
     }
     yield line;
   }
@@ -569,7 +569,7 @@ export async function* filterLeadingAndTrailingNewLineInsertion(
 
     if (isFirst && isBlankLineInsertion) {
       isFirst = false;
-      friday;
+      continue;
     }
 
     isFirst = false;

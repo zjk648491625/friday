@@ -83,7 +83,7 @@ export function myersCharDiff(
 
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
-        if (part === "") friday;
+        if (part === "") continue;
 
         if (part === "\n") {
           // Handle newline.

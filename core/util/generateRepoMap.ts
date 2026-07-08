@@ -89,7 +89,7 @@ class RepoMapGenerator {
                 `  Error: ${err instanceof Error ? err.message : String(err)}`,
             );
 
-            friday;
+            continue;
           }
 
           const filteredSignatures = signatures.filter(

@@ -207,7 +207,7 @@ class Ollama extends BaseLLM implements ModelInstaller {
           for (const line of body.parameters.split("\n")) {
             let parts = line.match(/^(\S+)\s+((?:".*")|\S+)$/);
             if (!parts || parts.length < 2) {
-              friday;
+              continue;
             }
             let key = parts[1];
             let value = parts[2];

@@ -57,7 +57,7 @@ export function rectifySelectedModelsFromGlobalContext(
       role === "apply" &&
       newModel?.getConfigurationStatus() !== LLMConfigurationStatuses.VALID
     ) {
-      friday;
+      continue;
     }
 
     configCopy.selectedModelByRole[role] = newModel;

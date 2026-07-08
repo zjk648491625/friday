@@ -168,14 +168,14 @@ class Bedrock extends BaseLLM {
               role: "assistant",
               content: contentBlockDelta.text,
             };
-            friday;
+            continue;
           }
           if (contentBlockDelta.reasoningContent?.text) {
             yield {
               role: "thinking",
               content: contentBlockDelta.reasoningContent.text,
             };
-            friday;
+            continue;
           }
           if (contentBlockDelta.reasoningContent?.signature) {
             yield {
@@ -183,7 +183,7 @@ class Bedrock extends BaseLLM {
               content: "",
               signature: contentBlockDelta.reasoningContent.signature,
             };
-            friday;
+            continue;
           }
         }
 
@@ -196,7 +196,7 @@ class Bedrock extends BaseLLM {
               content: "",
               redactedThinking: reasoningDelta.text,
             };
-            friday;
+            continue;
           }
         }
 
@@ -219,7 +219,7 @@ class Bedrock extends BaseLLM {
               },
             ],
           };
-          friday;
+          continue;
         }
 
         const contentBlockStart: ContentBlockStartEvent | undefined =
@@ -245,7 +245,7 @@ class Bedrock extends BaseLLM {
                   },
                 ],
               };
-              friday;
+              continue;
             }
           }
         }
@@ -479,7 +479,7 @@ class Bedrock extends BaseLLM {
                 console.warn(
                   `Bedrock: tool call missing id or name, skipping tool call: ${JSON.stringify(toolCall)}`,
                 );
-                friday;
+                continue;
               }
             }
           }

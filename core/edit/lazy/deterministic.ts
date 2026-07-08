@@ -382,7 +382,7 @@ function findLazyBlockReplacements(
       isLazy = true;
       currentLazyBlockNode = R;
       rightChildren.shift();
-      friday;
+      continue;
     }
 
     // Look for the first match of L

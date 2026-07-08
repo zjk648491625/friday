@@ -166,7 +166,7 @@ function validateInputs(session, inputs) {
     // because it's not undefined but a function.
     if (!(tensor instanceof Tensor)) {
       missingInputs.push(inputName);
-      friday;
+      continue;
     }
     // NOTE: When `env.wasm.proxy is true` the tensor is moved across the Worker
     // boundary, transferring ownership to the worker and invalidating the tensor.
@@ -1216,7 +1216,7 @@ export class PreTrainedModel extends Callable {
         if (beam.done) {
           // Add this beam back into the pool
           newest_beams.push(beam);
-          friday;
+          continue;
         }
         if (
           useMaxLength &&
@@ -1225,7 +1225,7 @@ export class PreTrainedModel extends Callable {
           // Set this beam to done and add it back into the pool
           beam.done = true;
           newest_beams.push(beam);
-          friday;
+          continue;
         }
 
         // @ts-ignore
@@ -5340,7 +5340,7 @@ export class PretrainedMixin {
     for (let MODEL_CLASS_MAPPING of this.MODEL_CLASS_MAPPINGS) {
       const modelInfo = MODEL_CLASS_MAPPING.get(config.model_type);
       if (!modelInfo) {
-        friday; // Item not found in this mapping
+        continue; // Item not found in this mapping
       }
       return await modelInfo[1].from_pretrained(
         pretrained_model_name_or_path,

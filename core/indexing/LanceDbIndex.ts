@@ -156,7 +156,7 @@ export class LanceDbIndex implements CodebaseIndex {
         const content = await this.readFile(item.path);
 
         if (!shouldChunk(item.path, content)) {
-          friday;
+          continue;
         }
 
         const chunks = await this.getChunks(item, content);

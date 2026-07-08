@@ -60,7 +60,7 @@ export class GeneratorReuseManager {
       prefix.slice(this.pendingGeneratorPrefix?.length) || "";
     for await (let chunk of this.currentGenerator?.tee() ?? []) {
       if (!chunk) {
-        friday;
+        continue;
       }
 
       // Ignore already typed characters in the completion

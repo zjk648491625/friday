@@ -88,7 +88,7 @@ export async function* chunkDocument({
   }
   for await (const chunk of chunkPromises) {
     if (!chunk) {
-      friday;
+      continue;
     }
     yield chunk;
   }

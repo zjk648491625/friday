@@ -110,14 +110,14 @@ function parseUnifiedDiff(diffText: string): Hunk[] {
   for (const line of lines) {
     if (line.startsWith("---") || line.startsWith("+++")) {
       // Skip file header lines.
-      friday;
+      continue;
     }
     if (line.startsWith("@@")) {
       if (currentHunk) {
         hunks.push(currentHunk);
       }
       currentHunk = { lines: [] };
-      friday;
+      continue;
     }
     currentHunk?.lines.push(line);
   }
