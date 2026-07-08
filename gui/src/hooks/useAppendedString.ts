@@ -23,7 +23,7 @@ export function useAppendedString(
         const nextString = currentQueue.shift()!;
         if (!nextString.startsWith(lastString.current)) {
           // Invalid
-          friday;
+          continue;
         }
         const appendedPart = nextString.slice(lastString.current.length);
         lastString.current = nextString;

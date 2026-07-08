@@ -538,7 +538,7 @@ export const sessionSlice = createSlice({
               },
               contextItems: [],
             });
-            friday;
+            continue;
           }
 
           const messageContent = message.content

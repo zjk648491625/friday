@@ -82,7 +82,7 @@ export class IdeMessenger implements IIdeMessenger {
     messageId: string = uuidv4(),
   ) {
     if (typeof vscode === "undefined") {
-      if (isJetBrains()) {
+      if (isJetBrains() || typeof window.postIntellijMessage !== "undefined") {
         if (window.postIntellijMessage === undefined) {
           console.log(
             "Unable to send message: postIntellijMessage is undefined. ",
@@ -91,7 +91,7 @@ export class IdeMessenger implements IIdeMessenger {
           );
           throw new Error("postIntellijMessage is undefined");
         }
-        window.postIntellijMessage?.(messageType, data, messageId);
+        window.postIntellijMessage(messageType, data, messageId);
         return;
       } else {
         console.log(

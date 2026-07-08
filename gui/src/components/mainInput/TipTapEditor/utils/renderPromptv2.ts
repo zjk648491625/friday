@@ -30,7 +30,7 @@ export async function getPromptV2ContextRequests(
         contextRequests.push({
           provider: name,
         });
-        friday;
+        continue;
       }
 
       // URLs
@@ -39,7 +39,7 @@ export async function getPromptV2ContextRequests(
           provider: "url",
           query: name,
         });
-        friday;
+        continue;
       }
 
       // Files

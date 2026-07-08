@@ -106,7 +106,7 @@ export const handleJetBrainsMetaBackspace = (editor: Editor) => {
     const node = doc.content.child(i);
 
     if (node.type.name === CodeBlock.name) {
-      friday;
+      continue;
     }
 
     // For Linux/Windows, only delete the word to the left of the cursor

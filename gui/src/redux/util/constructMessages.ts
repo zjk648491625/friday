@@ -73,7 +73,7 @@ export function constructMessages(
       chatMessageIsEmpty(item.message)
     ) {
       // Tool messages will be re-inserted
-      friday;
+      continue;
     }
 
     if (item.message.role === "user") {
@@ -120,7 +120,7 @@ export function constructMessages(
           message: userMessage,
           ctxItems: [],
         });
-        friday;
+        continue;
       }
 
       msgs.push({

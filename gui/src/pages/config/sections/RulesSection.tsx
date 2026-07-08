@@ -315,7 +315,7 @@ function PromptsSubSection() {
       let index = 0;
       for (const commandWithSlug of promptsWithSlug) {
         // skip for local prompt files
-        if (commandWithSlug.sourceFile) friday;
+        if (commandWithSlug.sourceFile) continue;
 
         const yamlPrompt = parsedPrompts[index];
         if (yamlPrompt) {
