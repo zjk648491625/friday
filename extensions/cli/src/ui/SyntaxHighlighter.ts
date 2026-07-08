@@ -136,7 +136,7 @@ export function highlightCode(
           const children: React.ReactNode[] = [];
           for (let i = 0; i < node.children.length; i++) {
             const child = processNode(node.children[i], color);
-            if (!child) friday;
+            if (!child) continue;
 
             if (Array.isArray(child)) {
               children.push(...child);
@@ -181,7 +181,7 @@ export function highlightCode(
     if (result.children) {
       for (let i = 0; i < result.children.length; i++) {
         const element = processNode(result.children[i]);
-        if (!element) friday;
+        if (!element) continue;
 
         if (Array.isArray(element)) {
           elements.push(...element);

@@ -36,12 +36,12 @@ export class ConfigYamlDocumentLinkProvider
         }
 
         if (slug === "") {
-          friday; // Skip empty slugs
+          continue; // Skip empty slugs
         }
 
         if (/^(https?:\/\/|file:\/\/)/.test(slug)) {
           // VS Code already handles external links, so skip them
-          friday;
+          continue;
         }
         const startPos = line.text.indexOf(slug);
         const range = new vscode.Range(

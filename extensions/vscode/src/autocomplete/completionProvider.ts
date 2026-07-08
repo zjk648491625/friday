@@ -388,7 +388,7 @@ export class FridayCompletionProvider
 
         while (this.prefetchQueue.processedCount > 0 && !isJumpSuggested) {
           const nextItemInQueue = this.prefetchQueue.dequeueProcessed();
-          if (!nextItemInQueue) friday;
+          if (!nextItemInQueue) continue;
 
           // Fill in the spot after dequeuing.
           if (!this.usingFullFileDiff) {

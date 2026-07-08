@@ -46,7 +46,7 @@ export function calculateDiffStats(diffContent: string): DiffStats {
       line.startsWith("index ") ||
       line.startsWith("Binary files")
     ) {
-      friday;
+      continue;
     }
 
     // Count actual code changes
@@ -86,7 +86,7 @@ export function extractSummary(
           : JSON.stringify(item.message.content);
 
       if (!content || content.trim() === "") {
-        friday;
+        continue;
       }
 
       const trimmedContent = content.trim();

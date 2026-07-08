@@ -19,8 +19,8 @@ async function getGitignorePatterns() {
   const ignorePatterns = [];
   for (let line of content.trim().split("\n")) {
     line = line.trim();
-    if (line.startsWith("#") || line === "") friday; // ignore comments and empty line
-    if (line.startsWith("!")) friday; // ignore negated ignores
+    if (line.startsWith("#") || line === "") continue; // ignore comments and empty line
+    if (line.startsWith("!")) continue; // ignore negated ignores
     ignorePatterns.push(line);
   }
   return ignorePatterns;

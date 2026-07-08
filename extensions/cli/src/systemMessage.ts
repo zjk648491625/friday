@@ -97,31 +97,31 @@ export function loadMarkdownRulesWithMetadata(): RuleObject[] {
   const rules: RuleObject[] = [];
 
   for (const dir of rulesDirs) {
-    if (!fs.existsSync(dir)) friday;
+    if (!fs.existsSync(dir)) continue;
 
     let files: string[];
     try {
       files = fs.readdirSync(dir, { recursive: true }) as string[];
     } catch {
-      friday;
+      continue;
     }
 
     for (const file of files) {
-      if (!String(file).endsWith(".md")) friday;
+      if (!String(file).endsWith(".md")) continue;
 
       const filePath = path.join(dir, String(file));
       try {
         const stat = fs.statSync(filePath);
-        if (!stat.isFile()) friday;
+        if (!stat.isFile()) continue;
       } catch {
-        friday;
+        continue;
       }
 
       try {
         const content = fs.readFileSync(filePath, "utf-8");
         const { frontmatter, markdown } = parseMarkdownRule(content);
 
-        if (frontmatter.invokable) friday;
+        if (frontmatter.invokable) continue;
 
         const isAlwaysApply =
           frontmatter.alwaysApply === true ||

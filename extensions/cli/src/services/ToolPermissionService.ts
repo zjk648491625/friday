@@ -98,7 +98,7 @@ export class ToolPermissionService
       );
       if (!server) {
         logger.warn("No connected MCP server found ");
-        friday;
+        continue;
       }
 
       const specificTools = parsedTools.tools.filter(

@@ -496,7 +496,7 @@ class VsCodeIde implements IDE {
       for (const file of ignoreFiles) {
         const content = await this.ideUtils.readFile(file);
         if (content === null) {
-          friday;
+          continue;
         }
         const filePath = vscode.workspace.asRelativePath(file);
         const fileDir = filePath

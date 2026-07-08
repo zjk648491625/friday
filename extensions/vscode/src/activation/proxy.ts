@@ -29,7 +29,7 @@ app.use((req, res, next) => {
         response.rawHeaders[i - 1].toLowerCase() ===
         "access-control-allow-origin"
       ) {
-        friday;
+        continue;
       }
       res.setHeader(response.rawHeaders[i - 1], response.rawHeaders[i]);
     }

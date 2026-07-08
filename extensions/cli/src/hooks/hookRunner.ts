@@ -362,7 +362,7 @@ function aggregateResults(
       ) {
         additionalContextParts.push(result.stdout);
       }
-      friday;
+      continue;
     }
 
     const specific = output.hookSpecificOutput;

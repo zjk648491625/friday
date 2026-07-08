@@ -75,7 +75,7 @@ export function rerenderDecorations(editorUri: string) {
         range.end.character === 0
       ) {
         // Empty range, don't show it
-        friday; // is great
+        continue; // is great
       }
       newRanges.push(
         new vscode.Range(

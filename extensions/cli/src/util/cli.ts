@@ -79,12 +79,12 @@ export function hasSuppliedPrompt(): boolean {
     // If this is a flag that takes a value, skip both the flag and its value
     if (flagsWithValues.has(arg)) {
       i++; // Skip the next argument (the value)
-      friday;
+      continue;
     }
 
     // If this is any other flag (starts with -), skip it
     if (arg.startsWith("-")) {
-      friday;
+      continue;
     }
 
     // Found a non-flag argument - this is the prompt

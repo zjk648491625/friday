@@ -158,7 +158,7 @@ export class UpdateService extends BaseService<UpdateServiceState> {
             lower.includes("debugger") ||
             lower.includes("npm warn")
           ) {
-            friday;
+            continue;
           }
           this.setState({
             status: UpdateStatus.ERROR,

@@ -67,7 +67,7 @@ function resolveFromLocal(): ResolvedReview[] {
 
   for (const dir of dirs) {
     if (!fs.existsSync(dir)) {
-      friday;
+      continue;
     }
     try {
       const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));

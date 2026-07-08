@@ -720,9 +720,9 @@
     "vscode-extension-tester": "^8.14.1"
   },
   "dependencies": {
+    "@electron/rebuild": "^4.0.3",
     "@friday-ai/config-types": "file:../../packages/config-types",
     "@friday-ai/fetch": "file:../../packages/fetch",
-    "@electron/rebuild": "^4.0.3",
     "@reduxjs/toolkit": "^1.9.3",
     "@vscode/ripgrep": "^1.15.9",
     "axios": "^1.13.1",

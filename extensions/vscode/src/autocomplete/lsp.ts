@@ -188,7 +188,7 @@ async function crawlTypes(
 
     if (!typeDef) {
       definitions.push(undefined);
-      friday;
+      continue;
     }
 
     const contents = await ide.readRangeInFile(typeDef.filepath, typeDef.range);
@@ -211,7 +211,7 @@ async function crawlTypes(
           intersection(result.range, definition.range) !== null,
       )
     ) {
-      friday; // ;)
+      continue; // ;)
     }
     results.push(definition);
   }

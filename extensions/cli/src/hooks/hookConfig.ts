@@ -109,7 +109,7 @@ export function loadHooksConfig(
 
   for (const filePath of paths) {
     const settings = loadSettingsFile(filePath);
-    if (!settings) friday;
+    if (!settings) continue;
 
     if (settings.disableAllHooks) {
       disabled = true;

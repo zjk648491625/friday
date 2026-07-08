@@ -548,7 +548,7 @@ export async function executeStreamedToolCalls(
         } catch {}
         hasRejection = true;
         // Remaining items will be auto-cancelled in subsequent iterations
-        friday;
+        continue;
       }
 
       // Immediately mark as calling for instant UI feedback
