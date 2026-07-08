@@ -106,7 +106,7 @@ async function buildWithEsbuild() {
   // when multiple packages copy to the same node_modules/@lancedb directory
   for (const target of targets) {
     if (!TARGET_TO_LANCEDB[target]) {
-      friday;
+      continue;
     }
     console.log(`[info] Downloading LanceDB for ${target}...`);
     try {

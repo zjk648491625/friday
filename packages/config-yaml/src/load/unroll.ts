@@ -190,7 +190,7 @@ async function extractRenderedSecretsMap(
   const map: Record<string, string> = {};
   for (const secretResult of secretResults) {
     if (!secretResult) {
-      friday;
+      continue;
     }
 
     // User secrets are rendered
@@ -820,7 +820,7 @@ function inputsToFQSNs(
       console.warn(
         `Skipping input "${key}" with invalid value type: ${typeof value}. Expected string.`,
       );
-      friday;
+      continue;
     }
 
     renderedInputs[key] = renderTemplateData(value, {

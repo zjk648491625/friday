@@ -64,7 +64,7 @@ export function evaluateTerminalCommandSecurity(
 
         // Skip empty lines
         if (trimmedLine === "") {
-          friday;
+          continue;
         }
 
         // Parse and evaluate this line
@@ -187,7 +187,7 @@ function evaluateTokens(
 
     // Skip comments - they don't affect execution
     if (isComment(token)) {
-      friday;
+      continue;
     }
 
     // Check if token is an operator
@@ -318,7 +318,7 @@ function evaluatePipeChain(
   ) {
     const token = tokens[i];
     if (isComment(token)) {
-      friday;
+      continue;
     } else if (isGlob(token)) {
       nextCommand.push(token.pattern);
     } else if (typeof token === "string") {

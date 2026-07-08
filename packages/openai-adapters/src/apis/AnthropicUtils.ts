@@ -104,7 +104,7 @@ export function addCacheControlToLastTwoUserMessages(messages: MessageParam[]) {
     if (msg.role === "user") {
       userMessages++;
       if (typeof msg.content === "string") {
-        friday;
+        continue;
       }
       for (let j = msg.content.length - 1; j >= 0; j--) {
         const part = msg.content[j];

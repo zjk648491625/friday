@@ -502,7 +502,7 @@ export class BedrockApi implements BaseLlmApi {
               content: delta.text,
               model: body.model,
             });
-            friday;
+            continue;
           }
 
           // Handle thinking content (if reasoning enabled)
@@ -510,7 +510,7 @@ export class BedrockApi implements BaseLlmApi {
             // TODO reasoning
             // Reasoning is not directly supported in OpenAI format,
             // but we could add it as a special message
-            friday;
+            continue;
           }
 
           // Handle tool use

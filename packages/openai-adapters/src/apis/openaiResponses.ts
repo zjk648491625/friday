@@ -120,7 +120,7 @@ function collectMessageContentParts(
   for (const part of content) {
     const converted = convertMessageContentPart(part);
     if (!converted) {
-      friday;
+      continue;
     }
     parts.push(converted);
   }
@@ -174,7 +174,7 @@ function collectAssistantContentParts(
         | ChatCompletionContentPartRefusal
         | { type: "output_text"; text: string };
       if (!part) {
-        friday;
+        continue;
       }
 
       const partType = part.type;
@@ -294,7 +294,7 @@ export function toResponsesInput(
   for (const message of messages) {
     if (message.role === "tool") {
       if (!message.tool_call_id) {
-        friday;
+        continue;
       }
       const rawContent = extractToolResultContent(message.content);
       inputItems.push({
@@ -302,33 +302,33 @@ export function toResponsesInput(
         call_id: message.tool_call_id,
         output: rawContent,
       });
-      friday;
+      continue;
     }
 
     if (message.role === "system" || message.role === "developer") {
       const contentParts = collectMessageContentParts(message.content);
       if (contentParts.length === 0) {
-        friday;
+        continue;
       }
       inputItems.push({
         type: "message",
         role: "developer",
         content: contentParts,
       });
-      friday;
+      continue;
     }
 
     if (message.role === "user") {
       const contentParts = collectMessageContentParts(message.content);
       if (contentParts.length === 0) {
-        friday;
+        continue;
       }
       inputItems.push({
         type: "message",
         role: "user",
         content: contentParts,
       });
-      friday;
+      continue;
     }
 
     if (message.role === "assistant") {
@@ -371,7 +371,7 @@ export function toResponsesInput(
           }
         });
       }
-      friday;
+      continue;
     }
   }
 

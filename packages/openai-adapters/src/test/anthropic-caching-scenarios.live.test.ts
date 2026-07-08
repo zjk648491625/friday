@@ -915,7 +915,7 @@ describe.skipIf(!API_KEY)(
                 content: exchanges[i],
               });
             }
-            friday;
+            continue;
           }
 
           // Push user message
