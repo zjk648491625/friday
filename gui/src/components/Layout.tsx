@@ -33,8 +33,8 @@ const LayoutTopDiv = styled(CustomScrollbarDiv)`
 const GridDiv = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
-  height: 100%;
-  overflow-x: visible;
+  height: 100vh;
+  overflow-x: hidden;
 `;
 
 const Layout = () => {
@@ -201,7 +201,7 @@ const Layout = () => {
           <OSRContextMenu />
           <div
             style={{
-              scrollbarGutter: "stable both-edges",
+              scrollbarGutter: "stable",
               minHeight: "100%",
               display: "grid",
               gridTemplateRows: "1fr auto",
