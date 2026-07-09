@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigHandler } from "core/config/ConfigHandler";
 import { applyCodeBlock } from "core/edit/lazy/applyCodeBlock";
 import { getUriPathBasename } from "core/util/uri";

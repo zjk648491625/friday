@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { LLMClasses, llmFromProviderAndOptions } from "./llms/index.js";
 
 export interface FetchedModel {

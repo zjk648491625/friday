@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { parseDocument } from "yaml";
 
 export interface ModelConfig {

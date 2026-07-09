@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { exec } from "node:child_process";
 import { IDE } from "..";
 

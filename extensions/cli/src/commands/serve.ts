@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 import type { ChatHistoryItem } from "core/index.js";
 import express, { Request, Response } from "express";

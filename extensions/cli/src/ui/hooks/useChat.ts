@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-lines */
 /* eslint-disable max-statements   */
 import type { ChatHistoryItem, Session } from "core/index.js";

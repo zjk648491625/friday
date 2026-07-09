@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { parse } from "partial-json";
 
 export function incrementalParseJson(raw: string): [boolean, any] {

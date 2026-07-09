@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { IndexingStatus, SiteIndexingConfig } from "core";
 import { useContext, useLayoutEffect, useMemo, useRef, useState } from "react";

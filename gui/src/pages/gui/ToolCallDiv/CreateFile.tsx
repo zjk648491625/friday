@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getMarkdownLanguageTagForFile } from "core/util";
 import StyledMarkdownPreview from "../../../components/StyledMarkdownPreview";
 

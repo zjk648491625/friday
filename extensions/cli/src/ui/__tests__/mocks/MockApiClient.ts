@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Mock API Client
 export class MockApiClient {
   async listAssistants() {

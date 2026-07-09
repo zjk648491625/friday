@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@friday-ai/fetch";
 import { CompletionOptions, LLMOptions } from "../../index.js";
 import { BaseLLM } from "../index.js";

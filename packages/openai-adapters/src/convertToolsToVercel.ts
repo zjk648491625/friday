@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Converts OpenAI tool format to Vercel AI SDK format
  */

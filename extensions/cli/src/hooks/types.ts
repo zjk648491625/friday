@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Claude Code-compatible hooks system for Friday CLI.
  *

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
 import { BaseSessionMetadata, ChatMessage, Session } from "core";
 import { NEW_SESSION_TITLE } from "core/util/constants";

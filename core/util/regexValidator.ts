@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Validates and sanitizes regex patterns for use with ripgrep
  */

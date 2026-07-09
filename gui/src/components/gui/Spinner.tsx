@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Custom spinner since HeroIcons doesn't have a good one
  */

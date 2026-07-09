@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Position, Range } from "../index.js";
 
 export function getRangeInString(content: string, range: Range): string {

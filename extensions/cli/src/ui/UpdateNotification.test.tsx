@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Mock useTerminalSize hook
 vi.mock("./hooks/useTerminalSize.js", () => ({
   useTerminalSize: () => ({ columns: 80, rows: 24 }),

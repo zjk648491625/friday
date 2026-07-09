@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { beforeEach, describe, expect, it, vi } from "vitest";

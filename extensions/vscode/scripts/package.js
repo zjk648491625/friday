@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 const { exec } = require("child_process");
 const fs = require("fs");
 

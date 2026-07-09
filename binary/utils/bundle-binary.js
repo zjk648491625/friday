@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Builds the binary for the specified target. It is also intended to run as a child process.
  */

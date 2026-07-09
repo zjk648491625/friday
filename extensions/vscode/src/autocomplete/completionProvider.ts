@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { CompletionProvider } from "core/autocomplete/CompletionProvider";
 import { processSingleLineCompletion } from "core/autocomplete/util/processSingleLineCompletion";
 import {

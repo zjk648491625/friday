@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export { codebaseTool } from "./codebaseTool";
 export { createNewFileTool } from "./createNewFile";
 export { createRuleBlock } from "./createRuleBlock";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Editor } from "@tiptap/core";
 import { ContextProviderDescription } from "core";
 import { Mention } from "../extensions";

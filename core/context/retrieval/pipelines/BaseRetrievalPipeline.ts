@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // @ts-ignore
 import nlp from "wink-nlp-utils";
 

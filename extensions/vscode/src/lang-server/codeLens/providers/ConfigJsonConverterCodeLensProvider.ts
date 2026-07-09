@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "fs";
 
 import { getConfigYamlPath } from "core/util/paths";

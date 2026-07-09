@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { OnboardingModes } from "core/protocol/core";
 import { useContext, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";

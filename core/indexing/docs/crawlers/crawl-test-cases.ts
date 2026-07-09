@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export const commonDocsRepos: string[] = [
   //   "https://github.com/freeCodeCamp/freeCodeCamp",
   "https://github.com/996icu/996.ICU",

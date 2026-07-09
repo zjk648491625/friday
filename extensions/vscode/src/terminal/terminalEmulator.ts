@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /* Terminal emulator - commented because node-pty is causing problems. */
 
 import * as os from "node:os";

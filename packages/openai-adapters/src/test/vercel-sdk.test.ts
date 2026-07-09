@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as dotenv from "dotenv";
 import { vi } from "vitest";
 import { getLlmApi, testChat } from "./util.js";

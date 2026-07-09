@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Writable } from "stream";
 import {
   AssistantChatMessage,

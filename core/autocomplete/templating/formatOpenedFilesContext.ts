@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { countTokens, pruneStringFromBottom } from "../../llm/countTokens";
 import {
   AutocompleteCodeSnippet,

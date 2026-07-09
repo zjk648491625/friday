@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SlashCommandWithSource } from "..";
 import { RULES_MARKDOWN_FILENAME } from "../llm/rules/constants";
 import { BuiltInToolNames } from "../tools/builtIn";

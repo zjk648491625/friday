@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Extracts and processes command strings, handling comments and line continuations.
  * @param cmd The command string to process

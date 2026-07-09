@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatHistoryItem } from "core";
 import { renderChatMessage, stripImages } from "core/util/messageContent";
 import { useEffect, useState } from "react";

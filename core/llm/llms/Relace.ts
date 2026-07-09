@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { LLMOptions } from "../..";
 import { LLMConfigurationStatuses } from "../constants";
 import { LlmApiRequestType } from "../openaiTypeConverters";

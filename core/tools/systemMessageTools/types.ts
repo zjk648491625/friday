@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tool, ToolCallDelta, ToolCallState } from "../..";
 import { generateOpenAIToolCallId } from "./systemToolUtils";
 

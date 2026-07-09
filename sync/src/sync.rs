@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 mod merkle;
 use homedir::get_my_home;
 use merkle::{compute_tree_for_dir, diff, hash_string};

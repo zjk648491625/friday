@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Layout from "./components/console/Layout";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Tracks pending edit interactions until they are accepted or rejected,
  * then emits editOutcome events with the final result.

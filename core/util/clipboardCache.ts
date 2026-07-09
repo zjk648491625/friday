@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 class ClipboardCache {
   private cache: Map<string, string>;
   private order: string[];

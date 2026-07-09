@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { nextEditOutcomeEventAllSchema } from "./index.js";
 
 export const nextEditOutcomeEventSchema_0_2_0 =

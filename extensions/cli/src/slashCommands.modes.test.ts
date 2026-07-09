@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Mode-related slash commands have been removed per user request
 // This test file is no longer needed but needs a dummy test for Vitest
 

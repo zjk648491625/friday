@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AutocompleteLanguageInfo } from "core/autocomplete/constants/AutocompleteLanguageInfo";
 import {
   AutocompleteCodeSnippet,

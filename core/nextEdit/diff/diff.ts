@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Position } from "shiki";
 import { DiffLine } from "../..";
 import { myersDiff } from "../../diff/myers";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { DiffLine } from "..";
 import { NEXT_EDIT_MODELS } from "../llm/constants";
 

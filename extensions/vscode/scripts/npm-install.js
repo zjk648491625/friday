@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Install node modules for the VS Code extension and gui. This is also intended to run as a child process.
  */

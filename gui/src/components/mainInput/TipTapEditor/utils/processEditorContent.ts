@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import Image from "@tiptap/extension-image";
 import { Paragraph } from "@tiptap/extension-paragraph";
 import { Text } from "@tiptap/extension-text";

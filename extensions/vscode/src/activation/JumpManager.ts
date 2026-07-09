@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { NextEditProvider } from "core/nextEdit/NextEditProvider";
 import { NextEditOutcome } from "core/nextEdit/types";
 // @ts-ignore

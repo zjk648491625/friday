@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * CodeRenderer is a class that, when given a code string,
  * highlights the code string using shiki and

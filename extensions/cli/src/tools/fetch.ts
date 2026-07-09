@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { ContextItem } from "core/index.js";
 import { fetchUrlContentImpl } from "core/tools/implementations/fetchUrlContent.js";
 import { FridayError, FridayErrorReason } from "core/util/errors.js";

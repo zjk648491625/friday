@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { CompletionOptions, ILLM } from "../..";
 import { StreamTransformPipeline } from "../filtering/streamTransforms/StreamTransformPipeline";
 import { HelperVars } from "../util/HelperVars";

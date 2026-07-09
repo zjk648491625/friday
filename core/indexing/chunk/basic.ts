@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChunkWithoutID } from "../../index.js";
 import { countTokensAsync } from "../../llm/countTokens.js";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Transition as HLTransition } from "@headlessui/react";
 import { cn } from "../../util/cn";
 

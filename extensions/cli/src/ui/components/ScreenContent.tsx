@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import React from "react";
 
 import { UpdateServiceState } from "src/services/types.js";

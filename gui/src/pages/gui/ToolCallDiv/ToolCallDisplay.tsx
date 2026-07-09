@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tool, ToolCallState } from "core";
 import { useContext, useMemo } from "react";
 import { openContextItem } from "../../../components/mainInput/belowMainInput/ContextItemsPeek";

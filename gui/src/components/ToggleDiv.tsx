@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { ComponentType, useState } from "react";
 import { vscBackground } from ".";

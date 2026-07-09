@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { fileURLToPath, pathToFileURL } from "node:url";
 import * as path from "path";
 import untildify from "untildify";

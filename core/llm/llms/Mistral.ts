@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, LLMOptions } from "../../index.js";
 import { codestralEditPrompt } from "../templates/edit/codestral.js";
 

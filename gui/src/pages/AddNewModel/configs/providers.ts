@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { HTMLInputTypeAttribute } from "react";
 import { ModelProviderTags } from "../../../components/modelSelection/utils";
 import { completionParamsInputs } from "./completionParamsInputs";

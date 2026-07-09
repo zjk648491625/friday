@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test, vi } from "vitest";
 import { searchWebImpl } from "./searchWeb";
 

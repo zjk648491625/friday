@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ArrowPathIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { IndexingStatus } from "core";
 import { useMemo } from "react";

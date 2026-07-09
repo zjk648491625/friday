@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Shared file patterns and ignore rules for file discovery and watching
  */

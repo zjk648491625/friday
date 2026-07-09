@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { CompletionUsage } from "openai/resources/index.js";
 import {
   ChatCompletion,

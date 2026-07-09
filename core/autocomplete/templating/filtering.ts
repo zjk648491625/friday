@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { countTokens } from "../../llm/countTokens";
 import { SnippetPayload } from "../snippets";
 import {

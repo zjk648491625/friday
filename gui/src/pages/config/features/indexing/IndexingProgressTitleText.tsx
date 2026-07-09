@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IndexingProgressUpdate } from "core";
 import { AnimatedEllipsis } from "../../../../components/AnimatedEllipsis";
 

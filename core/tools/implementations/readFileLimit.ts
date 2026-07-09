@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "../..";
 import { countTokensAsync } from "../../llm/countTokens";
 import { FridayError, FridayErrorReason } from "../../util/errors";

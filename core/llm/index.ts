@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ModelRole } from "@friday-ai/config-yaml";
 import { fetchwithRequestOptions } from "@friday-ai/fetch";
 import { findLlmInfo } from "@friday-ai/llm-info";

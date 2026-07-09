@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConversationStarterCards } from "../../components/ConversationStarters";
 import { OnboardingCard } from "../../components/OnboardingCard";
 import { WelcomePage } from "./WelcomePage";

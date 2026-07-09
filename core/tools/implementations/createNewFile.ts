@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { inferResolvedUriFromRelativePath } from "../../util/ideUtils";
 
 import { ToolImpl } from ".";

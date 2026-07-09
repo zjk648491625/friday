@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { memo } from "react";
 import { LLMResult } from "../../hooks/useLLMLog";
 import { renderMessage } from "./Message";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Utility functions to interact with the Hugging Face Hub (https://huggingface.co/models)
  *

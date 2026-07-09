@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { FolderIcon } from "@heroicons/react/24/outline";
 import { ToolCallState } from "core";
 import { ToggleWithIcon } from "./ToggleWithIcon";

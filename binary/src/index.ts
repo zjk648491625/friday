@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 process.env.IS_BINARY = "true";
 import { Command } from "commander";
 import { Core } from "core/core";

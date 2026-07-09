@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Parser from "web-tree-sitter";
 import { DocumentHistoryTracker } from "./DocumentHistoryTracker";

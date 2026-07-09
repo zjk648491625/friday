@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "../..";
 import { FridayError, FridayErrorReason } from "../../util/errors";
 import { resolveRelativePathInDir } from "../../util/ideUtils";

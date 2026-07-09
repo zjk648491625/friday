@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getAdjustedTokenCountFromModel } from "./getAdjustedTokenCount";
 
 describe("getAdjustedTokenCountFromModel", () => {

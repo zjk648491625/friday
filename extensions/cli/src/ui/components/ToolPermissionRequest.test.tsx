@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Note: This test file tests the formatArgs function that was used in the old ToolPermissionRequest component
 // The function has been moved to ToolPermissionSelector but these tests are still valid for testing the pure function logic
 

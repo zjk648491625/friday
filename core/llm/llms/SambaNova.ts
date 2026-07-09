@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import OpenAI from "./OpenAI.js";
 
 import type { LLMOptions } from "../../index.js";

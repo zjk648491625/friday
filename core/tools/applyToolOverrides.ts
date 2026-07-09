@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigValidationError } from "@friday-ai/config-yaml";
 import { Tool, ToolOverride } from "..";
 

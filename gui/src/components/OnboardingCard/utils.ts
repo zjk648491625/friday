@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getLocalStorage, setLocalStorage } from "../../util/localStorage";
 import { OnboardingCardState } from "./OnboardingCard";
 

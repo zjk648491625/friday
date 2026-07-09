@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 import { homedir } from "os";

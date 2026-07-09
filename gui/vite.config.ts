@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import react from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
 import tailwindcss from "tailwindcss";

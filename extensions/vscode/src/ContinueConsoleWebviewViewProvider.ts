@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { LLMInteractionItem } from "core";
 import { EXTENSION_NAME } from "core/util/constants";
 import { LLMLogger } from "core/llm/logger";

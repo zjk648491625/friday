@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { EMPTY_MCP_STATE, MCPService } from "../../../services/MCPService.js";
 
 // Mock MCP Service

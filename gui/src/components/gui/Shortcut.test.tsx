@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { render } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as util from "../../util";

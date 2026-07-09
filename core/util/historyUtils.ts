@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import { homedir } from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";

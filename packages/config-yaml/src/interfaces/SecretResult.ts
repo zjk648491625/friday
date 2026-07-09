@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { FQSN, PackageSlug, encodePackageSlug } from "./slugs.js";
 
 export enum SecretType {

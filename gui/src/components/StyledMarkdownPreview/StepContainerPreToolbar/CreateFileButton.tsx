@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { DocumentPlusIcon } from "@heroicons/react/24/outline";
 import { vscForeground } from "../..";
 import { ToolTip } from "../../gui/Tooltip";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, MockedFunction, vi } from "vitest";
 import { contextProviderClassFromName } from "../context/providers";
 import CurrentFileContextProvider from "../context/providers/CurrentFileContextProvider";

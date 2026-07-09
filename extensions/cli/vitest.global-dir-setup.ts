@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // IMPORTANT: This file must run BEFORE any module that imports
 // `core/util/paths.ts`, because that module resolves `FRIDAY_GLOBAL_DIR`
 // into a constant at import time. If multiple test files (which run in

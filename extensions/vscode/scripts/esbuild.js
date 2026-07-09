@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 const fs = require("fs");
 
 const { writeBuildTimestamp } = require("./utils");

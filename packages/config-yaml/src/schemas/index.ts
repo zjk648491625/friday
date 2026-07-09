@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as z from "zod";
 import { commonModelSlugs } from "./commonSlugs.js";
 import { dataSchema } from "./data/index.js";

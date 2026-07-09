@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useContext, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth";

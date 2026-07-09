@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test, vi } from "vitest";
 import { ToolExtras } from "../..";
 import { MAX_CHAR_POSITION, readFileRangeImpl } from "./readFileRange";

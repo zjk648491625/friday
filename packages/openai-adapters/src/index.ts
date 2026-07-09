@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import dotenv from "dotenv";
 import { z } from "zod";
 import { AiSdkApi } from "./apis/AiSdk.js";

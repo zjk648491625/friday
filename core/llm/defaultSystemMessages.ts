@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export const DEFAULT_SYSTEM_MESSAGES_URL =
   "https://github.com/friday-ai/friday/blob/main/core/llm/defaultSystemMessages.ts";
 

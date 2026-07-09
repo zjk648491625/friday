@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { ApplyState } from "core";
 import { trimEmptyLines } from "core/edit/searchAndReplace/findAndReplaceUtils";

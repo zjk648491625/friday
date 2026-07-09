@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IDE, Position, Range, RangeInFileWithNextEditInfo } from "core";
 import { AutocompleteCodeSnippet } from "core/autocomplete/snippets/types";
 import { GetLspDefinitionsFunction } from "core/autocomplete/types";

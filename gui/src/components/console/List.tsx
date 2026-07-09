@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useEffect, useRef, useState } from "react";
 import { LLMLog } from "../../hooks/useLLMLog";
 import ListItem from "./ListItem";

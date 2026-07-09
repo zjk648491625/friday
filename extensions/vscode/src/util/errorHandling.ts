@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "core";
 import { isModelInstaller } from "core/llm";
 import * as vscode from "vscode";

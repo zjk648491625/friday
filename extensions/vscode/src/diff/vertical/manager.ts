@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, DiffLine, IDE, ILLM, RuleWithSource } from "core";
 import { streamDiffLines } from "core/edit/streamDiffLines";
 import { pruneLinesFromBottom, pruneLinesFromTop } from "core/llm/countTokens";

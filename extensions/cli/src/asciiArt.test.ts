@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { FRIDAY_ASCII_ART, getDisplayableAsciiArt } from "./asciiArt.js";

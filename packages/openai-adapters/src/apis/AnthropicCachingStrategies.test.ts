@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { MessageCreateParams, ToolUnion } from "@anthropic-ai/sdk/resources";
 import {
   CACHING_STRATEGIES,

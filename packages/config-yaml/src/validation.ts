@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigYaml, configYamlSchema } from "./schemas/index.js";
 
 export interface ConfigValidationError {

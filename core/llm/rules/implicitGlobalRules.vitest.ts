@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import { RuleWithSource, UserChatMessage } from "../..";
 import { getApplicableRules } from "./getSystemMessageWithRules";

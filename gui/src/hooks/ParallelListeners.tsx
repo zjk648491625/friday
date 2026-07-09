@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 

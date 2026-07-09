@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AuthConfig } from "../auth/workos.js";
 import { getApiClient } from "../config.js";
 import { logger } from "../util/logger.js";

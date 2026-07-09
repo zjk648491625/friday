@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AssistantUnrolled, ModelConfig } from "@friday-ai/config-yaml";
 import { describe, expect, test, vi, beforeEach } from "vitest";
 

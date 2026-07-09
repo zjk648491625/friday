@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // @ts-ignore
 import adf2md from "adf-to-md";
 

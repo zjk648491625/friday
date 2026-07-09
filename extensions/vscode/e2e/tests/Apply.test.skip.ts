@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { TextEditor, VSBrowser, WebView } from "vscode-extension-tester";
 
 import { ApplyActions } from "../actions/Apply.actions";

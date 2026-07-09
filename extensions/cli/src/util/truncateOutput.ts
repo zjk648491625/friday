@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Threshold for snapping to line boundaries during character truncation
 export const TRUNCATION_LINE_SNAP_THRESHOLD = 1000;
 

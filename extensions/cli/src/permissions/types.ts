@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallPreview } from "../tools/types.js";
 
 export type PermissionPolicy = "allow" | "ask" | "exclude";

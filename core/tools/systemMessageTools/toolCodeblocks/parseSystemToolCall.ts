@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallDelta } from "../../..";
 import { createDelta } from "../systemToolUtils";
 import { ToolCallParseState } from "../types";

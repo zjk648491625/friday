@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 const { spawn } = require("child_process");
 const path = require("path");
 const fs = require("fs");

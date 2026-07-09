@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { streamLines } from "../../../diff/util";
 import { HelperVars } from "../../util/HelperVars";
 

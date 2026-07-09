@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, test } from "vitest";
 
 describe("Config Switching Implementation Test", () => {

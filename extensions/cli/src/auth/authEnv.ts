@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as path from "path";
 
 import { env } from "../env.js";

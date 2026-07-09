@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
 import { JSONContent } from "@tiptap/core";
 import { InputModifiers } from "core";

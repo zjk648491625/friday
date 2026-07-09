@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 type ProcessWithEnv = {
   env?: Record<string, string | undefined>;
 };

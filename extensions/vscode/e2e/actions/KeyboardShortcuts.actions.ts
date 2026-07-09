@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Key, TextEditor, WebElement } from "vscode-extension-tester";
 
 export class KeyboardShortcutsActions {

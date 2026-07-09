@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ArrowPathIcon, FlagIcon } from "@heroicons/react/24/outline";
 import { DISCUSSIONS_LINK, GITHUB_LINK } from "core/util/constants";
 import { useContext, useEffect, useState } from "react";

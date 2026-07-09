@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
 import { ContextItem } from "../..";
 import { getStringArg } from "../parseArgs";

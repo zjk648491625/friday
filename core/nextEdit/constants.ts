@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { NEXT_EDIT_MODELS } from "../llm/constants";
 
 export const IS_NEXT_EDIT_ACTIVE = false;

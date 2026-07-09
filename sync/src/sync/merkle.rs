@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 use homedir::get_my_home;
 use ignore::{Walk, WalkBuilder};
 use serde::{Deserialize, Serialize};

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, expect, test, vi } from "vitest";
 import {
   getProxyFromEnv,

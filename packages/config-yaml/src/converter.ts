@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigJson } from "@friday-ai/config-types";
 import { ConfigYaml } from "./schemas/index.js";
 import { ModelRole } from "./schemas/models.js";

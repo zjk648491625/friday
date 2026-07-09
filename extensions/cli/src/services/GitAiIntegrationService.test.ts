@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { ChildProcess } from "child_process";
 import { EventEmitter } from "events";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolTip } from "../gui/Tooltip";
 
 interface TabButtonProps {

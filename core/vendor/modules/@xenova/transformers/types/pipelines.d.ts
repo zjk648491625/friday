@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @typedef {keyof typeof SUPPORTED_TASKS} TaskType
  * @typedef {keyof typeof TASK_ALIASES} AliasType

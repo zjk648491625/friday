@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { ALL_BUILT_IN_TOOLS } from "src/tools/allBuiltIns.js";

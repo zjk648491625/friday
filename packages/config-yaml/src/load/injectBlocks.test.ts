@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Registry } from "../interfaces/index.js";
 import { PackageIdentifier } from "../interfaces/slugs.js";
 import { ConfigYaml } from "../schemas/index.js";

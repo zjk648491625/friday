@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 // ---------- Module mocks ----------

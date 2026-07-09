@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tool } from "../..";
 import { closeTag } from "./systemToolUtils";
 import { SystemMessageToolsFramework } from "./types";

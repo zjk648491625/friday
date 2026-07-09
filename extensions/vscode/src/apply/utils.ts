@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "core";
 
 export const FAST_APPLY_MODELS: Array<ILLM["model"]> = ["Fast-Apply"];

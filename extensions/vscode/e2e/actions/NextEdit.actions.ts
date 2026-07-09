@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { expect } from "chai";
 import { TextEditor, VSBrowser, Workbench } from "vscode-extension-tester";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IContextProvider } from "core";
 
 import { VsCodeExtension } from "../extension/VsCodeExtension";

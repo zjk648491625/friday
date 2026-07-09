@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getUriFileExtension } from "../../util/uri";
 import { BracketMatchingService } from "../filtering/BracketMatchingService";
 import {

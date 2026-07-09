@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Editor } from "@tiptap/react";
 import { KeyboardEvent } from "react";
 import { getPlatform, isWebEnvironment } from "../../../util";

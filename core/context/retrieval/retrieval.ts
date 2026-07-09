@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { BranchAndDir, ContextItem, ContextProviderExtras } from "../../";
 import { getUriDescription } from "../../util/uri";
 import { INSTRUCTIONS_BASE_ITEM } from "../providers/utils";

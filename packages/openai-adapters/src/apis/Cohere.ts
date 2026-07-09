@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { streamJSON } from "@friday-ai/fetch";
 import { OpenAI } from "openai/index";
 import {

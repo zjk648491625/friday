@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { RangeInFileWithContents } from "../../../";
 import { countTokens } from "../../../llm/countTokens";
 import { AutocompleteSnippetDeprecated } from "../../types";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 package com.github.fridayai.fridayintellijextension.editor
 
 import com.intellij.openapi.editor.EditorLinePainter

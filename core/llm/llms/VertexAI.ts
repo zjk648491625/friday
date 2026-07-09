@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AuthClient, GoogleAuth, JWT, auth } from "google-auth-library";
 
 import { streamResponse, streamSse } from "@friday-ai/fetch";

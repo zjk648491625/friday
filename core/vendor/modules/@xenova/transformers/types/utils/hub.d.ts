@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Helper function to get a file, using either the Fetch API or FileSystem API.
  *

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ContextItem, ToolCallState } from "core";
 import { BuiltInToolNames } from "core/tools/builtIn";
 import { FridayError, FridayErrorReason } from "core/util/errors";

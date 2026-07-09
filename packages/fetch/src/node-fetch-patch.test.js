@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Buffer } from "node:buffer";
 import { describe, expect, it } from "vitest";
 

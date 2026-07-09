@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "../../index";
 import { findUriInDirs } from "../../util/uri";
 import { ContextRetrievalService } from "../context/ContextRetrievalService";

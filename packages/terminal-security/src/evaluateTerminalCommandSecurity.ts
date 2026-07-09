@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { parse } from "shell-quote";
 import { ToolPolicy } from "./types.js";
 

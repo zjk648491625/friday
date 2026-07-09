@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Editor, ReactRenderer } from "@tiptap/react";
 import {
   ContextProviderDescription,

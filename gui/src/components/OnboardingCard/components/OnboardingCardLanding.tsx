@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SecondaryButton } from "../..";
 import FridayLogo from "../../svg/FridayLogo";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IDE, RangeInFileWithContents } from "../..";
 import { PrecalculatedLruCache } from "../../util/LruCache";
 import {

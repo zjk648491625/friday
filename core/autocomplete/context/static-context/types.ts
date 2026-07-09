@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tree } from "web-tree-sitter";
 import { Range } from "../../..";
 

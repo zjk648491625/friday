@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Readable } from "stream";
 import { describe, expect, it, test } from "vitest";
 import { parseDataLine, streamSse } from "./stream.js";

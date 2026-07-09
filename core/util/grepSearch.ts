@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /*
   Formats the output of a grep search to reduce unnecessary indentation, lines, etc
   Assumes a command with these params

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 const { execSync } = require("child_process");
 
 const PLATFORMS = [

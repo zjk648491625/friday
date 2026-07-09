@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import React, { useMemo, useState } from "react";
 
 import { useService } from "../hooks/useService.js";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getCoreLogsPath } from "core/util/paths";
 import fs from "node:fs";
 

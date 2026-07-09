@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IIdeMessenger } from "../../../../context/IdeMessenger";
 
 const IMAGE_RESOLUTION = 1024;

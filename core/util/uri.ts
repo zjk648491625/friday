@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as URI from "uri-js";
 
 /** Converts any OS path to cleaned up URI path segment format with no leading/trailing slashes

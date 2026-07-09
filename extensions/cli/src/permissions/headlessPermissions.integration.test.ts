@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getDefaultToolPolicies } from "./defaultPolicies.js";
 import { checkToolPermission } from "./permissionChecker.js";
 import { resolvePermissionPrecedence } from "./precedenceResolver.js";

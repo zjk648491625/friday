@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tiktoken, encodingForModel as _encodingForModel } from "js-tiktoken";
 
 import {

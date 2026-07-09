@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { processRule as processPromptOrRule } from "./hubLoader.js";
 
 describe("processPromptOrRule (rule processing)", () => {

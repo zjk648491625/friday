@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { FimCreateParamsStreaming } from "@friday-ai/openai-adapters/dist/apis/base";
 import {
   ChatCompletion,

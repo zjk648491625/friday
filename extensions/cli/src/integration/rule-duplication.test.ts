@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { decodePackageIdentifier } from "@friday-ai/config-yaml";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

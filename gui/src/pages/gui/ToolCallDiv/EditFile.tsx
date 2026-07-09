@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ContextItem, ToolCallState } from "core";
 import { getMarkdownLanguageTagForFile } from "core/util";
 import StyledMarkdownPreview from "../../../components/StyledMarkdownPreview";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";

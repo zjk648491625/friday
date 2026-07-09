@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { exec, ChildProcess } from "child_process";
 import os from "node:os";
 

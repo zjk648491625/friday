@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import node_machine_id from "node-machine-id";
 
 let _uniqueId: string | undefined;

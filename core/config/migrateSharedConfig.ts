@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * I'm disabling this rule for the entire file under the assumption
  * that this is a one-time migration script. I'm expecting this

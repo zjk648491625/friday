@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 use ndarray::{Array1, Array2};
 use rusqlite::Connection;
 use std::fs;

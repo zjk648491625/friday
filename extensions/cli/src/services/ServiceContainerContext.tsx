@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import React, { createContext, useContext } from "react";
 
 import { ServiceContainer } from "./ServiceContainer.js";

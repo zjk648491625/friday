@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable @typescript-eslint/naming-convention */
 import * as fs from "node:fs";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { platform } from "os";
 import { normalize, resolve } from "path";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { JSONContent } from "@tiptap/react";
 import { OnboardingStatus } from "../components/OnboardingCard";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import {
   AUTO_MODE_POLICIES,
   PLAN_MODE_POLICIES,

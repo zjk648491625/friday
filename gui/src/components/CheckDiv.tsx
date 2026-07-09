@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import styled from "styled-components";
 import { defaultBorderRadius, vscBackground, vscForeground } from ".";
 import { CheckIcon } from "@heroicons/react/24/outline";

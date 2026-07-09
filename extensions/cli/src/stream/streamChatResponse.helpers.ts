@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Helper functions extracted from streamChatResponse.ts to reduce file size
 /* eslint-disable max-lines */
 

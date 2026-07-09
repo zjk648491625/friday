@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import crypto from "node:crypto";
 import * as fs from "node:fs";
 

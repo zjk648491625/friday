@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ModelRole } from "@friday-ai/config-yaml";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { ModelDescription } from "core";

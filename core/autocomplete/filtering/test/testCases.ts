@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { dedent } from "../../../util";
 
 import { AutocompleteFileringTestInput } from "./util";

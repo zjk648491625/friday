@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ModelConfig } from "@friday-ai/config-yaml";
 import { describe, expect, it } from "vitest";
 

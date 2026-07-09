@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import {
   extractBase64FromDataUrl as extractBase64FromDataUrlFromAdapter,
   parseDataUrl as parseDataUrlFromAdapter,

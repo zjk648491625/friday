@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { BlockType, RULE_FILE_EXTENSION } from "@friday-ai/config-yaml";
 import { describe, expect, test } from "vitest";
 import { findAvailableFilename, getFileContent } from "./workspaceBlocks";

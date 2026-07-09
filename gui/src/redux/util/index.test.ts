@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallState, ToolStatus } from "core";
 import { ChatHistoryItemWithMessageId } from "../slices/sessionSlice";
 import {

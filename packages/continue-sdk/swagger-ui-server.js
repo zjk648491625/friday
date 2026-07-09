@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // This is a simple Express server to serve Swagger UI
 import express from "express";
 import fs from "fs";

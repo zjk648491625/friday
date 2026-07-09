@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { processRule } from "../hubLoader.js";
 
 import { logger } from "./logger.js";

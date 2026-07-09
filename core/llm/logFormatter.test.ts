@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Buffer } from "buffer";
 import { Writable } from "stream";
 import { LLMLogFormatter } from "./logFormatter";

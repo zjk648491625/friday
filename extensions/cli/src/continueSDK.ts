@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Friday, FridayClient } from "@friday-ai/sdk";
 import chalk from "chalk";
 

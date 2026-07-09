@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Text } from "ink";
 import { common, createLowlight } from "lowlight";
 import React from "react";

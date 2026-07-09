@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AssistantUnrolled } from "@friday-ai/config-yaml";
 
 // TODO

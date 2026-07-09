@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
 import {
   addToTestDir,

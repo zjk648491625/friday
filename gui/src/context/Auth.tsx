@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ProfileDescription } from "core/config/ProfileLifecycleManager";
 import React, { createContext, useCallback, useContext } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";

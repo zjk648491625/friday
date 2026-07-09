@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import QuickLRU from "quick-lru";
 
 export interface prevEdit {

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { PackageIdentifier } from "../interfaces/slugs.js";
 import {
   fillTemplateVariables,

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { EXTENSION_NAME } from "core/util/constants";
 import { findUriInDirs } from "core/util/uri";
 import _ from "lodash";

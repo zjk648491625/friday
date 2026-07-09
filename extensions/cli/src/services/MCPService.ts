@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { decodeFQSN, getTemplateVariables } from "@friday-ai/config-yaml";
 import { type AssistantConfig } from "@friday-ai/sdk";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";

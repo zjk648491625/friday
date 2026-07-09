@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { streamLazyApply } from "./streamLazyApply";
 
 // Mock LLM for testing

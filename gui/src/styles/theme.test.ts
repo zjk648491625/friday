@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getRecursiveVar } from "./theme";
 
 test("getRecursiveVar returns single var with default for one variable", () => {

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as dotenv from "dotenv";
 import { getLlmApi } from "./util.js";
 

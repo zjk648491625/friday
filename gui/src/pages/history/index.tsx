@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useNavigate } from "react-router-dom";
 import { History } from "../../components/History";
 import { PageHeader } from "../../components/PageHeader";

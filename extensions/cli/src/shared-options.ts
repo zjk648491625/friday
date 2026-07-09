@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Command } from "commander";
 
 // Function to add common options to any command

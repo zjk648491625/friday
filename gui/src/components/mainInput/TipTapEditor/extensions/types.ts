@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { DOMOutputSpec, Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { SuggestionOptions } from "@tiptap/suggestion";
 

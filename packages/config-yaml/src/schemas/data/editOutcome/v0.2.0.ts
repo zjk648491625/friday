@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { editOutcomeEventAllSchema } from "./index.js";
 
 export const editOutcomeEventSchema_0_2_0 = editOutcomeEventAllSchema.pick({

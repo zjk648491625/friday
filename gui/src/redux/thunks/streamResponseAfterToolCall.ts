@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
 import { ChatMessage } from "core";
 import { renderContextItems } from "core/util/messageContent";

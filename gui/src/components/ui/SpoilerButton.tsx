@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import styled from "styled-components";
 import { defaultBorderRadius, lightGray, vscBackground } from "../index";
 import { getFontSize } from "../../util";

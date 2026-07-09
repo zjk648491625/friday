@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChildProcess, spawn } from "child_process";
 
 import { logger } from "../util/logger.js";

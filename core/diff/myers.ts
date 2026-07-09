@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { diffChars, diffLines, type Change } from "diff";
 
 import { DiffChar, DiffLine } from "..";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import vscode from "vscode";
 class EditDecorationManager {
   private _lastEditor: vscode.TextEditor | undefined;

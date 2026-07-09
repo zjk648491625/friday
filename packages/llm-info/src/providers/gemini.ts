@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AllMediaTypes, ModelProvider } from "../types.js";
 
 // See https://ai.google.dev/gemini-api/docs/models

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 package com.github.fridayai.fridayintellijextension.proxy
 
 import com.intellij.util.net.HttpConfigurable

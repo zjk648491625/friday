@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Mutex } from "async-mutex";
 import { open } from "sqlite";
 import sqlite3 from "sqlite3";

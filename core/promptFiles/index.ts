@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ContextProviderName } from "..";
 
 export const DEFAULT_PROMPTS_FOLDER_V1 = ".prompts";

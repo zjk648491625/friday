@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { AssistantConfig } from "@friday-ai/sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 

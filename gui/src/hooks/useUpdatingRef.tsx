@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useEffect, useRef } from "react";
 
 function useUpdatingRef<T>(value: T, deps: any[] = []) {

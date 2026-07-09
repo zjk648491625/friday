@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export function parseHexColor(hexColor: string): {
   r: number;
   g: number;

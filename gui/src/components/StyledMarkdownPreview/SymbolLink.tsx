@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SymbolWithRange } from "core";
 import { useContext, useMemo } from "react";
 import { IdeMessengerContext } from "../../context/IdeMessenger";

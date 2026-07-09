@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Transposes a tensor according to the provided axes.
  * @param {any} tensor The input tensor to transpose.

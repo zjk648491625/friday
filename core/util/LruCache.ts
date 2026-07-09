@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export class PrecalculatedLruCache<V> {
   private items: [string, V][] = [];
   constructor(

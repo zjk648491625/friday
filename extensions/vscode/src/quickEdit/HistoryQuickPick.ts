@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { QuickPickItem, window, ExtensionContext } from "vscode";
 
 const HISTORY_KEY = "quickEditHistory";

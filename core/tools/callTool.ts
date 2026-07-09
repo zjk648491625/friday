@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { CallToolResultSchema } from "@modelcontextprotocol/sdk/types.js";
 import { ContextItem, McpUiState, Tool, ToolCall, ToolExtras } from "..";
 import { MCPManagerSingleton } from "../context/mcp/MCPManagerSingleton";

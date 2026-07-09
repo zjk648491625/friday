@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { streamSse } from "@friday-ai/fetch";
 import { ChatCompletionChunk } from "openai/resources/index";
 import { LlamastackConfig } from "../types.js";

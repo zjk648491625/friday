@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useMemo } from "react";
 import { useLocalStorage } from "../../context/LocalStorage";
 

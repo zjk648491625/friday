@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { retryAsync, withLLMRetry, withRetry } from "./retry";
 
 // Mock console.warn to avoid noise in tests

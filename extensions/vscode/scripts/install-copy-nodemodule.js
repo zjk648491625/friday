@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Copy lancedb to the current directory. It is also intended to run as a child process.
  */

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createUITestContext } from "../../test-helpers/ui-test-context.js";
 
 import { testBothModes, renderInMode } from "./TUIChat.dualModeHelper.js";

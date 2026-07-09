@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { renderInMode, testBothModes } from "./TUIChat.dualModeHelper.js";
 import { waitForCondition } from "./TUIChat.testHelper.js";
 

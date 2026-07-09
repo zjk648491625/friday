@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IndexTag, IndexingProgressUpdate } from "../index.js";
 
 export enum IndexResultType {

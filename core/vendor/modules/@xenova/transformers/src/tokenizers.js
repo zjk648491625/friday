@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Tokenizers are used to prepare textual inputs for a model.
  *

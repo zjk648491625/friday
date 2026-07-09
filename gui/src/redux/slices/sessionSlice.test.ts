@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage } from "core";
 import { renderChatMessage } from "core/util/messageContent";
 import { v4 as uuidv4 } from "uuid";

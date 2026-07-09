@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, PromptLog, TextMessagePart } from "../..";
 import { normalizeToMessageParts } from "../../util/messageContent";
 import { detectToolCallStart } from "./detectToolCallStart";

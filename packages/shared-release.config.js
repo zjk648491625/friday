@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export default function createReleaseConfig(packageName) {
   return {
     branches: ["main"],

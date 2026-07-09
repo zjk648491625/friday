@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { fetchwithRequestOptions } from "@friday-ai/fetch";
 import { FridayConfig, IDE } from "core";
 import { QuickPickItem, window } from "vscode";

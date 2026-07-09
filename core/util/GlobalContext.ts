@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import fs from "node:fs";
 
 import { ModelRole } from "@friday-ai/config-yaml";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createPatch } from "diff";
 import { getUriPathBasename } from "../../util/uri";
 

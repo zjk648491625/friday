@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { providers } from "../pages/AddNewModel/configs/providers";
 
 export interface ErrorAnalysis {

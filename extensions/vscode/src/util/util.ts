@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as os from "node:os";
 
 import * as vscode from "vscode";

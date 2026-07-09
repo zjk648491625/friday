@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export enum AutocompleteSnippetType {
   Code = "code",
   Diff = "diff",

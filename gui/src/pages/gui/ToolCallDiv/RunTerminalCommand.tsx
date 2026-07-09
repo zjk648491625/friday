@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallState } from "core";
 import { UnifiedTerminalCommand } from "../../../components/UnifiedTerminal/UnifiedTerminal";
 

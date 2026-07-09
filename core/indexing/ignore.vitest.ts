@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_SECURITY_IGNORE_DIRS,

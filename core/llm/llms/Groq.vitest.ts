@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createOpenAISubclassTests } from "./test-utils/openai-test-utils.js";
 import Groq from "./Groq.js";
 

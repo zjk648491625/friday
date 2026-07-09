@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { FridayErrorReason } from "core/util/errors";
 import * as ideUtils from "core/util/ideUtils";
 import { beforeEach, describe, expect, it, Mock, vi } from "vitest";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { exec, spawn } from "child_process";
 
 import { PreprocessedToolCall } from "src/tools/types.js";

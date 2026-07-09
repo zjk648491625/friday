@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 declare const TokenizerModel_base: new () => {
   (...args: any[]): any;
   _call(...args: any[]): any;

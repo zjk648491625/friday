@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, CompletionOptions, CustomLLM } from "../../index.js";
 import { renderChatMessage } from "../../util/messageContent.js";
 import { BaseLLM } from "../index.js";

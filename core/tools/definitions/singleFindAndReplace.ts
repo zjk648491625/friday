@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tool } from "../..";
 import { validateSingleEdit } from "../../edit/searchAndReplace/findAndReplaceUtils";
 import { executeFindAndReplace } from "../../edit/searchAndReplace/performReplace";

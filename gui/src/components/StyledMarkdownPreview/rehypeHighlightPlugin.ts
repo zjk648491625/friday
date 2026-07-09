@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Feel free to add more!
 // See gui/node_modules/highlight.js/lib/languages for the full available list
 import clojure from "highlight.js/lib/languages/clojure";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { URL } from "node:url";
 
 import { getHeaders } from "../../../fridayServer/stubs/headers";

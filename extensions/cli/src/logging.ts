@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import chalk from "chalk";
 
 // Track if we're in headless mode (default to false)

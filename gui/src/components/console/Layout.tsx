@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useState } from "react";
 import useLLMLog from "../../hooks/useLLMLog";
 import Details from "./Details";

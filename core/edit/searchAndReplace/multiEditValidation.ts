@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { EditOperation } from "../../tools/definitions/multiEdit";
 import { FridayError, FridayErrorReason } from "../../util/errors";
 import { validateSingleEdit } from "./findAndReplaceUtils";

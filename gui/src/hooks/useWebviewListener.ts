@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { ToWebviewProtocol } from "core/protocol/index.js";
 import { Message } from "core/protocol/messenger";
 import { useContext, useEffect } from "react";

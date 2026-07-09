@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { JSDOM } from "jsdom";
 
 export async function findFaviconPath(url: URL): Promise<string | undefined> {

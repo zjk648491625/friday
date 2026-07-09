@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Chunk, LLMOptions } from "../../index.js";
 
 import OpenAI from "./OpenAI.js";

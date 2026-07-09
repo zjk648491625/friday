@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { RangeInFileWithContents } from "core";
 import { getSymbolsForSnippet } from "core/autocomplete/context/ranking";
 import { RecentlyEditedRange } from "core/autocomplete/util/types";

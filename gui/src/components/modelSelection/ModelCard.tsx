@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";

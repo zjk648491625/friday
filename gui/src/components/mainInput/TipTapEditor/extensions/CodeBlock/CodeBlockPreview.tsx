@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { NodeViewProps } from "@tiptap/react";
 import { ContextItemWithId } from "core";
 import { ctxItemToRifWithContents } from "core/commands/util";

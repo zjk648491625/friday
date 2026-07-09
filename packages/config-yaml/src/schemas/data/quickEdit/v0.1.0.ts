@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { quickEditEventAllSchema } from "./index.js";
 
 export const quickEditEventSchema_0_1_0 = quickEditEventAllSchema.pick({

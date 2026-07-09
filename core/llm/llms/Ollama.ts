@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Mutex } from "async-mutex";
 import { JSONSchema7, JSONSchema7Object } from "json-schema";
 import { v4 as uuidv4 } from "uuid";

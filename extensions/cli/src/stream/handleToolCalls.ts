@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem, ToolStatus } from "core/index.js";
 import { stripImages } from "core/util/messageContent.js";
 import { createHistoryItem } from "core/util/messageConversion.js";

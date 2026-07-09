@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { autocompleteEventAllSchema } from "./index.js";
 
 export const autocompleteEventSchema_0_2_0 = autocompleteEventAllSchema.pick({

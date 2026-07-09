@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { EventEmitter } from "events";
 
 import type { InputHistory } from "../util/inputHistory.js";

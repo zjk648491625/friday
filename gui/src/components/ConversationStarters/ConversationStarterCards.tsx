@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SlashCommandDescWithSource } from "core";
 import { useState } from "react";
 import { useBookmarkedSlashCommands } from "../../hooks/useBookmarkedSlashCommands";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // ProfileHandlers manage the loading of a config, allowing us to abstract over different ways of getting to a FridayConfig
 
 import { ConfigResult } from "@friday-ai/config-yaml";

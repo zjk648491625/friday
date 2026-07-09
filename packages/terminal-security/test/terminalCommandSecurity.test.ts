@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, it, expect } from "vitest";
 import { evaluateTerminalCommandSecurity, ToolPolicy } from "../src/index.js";
 

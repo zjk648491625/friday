@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import nock from "nock";
 import { ChatCompletionMessageParam } from "openai/resources";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SyntaxNode } from "web-tree-sitter";
 
 import { ChunkWithoutID } from "../../index.js";

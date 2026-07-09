@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Asynchronous generator that yields characters from the input stream until it encounters
  * an end-of-line character followed by a non-whitespace character.

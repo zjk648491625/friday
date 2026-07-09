@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Button, Input, SecondaryButton } from "..";
 import { useAppDispatch } from "../../redux/hooks";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";

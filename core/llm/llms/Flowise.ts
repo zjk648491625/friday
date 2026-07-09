@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import socketIOClient, { Socket } from "socket.io-client";
 
 import { ChatMessage, CompletionOptions, LLMOptions } from "../../index.js";

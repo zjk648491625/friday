@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { nextEditEventAllSchema } from "./index.js";
 
 export const nextEditEventSchema_0_2_0 = nextEditEventAllSchema.pick({

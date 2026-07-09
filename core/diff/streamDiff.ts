@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { DiffLine, DiffType } from "../index.js";
 
 import { LineStream, matchLine } from "./util.js";

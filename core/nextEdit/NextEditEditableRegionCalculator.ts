@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import Parser from "web-tree-sitter";
 import { Chunk, IDE, ILLM, Position, Range, RangeInFile } from "..";
 import { getAst } from "../autocomplete/util/ast";

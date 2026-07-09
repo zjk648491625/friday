@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useEffect, useState } from "react";
 
 import { getGitBranch, getGitRemoteUrl, isGitRepo } from "../../util/git.js";

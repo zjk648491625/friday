@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ILLM } from "core";
 import { EXTENSION_NAME } from "core/util/constants";
 import * as vscode from "vscode";

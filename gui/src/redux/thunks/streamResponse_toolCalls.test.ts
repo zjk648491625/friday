@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { JSONContent } from "@tiptap/core";
 import { AssistantChatMessage, InputModifiers, PromptLog } from "core";
 import { describe, expect, it, vi } from "vitest";

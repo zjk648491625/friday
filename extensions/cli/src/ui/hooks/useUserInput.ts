@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { PermissionMode } from "../../permissions/types.js";
 import { backgroundSignalManager } from "../../util/backgroundSignalManager.js";
 import {

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import cors from "cors";
 import express from "express";
 import { http, https } from "follow-redirects";

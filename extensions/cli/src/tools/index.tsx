@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // @ts-ignore
 import { FridayError, FridayErrorReason } from "core/util/errors.js";
 import { ChatCompletionTool } from "openai/resources.mjs";

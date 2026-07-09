@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 package com.github.fridayai.fridayintellijextension.actions
 
 import com.intellij.openapi.actionSystem.AnActionEvent

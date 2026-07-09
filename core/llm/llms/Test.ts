@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, CompletionOptions } from "../../index.js";
 import { BaseLLM } from "../index.js";
 

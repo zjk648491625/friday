@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { BackgroundJob } from "../services/BackgroundJobService.js";
 import { services } from "../services/index.js";
 

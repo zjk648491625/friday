@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
 import { ContextItem, McpUiState } from "core";
 import { CLIENT_TOOLS_IMPLS } from "core/tools/builtIn";

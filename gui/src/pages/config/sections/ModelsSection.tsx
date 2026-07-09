@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ModelRole } from "@friday-ai/config-yaml";
 import { ModelDescription } from "core";
 import { useContext, useState } from "react";

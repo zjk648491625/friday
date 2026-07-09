@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatMessage, PromptTemplate } from "../../index.js";
 import { gptEditPrompt } from "./edit/gpt.js";
 

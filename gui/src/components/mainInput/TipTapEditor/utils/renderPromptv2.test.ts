@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SlashCommandDescWithSource } from "core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MockIdeMessenger } from "../../../../context/MockIdeMessenger";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as fs from "node:fs";
 
 import { FQSN, SecretResult, SecretType } from "@friday-ai/config-yaml";

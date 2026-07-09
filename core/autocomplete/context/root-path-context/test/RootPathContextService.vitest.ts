@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, test } from "vitest";
 import { PYTHON_TEST_CASES, TYPESCRIPT_TEST_CASES } from "./testCases";
 import { testRootPathContext } from "./testUtils";

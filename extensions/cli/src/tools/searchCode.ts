@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as child_process from "child_process";
 import * as fs from "fs";
 import * as util from "util";

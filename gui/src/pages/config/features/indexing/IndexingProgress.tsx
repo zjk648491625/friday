@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IndexingProgressUpdate } from "core";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

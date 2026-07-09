@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ServiceContainer } from "./ServiceContainer.js";
 
 import { initializeServices } from "./index.js";

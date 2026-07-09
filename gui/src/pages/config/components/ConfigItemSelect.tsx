@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * A component that displays config items either as tabs (on large screens) or a popover select (on small screens)
  */

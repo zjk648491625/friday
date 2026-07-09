@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { ToolCallState } from "core";
 import { BuiltInToolNames } from "core/tools/builtIn";

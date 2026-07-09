@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import com.github.fridayai.fridayintellijextension.actions.FocusActionUtil
 import com.github.fridayai.fridayintellijextension.editor.openInlineEdit
 import com.intellij.openapi.editor.Editor

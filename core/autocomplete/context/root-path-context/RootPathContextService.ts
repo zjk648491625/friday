@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createHash } from "crypto";
 
 import { LRUCache } from "lru-cache";

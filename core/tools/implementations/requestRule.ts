@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolImpl } from ".";
 import { FridayError, FridayErrorReason } from "../../util/errors";
 import { getStringArg } from "../parseArgs";

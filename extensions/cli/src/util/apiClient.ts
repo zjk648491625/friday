@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-classes-per-file */
 import { env } from "../env.js";
 

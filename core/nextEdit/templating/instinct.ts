@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Position } from "../..";
 import {
   INSTINCT_CONTEXT_FILE_TOKEN,

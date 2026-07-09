@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { SlashCommandDescWithSource } from "core";
 

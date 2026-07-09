@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Processors are used to prepare non-textual inputs (e.g., image or audio) for a model.
  *

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Unit tests for the stripThinkTags function
 
 // Since stripThinkTags is currently a private function in chat.ts,

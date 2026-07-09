@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Position } from "../..";
 import { ContextRetrievalService } from "../../autocomplete/context/ContextRetrievalService";
 import { getAllSnippetsWithoutRace } from "../../autocomplete/snippets/getAllSnippets";

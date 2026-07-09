@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { By, WebDriver } from "vscode-extension-tester";
 
 export class NextEditSelectors {

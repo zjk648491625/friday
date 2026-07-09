@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Static list of built-in tool names.
  * Kept separate from allBuiltIns.ts to avoid circular dependency:

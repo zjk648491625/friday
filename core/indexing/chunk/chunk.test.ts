@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import path from "path";
 
 import { Chunk, ChunkWithoutID } from "../../index.js";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolPolicy } from "@friday-ai/terminal-security";
 import { BuiltInToolNames } from "core/tools/builtIn";
 import { clearToolPolicy, setToolPolicy } from "../redux/slices/uiSlice";

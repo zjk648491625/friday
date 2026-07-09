@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { BuiltInToolNames } from "core/tools/builtIn";
 import { updateConfig } from "../../../redux/slices/configSlice";
 import { renderWithProviders } from "../../../util/test/render";

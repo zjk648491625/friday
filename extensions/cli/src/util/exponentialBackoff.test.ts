@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { vi } from "vitest";
 
 import { ExponentialBackoffOptions } from "./exponentialBackoff.js";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ModelProviderTags } from "../../../components/modelSelection/utils";
 import { IIdeMessenger } from "../../../context/IdeMessenger";
 import { ModelPackage } from "./models";

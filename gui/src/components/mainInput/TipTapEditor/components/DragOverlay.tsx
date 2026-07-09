@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import React, { useEffect } from "react";
 import { HoverDiv, HoverTextDiv } from "./StyledComponents";
 

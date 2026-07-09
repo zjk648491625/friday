@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolCallDelta, ToolCallState } from "core";
 import { addToolCallDeltaToState } from "./toolCallState";
 

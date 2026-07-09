@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { z } from "zod";
 import { completionOptionsSchema } from "../../models.js";
 import { baseDevDataAllSchema } from "../base.js";

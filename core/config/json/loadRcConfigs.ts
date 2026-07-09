@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as JSONC from "comment-json";
 import { FridayRcJson, FileType, IDE } from "../..";
 import { joinPathsToUri } from "../../util/uri";

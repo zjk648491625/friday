@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useMemo } from "react";
 import Shortcut from "../../../../components/gui/Shortcut";
 import { isJetBrains } from "../../../../util";

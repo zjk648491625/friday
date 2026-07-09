@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { execSync, fork } from "child_process";
 
 import chalk from "chalk";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { RuleWithSource } from "../..";
 import { getRequestRuleDescription } from "./requestRule";
 

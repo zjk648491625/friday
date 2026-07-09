@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { tokensGeneratedEventAllSchema } from "./index.js";
 
 export const tokensGeneratedEventSchema_0_1_0 =

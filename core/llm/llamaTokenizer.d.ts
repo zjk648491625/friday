@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export declare class LlamaTokenizer {
   vocabById: string[];
   vocabByString: Map<string, number>;

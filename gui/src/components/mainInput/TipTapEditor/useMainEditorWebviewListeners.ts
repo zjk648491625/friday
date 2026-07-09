@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Editor } from "@tiptap/react";
 import { InputModifiers } from "core";
 import { rifWithContentsToContextItem } from "core/commands/util";

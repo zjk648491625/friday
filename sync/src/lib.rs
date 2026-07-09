@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 use std::path::Path;
 mod db;
 mod gitignore;

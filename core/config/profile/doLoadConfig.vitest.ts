@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it, vi } from "vitest";
 
 import type { PackageIdentifier } from "@friday-ai/config-yaml";

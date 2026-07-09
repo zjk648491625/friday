@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Base interface for command options that are shared across multiple commands
  * Uses command-line flag names for direct compatibility

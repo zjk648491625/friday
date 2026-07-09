@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 jest.mock("@friday-ai/fetch", () => ({
   streamResponse: jest.fn(),
 }));

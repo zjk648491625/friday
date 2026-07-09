@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { EnhancedStore } from "@reduxjs/toolkit";
 import { BrowserSerializedFridayConfig, ModelDescription } from "core";
 import { copyOf } from "core/util";

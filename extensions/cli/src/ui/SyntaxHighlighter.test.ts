@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { detectLanguage } from "./SyntaxHighlighter.js";
 
 describe("detectLanguage", () => {

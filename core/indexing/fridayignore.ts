@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import fs from "fs";
 import { IDE } from "..";
 import { getGlobalFridayIgnorePath } from "../util/paths";

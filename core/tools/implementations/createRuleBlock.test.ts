@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { parseMarkdownRule } from "@friday-ai/config-yaml";
 import { jest } from "@jest/globals";
 import { createRuleBlockImpl } from "./createRuleBlock";

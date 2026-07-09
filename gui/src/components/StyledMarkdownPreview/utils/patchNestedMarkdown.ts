@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /*
     This is a patch for outputing markdown code that contains codeblocks
 

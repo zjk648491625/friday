@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import styled, { keyframes } from "styled-components";
 
 const gradient = keyframes`

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { expect, test } from "@jest/globals";
 import dotenv from "dotenv";
 import { Friday } from "../src/Friday.js";

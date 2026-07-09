@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Adapted from SlashCommand extension (@tiptap/extension-mention/src/mention.ts)
 
 import { Node } from "@tiptap/core";

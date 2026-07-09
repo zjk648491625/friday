@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Chunk, FridayConfig, IDE, ILLM } from "../..";
 import { getModelByRole } from "../../config/util";
 import generateRepoMap from "../../util/generateRepoMap";

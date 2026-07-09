@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Minimal mock for LLM API (just enough to prevent errors)
 export class MockLlmApi {
   async chatCompletionStream(): Promise<AsyncIterable<any>> {

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigMergeType } from "../index.js";
 
 type JsonObject = { [key: string]: any };

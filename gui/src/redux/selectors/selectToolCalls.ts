@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createSelector } from "@reduxjs/toolkit";
 import { ToolStatus } from "core";
 import { RootState } from "../store";

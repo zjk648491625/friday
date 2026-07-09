@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Pipelines provide a high-level, easy to use, API for running machine learning models.
  *

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as z from "zod";
 import { blockItemWrapperSchema } from "../schemas/index.js";
 

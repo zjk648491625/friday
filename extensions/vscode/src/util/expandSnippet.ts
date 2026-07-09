@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Chunk, IDE } from "core";
 import { languageForFilepath } from "core/autocomplete/constants/AutocompleteLanguageInfo";
 import { DEFAULT_IGNORE_DIRS } from "core/indexing/ignore";

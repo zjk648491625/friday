@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { RequestOptions } from "@friday-ai/config-types";
 import * as followRedirects from "follow-redirects";
 import { HttpProxyAgent } from "http-proxy-agent";

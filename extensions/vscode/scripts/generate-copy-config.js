@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * @file Generate config.yaml file from template. Also intended to run as a child process.
  */

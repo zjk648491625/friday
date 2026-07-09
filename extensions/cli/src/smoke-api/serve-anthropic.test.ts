@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { Subprocess } from "execa";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 

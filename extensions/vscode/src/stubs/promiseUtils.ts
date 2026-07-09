@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Disposable, Event, EventEmitter } from "vscode";
 
 export interface PromiseAdapter<T, U> {

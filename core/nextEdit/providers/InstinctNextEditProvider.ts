@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { HelperVars } from "../../autocomplete/util/HelperVars.js";
 import { NEXT_EDIT_MODELS } from "../../llm/constants.js";
 import { INSTINCT_SYSTEM_PROMPT } from "../constants.js";

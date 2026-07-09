@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import * as React from "react";
 import { cn } from "../../util/cn";
 

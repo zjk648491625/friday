@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { FridayError, FridayErrorReason } from "../../util/errors";
 
 export const FOUND_MULTIPLE_FIND_STRINGS_ERROR =

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Converts Vercel AI SDK stream events to OpenAI ChatCompletionChunk format
  */

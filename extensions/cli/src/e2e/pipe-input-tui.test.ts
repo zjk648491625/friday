@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 import {

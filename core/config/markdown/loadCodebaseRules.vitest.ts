@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { markdownToRule } from "@friday-ai/config-yaml";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { IDE } from "../..";

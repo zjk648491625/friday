@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 package com.github.fridayai.fridayintellijextension.unit
 
 import com.github.fridayai.fridayintellijextension.`friday`.UriUtils

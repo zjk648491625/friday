@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import iconv from "iconv-lite";
 import childProcess from "node:child_process";
 import os from "node:os";

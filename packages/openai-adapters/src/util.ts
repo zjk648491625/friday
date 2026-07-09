@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { RequestOptions } from "@friday-ai/config-types";
 import { fetchwithRequestOptions, patchedFetch } from "@friday-ai/fetch";
 import {

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export class ApplyAbortManager {
   private static instance: ApplyAbortManager;
   private controllers: Map<string, AbortController>;

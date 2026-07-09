@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { editInteractionEventAllSchema } from "./index.js";
 
 export const editInteractionEventSchema_0_2_0 =

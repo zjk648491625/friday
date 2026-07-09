@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { BLOCK_TYPES } from "@friday-ai/config-yaml";
 import ignore from "ignore";
 import * as URI from "uri-js";

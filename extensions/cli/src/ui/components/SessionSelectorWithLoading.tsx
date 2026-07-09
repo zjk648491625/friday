@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Box, Text } from "ink";
 import React from "react";
 

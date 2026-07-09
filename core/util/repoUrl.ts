@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Utility functions for normalizing and handling repository URLs.
  */

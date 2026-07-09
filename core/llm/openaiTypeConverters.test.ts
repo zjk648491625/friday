@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { toResponsesInput, isItemType } from "./openaiTypeConverters";
 import { ChatMessage } from "..";
 import type {

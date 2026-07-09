@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Unified abort error detection.
  * Covers all known abort patterns in the Friday codebase:

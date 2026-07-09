@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChatCompletionCreateParams } from "openai/resources/index";
 import { describe, expect, it } from "vitest";
 

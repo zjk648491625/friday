@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 import { checkToolPermission } from "./permissionChecker.js";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Tool, ToolCallState } from "core";
 import { ComponentType, useContext, useMemo, useState } from "react";
 import {

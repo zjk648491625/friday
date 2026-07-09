@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { jest } from "@jest/globals";
 
 import {

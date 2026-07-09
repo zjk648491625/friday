@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { render } from "ink-testing-library";
 import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";

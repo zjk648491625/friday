@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { getFridayRcPath, getTsConfigPath } from "core/util/paths";
 import * as vscode from "vscode";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useContext } from "react";
 import { IdeMessengerContext } from "../../../../context/IdeMessenger";
 import { useAppDispatch } from "../../../../redux/hooks";

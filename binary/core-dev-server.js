@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 const path = require("path");
 process.env.FRIDAY_DEVELOPMENT = true;
 

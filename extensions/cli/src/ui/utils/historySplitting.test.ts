@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import type { ChatHistoryItem } from "core";
 import { describe, expect, it } from "vitest";
 

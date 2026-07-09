@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

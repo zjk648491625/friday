@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ToolPolicy } from "@friday-ai/terminal-security";
 import { Tool, ToolCallState } from "core";
 import { IIdeMessenger } from "../../context/IdeMessenger";

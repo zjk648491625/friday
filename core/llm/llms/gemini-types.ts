@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { JSONSchema7Object } from "json-schema";
 import { Tool } from "../..";
 

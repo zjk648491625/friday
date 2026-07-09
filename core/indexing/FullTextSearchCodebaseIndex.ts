@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { BranchAndDir, Chunk, IndexTag, IndexingProgressUpdate } from "../";
 import { RETRIEVAL_PARAMS } from "../util/parameters";
 import { getUriPathBasename } from "../util/uri";

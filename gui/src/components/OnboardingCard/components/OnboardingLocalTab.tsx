@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import {
   LOCAL_ONBOARDING_CHAT_MODEL,
   LOCAL_ONBOARDING_CHAT_TITLE,

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { CompletionUsage } from "openai/resources/completions.mjs";
 import { BaseLlmApi, constructLlmApi } from "../index.js";
 import { LLMConfig } from "../types.js";

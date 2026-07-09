@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useEffect, useRef, useState } from "react";
 
 export function useDebounceValue<T>(value: T, delay: number = 500): T {

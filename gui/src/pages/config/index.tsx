@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Alert from "../../components/gui/Alert";

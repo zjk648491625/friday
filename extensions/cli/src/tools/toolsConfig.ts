@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Global configuration for tools system.
  * This stores command-line flags that affect tool availability.

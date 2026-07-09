@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { act } from "@testing-library/react";
 import { addAndSelectMockLlm } from "../../../util/test/config";
 import { renderWithProviders } from "../../../util/test/render";

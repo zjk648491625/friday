@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable @typescript-eslint/naming-convention */
 import { IDE, ILLM, RuleWithSource } from "core";
 import { ConfigHandler } from "core/config/ConfigHandler";

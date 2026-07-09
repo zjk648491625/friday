@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { DevDataLogEvent } from "@friday-ai/config-yaml";
 import fs from "fs";
 import path from "path";

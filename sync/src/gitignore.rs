@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 use std::collections::HashMap;
 use std::fs;
 use std::io::{self, Read};

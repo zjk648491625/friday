@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { FromWebviewProtocol, ToWebviewProtocol } from "core/protocol";
 import { Message } from "core/protocol/messenger";
 import { v4 as uuidv4 } from "uuid";

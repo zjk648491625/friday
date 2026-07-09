@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
 import type { AppDispatch, RootState } from "./store";
 

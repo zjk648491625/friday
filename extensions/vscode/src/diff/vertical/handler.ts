@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { myersDiff } from "core/diff/myers";
 import * as URI from "uri-js";
 import * as vscode from "vscode";

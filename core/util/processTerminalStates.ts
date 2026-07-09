@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChildProcess } from "child_process";
 
 // Track which processes have been backgrounded

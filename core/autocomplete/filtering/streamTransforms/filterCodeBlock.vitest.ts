@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // eslint-disable-next-line max-lines-per-function
 import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
 

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export const FUNCTIONS = [
   {
     nodeType: "function_definition with argument and return type",

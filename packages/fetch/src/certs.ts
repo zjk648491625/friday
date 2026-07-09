@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { globalAgent } from "https";
 import * as fs from "node:fs";
 import tls from "node:tls";

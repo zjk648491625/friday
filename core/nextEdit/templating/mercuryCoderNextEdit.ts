@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Position, Range } from "../..";
 import {
   MERCURY_CODE_TO_EDIT_CLOSE,

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /* eslint-disable max-lines-per-function */
 /* lint is not useful for test classes */
 import { jest } from "@jest/globals";

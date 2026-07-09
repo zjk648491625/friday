@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ConfigResult } from "@friday-ai/config-yaml";
 import { open, type Database } from "sqlite";
 import sqlite3 from "sqlite3";

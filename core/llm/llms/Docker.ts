@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Mutex } from "async-mutex";
 import { spawn } from "child_process";
 import { LLMOptions, ModelInstaller } from "../../index.js";

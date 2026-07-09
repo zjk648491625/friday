@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ProfileDescription } from "core/config/ProfileLifecycleManager";
 import { KeyboardEvent as ReactKeyboardEvent } from "react";
 import { getLocalStorage } from "./localStorage";

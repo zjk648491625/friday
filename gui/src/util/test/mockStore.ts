@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { configureStore } from "@reduxjs/toolkit";
 import { copyOf } from "core/util";
 import { vi } from "vitest";

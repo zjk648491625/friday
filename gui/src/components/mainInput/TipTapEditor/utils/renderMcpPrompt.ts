@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SlashCommandDescWithSource } from "core";
 import { IIdeMessenger } from "../../../../context/IdeMessenger";
 

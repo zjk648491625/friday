@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // Mock for lowlight
 export const common = {};
 

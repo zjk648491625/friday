@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { SUBAGENT_TOOL_META } from "../subagent/index.js";
 
 import { askQuestionTool } from "./askQuestion.js";

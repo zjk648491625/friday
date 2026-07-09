@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IDE } from "core";
 import { getUriPathBasename, getLastNPathParts } from "core/util/uri";
 import vscode from "vscode";

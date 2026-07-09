@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { IDE, Position } from "../..";
 import { GetLspDefinitionsFunction } from "../../autocomplete/types";
 import { ConfigHandler } from "../../config/ConfigHandler";

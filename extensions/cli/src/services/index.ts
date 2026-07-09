@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { HookService } from "../hooks/HookService.js";
 import { initializeWithOnboarding } from "../onboarding.js";
 import {

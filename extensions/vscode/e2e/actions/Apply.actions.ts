@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { WebView } from "vscode-extension-tester";
 
 import { ApplySelectors } from "../selectors/Apply.selectors";

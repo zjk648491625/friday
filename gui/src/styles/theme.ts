@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 // All vscode variables https://gist.github.com/estruyf/ba49203e1a7d6868e9320a4ea480c27a
 // Examples for vscode https://github.com/githubocto/tailwind-vscode/blob/main/index.js
 

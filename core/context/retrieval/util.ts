@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Chunk } from "../../index";
 import { deduplicateArray } from "../../util/index";
 

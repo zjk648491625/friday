@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Tests for the hooks system: config loading, matcher matching,
  * hook execution (command and HTTP), exit code semantics,

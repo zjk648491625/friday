@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import { EditOperation } from "../../tools/definitions/multiEdit";
 import { FridayErrorReason } from "../../util/errors";

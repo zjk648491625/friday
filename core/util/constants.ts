@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 export const EXTENSION_NAME = "friday";
 
 export const NEW_SESSION_TITLE = "New Session";

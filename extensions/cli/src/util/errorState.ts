@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /**
  * Module to track unhandled errors during CLI execution.
  * This is in a separate file to avoid circular dependencies between

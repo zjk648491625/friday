@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ModelDescription, SerializedFridayConfig } from "core";
 import { IDE } from "core/index.js";
 import { FromIdeProtocol, ToIdeProtocol } from "core/protocol/index.js";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { Core } from "core/core";
 import { DataLogger } from "core/data/log";
 import { myersDiff } from "core/diff/myers";

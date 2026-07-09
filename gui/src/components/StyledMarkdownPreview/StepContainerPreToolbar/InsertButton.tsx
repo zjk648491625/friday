@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ArrowLeftEndOnRectangleIcon } from "@heroicons/react/24/outline";
 import { ToolTip } from "../../gui/Tooltip";
 import HoverItem from "../../mainInput/InputToolbar/HoverItem";

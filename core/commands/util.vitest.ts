@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { describe, expect, it } from "vitest";
 import { ContextItemWithId, RangeInFileWithContents } from "../index";
 import { ctxItemToRifWithContents } from "./util";

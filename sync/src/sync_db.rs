@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 use crate::db::{add_tag, create_database, remove_chunks_for_hash, remove_tag};
 use crate::sync;
 

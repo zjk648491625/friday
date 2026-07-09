@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import crypto from "crypto";
 import { exec } from "node:child_process";
 import path from "node:path";

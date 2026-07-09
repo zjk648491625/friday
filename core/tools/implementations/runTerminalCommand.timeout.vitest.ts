@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { EventEmitter } from "node:events";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { IDE, ToolExtras } from "../..";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 /*
 This is a patched version of index.js from node-fetch 3.3.2 (see packages/fetch/node_modules/node-fetch/src/index.js)
 This is to fix "Premature close" errors caused by chunked encoding assumptions - see https://github.com/friday-ai/friday/issues/5502

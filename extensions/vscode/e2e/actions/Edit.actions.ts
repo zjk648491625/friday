@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { TextEditor, WebView } from "vscode-extension-tester";
 
 import { EditSelectors } from "../selectors/Edit.selectors";

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { inferResolvedUriFromRelativePath } from "core/util/ideUtils";
 import { renderContextItems } from "core/util/messageContent";

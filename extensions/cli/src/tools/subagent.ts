@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { services } from "../services/index.js";
 import { serviceContainer } from "../services/ServiceContainer.js";
 import { ModelServiceState, SERVICE_NAMES } from "../services/types.js";

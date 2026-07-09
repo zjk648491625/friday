@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Rebranded from Continue
 import { createRuleMarkdown } from "@friday-ai/config-yaml";
 import { ToolImpl } from ".";
 import { RuleWithSource } from "../..";
