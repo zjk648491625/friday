@@ -1,7 +1,8 @@
-// Modified by Friday AI Team - Rebranded from Continue
+// Friday AI
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { ToolTip } from "../../../components/gui/Tooltip";
 import { Button } from "../../../components/ui";
+import { T } from "../../../util/i18n";
 import { cn } from "../../../util/cn";
 
 interface ConfigHeaderProps {
@@ -36,7 +37,7 @@ export function ConfigHeader({
       )}
     >
       <div className="flex flex-col">
-        <HeadingTag className={`my-0 ${titleSize}`}>{title}</HeadingTag>
+        <HeadingTag className={`my-0 ${titleSize}`}>{T(title)}</HeadingTag>
         {subtext && <p className="text-description mt-1 text-sm">{subtext}</p>}
       </div>
       {showAddButton && onAddClick && (

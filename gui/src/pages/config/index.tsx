@@ -8,6 +8,7 @@ import { useNavigationListener } from "../../hooks/useNavigationListener";
 import { bottomTabSections, getAllTabs, topTabSections } from "./configTabs";
 import { DeprecationBanner } from "../../components/DeprecationBanner";
 import { AccountDropdown } from "./features/account/AccountDropdown";
+import { LanguageSwitch } from "../../components/LanguageSwitch";
 
 function ConfigPage() {
   useNavigationListener();
@@ -60,6 +61,7 @@ function ConfigPage() {
           <Divider />
 
           <AccountDropdown />
+          <LanguageSwitch />
         </div>
       </div>
 
