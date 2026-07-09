@@ -42,7 +42,7 @@ body,
 
 body {
   padding: 0;
-  color: var(--vscode-editor-foreground);
+  color: var(--vscode-editor-foreground, var(--vscode-sideBar-foreground, var(--vscode-foreground, #e6e6e6)));
   padding: 0px;
   margin: 0px;
   height: 100%;
