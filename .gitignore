@@ -135,6 +135,7 @@ codeql
 # IntelliJ Plugin
 **/**/.gradle
 **/**/.qodana
+**/**/.kotlin
 **/**/build
 
 continue_server.build
@@ -181,4 +182,4 @@ keys
 
 # Friday AI - CodeBuddy workspace data
 .codebuddy/
-
+/.codebuddy/**
