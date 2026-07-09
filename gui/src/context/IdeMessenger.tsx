@@ -81,25 +81,22 @@ export class IdeMessenger implements IIdeMessenger {
     messageId: string = uuidv4(),
   ) {
     if (typeof vscode === "undefined") {
-      if (isJetBrains() || typeof window.postIntellijMessage !== "undefined") {
-        if (window.postIntellijMessage === undefined) {
-          console.log(
-            "Unable to send message: postIntellijMessage is undefined. ",
-            messageType,
-            data,
-          );
-          throw new Error("postIntellijMessage is undefined");
-        }
+      // Prefer the CEF bridge if available (handles both JetBrains + VSCode browser)
+      if (typeof window.postIntellijMessage !== "undefined") {
         window.postIntellijMessage(messageType, data, messageId);
         return;
-      } else {
-        console.log(
-          "Unable to send message: vscode is undefined",
-          messageType,
-          data,
-        );
+      }
+      if (isJetBrains()) {
+        // JetBrains detected but bridge not yet injected — skip this message
+        // (Kotlin injects the bridge via OnPageLoad, React may boot earlier)
         return;
       }
+      console.log(
+        "Unable to send message: vscode is undefined",
+        messageType,
+        data,
+      );
+      return;
     }
 
     const msg: Message = {
