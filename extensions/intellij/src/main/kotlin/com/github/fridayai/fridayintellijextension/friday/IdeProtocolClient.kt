@@ -15,6 +15,8 @@ import com.github.fridayai.fridayintellijextension.services.GsonService
 import com.github.fridayai.fridayintellijextension.utils.getMachineUniqueID
 import com.github.fridayai.fridayintellijextension.utils.uuid
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.SelectionModel
@@ -367,11 +369,10 @@ class IdeProtocolClient(
                     }
 
                     "openUrl" -> {
-                        val url = gsonService.gson.fromJson(
-                            dataElement.toString(),
-                            OpenUrlParam::class.java
-                        )
-                        ide.openUrl(url)
+                        NotificationGroupManager.getInstance()
+                            .getNotificationGroup("Friday")
+                            .createNotification("External links are not available yet", NotificationType.WARNING)
+                            .notify(project)
                         respond(null)
                     }
 
