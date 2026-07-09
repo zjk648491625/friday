@@ -85,7 +85,7 @@ const ModelRoleSelector = ({
                 className="bg-input border-command-border hover:bg-list-active hover:text-list-active-foreground w-full justify-between rounded border px-2 py-1.5"
               >
                 {models.length === 0 || noConfiguredModels ? (
-                  <span className="text-lightgray line-clamp-1 italic">
+                  <span className="line-clamp-1 italic text-description">
                     {`No ${models.length === 0 ? "" : "valid "}${displayName} models${
                       ["Chat", "Apply", "Edit"].includes(displayName)
                         ? ". Using Chat model"

@@ -35,7 +35,7 @@ export function ConfigItemSelect({
           style={{ fontSize: fontSize(-2) }}
           key={item.id}
           className={`hover:bg-vsc-input-background flex cursor-pointer items-center justify-center gap-1.5 rounded-md px-2 py-2 ${
-            activeId === item.id ? "" : "text-gray-400"
+            activeId === item.id ? "" : "text-description-muted"
           }`}
           onClick={() => onSelect(item.id)}
         >

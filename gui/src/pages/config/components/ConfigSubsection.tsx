@@ -14,7 +14,7 @@ export function ConfigSubsection({
 }: ConfigSubsectionProps) {
   return (
     <div className={className}>
-      {title && <h3 className="mb-2 text-sm font-semibold">{title}</h3>}
+      {title && <h3 className="mb-2 text-sm font-semibold text-foreground">{title}</h3>}
       {children}
     </div>
   );

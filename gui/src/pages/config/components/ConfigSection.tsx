@@ -16,7 +16,7 @@ export function ConfigSection({
 }: ConfigSectionProps) {
   return (
     <div className={className}>
-      {title && <h3 className="mb-4 text-base font-semibold">{title}</h3>}
+      {title && <h3 className="mb-4 text-base font-semibold text-foreground">{title}</h3>}
       {children}
     </div>
   );

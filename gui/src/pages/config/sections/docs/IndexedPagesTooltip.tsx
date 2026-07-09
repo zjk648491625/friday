@@ -39,7 +39,7 @@ export const IndexedPagesTooltip = ({
   return (
     <div>
       <div
-        className="mx-1 my-2 flex items-center justify-between font-semibold"
+        className="mx-1 my-2 flex items-center justify-between font-semibold text-foreground"
         style={{ fontSize: fontSize(-3) }}
       >
         <span>
@@ -56,7 +56,7 @@ export const IndexedPagesTooltip = ({
           {pages.map((page, index) => (
             <li
               key={index}
-              className="my-1 cursor-pointer truncate text-left text-gray-400 hover:underline"
+              className="my-1 cursor-pointer truncate text-left text-description-muted hover:underline"
               style={{ fontSize: fontSize(-4) }}
               onClick={() => {
                 ideMessenger.post("openUrl", page);

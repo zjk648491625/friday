@@ -145,7 +145,7 @@ function DocsIndexingStatus({
         </div>
 
         <div className="flex flex-row items-center gap-2">
-          <div className="flex flex-row items-center gap-2 text-gray-400">
+          <div className="flex flex-row items-center gap-2 text-description-muted">
             {status?.status === "indexing" && (
               <span
                 className="text-xs"
@@ -159,7 +159,7 @@ function DocsIndexingStatus({
 
             {status?.status === "indexing" && (
               <StopIcon
-                className="h-3 w-3 cursor-pointer text-gray-400 hover:brightness-125"
+                className="h-3 w-3 cursor-pointer text-description-muted hover:brightness-125"
                 onClick={abort}
                 data-testid="stop-indexing"
               />
@@ -167,7 +167,7 @@ function DocsIndexingStatus({
 
             <PencilIcon
               className={
-                "h-3 w-3 cursor-pointer text-gray-400 hover:brightness-125"
+                "h-3 w-3 cursor-pointer text-description-muted hover:brightness-125"
               }
               onClick={() => editDoc(docFromYaml)}
             />
@@ -176,7 +176,7 @@ function DocsIndexingStatus({
               status?.status ?? "",
             ) && (
               <ArrowPathIcon
-                className="h-3 w-3 cursor-pointer text-gray-400 hover:brightness-125"
+                className="h-3 w-3 cursor-pointer text-description-muted hover:brightness-125"
                 onClick={reIndex}
                 data-testid="reindex-docs"
               />
@@ -200,7 +200,7 @@ function DocsIndexingStatus({
             style={{
               fontSize: fontSize(-4),
             }}
-            className={`m-0 line-clamp-1 p-0 text-left text-gray-400 ${isComplete ? "cursor-pointer hover:underline" : ""}`}
+            className={`m-0 line-clamp-1 p-0 text-left text-description-muted ${isComplete ? "cursor-pointer hover:underline" : ""}`}
             onClick={() => {
               if (isComplete) {
                 showPagesList();

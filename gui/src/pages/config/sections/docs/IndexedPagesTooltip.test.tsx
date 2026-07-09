@@ -155,7 +155,7 @@ describe("IndexedPagesTooltip", () => {
         "cursor-pointer",
         "truncate",
         "text-left",
-        "text-gray-400",
+        "text-description-muted",
         "hover:underline",
       );
     });

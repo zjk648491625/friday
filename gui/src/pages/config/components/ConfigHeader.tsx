@@ -25,7 +25,7 @@ export function ConfigHeader({
 }: ConfigHeaderProps) {
   const isSmall = variant === "sm";
   const marginBottom = isSmall ? "mb-4" : "mb-6";
-  const titleSize = isSmall ? "text-sm font-semibold" : "text-xl font-semibold";
+  const titleSize = isSmall ? "text-sm font-semibold text-foreground" : "text-xl font-semibold text-foreground";
   const HeadingTag = isSmall ? "h3" : "h2";
 
   return (

@@ -61,12 +61,12 @@ export function ConfigRow({
         data-config-row
       >
         <div className="flex flex-col">
-          <span className="text-sm font-medium">{title}</span>
-          <p className="mt-0.5 text-xs text-gray-500">{description}</p>
+          <span className="text-sm font-medium text-foreground">{title}</span>
+          <p className="mt-0.5 text-xs text-description-muted">{description}</p>
         </div>
         <div className="flex items-center gap-4">
           {children}
-          {Icon && <Icon className="h-5 w-5 flex-shrink-0 text-gray-400" />}
+          {Icon && <Icon className="h-5 w-5 flex-shrink-0 text-description-muted" />}
         </div>
       </Button>
     );
@@ -78,12 +78,12 @@ export function ConfigRow({
       data-config-row
     >
       <div className="flex flex-col">
-        <span className="text-sm font-medium">{title}</span>
-        <p className="mt-0.5 text-xs text-gray-500">{description}</p>
+        <span className="text-sm font-medium text-foreground">{title}</span>
+        <p className="mt-0.5 text-xs text-description-muted">{description}</p>
       </div>
       <div className="flex items-center gap-4">
         {children}
-        {Icon && <Icon className="h-5 w-5 flex-shrink-0 text-gray-400" />}
+        {Icon && <Icon className="h-5 w-5 flex-shrink-0 text-description-muted" />}
       </div>
     </div>
   );

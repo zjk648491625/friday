@@ -51,7 +51,7 @@ export function ConfigsSection() {
                           hasFatalErrors
                             ? "text-error"
                             : hasErrors
-                              ? "text-yellow-500"
+                              ? "text-warning"
                               : ""
                         }`}
                       >

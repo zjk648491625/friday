@@ -99,24 +99,24 @@ function PromptRow({
       }}
     >
       <div className="flex min-w-0 flex-col">
-        <span className="text-vscForeground shrink-0 font-medium">
+        <span className="text-foreground shrink-0 font-medium">
           {prompt.name}
         </span>
-        <span className="line-clamp-2 text-[11px] text-gray-400">
+        <span className="line-clamp-2 text-[11px] text-description-muted">
           {prompt.description}
         </span>
       </div>
       <div className="flex items-center gap-2">
         {canEdit && (
           <PencilIcon
-            className={`h-3 w-3 cursor-pointer text-gray-400 hover:brightness-125`}
+            className={`h-3 w-3 cursor-pointer text-description-muted hover:brightness-125`}
             onClick={canEdit ? handleEditClick : undefined}
             aria-disabled={!canEdit}
           />
         )}
         <div
           onClick={handleBookmarkClick}
-          className="cursor-pointer pt-0.5 text-gray-400 hover:brightness-125"
+          className="cursor-pointer pt-0.5 text-description-muted hover:brightness-125"
         >
           {isBookmarked ? (
             <BookmarkSolid className="h-3 w-3" />
@@ -205,7 +205,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
       <div className="flex flex-col">
         <div className="flex flex-row justify-between gap-1">
           <span
-            className={`line-clamp-2 ${isDisabled ? "text-gray-400" : "text-vsc-foreground"}`}
+            className={`line-clamp-2 ${isDisabled ? "text-description-muted" : "text-foreground"}`}
             style={{
               fontSize: smallFont,
             }}
@@ -225,7 +225,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
             )}
             <div className="flex flex-row items-start gap-1">
               <HeaderButtonWithToolTip onClick={onClickExpand} text="Expand">
-                <ArrowsPointingOutIcon className="h-3 w-3 text-gray-400" />
+                <ArrowsPointingOutIcon className="h-3 w-3 text-description-muted" />
               </HeaderButtonWithToolTip>{" "}
               {rule.source === "default-chat" ||
               rule.source === "default-agent" ? (
@@ -233,19 +233,19 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
                   onClick={() => openRule(rule)}
                   text="View"
                 >
-                  <EyeIcon className="h-3 w-3 text-gray-400" />
+                  <EyeIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
               ) : (
                 <HeaderButtonWithToolTip
                   onClick={() => openRule(rule)}
                   text="Edit"
                 >
-                  <PencilIcon className="h-3 w-3 text-gray-400" />
+                  <PencilIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
               )}
               {canDeleteRule && (
                 <HeaderButtonWithToolTip onClick={handleDelete} text="Delete">
-                  <TrashIcon className="h-3 w-3 text-gray-400" />
+                  <TrashIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
               )}
             </div>
@@ -256,7 +256,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
           style={{
             fontSize: tinyFont,
           }}
-          className={`mt-1 line-clamp-3 ${isDisabled ? "text-gray-500" : "text-gray-400"}`}
+          className={`mt-1 line-clamp-3 ${isDisabled ? "text-description-muted" : "text-description-muted"}`}
         >
           {rule.rule}
         </span>
@@ -269,7 +269,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
           >
             <span className="italic">Applies to files</span>
             <code
-              className={`line-clamp-1 px-1 py-0.5 ${isDisabled ? "text-gray-500" : "text-gray-400"}`}
+              className={`line-clamp-1 px-1 py-0.5 ${isDisabled ? "text-description-muted" : "text-description-muted"}`}
             >
               {rule.globs}
             </code>

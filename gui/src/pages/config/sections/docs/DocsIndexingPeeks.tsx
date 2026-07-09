@@ -22,25 +22,25 @@ function DocsIndexingPeek({ status }: DocsIndexingPeekProps) {
 
   return (
     <div
-      className="text-lightgray flex cursor-pointer flex-row items-center gap-2 rounded-md px-1 hover:bg-gray-700/10"
+      className="flex cursor-pointer flex-row items-center gap-2 rounded-md px-1 hover:bg-gray-700/10"
       onClick={() => {
         // navigate("/more"); TODO
         dispatch(setShowDialog(false));
         dispatch(setDialogMessage(undefined));
       }}
     >
-      <p className="text-lightgray m-0 p-0 group-hover:underline">
+      <p className="text-description m-0 p-0 group-hover:underline">
         {status.title}
       </p>
-      <div className="my-2 h-1.5 flex-1 rounded-md border border-solid border-gray-400">
+      <div className="my-2 h-1.5 flex-1 rounded-md border border-solid border-description-muted">
         <div
-          className={`h-full rounded-lg bg-stone-500 transition-all duration-200 ease-in-out`}
+          className={`h-full rounded-lg bg-badge transition-all duration-200 ease-in-out`}
           style={{
             width: `${progressPercentage}%`,
           }}
         />
       </div>
-      <div className="xs:flex text-lightgray hidden flex-row items-center gap-1">
+      <div className="xs:flex hidden flex-row items-center gap-1 text-description">
         <span className="text-xs no-underline">
           {progressPercentage.toFixed(0)}%
         </span>

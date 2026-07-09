@@ -177,7 +177,7 @@ export function HelpSection() {
       <div className="space-y-6">
         {/* Resources */}
         <div>
-          <h3 className="mb-3 text-base font-medium">Resources</h3>
+          <h3 className="mb-3 text-base font-medium text-foreground">Resources</h3>
           <Card className="!p-0">
             <div className="flex flex-col">
               <ConfigRow
@@ -194,7 +194,7 @@ export function HelpSection() {
 
         {/* Tools */}
         <div>
-          <h3 className="mb-3 text-base font-medium">Tools</h3>
+          <h3 className="mb-3 text-base font-medium text-foreground">Tools</h3>
           <Card className="!p-0">
             <div className="flex flex-col">
               <ConfigRow
@@ -253,9 +253,9 @@ export function HelpSection() {
 
         {/* Keyboard Shortcuts */}
         <div>
-          <h3 className="mb-3 text-base font-medium">Keyboard Shortcuts</h3>
+          <h3 className="mb-3 text-base font-medium text-foreground">Keyboard Shortcuts</h3>
           <Card className="!p-0">
-            <div className="overflow-hidden rounded-md border border-gray-600">
+            <div className="overflow-hidden rounded-md border border-description-muted">
               {shortcuts.map((shortcut, i) => {
                 return (
                   <KeyboardShortcut

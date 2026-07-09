@@ -76,8 +76,8 @@ export function ToolPoliciesGroup({
             {showIcon && (
               <WrenchScrewdriverIcon className="h-4 w-4 flex-shrink-0" />
             )}
-            <span className="text-sm font-semibold">{displayName}</span>
-            <div className="flex h-5 min-w-5 items-center justify-center rounded-md bg-gray-600 px-1 text-xs font-medium text-white">
+            <span className="text-sm font-semibold text-foreground">{displayName}</span>
+            <div className="flex h-5 min-w-5 items-center justify-center rounded-md bg-badge px-1 text-xs font-medium text-badge-foreground">
               {badgeText}
             </div>
           </div>

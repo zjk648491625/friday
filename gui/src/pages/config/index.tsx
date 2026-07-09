@@ -69,7 +69,7 @@ function ConfigPage() {
         <div className="block px-4 py-4 sm:hidden">
           <Alert type="warning" className="max-w-md">
             <div className="flex flex-col">
-              <div className="font-medium">Screen width too small</div>
+              <div className="font-medium text-foreground">Screen width too small</div>
               <div className="text-description mt-1 text-sm">
                 To view settings, please expand the sidebar by dragging the
                 left/right border

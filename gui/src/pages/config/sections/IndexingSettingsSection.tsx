@@ -20,14 +20,14 @@ function CodebaseSubSection() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="mb-0 text-sm font-semibold">@codebase index</h3>
+        <h3 className="mb-0 text-sm font-semibold text-foreground">@codebase index</h3>
       </div>
 
       <Card>
         <div className="py-2">
           {config.disableIndexing ? (
             <div className="p-1">
-              <p className="text-center font-semibold">Indexing is disabled</p>
+              <p className="text-center font-semibold text-foreground">Indexing is disabled</p>
             </div>
           ) : (
             <IndexingProgress />

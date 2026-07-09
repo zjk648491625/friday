@@ -175,7 +175,7 @@ function MCPServerPreview({
             <div className="flex items-center gap-2">
               {icon}
               <span className="text-sm">{title}</span>
-              <div className="flex h-5 w-5 items-center justify-center rounded-md bg-gray-600 px-0.5 text-xs font-medium text-white">
+              <div className="flex h-5 w-5 items-center justify-center rounded-md bg-badge px-0.5 text-xs font-medium text-badge-foreground">
                 {items.length}
               </div>
             </div>
@@ -194,7 +194,7 @@ function MCPServerPreview({
                     >
                       <code>{item.name}</code>
                       {item.description && (
-                        <div className="mt-1 text-xs text-gray-500">
+                        <div className="mt-1 text-xs text-description-muted">
                           {item.description}
                         </div>
                       )}
@@ -203,7 +203,7 @@ function MCPServerPreview({
                 })}
               </div>
             ) : (
-              <div className="text-xs italic text-gray-500">
+              <div className="text-xs italic text-description-muted">
                 No {title.toLowerCase()} available
               </div>
             )}
@@ -219,7 +219,7 @@ function MCPServerPreview({
         <div className="flex items-center gap-3">
           <div className="flex-1">
             <div className="flex items-center gap-3">
-              <h3 className="my-0 text-sm font-medium">{server.name}</h3>
+              <h3 className="my-0 text-sm font-medium text-foreground">{server.name}</h3>
               <ToolTip content={ServerStatusTooltip[server.status] ?? "Error"}>
                 <div
                   className={`h-2 w-2 flex-shrink-0 rounded-full ${ServerStatusColor[server.status] ?? "bg-error"}`}
@@ -292,7 +292,7 @@ function MCPServerPreview({
               >
                 <PencilIcon
                   className={
-                    "h-3.5 w-3.5 flex-shrink-0 cursor-pointer text-gray-400 text-inherit hover:brightness-125"
+                    "h-3.5 w-3.5 flex-shrink-0 cursor-pointer text-description-muted hover:brightness-125"
                   }
                 />
                 Edit
