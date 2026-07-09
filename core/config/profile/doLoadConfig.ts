@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Stripped cloud auth, sync, telemetry
 import fs from "fs";
 
 import {

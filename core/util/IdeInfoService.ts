@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Stripped unique ID (local-only mode)
 import { IdeInfo } from "../index.js";
 
 export class IdeInfoService {

@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Stripped cloud auth, telemetry, sync (local-only mode)
 import * as child_process from "node:child_process";
 import { exec } from "node:child_process";
 

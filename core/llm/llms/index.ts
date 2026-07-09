@@ -134,7 +134,6 @@ export const LLMClasses = [
   zAI,
 ];
 
-// Modified by Friday AI Team - Stripped uniqueId (local-only mode)
 export async function llmFromDescription(
   desc: JSONModelDescription,
   readFile: (filepath: string) => Promise<string>,

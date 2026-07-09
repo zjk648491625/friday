@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Stripped cloud auth, sync, telemetry
 const Types = `
 declare global {
   import Parser from "web-tree-sitter";

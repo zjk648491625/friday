@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Cloud auth stripped (local-only mode)
 package com.github.fridayai.fridayintellijextension.auth
 
 import com.intellij.openapi.ui.DialogWrapper

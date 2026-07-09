@@ -7,7 +7,6 @@ import {
   SerializedFridayConfig,
 } from "..";
 
-// Modified by Friday AI Team - Stripped telemetry from shared config (local-only mode)
 export const sharedConfigSchema = z
   .object({
     // boolean fields in config.json

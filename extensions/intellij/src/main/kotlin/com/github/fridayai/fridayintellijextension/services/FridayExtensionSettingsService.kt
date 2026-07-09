@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Stripped cloud sync, remote config, userToken (local-only mode)
 package com.github.fridayai.fridayintellijextension.services
 
 import com.intellij.openapi.application.ApplicationManager

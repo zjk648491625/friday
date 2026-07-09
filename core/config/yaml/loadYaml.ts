@@ -1,5 +1,3 @@
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import {
   AssistantUnrolled,
   AssistantUnrolledNonNullable,
@@ -14,10 +12,8 @@ import {
   unrollAssistant,
   validateConfigYaml,
 } from "@friday-ai/config-yaml";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { dirname } from "node:path";
 
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import {
   FridayConfig,
   IDE,
@@ -26,37 +22,22 @@ import {
   ILLMLogger,
   InternalMcpOptions,
 } from "../..";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { MCPManagerSingleton } from "../../context/mcp/MCPManagerSingleton";
 import TransformersJsEmbeddingsProvider from "../../llm/llms/TransformersJsEmbeddingsProvider";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { getAllPromptFiles } from "../../promptFiles/getPromptFiles";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { GlobalContext } from "../../util/GlobalContext";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { modifyAnyConfigWithSharedConfig } from "../sharedConfig";
 
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { convertPromptBlockToSlashCommand } from "../../commands/slash/promptBlockSlashCommand";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { slashCommandFromPromptFile } from "../../commands/slash/promptFileSlashCommand";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { loadJsonMcpConfigs } from "../../context/mcp/json/loadJsonMcpConfigs";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { getBaseToolDefinitions } from "../../tools";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { getCleanUriPath } from "../../util/uri";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { loadConfigContextProviders } from "../loadContextProviders";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { getAllDotFridayDefinitionFiles } from "../loadLocalAssistants";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { unrollLocalYamlBlocks } from "./loadLocalYamlBlocks";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { LocalPlatformClient } from "./LocalPlatformClient";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import { llmsFromModelConfig } from "./models";
-// Modified by Friday AI Team - Stripped uniqueId, telemetry (local-only mode)
 import {
   convertYamlMcpConfigToInternalMcpOptions,
   convertYamlRuleToFridayRule,

@@ -2,7 +2,6 @@
  * Note: This file is out of sync with the contents of core/util/paths.ts, which we use in VS Code.
  * This is potentially causing JetBrains specific bugs.
  */
-// Modified by Friday AI Team - Rebranded from Continue
 package com.github.fridayai.fridayintellijextension.constants
 
 import java.nio.file.Files

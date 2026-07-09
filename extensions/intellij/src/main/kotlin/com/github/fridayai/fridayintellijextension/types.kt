@@ -133,7 +133,6 @@ data class FileStats(
     val size: Long
 )
 
-// Modified by Friday AI Team - Stripped cloud fields (local-only mode)
 data class IdeSettings(
     val pauseCodebaseIndexOnStart: Boolean
 )

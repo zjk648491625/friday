@@ -181,7 +181,6 @@ async function autodetectModels({
   }
 }
 
-// Modified by Friday AI Team - Stripped uniqueId (local-only mode)
 export async function llmsFromModelConfig({
   model,
   llmLogger,

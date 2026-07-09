@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// Modified by Friday AI Team - Rebranded from Continue
 
 import { readFileSync } from "fs";
 import { parseConfigYaml } from "./load/unroll.js";

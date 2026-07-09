@@ -1,5 +1,4 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-<!-- Modified by Friday AI Team - Rebranded from Continue -->
 <idea-plugin>
     <id>com.github.fridayai.fridayintellijextension</id>
     <name>Friday AI</name>

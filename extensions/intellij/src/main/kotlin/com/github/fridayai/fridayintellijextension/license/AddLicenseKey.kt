@@ -1,4 +1,3 @@
-// Modified by Friday AI Team - Enterprise license disabled (local-only mode)
 package com.github.fridayai.fridayintellijextension.license
 
 import com.intellij.notification.NotificationGroupManager

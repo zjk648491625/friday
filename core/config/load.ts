@@ -768,7 +768,6 @@ async function buildConfigTsandReadConfigJs(ide: IDE, ideType: IdeType) {
   return readConfigJs();
 }
 
-// Modified by Friday AI Team - Stripped uniqueId (local-only mode)
 async function loadFridayConfigFromJson(
   ide: IDE,
   ideSettings: IdeSettings,
