@@ -35,7 +35,10 @@ class FridayBrowser(
             val data = json.data
             val messageId = json.messageId
 
+            log.info("JBCefJSQuery received: $messageType")
+
             if (MessageTypes.PASS_THROUGH_TO_CORE.contains(messageType)) {
+                log.info("Routing to Core: $messageType")
                 project.service<FridayPluginService>().coreMessenger?.request(messageType, data, messageId) { data ->
                     sendToWebview(messageType, data, messageId ?: uuid())
                 }
@@ -45,6 +48,7 @@ class FridayBrowser(
             // If not pass through, then put it in the status/content/done format for webview
             // Core already sends this format
             if (msg != null) {
+                log.info("Routing to IdeProtocol: $messageType")
                 project.service<FridayPluginService>().ideProtocolClient?.handleMessage(msg) { data ->
                     sendToWebview(
                         messageType,
@@ -131,8 +135,10 @@ class FridayBrowser(
                 const msg = JSON.stringify({messageType, data, messageId});
                 ${myJSQueryOpenInBrowser.inject("msg")}
             }
+            console.log("[Friday] postIntellijMessage bridge installed");
             """
         browser.cefBrowser.executeJavaScript(script, getGuiUrl(), 0)
+        log.info("postIntellijMessage bridge injected into webview")
     }
 
     override fun dispose() {

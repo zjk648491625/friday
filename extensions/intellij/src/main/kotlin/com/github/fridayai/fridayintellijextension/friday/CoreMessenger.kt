@@ -30,6 +30,7 @@ class CoreMessenger(
     fun request(messageType: String, data: Any?, messageId: String?, onResponse: (Any?) -> Unit) {
         val id = messageId ?: uuid()
         val message = gson.toJson(mapOf("messageId" to id, "messageType" to messageType, "data" to data))
+        log.info("CoreMessenger sending: $messageType id=$id")
         responseListeners[id] = onResponse
         process.write(message)
     }
