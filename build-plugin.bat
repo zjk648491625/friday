@@ -19,6 +19,8 @@ xcopy gui\dist\assets extensions\intellij\src\main\resources\webview\assets\ /E 
 if not exist "extensions\intellij\src\main\resources\webview\fonts" mkdir "extensions\intellij\src\main\resources\webview\fonts"
 if not exist "extensions\intellij\src\main\resources\webview\logos" mkdir "extensions\intellij\src\main\resources\webview\logos"
 copy /Y gui\dist\index.html extensions\intellij\src\main\resources\webview\index.html >nul
+REM Inject JetBrains IDE detection for IntelliJ webview
+powershell -Command "(Get-Content 'extensions\intellij\src\main\resources\webview\index.html') -replace '</head>', '<script>localStorage.setItem(\"ide\", \"jetbrains\");</script></head>' | Set-Content 'extensions\intellij\src\main\resources\webview\index.html'"
 copy /Y gui\dist\indexConsole.html extensions\intellij\src\main\resources\webview\indexConsole.html >nul
 copy /Y gui\dist\jetbrains_index.html extensions\intellij\src\main\resources\webview\jetbrains_index.html >nul
 copy /Y gui\dist\jetbrains_editorInset_index.html extensions\intellij\src\main\resources\webview\jetbrains_editorInset_index.html >nul
