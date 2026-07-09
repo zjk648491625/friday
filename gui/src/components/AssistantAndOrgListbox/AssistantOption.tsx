@@ -60,7 +60,7 @@ export function AssistantOption({
             <AssistantIcon assistant={profile} />
           </div>
           <span
-            className={`line-clamp-1 flex-1 ${selected ? "font-semibold" : ""} ${profile.errors && profile.errors.length > 0 ? "text-error" : ""}`}
+            className={`line-clamp-1 flex-1 text-foreground ${selected ? "font-semibold" : ""} ${profile.errors && profile.errors.length > 0 ? "text-error" : ""}`}
           >
             {profile.title}
           </span>

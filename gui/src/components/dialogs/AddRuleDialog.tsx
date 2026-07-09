@@ -61,7 +61,7 @@ function AddRuleDialog({ mode }: { mode: "workspace" | "global" }) {
     <div className="px-2 pt-4 sm:px-4">
       <div>
         <h1 className="mb-0">{title}</h1>
-        <p className="m-0 mt-2 p-0 text-stone-500">
+        <p className="m-0 mt-2 p-0 text-description">
           Choose a name for the new rule file.
         </p>
         <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-2">

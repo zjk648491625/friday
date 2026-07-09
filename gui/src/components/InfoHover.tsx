@@ -28,7 +28,7 @@ const InfoHover = ({
 
   return (
     <ToolTip content={msg} place="bottom">
-      <InformationCircleIcon className={`${sizeClasses} text-gray-500`} />
+      <InformationCircleIcon className={`${sizeClasses} text-description-muted`} />
     </ToolTip>
   );
 };

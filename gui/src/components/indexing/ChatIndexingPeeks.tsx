@@ -36,29 +36,29 @@ function ChatIndexingPeek({ state }: ChatIndexingPeekProps) {
     <div className="flex flex-row items-center border-0 border-t border-solid border-t-zinc-700 px-3 py-0.5">
       <div className="group flex flex-1 cursor-pointer flex-row items-center gap-2">
         <div className={`flex flex-row items-center gap-2`}>
-          <p className="text-lightgray m-0 p-0 text-xs group-hover:underline">
+          <p className="m-0 p-0 text-xs text-description group-hover:underline">
             {state.displayName}
           </p>
         </div>
-        <div className="my-2 h-1.5 flex-1 rounded-md border border-solid border-gray-400">
+        <div className="my-2 h-1.5 flex-1 rounded-md border border-solid border-description-muted">
           <div
-            className={`h-full rounded-lg bg-stone-500 transition-all duration-200 ease-in-out`}
+            className={`h-full rounded-lg bg-badge transition-all duration-200 ease-in-out`}
             style={{
               width: `${state.progressPercentage}%`,
             }}
           />
         </div>
-        <div className="xs:flex text-lightgray hidden flex-row items-center gap-1">
+        <div className="xs:flex hidden flex-row items-center gap-1 text-description">
           <span className="text-xs no-underline">
             {state.progressPercentage.toFixed(0)}%
           </span>
           <ArrowPathIcon
-            className={`animate-spin-slow text-lightgray inline-block h-4 w-4`}
+            className={`inline-block h-4 w-4 animate-spin-slow`}
           ></ArrowPathIcon>
         </div>
       </div>
       <EyeSlashIcon
-        className="text-lightgray ml-6 h-4 w-4 cursor-pointer hover:opacity-80"
+        className="ml-6 h-4 w-4 cursor-pointer text-description hover:opacity-80"
         onClick={(e) => {
           dispatch(
             setIndexingChatPeekHidden({ type: state.type, hidden: true }),

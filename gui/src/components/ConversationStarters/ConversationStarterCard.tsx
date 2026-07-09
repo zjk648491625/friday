@@ -18,12 +18,12 @@ export function ConversationStarterCard({
     >
       <div className="flex px-3 py-1.5">
         <div className="mr-3 flex-shrink-0 self-start pt-0.5">
-          <ChatBubbleLeftIcon className="text-lightgray h-5 w-5" />
+          <ChatBubbleLeftIcon className="h-5 w-5 text-description" />
         </div>
         <div className="flex flex-1 flex-col justify-center">
-          <div className="text-xs font-medium">{command.name}</div>
+          <div className="text-xs font-medium text-foreground">{command.name}</div>
           {command.description && (
-            <div className="text-lightgray text-xs">{command.description}</div>
+            <div className="text-xs text-description">{command.description}</div>
           )}
         </div>
       </div>

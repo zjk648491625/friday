@@ -24,7 +24,7 @@ export function ApplyActions(props: ApplyActionsProps) {
     case "streaming":
       return (
         <div className="bg-badge flex select-none items-center rounded pl-2 pr-1">
-          <span className="text-lightgray inline-flex items-center gap-2 text-center text-xs">
+          <span className="inline-flex items-center gap-2 text-center text-xs text-description">
             Applying
             <Spinner />
           </span>
@@ -33,7 +33,7 @@ export function ApplyActions(props: ApplyActionsProps) {
     case "done":
       return (
         <div className="bg-badge flex select-none items-center rounded sm:gap-1 md:px-1.5">
-          <span className="text-lightgray flex items-center text-center text-xs max-md:hidden">
+          <span className="flex items-center text-center text-xs text-description max-md:hidden">
             {`${props.applyState?.numDiffs === 1 ? "1 diff" : `${props.applyState?.numDiffs} diffs`}`}
           </span>
 
@@ -70,10 +70,10 @@ export function ApplyActions(props: ApplyActionsProps) {
           >
             <button
               data-testid="codeblock-toolbar-apply"
-              className="text-lightgray flex cursor-pointer items-center border-none bg-transparent pl-0 text-xs outline-none hover:brightness-125"
+              className="flex cursor-pointer items-center border-none bg-transparent pl-0 text-xs text-description outline-none hover:brightness-125"
               onClick={props.onClickApply}
             >
-              <div className="text-lightgray flex items-center gap-1">
+              <div className="flex items-center gap-1">
                 <PlayIcon className="h-3.5 w-3.5" />
                 <span className="xs:inline hidden">Apply</span>
               </div>

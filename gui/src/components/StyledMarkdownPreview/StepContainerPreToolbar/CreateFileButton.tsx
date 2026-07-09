@@ -14,7 +14,7 @@ export function CreateFileButton({ onClick }: CreateFileButtonProps) {
       <HoverItem className="!p-0">
         <button
           data-testid="codeblock-toolbar-create"
-          className={`text-lightgray flex items-center border-none bg-transparent pl-0 text-xs text-[${vscForeground}] cursor-pointer outline-none hover:brightness-125`}
+          className={`flex cursor-pointer items-center border-none bg-transparent pl-0 text-xs text-description outline-none hover:brightness-125`}
           onClick={onClick}
         >
           <div className="flex items-center gap-1">

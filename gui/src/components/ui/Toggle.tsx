@@ -19,7 +19,7 @@ export function Toggle({
   return (
     <div>
       <div
-        className="flex cursor-pointer items-start gap-2 text-left text-sm font-semibold"
+        className="flex cursor-pointer items-start gap-2 text-left text-sm font-semibold text-foreground"
         onClick={onToggle}
       >
         <ChevronRightIcon

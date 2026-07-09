@@ -26,7 +26,7 @@ export function DropdownButton({
   variant = "default",
 }: DropdownButtonProps) {
   const isSmall = variant === "sm";
-  const titleSize = isSmall ? "text-sm font-semibold" : "text-xl font-semibold";
+  const titleSize = isSmall ? "text-sm font-semibold text-foreground" : "text-xl font-semibold text-foreground";
   const marginBottom = isSmall ? "mb-2" : "mb-4";
 
   return (

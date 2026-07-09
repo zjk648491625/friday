@@ -81,7 +81,7 @@ function AddDocsDialog() {
       <div className="">
         <h1 className="mb-0 hidden sm:block">Add documentation</h1>
         <h1 className="sm:hidden">Add docs</h1>
-        <p className="m-0 mt-2 p-0 text-stone-500">
+        <p className="m-0 mt-2 p-0 text-description">
           Common documentation sites are cached for faster loading
         </p>
         <div className="mt-3">
@@ -95,7 +95,7 @@ function AddDocsDialog() {
                       place="top"
                       content="The title that will be displayed to users in the `@docs` submenu"
                     >
-                      <InformationCircleIcon className="text-lightgray h-3.5 w-3.5 select-none" />
+                      <InformationCircleIcon className="h-3.5 w-3.5 select-none text-description" />
                     </ToolTip>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ function AddDocsDialog() {
                       place="top"
                       content="The starting location to begin crawling the documentation site"
                     >
-                      <InformationCircleIcon className="text-lightgray h-3.5 w-3.5 select-none" />
+                      <InformationCircleIcon className="h-3.5 w-3.5 select-none text-description" />
                     </ToolTip>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ function AddDocsDialog() {
       {docsIndexingStatuses.length > 0 && (
         <>
           <DocsIndexingPeeks statuses={docsIndexingStatuses} />
-          <p className="mt-2 flex flex-row items-center gap-1 p-0 px-1 text-center text-xs text-stone-500">
+          <p className="mt-2 flex flex-row items-center gap-1 p-0 px-1 text-center text-xs text-description">
             Closing this dialog will not affect indexing progress
           </p>
         </>

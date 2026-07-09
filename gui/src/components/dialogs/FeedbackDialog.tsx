@@ -8,7 +8,7 @@ export default function FeedbackDialog() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col p-6 pt-8">
-      <div className="flex items-center gap-2 text-lg font-medium">
+      <div className="flex items-center gap-2 text-lg font-medium text-foreground">
         <span>👋</span>
         <span>Help us improve Friday</span>
       </div>

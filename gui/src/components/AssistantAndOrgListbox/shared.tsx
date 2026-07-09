@@ -191,7 +191,7 @@ export function Option({
               <ToolTip
                 content={
                   <>
-                    <div className="font-semibold">Errors</div>
+                    <div className="font-semibold text-foreground">Errors</div>
                     {JSON.stringify(errors, null, 2)}
                   </>
                 }

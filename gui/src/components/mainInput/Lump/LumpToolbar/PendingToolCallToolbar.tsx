@@ -70,7 +70,7 @@ export function PendingToolCallToolbar() {
             <Button
               variant="primary"
               size="sm"
-              className="my-1 font-medium"
+              className="my-1 font-medium text-foreground"
               onClick={() => handleAccept(toolCall.toolCallId)}
               data-testid={generateToolCallButtonTestId(
                 "accept",

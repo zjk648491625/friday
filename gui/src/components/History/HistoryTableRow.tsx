@@ -112,7 +112,7 @@ export function HistoryTableRow({
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <span className="line-clamp-1 break-all text-sm font-semibold">
+            <span className="line-clamp-1 break-all text-sm font-semibold text-foreground">
               {sessionMetadata.title}
             </span>
 

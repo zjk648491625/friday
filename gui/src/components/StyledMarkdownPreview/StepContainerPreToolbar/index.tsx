@@ -248,7 +248,7 @@ export function StepContainerPreToolbar({
       const plural = numLines === 1 ? "" : "s";
       if (isGeneratingCodeBlock) {
         return (
-          <span className="text-lightgray inline-flex items-center gap-2 text-right">
+          <span className="inline-flex items-center gap-2 text-right text-description">
             <div>
               <Spinner />
             </div>
@@ -256,7 +256,7 @@ export function StepContainerPreToolbar({
         );
       } else {
         return (
-          <span className="text-lightgray inline-flex items-center gap-2 text-right">
+          <span className="inline-flex items-center gap-2 text-right text-description">
             {`${numLines} line${plural} pending`}
           </span>
         );
@@ -303,7 +303,7 @@ export function StepContainerPreToolbar({
           <ChevronDownIcon
             data-testid="toggle-codeblock"
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`text-lightgray h-3.5 w-3.5 flex-shrink-0 cursor-pointer hover:brightness-125 ${
+            className={`h-3.5 w-3.5 flex-shrink-0 cursor-pointer text-description hover:brightness-125 ${
               isExpanded ? "rotate-0" : "-rotate-90"
             }`}
           />
@@ -314,7 +314,7 @@ export function StepContainerPreToolbar({
               onClick={fileExists ? onClickFilename : undefined}
             />
           ) : (
-            <span className="text-lightgray ml-2 select-none capitalize">
+            <span className="ml-2 select-none capitalize text-description">
               {language}
             </span>
           )}
