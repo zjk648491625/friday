@@ -21,7 +21,7 @@ import {
 import { isShareSessionSupported } from "../../util";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 import { ToolTip } from "../gui/Tooltip";
-import { T } from "../../util/i18n";
+import { T, Tfmt } from "../../util/i18n";
 
 const shareSessionSupported = isShareSessionSupported();
 
@@ -119,9 +119,7 @@ export function HistoryTableRow({
 
             {sessionMetadata.messageCount !== undefined && (
               <ToolTip
-                content={`${sessionMetadata.messageCount} message${
-                  sessionMetadata.messageCount === 1 ? " is" : "s are"
-                } present in this session`}
+                content={Tfmt("{count} message present in this session", { count: String(sessionMetadata.messageCount) })}
               >
                 <span className="bg-vsc-background text-secondary-foreground ml-auto inline-flex items-center rounded-full px-2 py-1 text-xs font-medium">
                   {sessionMetadata.messageCount}
@@ -154,7 +152,7 @@ export function HistoryTableRow({
           {
             <>
               <HeaderButtonWithToolTip
-                text="Edit"
+                text={T("Edit")}
                 onClick={async (e) => {
                   e.stopPropagation();
                   setEditing(true);
@@ -164,7 +162,7 @@ export function HistoryTableRow({
               </HeaderButtonWithToolTip>
               {shareSessionSupported && (
                 <HeaderButtonWithToolTip
-                  text="Save Chat as Markdown"
+                  text={T("Save Chat as Markdown")}
                   onClick={async (e) => {
                     e.stopPropagation();
                     await shareSession(sessionMetadata.sessionId);

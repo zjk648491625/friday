@@ -1,11 +1,11 @@
 // Modified by Friday AI Team - Rebranded from Continue
 import { useState, useEffect, useContext } from "react";
 import { isJetBrains } from "../util";
-import { useWebviewListener } from "./useWebviewListener";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 
 export default function useIsOSREnabled() {
-  const [isOSREnabled, setIsOSREnabled] = useState(false);
+  // Default true for JetBrains (Kotlin backend always returns true)
+  const [isOSREnabled, setIsOSREnabled] = useState(isJetBrains());
   const ideMessenger = useContext(IdeMessengerContext);
 
   useEffect(() => {

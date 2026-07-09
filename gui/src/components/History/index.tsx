@@ -125,8 +125,8 @@ export function History() {
     dispatch(
       setDialogMessage(
         <ConfirmationDialog
-          title={`Clear sessions`}
-          text={`Are you sure you want to permanently delete all chat sessions, including the current chat session?`}
+          title={T("Clear sessions")}
+          text={T("Are you sure you want to permanently delete all chat sessions, including the current chat session?")}
           onConfirm={async () => {
             // optimistic update
             dispatch(setAllSessionMetadata([]));
@@ -154,7 +154,7 @@ export function History() {
         <input
           className="bg-vsc-input-background text-vsc-foreground flex-1 rounded-md border border-none py-1 pl-2 pr-8 text-sm outline-none focus:outline-none"
           ref={searchInputRef}
-          placeholder="Search past sessions"
+          placeholder={T("Search past sessions")}
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -176,11 +176,10 @@ export function History() {
         {filteredAndSortedSessions.length === 0 && (
           <div className="m-3 text-center">
             {isSessionMetadataLoading ? (
-              "Loading Sessions..."
+              T("Loading Sessions...")
             ) : (
               <>
-                No past sessions found. To start a new session, either click the
-                "+" button or use the keyboard shortcut:{" "}
+                {T('No past sessions found. To start a new session, either click the "+" button or use the keyboard shortcut:')}{" "}
                 <Shortcut>meta L</Shortcut>
               </>
             )}
@@ -217,7 +216,7 @@ export function History() {
           className="text-description text-2xs"
           data-testid="history-sessions-note"
         >
-          Chat history is saved to{" "}
+          {T("Chat history is saved to")}{" "}
           <span className="italic">
             {platform === "windows"
               ? "%USERPROFILE%/.friday"

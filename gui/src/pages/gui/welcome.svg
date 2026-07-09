@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+    <defs>
+        <!-- 全球跨平台样式与自适应配色系统（完美支持系统黑白暗色模式） -->
+        <style>
+            :root {
+            --hud-color: #00f0ff;
+            --hud-glow: #00f0ff;
+            --text-color: #000000;
+            --armor-opacity: 0.15;
+            --glass-edge: rgba(0, 240, 255, 0.4);
+            --matrix-line: rgba(0, 240, 255, 0.2);
+            --bg-invert: rgba(0, 0, 0, 0.03);
+            }
+
+            /* 黑色背景/暗色模式自动适配 */
+            @media (prefers-color-scheme: dark) {
+            :root {
+            --hud-color: #00f0ff;
+            --hud-glow: #00f0ff;
+            --text-color: #ffffff;
+            --armor-opacity: 0.25;
+            --glass-edge: rgba(0, 240, 255, 0.6);
+            --matrix-line: rgba(0, 240, 255, 0.3);
+            --bg-invert: rgba(255, 255, 255, 0.02);
+            }
+            }
+
+            /* 动画常数：全息旋转、扫描与物质粒子闪烁 */
+            @keyframes spin-cw {0 % {transform: rotate(0deg);} 100% {transform: rotate(360deg);}}
+            @keyframes spin-ccw {0 % {transform: rotate(0deg);} 100% {transform: rotate(-360deg);}}
+            @keyframes particle-fade {0 %, 100% {opacity: 0.2;} 50% {opacity: 0.8;}}
+            @keyframes wave-move {0 % {stroke-dashoffset: 0;} 100% {stroke-dashoffset: 60;}}
+
+            .rotate-cw {transform - origin: 400px 410px; animation: spin-cw 28s linear infinite;}
+            .rotate-ccw {transform - origin: 400px 410px; animation: spin-ccw 20s linear infinite;}
+            .particle {animation: particle-fade 3s ease-in-out infinite;}
+            .wave-line {stroke - dasharray: 10, 20; animation: wave-move 4s linear infinite;}
+
+            /* ================= 核心交互（整体原地转头，眼神锁定不乱跑） ================= */
+            .interactive-head {
+            transform - origin: 400px 410px;
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            /* 鼠标悬停：整体产生微小细腻的3D空间转向（不散开、不跑位） */
+            svg:hover .interactive-head {
+            transform: rotateX(10deg) rotateY(-15deg);
+            }
+
+            /* 眼睛表情切换核心：利用 transform-origin 锁定几何中心点，确保在原地发生眼神变换 */
+            .eye-left {
+            transform - origin: 312.5px 367.5px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), fill 0.4s ease;
+            }
+            .eye-right {
+            transform - origin: 487.5px 367.5px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), fill 0.4s ease;
+            }
+
+            /* 悬停时：眼神变锐利（纵向压缩，原地执行，绝不发生位移跑偏） */
+            svg:hover .eye-left {
+            transform: scaleY(0.35) scaleX(1.05);
+            fill: #ffffff;
+            }
+            svg:hover .eye-right {
+            transform: scaleY(0.35) scaleX(1.05);
+            fill: #ffffff;
+            }
+
+            /* 面甲迎光面高亮 */
+            .light-facet {transition: filter 0.5s ease, fill-opacity 0.5s ease;}
+            svg:hover .light-facet {filter: brightness(1.3); fill-opacity: 0.4;}
+        </style>
+
+        <!-- 高级毛玻璃（Frosted Glass）及全息材质滤镜群 -->
+        <filter id="frosted-glass" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="15" result="blur"/>
+            <feComponentTransfer in="blur" result="glow">
+                <feFuncA type="linear" slope="0.9"/>
+            </feComponentTransfer>
+            <feMerge>
+                <feMergeNode in="glow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <!-- 物质线条与几何网格材质填充 -->
+        <pattern id="matrix-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="var(--matrix-line)" stroke-width="0.5"/>
+            <circle cx="0" cy="0" r="1" fill="var(--hud-color)" opacity="0.3"/>
+        </pattern>
+    </defs>
+
+    <!-- 全透明自适应环境垫层 -->
+    <rect width="100%" height="100%" fill="var(--bg-invert)"/>
+
+    <!-- ================= BACKGROUND: HOLO MATRIX & LINES (全息物质线条层) ================= -->
+    <g style="pointer-events: none;">
+        <!-- 物质几何网格层 -->
+        <rect width="100%" height="100%" fill="url(#matrix-grid)"/>
+
+        <!-- 斯塔克工业数据圆环（黑白自适应线圈） -->
+        <circle className="rotate-cw" cx="400" cy="410" r="330" fill="none" stroke="var(--hud-color)"
+                stroke-width="1" stroke-dasharray="100 40 20 40" opacity="0.4"/>
+        <circle className="rotate-ccw" cx="400" cy="410" r="300" fill="none" stroke="var(--hud-color)"
+                stroke-width="1.5" stroke-dasharray="5 15 80 10" opacity="0.3"/>
+
+        <!-- 全息物质波形正弦交叉线 -->
+        <path className="wave-line" d="M 100 200 Q 250 100 400 200 T 700 200" fill="none" stroke="var(--hud-color)"
+              stroke-width="0.7" opacity="0.2"/>
+        <path className="wave-line" d="M 100 620 Q 250 720 400 620 T 700 620" fill="none" stroke="var(--hud-color)"
+              stroke-width="0.7" opacity="0.2"/>
+
+        <!-- 动态闪烁的物质粒子数据点 -->
+        <circle className="particle" cx="250" cy="220" r="2.5" fill="var(--hud-color)"
+                style="animation-delay: 0s;"/>
+        <circle className="particle" cx="580" cy="180" r="2" fill="var(--hud-color)"
+                style="animation-delay: 0.7s;"/>
+        <circle className="particle" cx="180" cy="550" r="3" fill="var(--hud-color)"
+                style="animation-delay: 1.4s;"/>
+        <circle className="particle" cx="620" cy="520" r="1.5" fill="var(--hud-color)"
+                style="animation-delay: 2.1s;"/>
+    </g>
+
+    <!-- ================= MAIN CHARACTER: FROSTED GLASS 3D MASK (毛玻璃物质面具) ================= -->
+    <g className="interactive-head">
+
+        <!-- 毛玻璃核心底层组件 -->
+        <g filter="url(#frosted-glass)">
+            <!-- 基础脑廓底图 -->
+            <polygon points="400,210 490,260 460,530 400,560" fill="var(--bg-invert)" stroke="var(--glass-edge)"
+                     stroke-width="1.5"/>
+            <polygon points="400,210 310,260 340,530 400,560" fill="var(--bg-invert)" stroke="var(--glass-edge)"
+                     stroke-width="1.5"/>
+
+            <!-- 额头装甲（左/右）：半透明物质构成 -->
+            <polygon points="400,210 300,250 330,330 400,290" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+            <polygon className="light-facet" points="400,210 500,250 470,330 400,290" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+
+            <!-- “F”型核心中轴面甲 -->
+            <polygon points="400,290 330,330 350,380 400,360" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+            <polygon className="light-facet" points="400,290 470,330 450,380 400,360" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+
+            <polygon points="400,360 350,380 365,440 400,430" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+            <polygon className="light-facet" points="400,360 450,380 435,440 400,430" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+
+            <!-- 3D立体颧骨及脸颊护甲 -->
+            <polygon points="270,390 350,380 365,440 290,470" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1"/>
+            <polygon className="light-facet" points="530,390 450,380 435,440 510,470" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1"/>
+
+            <!-- 下巴护甲组合 -->
+            <polygon points="365,440 435,440 400,475" fill="none" stroke="var(--hud-color)" stroke-width="1.5"
+                     stroke-opacity="0.6"/>
+            <polygon points="400,475 365,440 310,480 400,550" fill="var(--bg-invert)" stroke="var(--hud-color)"
+                     stroke-width="1.5"/>
+            <polygon className="light-facet" points="400,475 435,440 490,480 400,550" fill="var(--hud-color)"
+                     fill-opacity="var(--armor-opacity)" stroke="var(--hud-color)" stroke-width="1.5"/>
+        </g>
+
+        <!-- 镂空透亮眼眶底座 -->
+        <polygon points="330,330 350,380 270,390 260,340" fill="none" stroke="var(--hud-color)" stroke-width="1"
+                 opacity="0.4"/>
+        <polygon points="470,330 450,380 530,390 540,340" fill="none" stroke="var(--hud-color)" stroke-width="1"
+                 opacity="0.4"/>
+
+        <!-- ================= FIXED EYES: 原地切换表情的人工智能核心眼 ================= -->
+        <polygon className="eye-left" points="285,355 340,365 330,380 285,370" fill="var(--hud-color)"
+                 filter="url(#neon-glow)"/>
+        <polygon className="eye-right" points="515,355 460,365 470,380 515,370" fill="var(--hud-color)"
+                 filter="url(#neon-glow)"/>
+
+        <!-- 额头全息指示灯 -->
+        <polygon points="400,235 412,255 400,275 388,255" fill="#ffffff" filter="url(#neon-glow)"/>
+    </g>
+
+    <!-- ================= FOREGROUND: ADAPTIVE UI TEXT (自适应黑白前景文字) ================= -->
+    <g transform="translate(0, 640)" style="pointer-events: none;">
+        <!-- 全息线条底架 -->
+        <path d="M 220 20 L 260 5 L 540 5 L 580 20" fill="none" stroke="var(--hud-color)" stroke-width="1.5"
+              opacity="0.6"/>
+        <circle cx="400" cy="5" r="2.5" fill="var(--hud-color)"/>
+
+        <!-- FRIDAY 艺术文本：自适应对调颜色 -->
+        <text x="400" y="48"
+              font-family="'Segoe UI', 'Roboto', 'Arial Black', sans-serif"
+              font-size="42"
+              font-weight="900"
+              font-style="italic"
+              letter-spacing="12"
+              fill="var(--text-color)"
+              text-anchor="middle"
+              filter="url(#neon-glow)">
+            FRIDAY
+        </text>
+
+        <text x="400" y="70"
+              font-family="'Segoe UI', sans-serif"
+              font-size="10.5"
+              letter-spacing="5"
+              fill="var(--hud-color)"
+              text-anchor="middle"
+              opacity="0.8">
+            FROSTED GLASS ARTIFICIAL INTELLIGENCE
+        </text>
+    </g>
+
+    <!-- 外部边框固定框架 -->
+    <g stroke="var(--hud-color)" stroke-width="1.5" fill="none" opacity="0.5">
+        <path d="M 40 80 L 40 40 L 80 40"/>
+        <path d="M 760 80 L 760 40 L 720 40"/>
+        <path d="M 40 720 L 40 760 L 80 760"/>
+        <path d="M 760 720 L 760 760 L 720 760"/>
+    </g>
+</svg>

@@ -1,5 +1,6 @@
 // Modified by Friday AI Team - Rebranded from Continue
 import { BaseSessionMetadata } from "core";
+import { T } from "../../util/i18n";
 
 export const parseDate = (date: string): Date => {
   let dateObj = new Date(date);
@@ -39,13 +40,13 @@ export const groupSessionsByDate = (
   );
 
   if (todaySessions.length > 0)
-    groups.push({ label: "Today", sessions: todaySessions });
+    groups.push({ label: T("Today"), sessions: todaySessions });
   if (weekSessions.length > 0)
-    groups.push({ label: "This Week", sessions: weekSessions });
+    groups.push({ label: T("This Week"), sessions: weekSessions });
   if (monthSessions.length > 0)
-    groups.push({ label: "This Month", sessions: monthSessions });
+    groups.push({ label: T("This Month"), sessions: monthSessions });
   if (olderSessions.length > 0)
-    groups.push({ label: "Older", sessions: olderSessions });
+    groups.push({ label: T("Older"), sessions: olderSessions });
 
   return groups;
 };

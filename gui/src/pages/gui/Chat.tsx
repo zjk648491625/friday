@@ -388,30 +388,34 @@ export function Chat() {
 
       <StepsDiv
         ref={stepsDivRef}
-        className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} ${history.length > 0 ? "min-h-0 flex-1 overflow-y-scroll" : "shrink-0"}`}
+        className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll`}
       >
         <DeprecationBanner dismissable={true} />
         {highlights}
-        {history
-          .filter((item) => item.message.role !== "system")
-          .map((item, index: number) => (
-            <div
-              key={item.message.id}
-              style={{
-                minHeight: index === history.length - 1 ? "200px" : 0,
-              }}
-            >
-              <ErrorBoundary
-                FallbackComponent={fallbackRender}
-                onReset={() => {
-                  dispatch(newSession());
+        {history.length === 0 ? (
+          <EmptyChatBody showOnboardingCard={onboardingCard.show} />
+        ) : (
+          history
+            .filter((item) => item.message.role !== "system")
+            .map((item, index: number) => (
+              <div
+                key={item.message.id}
+                style={{
+                  minHeight: index === history.length - 1 ? "200px" : 0,
                 }}
               >
-                {renderChatHistoryItem(item, index)}
-              </ErrorBoundary>
-              {index === history.length - 1 && <InlineErrorMessage />}
-            </div>
-          ))}
+                <ErrorBoundary
+                  FallbackComponent={fallbackRender}
+                  onReset={() => {
+                    dispatch(newSession());
+                  }}
+                >
+                  {renderChatHistoryItem(item, index)}
+                </ErrorBoundary>
+                {index === history.length - 1 && <InlineErrorMessage />}
+              </div>
+            ))
+        )}
       </StepsDiv>
       <div className={"relative shrink-0"}>
         <FridayInputBox
@@ -445,9 +449,6 @@ export function Chat() {
           </div>
           <FatalErrorIndicator />
           {!hasDismissedExploreDialog && <ExploreDialogWatcher />}
-          {history.length === 0 && (
-            <EmptyChatBody showOnboardingCard={onboardingCard.show} />
-          )}
         </div>
       </div>
     </>

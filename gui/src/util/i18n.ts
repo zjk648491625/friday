@@ -30,6 +30,7 @@ const zh: Dict = {
   "Rename": "重命名", "Reset": "重置", "Refresh": "刷新",
   "Reload": "刷新", "Copy": "复制", "Copied": "已复制",
   "Paste": "粘贴", "Insert": "插入", "Run": "运行",
+  "Cut": "剪切", "Open Dev Tools": "打开开发工具",
   "Accept": "接受", "Reject": "拒绝",
   "Accept All": "全部接受", "Reject All": "全部拒绝",
   "Apply Code": "应用代码", "Generate Code": "生成代码",
@@ -84,11 +85,13 @@ const zh: Dict = {
   "Mode": "模式", "Agent": "代理", "Plan": "规划",
   "Select Mode": "选择模式", "Attach Image": "添加图片",
   "Attach File": "添加文件", "Add Context": "添加上下文",
+  "Attach Context": "添加上下文",
 
   // ═══════ 对话 ═══════
   "New Chat": "新对话", "New Session": "新建会话",
   "Send Message": "发送消息", "Type a message...": "输入消息...",
-  "Send": "发送", Thinking: "思考中",
+  "Send": "发送", "Enter": "发送", Thinking: "思考中",
+  "Send (⏎)": "发送 (⏎)",
   "Generating...": "生成中...", "Streaming...": "流式输出中...",
   "Loading...": "加载中...", "Please wait...": "请稍候...",
   "Empty": "空", "No items": "暂无内容",
@@ -197,6 +200,23 @@ const zh: Dict = {
   "Learn more": "了解更多",
   "Tab to autocomplete": "Tab键补全",
   "Enter Enterprise License Key": "输入企业许可证密钥",
+
+  // ═══════ 输入工具栏 ═══════
+  "Disable model reasoning": "禁用推理",
+  "Enable model reasoning": "启用推理",
+  "Send Without Active File": "发送（不含当前文件）",
+  "Send With Active File": "发送（含当前文件）",
+  "No active file": "无当前文件",
+  "Active file": "当前文件",
+  "Esc to exit Edit": "Esc 退出编辑",
+  "Loading config": "加载配置中",
+  "Add Chat model": "添加对话模型",
+  "{key}' to toggle model": "{key}' 切换模型",
+  "{mode} might not work well with this model.": "{mode}可能与此模型配合不佳。",
+  "{key} . for next mode": "{key} . 切换模式",
+  "Compact conversation": "压缩对话",
+  "{percent}% of context filled.": "上下文已填充 {percent}%。",
+  "Oldest messages are being removed.": "最早的消息正在被移除。",
 
   // ═══════ 批次1：Chat.tsx + 错误页 ═══════
   "Add model": "添加模型",
@@ -400,7 +420,8 @@ const zh: Dict = {
   "Conversation history": "对话历史",
   "No history": "无历史记录",
   "Search history": "搜索历史",
-  "Today": "今天",
+  "Search past sessions": "搜索历史会话",
+  "Today": "今天", "This Week": "本周", "This Month": "本月",
   "Yesterday": "昨天",
   "Last 7 days": "最近7天",
   "Last 30 days": "最近30天",
@@ -410,6 +431,15 @@ const zh: Dict = {
   "Rename conversation": "重命名对话",
   "Archive conversation": "归档对话",
   "No conversations matching": "无匹配对话",
+  "Clear sessions": "清空会话",
+  "Loading Sessions...": "加载会话中...",
+  "No past sessions found. To start a new session, either click the \"+\" button or use the keyboard shortcut:": "未找到历史会话。点击\"+\"按钮或使用快捷键新建会话：",
+  "Chat history is saved to": "聊天记录保存至",
+  "Are you sure you want to permanently delete all chat sessions, including the current chat session?": "确定要永久删除所有对话会话（包括当前会话）吗？",
+  "{count} message present in this session": "此会话包含 {count} 条消息",
+  "Edit": "编辑",
+  "Save Chat as Markdown": "导出对话为 Markdown",
+  "Reload Friday Browser": "重启 Friday 浏览器",
 
   // ═══════ 批次1：引导 ═══════
   "Welcome to Friday!": "欢迎使用 Friday！",
@@ -528,9 +558,6 @@ const zh: Dict = {
   "streaming will friday after the tool call is rejected.": "工具调用被拒绝后将继续流式输出。",
 
   // ═══════ 批次2：模型描述 ═══════
-  "Used in Chat, Plan, Agent mode": "用于对话、规划、代理模式",
-  "Used in inline code completions as you type": "用于键入时的行内代码补全",
-  "Used to transform a selected section of code": "用于转换选中的代码段",
   "Learn how to configure and use Friday": "了解如何配置和使用 Friday",
   "Daily token usage across models": "各模型的每日 Token 用量",
 
@@ -552,9 +579,6 @@ const zh: Dict = {
   // ═══════ 批次2：工具 ═══════
   "Built-in Tools": "内置工具",
   "Manage MCP servers and tool policies": "管理 MCP 服务器和工具策略",
-  "Automatic": "自动",
-  "Ask First": "先询问",
-  "Excluded": "拒绝",
 
   // ═══════ 批次2：杂项 ═══════
   "open configuration": "打开配置",
@@ -571,20 +595,16 @@ const zh: Dict = {
   "Read-only/MCP tools available": "只读/MCP 工具可用",
   "All tools available": "所有工具可用",
   "Load Image": "加载图片",
-  "Dismiss": "忽略",
   "Close find widget": "关闭搜索窗口",
   "Zoom In": "放大",
   "Zoom Out": "缩小",
   "Reset Zoom": "重置缩放",
   "Initialize Codebase": "初始化代码库",
   "Manage servers": "管理服务器",
-  "Tool Policies": "工具策略",
   "No description": "无描述",
   "usage": "用法",
   "No documentation sources configured. Click the + button to add your first docs.": "未配置文档源。点击 + 按钮添加您的第一个文档。",
 
-  "Toggle Selected Model": "切换选中模型",
-  "Edit highlighted code": "编辑高亮代码",
   "New Chat / New Chat With Selected Code / Close Friday Sidebar If Chat Already In Focus": "新对话 / 选中代码对话 / 关闭侧边栏",
   "Toggle inline edit focus": "切换行内编辑焦点",
   "Focus Current Chat / Add Selected Code To Current Chat / Close Friday Sidebar If Chat Already In Focus": "聚焦对话 / 添加代码 / 关闭侧边栏",
@@ -592,7 +612,14 @@ const zh: Dict = {
   "Accept Top Change in Diff": "接受顶部差异",
   "Quick Input": "快速输入",
   "Toggle Sidebar": "切换侧边栏",
-  "Toggle Friday Sidebar": "切换侧边栏",
+
+  // ═══════ 欢迎页 ═══════
+  "Build with Friday": "使用 Friday 构建",
+  "Requirement breakdown, plan creation, build apps from 0 to 1.": "需求拆解、计划制定，从 0 到 1 生成应用。",
+  "Welcome to the world of vibe coding": "欢迎来到 vibe 编程的世界",
+  "Accelerate coding with AI": "使用 AI 加速编程",
+  "Prototype in minutes": "数分钟完成原型设计",
+  "Understand your codebase with ease": "轻松理解代码库",
 };
 
 export function T(en: string): string {
