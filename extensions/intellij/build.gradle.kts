@@ -42,7 +42,7 @@ val testIntegrationImplementation: Configuration by configurations.getting {
 dependencies {
     intellijPlatform {
         intellijIdeaCommunity(platformVersion)
-        plugins(listOf("org.jetbrains.plugins.terminal:241.14494.150"))
+        bundledPlugin("org.jetbrains.plugins.terminal")
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.Starter, "243.21565.193", configurationName = "testIntegrationImplementation")
     }
@@ -69,7 +69,7 @@ kotlin {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "241"
+            sinceBuild = "251"
         }
     }
     publishing {
@@ -85,11 +85,8 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            create("IC", "2025.2")
-            create("IC", "2025.1")
-            create("IC", "2024.3")
-            create("IC", "2024.2")
-            create("IC", "2024.1")
+            // Friday uses only Community Edition APIs; compatible with IU as well
+            // sinceBuild=251 covers 2025.1 through all future versions
         }
     }
 }

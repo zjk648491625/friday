@@ -10,11 +10,6 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
 
-    <!-- See here for why this is optional:  https://github.com/continuedev/continue/issues/2775#issuecomment-2535620877-->
-    <depends optional="true" config-file="fridayintellijextension-withJSON.xml">
-        com.intellij.modules.json
-    </depends>
-
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Friday" anchor="right" icon="com.github.fridayai.fridayintellijextension.Icons.Friday"
                     factoryClass="com.github.fridayai.fridayintellijextension.toolWindow.FridayPluginToolWindowFactory"/>
