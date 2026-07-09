@@ -16,6 +16,7 @@ import { GradientBorder } from "./GradientBorder";
 import { ToolbarOptions } from "./InputToolbar";
 import { Lump } from "./Lump";
 import { TipTapEditor } from "./TipTapEditor";
+import { T } from "../../util/i18n";
 
 interface FridayInputBoxProps {
   isLastUserInput: boolean;
@@ -89,7 +90,7 @@ function FridayInputBox(props: FridayInputBoxProps) {
   }, [availableContextProviders, isInEdit]);
 
   const historyKey = isInEdit ? "edit" : "chat";
-  const placeholder = isInEdit ? "Edit selected code" : undefined;
+  const placeholder = isInEdit ? T("Edit selected code") : undefined;
 
   const toolbarOptions: ToolbarOptions = useMemo(() => {
     if (isInEdit) {

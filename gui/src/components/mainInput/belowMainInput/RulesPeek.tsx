@@ -5,6 +5,7 @@ import { getRuleSourceDisplayName } from "core/llm/rules/rules-utils";
 import { ComponentType, useMemo } from "react";
 import ToggleDiv from "../../ToggleDiv";
 import { useOpenRule } from "../Lump/useEditBlock";
+import { T } from "../../../util/i18n";
 
 interface RulesPeekProps {
   appliedRules?: RuleMetadata[];
@@ -34,18 +35,18 @@ export function RulesPeekItem({ rule }: RulesPeekItemProps) {
 
         <div className="flex min-w-0 flex-1 gap-2 text-xs">
           <div className="max-w-[50%] flex-shrink-0 truncate font-medium text-foreground">
-            {rule.name || "Agent rule"}
+            {rule.name || T("Agent rule")}
           </div>
 
           <div className="min-w-0 flex-1 overflow-hidden truncate whitespace-nowrap text-xs text-description-muted">
             {isGlobal
-              ? "Always applied"
-              : `Pattern: ${typeof rule.globs === "string" ? rule.globs : Array.isArray(rule.globs) ? rule.globs.join(", ") : ""}`}
+              ? T("Always applied")
+              : `${T("Pattern: ")}${typeof rule.globs === "string" ? rule.globs : Array.isArray(rule.globs) ? rule.globs.join(", ") : ""}`}
           </div>
         </div>
       </div>
       <div className="mt-1 pl-6 pr-2 text-xs text-description-muted">
-        Source: {getRuleSourceDisplayName(rule)}
+        {T("Source: ")}{getRuleSourceDisplayName(rule)}
       </div>
     </div>
   );

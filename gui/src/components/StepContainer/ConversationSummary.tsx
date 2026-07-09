@@ -8,6 +8,7 @@ import { useDeleteCompaction } from "../../util/compactConversation";
 import { AnimatedEllipsis } from "../AnimatedEllipsis";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 import StyledMarkdownPreview from "../StyledMarkdownPreview";
+import { T } from "../../util/i18n";
 
 interface ConversationSummaryProps {
   item: ChatHistoryItem;
@@ -31,7 +32,7 @@ export default function ConversationSummary(props: ConversationSummaryProps) {
       <div className="mx-1.5 mb-4 mt-2">
         <div className="bg-vsc-input-background rounded-md shadow-sm">
           <div className="text-description flex items-center justify-start px-3 py-2 text-xs">
-            <span>Generating conversation summary</span>
+            <span>{T("Generating conversation summary")}</span>
             <AnimatedEllipsis />
           </div>
         </div>
@@ -52,9 +53,9 @@ export default function ConversationSummary(props: ConversationSummaryProps) {
           ) : (
             <ChevronDownIcon className="h-3 w-3" />
           )}
-          <span className="flex-1">Conversation Summary</span>
+          <span className="flex-1">{T("Conversation Summary")}</span>
           <HeaderButtonWithToolTip
-            text="Delete summary"
+            text={T("Delete summary")}
             onClick={(e) => {
               e.stopPropagation();
               deleteCompaction(props.index);

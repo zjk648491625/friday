@@ -184,7 +184,7 @@ export function ExpandableToolbarPreview(props: ExpandableToolbarPreviewProps) {
           {props.title}
         </div>
         <div className="flex items-center gap-1">
-          <HeaderButtonWithToolTip text={hidden ? "Show" : "Hide"}>
+          <HeaderButtonWithToolTip text={hidden ? T("Show") : T("Hide")}>
             {!!props.children &&
               (hidden ? (
                 <EyeIcon className="h-2.5 w-2.5" />
@@ -218,7 +218,7 @@ export function ExpandableToolbarPreview(props: ExpandableToolbarPreviewProps) {
           {contentDims.height > MAX_PREVIEW_HEIGHT && (
             <ChevronContainer>
               <HeaderButtonWithToolTip
-                text={isExpanded ? "Collapse" : "Expand"}
+                text={isExpanded ? T("Collapse") : T("Expand")}
               >
                 <ChevronDownIcon
                   className="h-3 w-3 transition-all"

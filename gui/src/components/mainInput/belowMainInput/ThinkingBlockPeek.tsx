@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { AnimatedEllipsis } from "../../AnimatedEllipsis";
 import StyledMarkdownPreview from "../../StyledMarkdownPreview";
 import { Button } from "../../ui";
+import { T } from "../../../util/i18n";
 
 const MarkdownWrapper = styled.div`
   & > div > *:first-child {
@@ -70,15 +71,15 @@ function ThinkingBlockPeek({
           >
             {inProgress ? (
               <span>
-                {redactedThinking ? "Redacted Thinking" : "Thinking"}
+                {redactedThinking ? T("Redacted Thinking") : T("Thinking")}
                 <AnimatedEllipsis />
               </span>
             ) : redactedThinking ? (
-              "Redacted Thinking"
+              T("Redacted Thinking")
             ) : (
-              "Thought" +
-              (elapsedTime ? ` for ${elapsedTime}` : "") +
-              (tokens ? ` (${tokens} tokens)` : "")
+              T("Thought") +
+              (elapsedTime ? `${T(" for ")}${elapsedTime}` : "") +
+              (tokens ? ` (${tokens}${T(" tokens")})` : "")
             )}
             {open ? (
               <ChevronUpIcon className="h-3 w-3" />
@@ -95,7 +96,7 @@ function ThinkingBlockPeek({
         >
           {redactedThinking ? (
             <div className="text-description pl-5 text-xs italic">
-              Thinking content redacted due to safety reasons.
+              {T("Thinking content redacted due to safety reasons.")}
             </div>
           ) : (
             <MarkdownWrapper>

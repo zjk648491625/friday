@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 import { useAppSelector } from "../redux/hooks";
 import HeaderButtonWithToolTip from "./gui/HeaderButtonWithToolTip";
+import { T } from "../util/i18n";
 
 export interface FeedbackButtonsProps {
   item: ChatHistoryItem;
@@ -42,7 +43,7 @@ export function FeedbackButtons({ item }: FeedbackButtonsProps) {
   return (
     <>
       <HeaderButtonWithToolTip
-        text="Helpful"
+        text={T("Helpful")}
         tabIndex={-1}
         onClick={() => sendFeedback(true)}
       >
@@ -51,7 +52,7 @@ export function FeedbackButtons({ item }: FeedbackButtonsProps) {
         />
       </HeaderButtonWithToolTip>
       <HeaderButtonWithToolTip
-        text="Unhelpful"
+        text={T("Unhelpful")}
         tabIndex={-1}
         onClick={() => sendFeedback(false)}
       >

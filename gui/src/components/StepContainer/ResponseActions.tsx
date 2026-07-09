@@ -51,8 +51,8 @@ export default function ResponseActions({
         testId={`compact-button-${index}`}
         text={
           showLabel
-            ? "Summarize conversation to reduce context length"
-            : "Compact conversation"
+            ? T("Summarize conversation to reduce context length")
+            : T("Compact conversation")
         }
         tabIndex={-1}
         onClick={() => compactConversation(index)}
@@ -65,7 +65,7 @@ export default function ResponseActions({
             <span
               className={`text-xs ${buttonColorClass || "text-description-muted"}`}
             >
-              Compact conversation
+              {T("Compact conversation")}
             </span>
           )}
         </div>
@@ -74,7 +74,7 @@ export default function ResponseActions({
       {isTruncated && (
         <HeaderButtonWithToolTip
           tabIndex={-1}
-          text="Friday generation"
+          text={T("Friday generation")}
           onClick={onFridayGeneration}
         >
           <BarsArrowDownIcon className="text-description-muted h-3.5 w-3.5" />

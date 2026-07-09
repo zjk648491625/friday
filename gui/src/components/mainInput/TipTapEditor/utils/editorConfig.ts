@@ -22,6 +22,7 @@ import { selectSelectedChatModel } from "../../../../redux/slices/configSlice";
 import { AppDispatch } from "../../../../redux/store";
 import { exitEdit } from "../../../../redux/thunks/edit";
 import { getFontSize, isJetBrains } from "../../../../util";
+import { T } from "../../../../util/i18n";
 import { CodeBlock, Mention, PromptBlock, SlashCommand } from "../extensions";
 import { TipTapEditorProps } from "../TipTapEditor";
 import {
@@ -39,8 +40,8 @@ export function getPlaceholderText(
   }
 
   return historyLength === 0
-    ? "Ask anything, '@' to add context"
-    : "Ask a follow-up";
+    ? T("Ask anything, '@' to add context")
+    : T("Ask a follow-up");
 }
 
 /**

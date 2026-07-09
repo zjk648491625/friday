@@ -14,6 +14,7 @@ import {
   Transition,
 } from "../../components/ui";
 import { DisplayInfo } from "../../pages/AddNewModel/configs/models";
+import { T, Tfmt } from "../../util/i18n";
 
 interface ModelSelectionListboxProps {
   /** Model selection listbox for choosing AI providers */
@@ -57,8 +58,8 @@ function ModelSelectionListbox({
   setSelectedProvider,
   topOptions = [],
   otherOptions = [],
-  otherOptionsLabel = "Additional providers",
-  searchPlaceholder = "Search models...",
+  otherOptionsLabel = T("Additional providers"),
+  searchPlaceholder = T("Search models..."),
 }: ModelSelectionListboxProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -148,14 +149,14 @@ function ModelSelectionListbox({
             <div className="flex-1 overflow-y-auto">
               {!hasResults ? (
                 <div className="text-description-muted px-3 py-4 text-center text-xs">
-                  No models found matching "{searchQuery}"
+                  {Tfmt('No models found matching "{query}"', { query: searchQuery })}
                 </div>
               ) : (
                 <>
                   {filteredTopOptions.length > 0 && (
                     <div className="py-1">
                       <div className="text-description-muted px-3 py-1 text-xs font-medium uppercase tracking-wider">
-                        Popular
+                        {T("Popular")}
                       </div>
                       {filteredTopOptions.map((option, index) => (
                         <ListboxOption
