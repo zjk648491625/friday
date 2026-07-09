@@ -17,7 +17,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "../../../components/ui";
-import { useFontSize } from "../../../components/ui/font";
+import { useFontSize } from "../../../components/ui";
 import { useAppSelector } from "../../../redux/hooks";
 import { addTool, setToolPolicy } from "../../../redux/slices/uiSlice";
 import { T } from "../../../util/i18n";
@@ -90,12 +90,9 @@ export function ToolPolicyItem(props: ToolPolicyItemProps) {
                     className="flex flex-wrap items-center"
                     content={
                       <p className="m-0 p-0">
-                        <span>Duplicate tool name</span>{" "}
+                        检测到重复工具名称{" "}
                         <code>{props.tool.function.name}</code>{" "}
-                        <span>
-                          detected. Permissions will conflict and usage may be
-                          unpredictable
-                        </span>
+                        权限将冲突，使用可能不可预测
                       </p>
                     }
                   >
@@ -142,10 +139,10 @@ export function ToolPolicyItem(props: ToolPolicyItemProps) {
                 >
                   <span className="text-xs">
                     {disabled || policy === "disabled"
-                      ? "Excluded"
+                      ? T("Excluded")
                       : policy === "allowedWithoutPermission"
-                        ? "Automatic"
-                        : "Ask First"}
+                        ? T("Automatic")
+                        : T("Ask First")}
                   </span>
                   <ChevronDownIcon className="h-3 w-3" />
                 </ListboxButton>
@@ -162,28 +159,28 @@ export function ToolPolicyItem(props: ToolPolicyItemProps) {
         </div>
         <Tooltip id={disabledTooltipId}>
           {mode === "chat"
-            ? "Tool disabled in chat mode"
+            ? "对话模式已禁用此工具"
             : !props.isGroupEnabled
-              ? "Group is turned off"
-              : "Tool disabled in plan mode"}
+              ? "工具组已关闭"
+              : "规划模式已禁用此工具"}
         </Tooltip>
       </div>
       <div
         className={`flex flex-col overflow-hidden ${isExpanded ? "h-min" : "h-0 opacity-0"} gap-x-1 gap-y-2 pl-2 transition-all`}
       >
-        <span className="text-2xs mt-1.5 font-bold">Description:</span>
+        <span className="text-2xs mt-1.5 font-bold">描述：</span>
         <span className="text-2xs italic">
           {props.tool.function.description}
         </span>
         {parameters ? (
           <>
-            <span className="text-2xs font-bold">Arguments:</span>
+            <span className="text-2xs font-bold">参数：</span>
             {parameters.map((param, idx) => (
               <div key={idx} className="text-2xs block">
                 <code className="">{param[0]}</code>
-                <span className="ml-1">{`(${param[1].type ?? "unknown"}):`}</span>
+                <span className="ml-1">{`(${param[1].type ?? "未知"}):`}</span>
                 <span className="ml-1 italic">
-                  {param[1].description ?? "No description"}
+                  {param[1].description ?? "无描述"}
                 </span>
               </div>
             ))}

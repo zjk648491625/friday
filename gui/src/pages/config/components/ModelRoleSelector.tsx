@@ -18,7 +18,7 @@ import {
 } from "../../../components/ui";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
 import { fontSize } from "../../../util";
-import { T } from "../../../util/i18n";
+import { T, Tfmt } from "../../../util/i18n";
 
 interface ModelRoleSelectorProps {
   models: ModelDescription[];
@@ -75,7 +75,7 @@ const ModelRoleSelector = ({
               onClick={() => ideMessenger.post("openUrl", setupURL)}
               className="bg-input border-command-border hover:bg-list-active hover:text-list-active-foreground text-description w-full justify-between rounded border px-2 py-1.5 underline hover:underline"
             >
-              <span className="line-clamp-1" style={{ fontSize: fontSize(-1) }}>{T("Setup {displayName} model")}</span>
+              <span className="line-clamp-1" style={{ fontSize: fontSize(-1) }}>{Tfmt("Setup {displayName} model", { displayName })}</span>
             </ListboxButton>
           ) : (
             <>
@@ -85,18 +85,20 @@ const ModelRoleSelector = ({
               >
                 {models.length === 0 || noConfiguredModels ? (
                   <span className="line-clamp-1 italic text-description">
-                    {`No ${models.length === 0 ? "" : "valid "}${displayName} models${
-                      ["Chat", "Apply", "Edit"].includes(displayName)
-                        ? ". Using Chat model"
-                        : ""
-                    }`}
+                    {models.length === 0
+                      ? Tfmt("No {name} models", { name: T(displayName) })
+                      : Tfmt("No valid {name} models", { name: T(displayName) })
+                    }
+                    {["Chat", "Apply", "Edit"].includes(displayName)
+                      ? T(". Using Chat model")
+                      : ""}
                   </span>
                 ) : (
                   <span
                     className="line-clamp-1"
                     style={{ fontSize: fontSize(-1) }}
                   >
-                    {selectedModel?.title ?? `Select ${displayName} model`}
+                    {selectedModel?.title ?? Tfmt("Select {displayName} model", { displayName: T(displayName) })}
                   </span>
                 )}
 

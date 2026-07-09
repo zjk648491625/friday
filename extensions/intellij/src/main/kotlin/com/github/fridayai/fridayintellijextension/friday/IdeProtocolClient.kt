@@ -371,7 +371,7 @@ class IdeProtocolClient(
                     "openUrl" -> {
                         NotificationGroupManager.getInstance()
                             .getNotificationGroup("Friday")
-                            .createNotification("External links are not available yet", NotificationType.WARNING)
+                            .createNotification("外部链接暂未开放", NotificationType.WARNING)
                             .notify(project)
                         respond(null)
                     }

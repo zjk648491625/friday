@@ -156,7 +156,8 @@ export function HelpSection() {
   const currentSession = useAppSelector((state) => state.session);
 
   const shortcuts = useMemo(() => {
-    return isJetBrains() ? jetbrainsShortcuts : vscodeShortcuts;
+    const raw = isJetBrains() ? jetbrainsShortcuts : vscodeShortcuts;
+    return raw.map(s => ({ ...s, description: T(s.description) }));
   }, []);
 
   const handleViewSessionData = async () => {

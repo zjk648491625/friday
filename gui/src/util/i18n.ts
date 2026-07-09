@@ -151,7 +151,7 @@ const zh: Dict = {
   "Show more": "展开更多", "Show less": "收起",
   "On": "开", "Off": "关", "Yes": "是", "No": "否", "OK": "确定",
   "Auto": "自动", "Always": "总是", "Never": "从不",
-  "Excluded": "排除", "Automatic": "自动", "Ask First": "先询问",
+  "Excluded": "拒绝", "Automatic": "自动", "Ask First": "先询问",
   "Next": "下一步", "Previous": "上一步",
   "Export": "导出", "Import": "导入", "Upload": "上传",
   "Download": "下载", "File": "文件", "Folder": "文件夹",
@@ -554,7 +554,7 @@ const zh: Dict = {
   "Manage MCP servers and tool policies": "管理 MCP 服务器和工具策略",
   "Automatic": "自动",
   "Ask First": "先询问",
-  "Excluded": "排除",
+  "Excluded": "拒绝",
 
   // ═══════ 批次2：杂项 ═══════
   "open configuration": "打开配置",
@@ -582,6 +582,17 @@ const zh: Dict = {
   "No description": "无描述",
   "usage": "用法",
   "No documentation sources configured. Click the + button to add your first docs.": "未配置文档源。点击 + 按钮添加您的第一个文档。",
+
+  "Toggle Selected Model": "切换选中模型",
+  "Edit highlighted code": "编辑高亮代码",
+  "New Chat / New Chat With Selected Code / Close Friday Sidebar If Chat Already In Focus": "新对话 / 选中代码对话 / 关闭侧边栏",
+  "Toggle inline edit focus": "切换行内编辑焦点",
+  "Focus Current Chat / Add Selected Code To Current Chat / Close Friday Sidebar If Chat Already In Focus": "聚焦对话 / 添加代码 / 关闭侧边栏",
+  "Reject Top Change in Diff": "拒绝顶部差异",
+  "Accept Top Change in Diff": "接受顶部差异",
+  "Quick Input": "快速输入",
+  "Toggle Sidebar": "切换侧边栏",
+  "Toggle Friday Sidebar": "切换侧边栏",
 };
 
 export function T(en: string): string {

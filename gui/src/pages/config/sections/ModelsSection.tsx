@@ -90,7 +90,7 @@ export function ModelsSection() {
           }
           description={
             <span>
-              Used in Chat, Plan, Agent mode (
+              {T("Used in Chat, Plan, Agent mode")} (
               <a
                 href={MODEL_DOCS_URLS.chat.learnMore}
                 target="_blank"
@@ -114,7 +114,7 @@ export function ModelsSection() {
           displayName="Autocomplete"
           description={
             <span>
-              Used in inline code completions as you type (
+              {T("Used in inline code completions as you type")} (
               <a
                 href={MODEL_DOCS_URLS.autocomplete.learnMore}
                 target="_blank"
@@ -145,7 +145,7 @@ export function ModelsSection() {
               }
               description={
                 <span>
-                  Used to transform a selected section of code (
+                  {T("Used to transform a selected section of code")} (
                   <a
                     href={MODEL_DOCS_URLS.edit.learnMore}
                     target="_blank"
