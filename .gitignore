@@ -141,7 +141,7 @@ codeql
 continue_server.build
 continue_server.dist
 
-Icon
+# Icon
 # Icon? removed - too broad, blocked icons/
 
 .continuerc.json
