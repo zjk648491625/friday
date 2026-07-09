@@ -24,6 +24,7 @@ import {
   useFontSize,
 } from "../ui";
 import { Divider } from "../ui/Divider";
+import { T } from "../../util/i18n";
 
 interface ModelOptionProps {
   option: Option;
@@ -285,9 +286,7 @@ function ModelSelect() {
                 <span>Loading config</span>
               </div>
             ) : hasNoModels ? (
-              <div className="text-description-muted px-2 py-4 text-center text-sm">
-                No models configured
-              </div>
+              <div className="text-description-muted px-2 py-4 text-center text-sm">{T("No models configured")}</div>
             ) : (
               sortedOptions.map((option, idx) => (
                 <ModelOption

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { lightGray, vscForeground } from "../..";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
 import { extractCommand } from "../utils/commandExtractor";
+import { T } from "../../../util/i18n";
 
 interface RunInTerminalButtonProps {
   command: string;
@@ -29,7 +30,7 @@ export function RunInTerminalButton({ command }: RunInTerminalButtonProps) {
       >
         <>
           <CommandLineIcon className="h-3 w-3 hover:brightness-125" />
-          <span className="max-sm:hidden">Run</span>
+          <span className="max-sm:hidden">{T("Run")}</span>
         </>
       </div>
     </div>

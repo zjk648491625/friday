@@ -27,6 +27,7 @@ import ConfirmationDialog from "../dialogs/ConfirmationDialog";
 import { Button } from "../ui";
 import { HistoryTableRow } from "./HistoryTableRow";
 import { groupSessionsByDate, parseDate } from "./util";
+import { T } from "../../util/i18n";
 
 export function History() {
   const dispatch = useAppDispatch();
@@ -211,9 +212,7 @@ export function History() {
       </div>
 
       <div className="border-border flex flex-col items-end justify-center border-0 border-t border-solid px-2 py-3 text-xs">
-        <Button variant="secondary" size="sm" onClick={showClearSessionsDialog}>
-          Clear chats
-        </Button>
+        <Button variant="secondary" size="sm" onClick={showClearSessionsDialog}>{T("Clear chats")}</Button>
         <span
           className="text-description text-2xs"
           data-testid="history-sessions-note"

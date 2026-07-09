@@ -10,6 +10,7 @@ import { updateIndexingStatus } from "../../redux/slices/indexingSlice";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
 import { ToolTip } from "../gui/Tooltip";
 import DocsIndexingPeeks from "../../pages/config/sections/docs/DocsIndexingPeeks";
+import { T } from "../../util/i18n";
 
 function AddDocsDialog() {
   const dispatch = useDispatch();
@@ -79,17 +80,15 @@ function AddDocsDialog() {
   return (
     <div className="px-2 pt-4 sm:px-4">
       <div className="">
-        <h1 className="mb-0 hidden sm:block">Add documentation</h1>
+        <h1 className="mb-0 hidden sm:block">{T("Add documentation")}</h1>
         <h1 className="sm:hidden">Add docs</h1>
-        <p className="m-0 mt-2 p-0 text-description">
-          Common documentation sites are cached for faster loading
-        </p>
+        <p className="m-0 mt-2 p-0 text-description">{T("Common documentation sites are cached for faster loading")}</p>
         <div className="mt-3">
           <form onSubmit={onSubmit} className="flex flex-col gap-1">
             <div className="flex flex-col gap-2">
               <label className="flex w-full flex-col gap-1">
                 <div className="flex flex-row items-center gap-1">
-                  <span>Title</span>
+                  <span>{T("Title")}</span>
                   <div>
                     <ToolTip
                       place="top"
@@ -102,7 +101,7 @@ function AddDocsDialog() {
 
                 <Input
                   type="text"
-                  placeholder="Title"
+                  placeholder={T("Title")}
                   value={title}
                   ref={titleRef}
                   onChange={(e) => setTitle(e.target.value)}
@@ -111,9 +110,7 @@ function AddDocsDialog() {
 
               <label className="flex w-full flex-col gap-1">
                 <div className="flex flex-row items-center gap-1">
-                  <span className="line-clamp-1 whitespace-nowrap">
-                    Start URL
-                  </span>
+                  <span className="line-clamp-1 whitespace-nowrap">{T("Start URL")}</span>
                   <div>
                     <ToolTip
                       place="top"
@@ -126,7 +123,7 @@ function AddDocsDialog() {
                 <Input
                   ref={urlRef}
                   type="url"
-                  placeholder="Start URL"
+                  placeholder={T("Start URL")}
                   value={startUrl}
                   onChange={(e) => {
                     setStartUrl(e.target.value);
@@ -139,9 +136,7 @@ function AddDocsDialog() {
                 className="min-w-16"
                 disabled={!isFormValid}
                 type="submit"
-              >
-                Add
-              </SecondaryButton>
+              >{T("Add")}</SecondaryButton>
             </div>
           </form>
         </div>
@@ -150,9 +145,7 @@ function AddDocsDialog() {
       {docsIndexingStatuses.length > 0 && (
         <>
           <DocsIndexingPeeks statuses={docsIndexingStatuses} />
-          <p className="mt-2 flex flex-row items-center gap-1 p-0 px-1 text-center text-xs text-description">
-            Closing this dialog will not affect indexing progress
-          </p>
+          <p className="mt-2 flex flex-row items-center gap-1 p-0 px-1 text-center text-xs text-description">{T("Closing this dialog will not affect indexing progress")}</p>
         </>
       )}
     </div>

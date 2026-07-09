@@ -2,6 +2,7 @@
 import { Button, Input, SecondaryButton } from "..";
 import { useAppDispatch } from "../../redux/hooks";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
+import { T } from "../../util/i18n";
 
 export default function FeedbackDialog() {
   const dispatch = useAppDispatch();
@@ -41,7 +42,7 @@ export default function FeedbackDialog() {
         }}
         className="flex flex-col gap-3"
       >
-        <Input type="text" name="name" placeholder="Name" required />
+        <Input type="text" name={T("Name")} placeholder={T("Name")} required />
         <Input type="email" name="email" placeholder="Email" required />
         <div className="mt-2 flex justify-between gap-2">
           <SecondaryButton
@@ -54,9 +55,7 @@ export default function FeedbackDialog() {
           >
             Not now
           </SecondaryButton>
-          <Button className="flex-1" type="submit">
-            Submit
-          </Button>
+          <Button className="flex-1" type="submit">{T("Submit")}</Button>
         </div>
       </form>
 

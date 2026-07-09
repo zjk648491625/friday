@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { setDialogMessage, setShowDialog } from "../../../redux/slices/uiSlice";
 import { Button, Input } from "../../index";
 import { useSubmitOnboarding } from "../hooks/useSubmitOnboarding";
+import { T } from "../../../util/i18n";
 
 interface OnboardingProvidersTabProps {
   /** Whether this is being shown in a dialog context */
@@ -105,9 +106,7 @@ export function OnboardingProvidersTab({
                 onClick={handleFormSubmit}
                 disabled={!hasAnyApiKey}
                 className="w-full cursor-pointer hover:opacity-90"
-              >
-                Connect
-              </Button>
+              >{T("Connect")}</Button>
 
               <div className="w-full text-center">
                 <span className="text-description text-input-placeholder">

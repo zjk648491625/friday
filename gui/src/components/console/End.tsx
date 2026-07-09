@@ -6,6 +6,7 @@ import {
 } from "core";
 import Expander from "./Expander";
 import Message from "./Message";
+import { T } from "../../util/i18n";
 
 export interface StartProps {
   item: LLMInteractionSuccess | LLMInteractionError | LLMInteractionCancel;
@@ -19,9 +20,7 @@ export default function Start({ item }: StartProps) {
     case "error":
       return (
         <div>
-          <span className="text-[color:var(--vscode-statusBarItem-errorForeground) m-0.5 inline-block rounded-sm bg-[color:var(--vscode-statusBarItem-errorBackground)] p-0.5">
-            Error
-          </span>
+          <span className="text-[color:var(--vscode-statusBarItem-errorForeground) m-0.5 inline-block rounded-sm bg-[color:var(--vscode-statusBarItem-errorBackground)] p-0.5">{T("Error")}</span>
           {item.message}
         </div>
       );

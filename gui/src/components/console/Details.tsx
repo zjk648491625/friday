@@ -6,6 +6,7 @@ import End from "./End";
 import ResultGroup from "./ResultGroup";
 import Start from "./Start";
 import StatusIcon from "./StatusIcon";
+import { T } from "../../util/i18n";
 
 export interface DetailsProps {
   interaction: LLMInteraction;
@@ -90,7 +91,7 @@ export default function Details({ interaction }: DetailsProps) {
     <div className="m-0 flex min-w-0 flex-1 shrink grow flex-col">
       <div className="shrink-0 text-base">
         <div className="columns-3 gap-0 border-0 border-b-2 border-solid border-[color:var(--vscode-panel-border)] p-0">
-          <Cell label="Type" value={summary.type}></Cell>
+          <Cell label={T("Type")} value={summary.type}></Cell>
           <CustomCell>
             Result: <StatusIcon interaction={interaction}></StatusIcon>
             {summary.result}

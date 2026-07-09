@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import { GhostButton } from "../../../../components";
 import { IdeMessengerContext } from "../../../../context/IdeMessenger";
 import { useAppSelector } from "../../../../redux/hooks";
+import { T } from "../../../../util/i18n";
 
 export interface IndexingProgressErrorTextProps {
   update: IndexingProgressUpdate;
@@ -91,7 +92,7 @@ function IndexingProgressErrorText({ update }: IndexingProgressErrorTextProps) {
               className="flex items-center !px-1.5 !py-0.5 text-xs"
             >
               <ClipboardIcon className="mr-1 h-3 w-3" />
-              <span>Copy output</span>
+              <span>{T("Copy output")}</span>
             </GhostButton>
 
             {/* Open dev tools to view logs */}
@@ -102,7 +103,7 @@ function IndexingProgressErrorText({ update }: IndexingProgressErrorTextProps) {
               className="flex items-center !px-1.5 !py-0.5 text-xs"
             >
               <ArrowTopRightOnSquareIcon className="mr-1 h-3 w-3" />
-              <span>View Logs</span>
+              <span>{T("View Logs")}</span>
             </GhostButton>
           </div>
         </div>

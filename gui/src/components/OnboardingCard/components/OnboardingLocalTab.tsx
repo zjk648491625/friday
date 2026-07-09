@@ -17,6 +17,7 @@ import { updateSelectedModelByRole } from "../../../redux/thunks/updateSelectedM
 import { useSubmitOnboarding } from "../hooks/useSubmitOnboarding";
 import OllamaModelDownload from "./OllamaModelDownload";
 import { OllamaStatus } from "./OllamaStatus";
+import { T } from "../../../util/i18n";
 
 const OLLAMA_CHECK_INTERVAL_MS = 3000;
 
@@ -170,9 +171,7 @@ export function OnboardingLocalTab({ isDialog }: OnboardingLocalTabProps) {
               onClick={onClickSubmitOnboarding}
               className="w-full cursor-pointer hover:opacity-90"
               disabled={!allDownloaded}
-            >
-              Connect
-            </Button>
+            >{T("Connect")}</Button>
             <div className="w-full text-center">
               <span
                 className="text-description-muted cursor-pointer underline"

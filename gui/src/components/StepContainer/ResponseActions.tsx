@@ -11,6 +11,7 @@ import { useCompactConversation } from "../../util/compactConversation";
 import { FeedbackButtons } from "../FeedbackButtons";
 import { CopyIconButton } from "../gui/CopyIconButton";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
+import { T } from "../../util/i18n";
 
 export interface ResponseActionsProps {
   isTruncated: boolean;
@@ -82,7 +83,7 @@ export default function ResponseActions({
 
       <HeaderButtonWithToolTip
         testId={`delete-button-${index}`}
-        text="Delete"
+        text={T("Delete")}
         tabIndex={-1}
         onClick={onDelete}
       >

@@ -7,6 +7,7 @@ import { fontSize } from "../../util";
 import { cn } from "../../util/cn";
 import { ListboxButton } from "../ui";
 import { AssistantIcon } from "./AssistantIcon";
+import { T } from "../../util/i18n";
 
 interface SelectedAssistantButtonProps {
   selectedProfile: ProfileDescription | null;
@@ -43,9 +44,7 @@ export function SelectedAssistantButton({
                   `text-description mr-1.5 ${iconSize}`,
                   configLoading && "animate-spin-slow",
                 )}
-              />
-              Loading
-            </span>
+              />{T("Loading")}</span>
           ) : (
             <>
               {selectedProfile.iconUrl && (

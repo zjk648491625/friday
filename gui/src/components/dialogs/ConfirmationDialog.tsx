@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
 import { Button } from "../ui/Button";
+import { T } from "../../util/i18n";
 
 interface ConfirmationDialogProps {
   onConfirm: () => void;
@@ -33,9 +34,7 @@ function ConfirmationDialog(props: ConfirmationDialogProps) {
               dispatch(setDialogMessage(undefined));
               props.onCancel?.();
             }}
-          >
-            Cancel
-          </Button>
+          >{T("Cancel")}</Button>
         )}
         <Button
           onClick={() => {

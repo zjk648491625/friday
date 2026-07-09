@@ -5,6 +5,7 @@ import { Card, Divider } from "../../../components/ui";
 import { setDialogMessage, setShowDialog } from "../../../redux/slices/uiSlice";
 import { ConfigHeader } from "../components/ConfigHeader";
 import DocsIndexingStatuses from "./docs/DocsSection";
+import { T } from "../../../util/i18n";
 
 export function DocsSection() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export function DocsSection() {
       <ConfigHeader
         title="Documentation"
         onAddClick={handleAddDocs}
-        addButtonTooltip="Add documentation"
+        addButtonTooltip={T("Add documentation")}
         variant="sm"
       />
 

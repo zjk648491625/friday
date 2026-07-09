@@ -18,6 +18,7 @@ import {
 } from "../../../components/ui";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
 import { fontSize } from "../../../util";
+import { T } from "../../../util/i18n";
 
 interface ModelRoleSelectorProps {
   models: ModelDescription[];
@@ -74,9 +75,7 @@ const ModelRoleSelector = ({
               onClick={() => ideMessenger.post("openUrl", setupURL)}
               className="bg-input border-command-border hover:bg-list-active hover:text-list-active-foreground text-description w-full justify-between rounded border px-2 py-1.5 underline hover:underline"
             >
-              <span className="line-clamp-1" style={{ fontSize: fontSize(-1) }}>
-                Setup {displayName} model
-              </span>
+              <span className="line-clamp-1" style={{ fontSize: fontSize(-1) }}>{T("Setup {displayName} model")}</span>
             </ListboxButton>
           ) : (
             <>

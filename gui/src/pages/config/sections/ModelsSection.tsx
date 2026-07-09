@@ -14,6 +14,7 @@ import { updateSelectedModelByRole } from "../../../redux/thunks/updateSelectedM
 import { getMetaKeyLabel, isJetBrains } from "../../../util";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { ModelRoleRow } from "../components/ModelRoleRow";
+import { T } from "../../../util/i18n";
 
 const MODEL_DOCS_URLS = {
   chat: {
@@ -75,7 +76,7 @@ export function ModelsSection() {
       <ConfigHeader
         title="Models"
         onAddClick={handleAddModel}
-        addButtonTooltip="Add model"
+        addButtonTooltip={T("Add Model")}
       />
 
       <Card>
@@ -95,9 +96,7 @@ export function ModelsSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-inherit underline hover:brightness-125"
-              >
-                Learn more
-              </a>
+              >{T("Learn more")}</a>
               )
             </span>
           }
@@ -121,9 +120,7 @@ export function ModelsSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-inherit underline hover:brightness-125"
-              >
-                Learn more
-              </a>
+              >{T("Learn more")}</a>
               )
             </span>
           }
@@ -154,9 +151,7 @@ export function ModelsSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-inherit underline hover:brightness-125"
-                  >
-                    Learn more
-                  </a>
+                  >{T("Learn more")}</a>
                   )
                 </span>
               }
@@ -174,14 +169,14 @@ export function ModelsSection() {
         <Toggle
           isOpen={showAdditionalRoles}
           onToggle={() => setShowAdditionalRoles(!showAdditionalRoles)}
-          title="Additional model roles"
-          subtitle="Apply, Embed, Rerank"
+          title={T("Additional model roles")}
+          subtitle={T("Apply, Embed, Rerank")}
         >
           <div className="flex flex-col">
             <ModelRoleRow
               role="apply"
               displayName="Apply"
-              description="Used to apply generated codeblocks to files"
+              description={T("Used to apply generated codeblocks to files")}
               models={config.modelsByRole.apply}
               selectedModel={config.selectedModelByRole.apply ?? undefined}
               onSelect={(model) => handleRoleUpdate("apply", model)}
@@ -194,7 +189,7 @@ export function ModelsSection() {
             <ModelRoleRow
               role="embed"
               displayName="Embed"
-              description="Used to generate and query embeddings for the @codebase and @docs context providers"
+              description={T("Used to generate and query embeddings for the @codebase and @docs context providers")}
               models={config.modelsByRole.embed}
               selectedModel={config.selectedModelByRole.embed ?? undefined}
               onSelect={(model) => handleRoleUpdate("embed", model)}
@@ -207,7 +202,7 @@ export function ModelsSection() {
             <ModelRoleRow
               role="rerank"
               displayName="Rerank"
-              description="Used for reranking results from the @codebase and @docs context providers"
+              description={T("Used for reranking results from the @codebase and @docs context providers")}
               models={config.modelsByRole.rerank}
               selectedModel={config.selectedModelByRole.rerank ?? undefined}
               onSelect={(model) => handleRoleUpdate("rerank", model)}

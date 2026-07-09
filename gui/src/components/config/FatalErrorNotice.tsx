@@ -6,6 +6,7 @@ import { IdeMessengerContext } from "../../context/IdeMessenger";
 import { useAppSelector } from "../../redux/hooks";
 import { CONFIG_ROUTES } from "../../util/navigation";
 import Alert from "../gui/Alert";
+import { T } from "../../util/i18n";
 
 export const FatalErrorIndicator = () => {
   const { refreshProfiles } = useAuth();
@@ -50,25 +51,19 @@ export const FatalErrorIndicator = () => {
             );
           }}
           className="cursor-pointer underline"
-        >
-          Help
-        </div>
+        >{T("Help")}</div>
         {configLoading ? (
-          <div>Reloading...</div>
+          <div>{T("Reloading...")}</div>
         ) : (
           <div
             className={`cursor-pointer underline`}
             onClick={() => {
               refreshProfiles("Clicked reload in fatal indicator");
             }}
-          >
-            Reload
-          </div>
+          >{T("Reload")}</div>
         )}
         {currentPath !== CONFIG_ROUTES.CONFIGS && (
-          <div onClick={showConfigPage} className="cursor-pointer underline">
-            View
-          </div>
+          <div onClick={showConfigPage} className="cursor-pointer underline">{T("View")}</div>
         )}
       </div>
     </Alert>

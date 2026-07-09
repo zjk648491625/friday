@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { Tooltip } from "react-tooltip";
 import { SecondaryButton } from "../../../../components";
 import { IdeMessengerContext } from "../../../../context/IdeMessenger";
+import { T } from "../../../../util/i18n";
 import {
   setDialogMessage,
   setShowDialog,
@@ -51,13 +52,13 @@ function DocsDetailsDialog({ startUrl }: DocsDetailsDialogProps) {
     void fetchData();
   }, []);
 
-  let comp = <div>Loading...</div>;
+  let comp = <div>{T("Loading...")}</div>;
   if (!isLoading) {
     if (isError) {
       comp = (
         <div>
           <div>Error fetching docs details</div>
-          <SecondaryButton onClick={fetchData}>Try again</SecondaryButton>
+          <SecondaryButton onClick={fetchData}>{T("Try again")}</SecondaryButton>
         </div>
       );
     }
@@ -73,7 +74,7 @@ function DocsDetailsDialog({ startUrl }: DocsDetailsDialogProps) {
                 <thead className="bg-vsc-background sticky top-0 text-left">
                   <tr>
                     <th className="py-1">Filepath</th>
-                    <th>Content</th>
+                    <th>{T("Content")}</th>
                   </tr>
                 </thead>
                 <tbody className="h-20 overflow-y-scroll">
@@ -153,7 +154,7 @@ function DocsDetailsDialog({ startUrl }: DocsDetailsDialogProps) {
       </p>
       {comp}
       <div className="flex flex-row justify-end">
-        <SecondaryButton onClick={closeDialog}>Close</SecondaryButton>
+        <SecondaryButton onClick={closeDialog}>{T("Close")}</SecondaryButton>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { cancelToolCallThunk } from "../../../../redux/thunks/cancelToolCall";
 import { getAltKeyLabel, getMetaKeyLabel, isJetBrains } from "../../../../util";
 import { Button } from "../../../ui";
 import { useMainEditor } from "../../TipTapEditor";
+import { T } from "../../../../util/i18n";
 
 export const generateToolCallButtonTestId = (
   action: "accept" | "reject",
@@ -64,7 +65,7 @@ export function PendingToolCallToolbar() {
                   {jetbrains ? getAltKeyLabel() : getMetaKeyLabel()}⌫
                 </span>
               )}
-              <span>Reject</span>
+              <span>{T("Reject")}</span>
             </Button>
 
             <Button
@@ -80,7 +81,7 @@ export function PendingToolCallToolbar() {
               {index === 0 && (
                 <span className="text-2xs mr-1">{getMetaKeyLabel()}⏎</span>
               )}
-              <span>Accept</span>
+              <span>{T("Accept")}</span>
             </Button>
           </div>
         </div>

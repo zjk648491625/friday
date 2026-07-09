@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import useIsOSREnabled from "../hooks/useIsOSREnabled";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 import { getPlatform } from "../util";
+import { T } from "../util/i18n";
 
 interface Position {
   top?: number;
@@ -173,9 +174,7 @@ const OSRContextMenu = () => {
             onMenuItemClick(e);
             document.execCommand("copy");
           }}
-        >
-          Copy
-        </div>
+        >{T("Copy")}</div>
       )}
       {canCut && (
         <div
@@ -203,9 +202,7 @@ const OSRContextMenu = () => {
               );
             }
           }}
-        >
-          Paste
-        </div>
+        >{T("Paste")}</div>
       )} */}
       <div
         className="cursor-pointer hover:opacity-90"

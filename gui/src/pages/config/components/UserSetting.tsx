@@ -7,6 +7,7 @@ import {
 import React from "react";
 import ToggleSwitch from "../../../components/gui/Switch";
 import { ToolTip } from "../../../components/gui/Tooltip";
+import { T } from "../../../util/i18n";
 import {
   Listbox,
   ListboxButton,
@@ -174,12 +175,12 @@ export function UserSetting(props: UserSettingProps) {
                 </div>
                 {props.isDirty && (
                   <div className="flex flex-row items-center gap-1">
-                    <ToolTip content="Save">
+                    <ToolTip content={T("Save")}>
                       <div onClick={props.onSubmit} className="cursor-pointer">
                         <CheckIcon className="h-4 w-4 text-green-500 hover:opacity-80" />
                       </div>
                     </ToolTip>
-                    <ToolTip content="Cancel">
+                    <ToolTip content={T("Cancel")}>
                       <div onClick={props.onCancel} className="cursor-pointer">
                         <XMarkIcon className="h-4 w-4 text-red-500 hover:opacity-80" />
                       </div>

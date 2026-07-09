@@ -7,6 +7,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { cancelToolCall } from "../redux/slices/sessionSlice";
 import { getMetaKeyLabel } from "../util";
 import { ToolTip } from "./gui/Tooltip";
+import { T } from "../util/i18n";
 
 export interface AcceptRejectAllButtonsProps {
   applyStates: ApplyState[];
@@ -67,7 +68,7 @@ export default function AcceptRejectAllButtons({
         >
           <div className="flex flex-row items-center gap-1">
             <XMarkIcon className="text-error h-4 w-4" />
-            <span className="hidden sm:inline">Reject</span>
+            <span className="hidden sm:inline">{T("Reject")}</span>
             <span className="text-lightgray -ml-1.5 hidden scale-75 text-xs md:inline">
               {rejectShortcut}
             </span>
@@ -83,7 +84,7 @@ export default function AcceptRejectAllButtons({
         >
           <div className="flex flex-row items-center gap-1">
             <CheckIcon className="text-success h-4 w-4" />
-            <span className="hidden sm:inline">Accept</span>
+            <span className="hidden sm:inline">{T("Accept")}</span>
             <span className="text-lightgray -ml-1.5 hidden scale-75 text-xs md:inline">
               {acceptShortcut}
             </span>

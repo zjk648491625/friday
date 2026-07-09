@@ -11,6 +11,7 @@ import { updateConfig } from "../../../redux/slices/configSlice";
 import { setLocalStorage } from "../../../util/localStorage";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { UserSetting } from "../components/UserSetting";
+import { T } from "../../../util/i18n";
 
 export function UserSettingsSection() {
   /////// User settings section //////
@@ -87,7 +88,7 @@ export function UserSettingsSection() {
   return (
     <div>
       <div className="flex flex-col">
-        <ConfigHeader title="User Settings" />
+        <ConfigHeader title={T("User Settings")} />
         <div className="space-y-6">
           {/* Chat Interface Settings */}
           <div>
@@ -96,21 +97,21 @@ export function UserSettingsSection() {
               <div className="flex flex-col gap-4">
                 <UserSetting
                   type="toggle"
-                  title="Show Session Tabs"
+                  title={T("Show Session Tabs")}
                   description="Displays tabs above the chat as an alternative way to organize and access your sessions."
                   value={showSessionTabs}
                   onChange={(value) => handleUpdate({ showSessionTabs: value })}
                 />
                 <UserSetting
                   type="toggle"
-                  title="Wrap Codeblocks"
+                  title={T("Wrap Codeblocks")}
                   description="Wraps long lines in code blocks instead of showing horizontal scroll."
                   value={codeWrap}
                   onChange={(value) => handleUpdate({ codeWrap: value })}
                 />
                 <UserSetting
                   type="toggle"
-                  title="Show Chat Scrollbar"
+                  title={T("Show chat scrollbar")}
                   description="Enables a scrollbar in the chat window."
                   value={showChatScrollbar}
                   onChange={(value) =>
@@ -153,7 +154,7 @@ export function UserSettingsSection() {
               <div className="flex flex-col gap-4">
                 <UserSetting
                   type="number"
-                  title="Font Size"
+                  title={T("Font Size")}
                   description="Specifies base font size for UI elements."
                   value={fontSize}
                   onChange={(val) => {
@@ -234,7 +235,7 @@ export function UserSettingsSection() {
               <Toggle
                 isOpen={showExperimental}
                 onToggle={() => setShowExperimental(!showExperimental)}
-                title="Show Experimental Settings"
+                title={T("Show Experimental Settings")}
               >
                 <div className="flex flex-col gap-x-1 gap-y-4">
                   <UserSetting

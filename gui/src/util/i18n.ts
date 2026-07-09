@@ -15,7 +15,6 @@ const zh: Dict = {
   "Help Center": "帮助中心", "Keyboard Shortcuts": "快捷键",
   History: "历史记录", "User Settings": "用户设置",
   "Main Config": "主配置", "Friday AI": "Friday AI",
-  "Friday AI": "Friday AI",
 
   // ═══════ 按钮 ═══════
   "Add": "添加", "Add Model": "添加模型", "Add Rule": "添加规则",
@@ -82,7 +81,7 @@ const zh: Dict = {
   "(Missing API Key)": "（缺少API密钥）",
 
   // ═══════ 模式 ═══════
-  "Mode": "模式", "Chat": "对话", "Agent": "代理", "Plan": "规划",
+  "Mode": "模式", "Agent": "代理", "Plan": "规划",
   "Select Mode": "选择模式", "Attach Image": "添加图片",
   "Attach File": "添加文件", "Add Context": "添加上下文",
 
@@ -119,7 +118,6 @@ const zh: Dict = {
   "Click to open configuration": "点击打开配置",
   "Click to restart": "点击重新开始",
   "Indexing other workspace": "正在索引其他工作区",
-  "Indexing in-progress": "索引进行中",
 
   // ═══════ MCP ═══════
   "Connected": "已连接", "Disconnected": "已断开",
@@ -198,16 +196,312 @@ const zh: Dict = {
   "Ask to edit code, get explanations, or generate from scratch.": "请求编辑代码、获取解释或从头生成。",
   "Learn more": "了解更多",
   "Tab to autocomplete": "Tab键补全",
-  "New Session": "新建会话",
   "Enter Enterprise License Key": "输入企业许可证密钥",
+
+  // ═══════ 批次1：Chat.tsx + 错误页 ═══════
+  "Add model": "添加模型",
+  "Something went wrong:": "系统异常：",
+  "Last Session": "上次会话",
+  "Error loading": "加载失败",
+  "Error handling model response": "处理模型响应出错",
+  "Reloading...": "刷新中...",
+  "Chat is disabled until a model is available.": "模型不可用前聊天功能已禁用。",
+  "There was an error handling the response from": "处理以下来源的响应时出错：",
+  "the model": "该模型",
+  "Please try to submit your message again.": "请重新提交消息。",
+  "Likely causes:": "可能原因：",
+  "Invalid": "无效",
+  "Model/deployment not found": "未找到模型/部署",
+  " for: ": "，针对：",
+  ": ": "：",
+  "Likely cause: not authorized to access the model deployment.": "可能原因：无权访问该模型部署。",
+  "It's possible that your API key is invalid.": "可能您的 API 密钥无效。",
+  "Most likely, the provider's server(s) are overloaded and streaming was interrupted. Try again later": "很可能是提供商服务器过载导致流中断，请稍后重试",
+  "Provider: ": "提供商：",
+  "No model configured": "未配置模型",
+  "Please configure a model": "请配置一个模型",
+  "Invalid API key": "API 密钥无效",
+  "Insufficient balance": "余额不足",
+  "Request timed out": "请求超时",
+  "Connection error": "连接错误",
+  "Server error": "服务器错误",
+  "Unknown error": "未知错误",
+
+  // ═══════ 批次1：模型页 ═══════
+  "Apply, Embed, Rerank": "应用、嵌入、重排",
+  "Used in Chat, Plan, Agent mode": "用于对话、规划、代理模式",
+  "Used in inline code completions as you type": "用于输入时的内联代码补全",
+  "Used to transform a selected section of code": "用于转换选中代码段",
+  "Used to apply generated codeblocks to files": "用于将生成的代码块应用到文件",
+  "Used to generate and query embeddings for the @codebase and @docs context providers": "用于为@codebase和@docs上下文提供者生成和查询嵌入向量",
+  "Used for reranking results from the @codebase and @docs context providers": "用于对@codebase和@docs上下文提供者的结果进行重排",
+  "Configure model": "配置模型",
+  "Select model": "选择模型",
+  "No models": "暂无模型",
+  "Error loading models": "加载模型失败",
+  "Least recently used": "最近最少使用",
+  "Most recently used": "最近使用",
+
+  // ═══════ 批次1：键盘快捷键 ═══════
+  "Global": "全局",
+  "Chat Panel": "聊天面板",
+  "Input": "输入",
+  "Code Editor": "代码编辑器",
+  "Toggle Friday Sidebar": "切换 Friday 侧边栏",
+  "Select next/previous tab": "选择上一个/下一个标签页",
+  "Toggle Full Screen": "切换全屏",
+  "Open feedback form": "打开反馈表单",
+  "New Chat with selected code": "用选中代码发起新对话",
+  "Show keyboard shortcuts": "显示快捷键",
+
+  // ═══════ 批次1：用户设置 ═══════
+  "Edit settings as JSON": "以 JSON 编辑设置",
+  "Edit in JSON": "JSON 编辑",
+  "Edit config.json": "编辑 config.json",
+  "Open config.json": "打开 config.json",
+  "To edit settings as JSON, open config.json": "要以 JSON 编辑设置，请打开 config.json",
+  "Config.json": "配置.json",
+  "Show chat scrollbar": "显示聊天滚动条",
+  "Show experimental features": "显示实验性功能",
+  "Multiplier": "倍率",
+
+  // ═══════ 批次1：工具策略 ═══════
+  "No tools found": "未找到工具",
+  "No custom tools": "无自定义工具",
+  "Built-in": "内置",
+  "Custom": "自定义",
+  "Allow": "允许",
+  "Ask first": "先询问",
+  "Disable": "禁用",
+  "No policy set": "未设置策略",
+  "Use default": "使用默认",
+  "Disable all": "全部禁用",
+  "Enable all": "全部启用",
+  "Disable group": "禁用组",
+  "Enable group": "启用组",
+  "Global tool policy": "全局工具策略",
+  "Per-tool policies": "单工具策略",
+  "Tool policy for": "工具策略：",
+
+  // ═══════ 批次1：MCP ═══════
+  "No MCP servers": "无 MCP 服务器",
+  "MCP Server": "MCP 服务器",
+  "Server": "服务器",
+  "Command": "命令",
+  "Args": "参数",
+  "Environment Variables": "环境变量",
+  "Tools available": "可用工具",
+  "Resources available": "可用资源",
+  "Prompts available": "可用提示词",
+  "Error loading MCP servers": "加载 MCP 服务器失败",
+
+  // ═══════ 批次1：文档/索引 ═══════
+  "Docs": "文档",
+  "Re-index all": "全部重建索引",
+  "Pause indexing": "暂停索引",
+  "Resume indexing": "继续索引",
+  "Pause all": "全部暂停",
+  "Resume all": "全部继续",
+  "Start indexing": "开始索引",
+  "Indexing completed": "索引已完成",
+  "Indexing completed successfully": "索引已成功完成",
+  "Indexing is paused": "索引已暂停",
+  "No workspaces selected": "未选择工作区",
+  "Loading indexing status": "加载索引状态中",
+  "No documentation added": "未添加文档",
+  "URL": "URL",
+  "In progress": "进行中",
+  "Not started": "未开始",
+  "Error loading docs": "加载文档失败",
+  "Click to retry indexing": "点击重试索引",
+  "Click to view docs": "点击查看文档",
+
+  // ═══════ 批次1：账户 ═══════
+  "Account": "账户",
+  "Sign in": "登录",
+  "Sign out": "退出登录",
+  "Manage account": "管理账户",
+  "Profile": "个人资料",
+  "Profiles": "个人资料",
+  "Organization": "组织",
+  "Switch profile": "切换配置",
+  "No profiles found": "未找到配置",
+  "Loading profiles": "加载配置中",
+  "Free trial": "免费试用",
+  "Enterprise": "企业版",
+  "Upgrade": "升级",
+  "Upgrade to Pro": "升级到 Pro",
+
+  // ═══════ 批次1：对话 ═══════
+  "How can I help?": "有什么可以帮您？",
+  "Ask anything...": "随便问...",
+  "Write a new message": "写一条新消息",
+  "No conversations yet": "暂无对话",
+  "Start a conversation": "开始对话",
+  "Type / to see commands": "输入 / 查看命令",
+  "Attach files": "附加文件",
+  "Add images": "添加图片",
+  "Voice input": "语音输入",
+  "Deep thinking": "深度思考",
+  "Web search": "网络搜索",
+  "Agent Mode": "代理模式",
+
+  // ═══════ 批次1：对话状态 ═══════
+  "Searching files": "搜索文件中",
+  "Reading files": "读取文件中",
+  "Generating code": "生成代码中",
+  "Applying changes": "应用更改中",
+  "Running command": "执行命令中",
+  "Finished": "已完成",
+  "Interrupted": "已中断",
+  "Token usage": "Token 用量",
+  "Input tokens": "输入 Token",
+  "Output tokens": "输出 Token",
+  "Total tokens": "总 Token",
+  "Cost": "费用",
+  "Rate limit reached": "已达速率限制",
+  "Context window exceeded": "超出上下文窗口",
+  "Continue anyway": "仍然继续",
+
+  // ═══════ 批次1：代码操作 ═══════
+  "Edit file": "编辑文件",
+  "Create file": "创建文件",
+  "Delete file": "删除文件",
+  "Find and replace": "查找替换",
+  "Run command": "运行命令",
+  "View diff": "查看差异",
+  "Accept changes": "接受更改",
+  "Reject changes": "拒绝更改",
+  "Apply all": "全部应用",
+  "Reject all": "全部拒绝",
+  "Created": "已创建",
+  "Modified": "已修改",
+  "Deleted": "已删除",
+  "Searching": "搜索中",
+  "Replacing": "替换中",
+  "Replace with": "替换为",
+  "Search for": "搜索",
+  "Replace all": "全部替换",
+  "Case sensitive": "区分大小写",
+  "Whole word": "全字匹配",
+  "Regular expression": "正则表达式",
+
+  // ═══════ 批次1：终端 ═══════
+  "Terminal": "终端",
+  "Run in terminal": "在终端运行",
+  "Stop execution": "停止执行",
+  "Command output": "命令输出",
+  "Command executed successfully": "命令执行成功",
+  "Command failed with exit code": "命令失败，退出代码",
+  "Running": "运行中",
+  "Stopped": "已停止",
+
+  // ═══════ 批次1：历史 ═══════
+  "Conversation history": "对话历史",
+  "No history": "无历史记录",
+  "Search history": "搜索历史",
+  "Today": "今天",
+  "Yesterday": "昨天",
+  "Last 7 days": "最近7天",
+  "Last 30 days": "最近30天",
+  "Older": "更早",
+  "Delete all": "删除全部",
+  "Delete conversation": "删除对话",
+  "Rename conversation": "重命名对话",
+  "Archive conversation": "归档对话",
+  "No conversations matching": "无匹配对话",
+
+  // ═══════ 批次1：引导 ═══════
+  "Welcome to Friday!": "欢迎使用 Friday！",
+  "Get started": "开始使用",
+  "Skip": "跳过",
+  "Dismiss": "关闭",
+  "Don't show again": "不再显示",
+  "Next tip": "下一个提示",
+  "Previous tip": "上一个提示",
+
+  // ═══════ 批次1：通知/更新 ═══════
+  "Update available": "有可用更新",
+  "New version available": "有新版本可用",
+  "Update now": "立即更新",
+  "Update later": "稍后更新",
+  "Downloading update": "下载更新中",
+  "Installing update": "安装更新中",
+  "Update complete": "更新完成",
+  "Please restart to apply updates": "请重启以应用更新",
+
+  // ═══════ 批次1：反馈 ═══════
+  "Tell us what you think": "告诉我们您的想法",
+  "How was your experience?": "您的体验如何？",
+  "Send feedback": "发送反馈",
+  "Thank you for your feedback!": "感谢您的反馈！",
+  "Report a bug": "报告 Bug",
+  "Feature request": "功能建议",
+  "Something else": "其他",
+
+  // ═══════ 批次1：自动补全 ═══════
+  "Autocomplete enabled": "自动补全已启用",
+  "Autocomplete disabled": "自动补全已禁用",
+  "Tab to accept": "Tab 键接受",
+  "Escape to reject": "Esc 键拒绝",
+  "Partial accept": "部分接受",
+  "Autocomplete model": "自动补全模型",
+  "No autocomplete model configured": "未配置自动补全模型",
+
+  // ═══════ 批次1：模式 ═══════
+  "Plan mode": "规划模式",
+  "Agent mode": "代理模式",
+  "Chat mode": "对话模式",
+  "Switch to chat mode": "切换到对话模式",
+  "Switch to agent mode": "切换到代理模式",
+  "Switch to plan mode": "切换到规划模式",
+  "Plan mode active": "规划模式已激活",
+  "Agent mode active": "代理模式已激活",
+  "Planning steps": "规划步骤",
+  "Executing plan": "执行计划中",
+
+  // ═══════ 批次1：配置 ═══════
+  "No configs found": "未找到配置",
+  "No config selected": "未选择配置",
+  "Select a config": "选择一个配置",
+  "Create new config": "创建新配置",
+  "Import config": "导入配置",
+  "Export config": "导出配置",
+  "Delete config": "删除配置",
+  "Copy config": "复制配置",
+  "Config name": "配置名称",
+  "Config file": "配置文件",
+  "No rules": "无规则",
+  "Add rule": "添加规则",
+  "Delete rule": "删除规则",
+  "Edit rule": "编辑规则",
+  "Rule type": "规则类型",
+  "Manual": "手动",
+  "Rule description": "规则描述",
+  "Rule content": "规则内容",
+  "Enter rule name": "输入规则名称",
+  "Enter rule description": "输入规则描述",
+  "Enter rule content": "输入规则内容",
+  "No prompts": "无提示词",
+  "Add prompt": "添加提示词",
+  "Delete prompt": "删除提示词",
+  "Prompt name": "提示词名称",
+  "Prompt description": "提示词描述",
+  "Prompt content": "提示词内容",
+
+  // ═══════ 批次1：时间 ═══════
+  "Just now": "刚刚",
+  "minutes ago": "分钟前",
+  "hours ago": "小时前",
+  "days ago": "天前",
+  "weeks ago": "周前",
+  "months ago": "个月前",
 };
 
 export function T(en: string): string {
   try {
     const lang = localStorage.getItem("ironhero-language") || "zh";
     if (lang === "en") return en;
-    if (zh[en]) return zh[en];
-    // Dynamic substitution: "Setup {displayName} model" etc
     if (zh[en]) return zh[en];
   } catch (_) {}
   return en;
@@ -220,3 +514,6 @@ export function Tfmt(template: string, vars: Record<string, string>): string {
   }
   return result;
 }
+
+
+

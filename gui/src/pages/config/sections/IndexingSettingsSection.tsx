@@ -13,6 +13,7 @@ import { ConfigHeader } from "../components/ConfigHeader";
 import { UserSetting } from "../components/UserSetting";
 import IndexingProgress from "../features/indexing";
 import { DocsSection } from "./DocsSection";
+import { T } from "../../../util/i18n";
 
 function CodebaseSubSection() {
   const config = useAppSelector((state) => state.config.config);
@@ -27,7 +28,7 @@ function CodebaseSubSection() {
         <div className="py-2">
           {config.disableIndexing ? (
             <div className="p-1">
-              <p className="text-center font-semibold text-foreground">Indexing is disabled</p>
+              <p className="text-center font-semibold text-foreground">{T("Indexing is disabled")}</p>
             </div>
           ) : (
             <IndexingProgress />

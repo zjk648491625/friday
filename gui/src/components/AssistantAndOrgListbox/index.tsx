@@ -22,6 +22,7 @@ import {
 } from "../ui";
 import { AssistantOptions } from "./AssistantOptions";
 import { SelectedAssistantButton } from "./SelectedAssistantButton";
+import { T } from "../../util/i18n";
 
 export interface AssistantAndOrgListboxProps {
   variant: "lump" | "sidebar";
@@ -161,7 +162,7 @@ export function AssistantAndOrgListbox({
                         configLoading && "animate-spin-slow",
                       )}
                     />
-                    <span className="text-2xs">Reload</span>
+                    <span className="text-2xs">{T("Reload")}</span>
                   </div>
                 </Button>
               </div>

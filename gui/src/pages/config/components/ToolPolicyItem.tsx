@@ -20,6 +20,7 @@ import {
 import { useFontSize } from "../../../components/ui/font";
 import { useAppSelector } from "../../../redux/hooks";
 import { addTool, setToolPolicy } from "../../../redux/slices/uiSlice";
+import { T } from "../../../util/i18n";
 
 interface ToolPolicyItemProps {
   tool: Tool;
@@ -150,13 +151,9 @@ export function ToolPolicyItem(props: ToolPolicyItemProps) {
                 </ListboxButton>
                 {!disabled && (
                   <ListboxOptions className="min-w-0">
-                    <ListboxOption value="allowedWithoutPermission">
-                      Automatic
-                    </ListboxOption>
-                    <ListboxOption value="allowedWithPermission">
-                      Ask First
-                    </ListboxOption>
-                    <ListboxOption value="disabled">Excluded</ListboxOption>
+                    <ListboxOption value="allowedWithoutPermission">{T("Automatic")}</ListboxOption>
+                    <ListboxOption value="allowedWithPermission">{T("Ask First")}</ListboxOption>
+                    <ListboxOption value="disabled">{T("Excluded")}</ListboxOption>
                   </ListboxOptions>
                 )}
               </div>

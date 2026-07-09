@@ -6,6 +6,7 @@ import Spinner from "../../gui/Spinner";
 import { ToolTip } from "../../gui/Tooltip";
 import HoverItem from "../../mainInput/InputToolbar/HoverItem";
 import { ToolbarButtonWithTooltip } from "./ToolbarButtonWithTooltip";
+import { T } from "../../../util/i18n";
 
 interface ApplyActionsProps {
   disableManualApply?: boolean;
@@ -63,7 +64,7 @@ export function ApplyActions(props: ApplyActionsProps) {
       }
 
       return (
-        <ToolTip place="top" content="Apply Code">
+        <ToolTip place="top" content={T("Apply Code")}>
           <HoverItem
             data-tooltip-id="codeblock-apply-code-button-tooltip"
             className="!p-0"

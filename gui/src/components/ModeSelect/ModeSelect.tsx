@@ -16,6 +16,7 @@ import { ToolTip } from "../gui/Tooltip";
 import { useMainEditor } from "../mainInput/TipTapEditor";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "../ui";
 import { ModeIcon } from "./ModeIcon";
+import { T } from "../../util/i18n";
 
 export function ModeSelect() {
   const dispatch = useAppDispatch();
@@ -130,7 +131,7 @@ export function ModeSelect() {
           <ListboxOption value="plan" className={"gap-1"}>
             <div className="flex flex-row items-center gap-1.5">
               <ModeIcon mode="plan" />
-              <span className="">Plan</span>
+              <span className="">{T("Plan")}</span>
               <ToolTip
                 style={{
                   zIndex: 200001,
@@ -149,7 +150,7 @@ export function ModeSelect() {
           <ListboxOption value="agent" className={"gap-1"}>
             <div className="flex flex-row items-center gap-1.5">
               <ModeIcon mode="agent" />
-              <span className="">Agent</span>
+              <span className="">{T("Agent")}</span>
               <ToolTip
                 style={{
                   zIndex: 200001,

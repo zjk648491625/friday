@@ -16,6 +16,7 @@ import IndexingProgressErrorText from "./IndexingProgressErrorText";
 import IndexingProgressIndicator from "./IndexingProgressIndicator";
 import IndexingProgressSubtext from "./IndexingProgressSubtext";
 import IndexingProgressTitleText from "./IndexingProgressTitleText";
+import { T } from "../../../../util/i18n";
 
 export function getProgressPercentage(
   progress: IndexingProgressUpdate["progress"],
@@ -62,7 +63,7 @@ function IndexingProgress() {
         setDialogMessage(
           <ConfirmationDialog
             title="Rebuild codebase index"
-            confirmText="Rebuild"
+            confirmText={T("Rebuild")}
             text={
               "Your index appears corrupted. We recommend clearing and rebuilding it, " +
               "which may take time for large codebases.\n\n" +

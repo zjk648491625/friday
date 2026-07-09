@@ -2,6 +2,7 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
 import { CloseButton, defaultBorderRadius, vscInputBackground } from ".";
+import { T } from "../util/i18n";
 
 const StyledCard = styled.div`
   margin: auto;
@@ -37,7 +38,7 @@ export function ReusableCard({
           <XMarkIcon className="flex h-5 w-5 hover:brightness-125" />
         </CloseButton>
       )}
-      <div className="content">{children}</div>
+      <div className={T("Content")}>{children}</div>
     </StyledCard>
   );
 }

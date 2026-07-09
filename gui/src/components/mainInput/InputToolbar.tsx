@@ -26,6 +26,7 @@ import { Button } from "../ui";
 import { useFontSize } from "../ui/font";
 import ContextStatus from "./ContextStatus";
 import HoverItem from "./InputToolbar/HoverItem";
+import { T } from "../../util/i18n";
 
 export interface ToolbarOptions {
   hideUseCodebase?: boolean;
@@ -86,13 +87,13 @@ function InputToolbar(props: InputToolbarProps) {
       >
         <div className="xs:gap-1.5 flex flex-row items-center gap-1">
           {!isInEdit && (
-            <ToolTip place="top" content="Select Mode">
+            <ToolTip place="top" content={T("Select Mode")}>
               <HoverItem className="!p-0">
                 <ModeSelect />
               </HoverItem>
             </ToolTip>
           )}
-          <ToolTip place="top" content="Select Model">
+          <ToolTip place="top" content={T("Select Model")}>
             <HoverItem className="!p-0">
               <ModelSelect />
             </HoverItem>
@@ -117,7 +118,7 @@ function InputToolbar(props: InputToolbarProps) {
                     }}
                   />
 
-                  <ToolTip place="top" content="Attach Image">
+                  <ToolTip place="top" content={T("Attach Image")}>
                     <HoverItem className="">
                       <PhotoIcon
                         className="h-3 w-3 hover:brightness-125"

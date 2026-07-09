@@ -58,6 +58,7 @@ import { getLocalStorage, setLocalStorage } from "../../util/localStorage";
 import { EmptyChatBody } from "./EmptyChatBody";
 import { ExploreDialogWatcher } from "./ExploreDialogWatcher";
 import { useAutoScroll } from "./useAutoScroll";
+import { T } from "../../util/i18n";
 
 // Helper function to find the index of the latest conversation summary
 function findLatestSummaryIndex(history: ChatHistoryItem[]): number {
@@ -93,12 +94,12 @@ function fallbackRender({ error, resetErrorBoundary }: any) {
       className="px-2"
       style={{ backgroundColor: vscBackground }}
     >
-      <p>Something went wrong:</p>
+      <p>{T("Something went wrong:")}</p>
       <pre style={{ color: "red" }}>{error.message}</pre>
       <pre style={{ color: lightGray }}>{error.stack}</pre>
 
       <div className="text-center">
-        <Button onClick={resetErrorBoundary}>Restart</Button>
+        <Button onClick={resetErrorBoundary}>{T("Restart")}</Button>
       </div>
     </div>
   );
@@ -437,7 +438,7 @@ export function Chat() {
                   className="flex items-center gap-2"
                 >
                   <ArrowLeftIcon className="h-3 w-3" />
-                  <span className="text-xs">Last Session</span>
+                  <span className="text-xs">{T("Last Session")}</span>
                 </NewSessionButton>
               )}
             </div>

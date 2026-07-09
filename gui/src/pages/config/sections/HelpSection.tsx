@@ -18,6 +18,7 @@ import { isJetBrains } from "../../../util";
 import { ROUTES } from "../../../util/navigation";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { ConfigRow } from "../components/ConfigRow";
+import { T } from "../../../util/i18n";
 
 interface KeyboardShortcutProps {
   shortcut: string;
@@ -173,7 +174,7 @@ export function HelpSection() {
 
   return (
     <div className="flex flex-col">
-      <ConfigHeader title="Help Center" />
+      <ConfigHeader title={T("Help Center")} />
       <div className="space-y-6">
         {/* Resources */}
         <div>
@@ -198,7 +199,7 @@ export function HelpSection() {
           <Card className="!p-0">
             <div className="flex flex-col">
               <ConfigRow
-                title="Token usage"
+                title={T("Token usage")}
                 description="Daily token usage across models"
                 icon={TableCellsIcon}
                 onClick={() => navigate(ROUTES.STATS)}
@@ -215,7 +216,7 @@ export function HelpSection() {
                 )}
 
               <ConfigRow
-                title="Quickstart"
+                title={T("Quickstart")}
                 description="Reopen the quickstart and tutorial file"
                 icon={DocumentArrowUpIcon}
                 onClick={async () => {
@@ -253,7 +254,7 @@ export function HelpSection() {
 
         {/* Keyboard Shortcuts */}
         <div>
-          <h3 className="mb-3 text-base font-medium text-foreground">Keyboard Shortcuts</h3>
+          <h3 className="mb-3 text-base font-medium text-foreground">{T("Keyboard Shortcuts")}</h3>
           <Card className="!p-0">
             <div className="overflow-hidden rounded-md border border-description-muted">
               {shortcuts.map((shortcut, i) => {

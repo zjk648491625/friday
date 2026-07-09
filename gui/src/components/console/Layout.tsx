@@ -4,6 +4,7 @@ import useLLMLog from "../../hooks/useLLMLog";
 import Details from "./Details";
 import List from "./List";
 import TotalUsage from "./TotalUsage";
+import { T } from "../../util/i18n";
 
 export default function Layout() {
   const llmLog = useLLMLog();
@@ -16,7 +17,7 @@ export default function Layout() {
     : undefined;
 
   return llmLog.loading ? (
-    <div>Loading...</div>
+    <div>{T("Loading...")}</div>
   ) : (
     <div className="flex h-full w-full">
       <div className="flex h-full w-full flex-col">

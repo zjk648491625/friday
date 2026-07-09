@@ -8,6 +8,7 @@ import { CopyIconButton } from "../components/gui/CopyIconButton";
 import { PageHeader } from "../components/PageHeader";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 import { useNavigationListener } from "../hooks/useNavigationListener";
+import { T } from "../util/i18n";
 
 const Th = styled.th`
   padding: 0.5rem;
@@ -66,7 +67,7 @@ function Stats() {
         backgroundColor: vscBackground,
       }}
     >
-      <PageHeader title="More" onTitleClick={() => navigate(-1)} showBorder />
+      <PageHeader title={T("More")} onTitleClick={() => navigate(-1)} showBorder />
 
       <div className="p-2">
         <div className="flex items-center gap-2">
@@ -119,7 +120,7 @@ function Stats() {
         <table className="w-full border-collapse">
           <thead>
             <Tr>
-              <Th>Model</Th>
+              <Th>{T("Model")}</Th>
               <Th>Generated Tokens</Th>
               <Th>Prompt Tokens</Th>
             </Tr>

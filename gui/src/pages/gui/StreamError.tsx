@@ -19,6 +19,7 @@ import { selectSelectedChatModel } from "../../redux/slices/configSlice";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
 import { streamResponseThunk } from "../../redux/thunks/streamResponse";
 import { analyzeError } from "../../util/errorAnalysis";
+import { T } from "../../util/i18n";
 
 interface StreamErrorProps {
   error: unknown;
@@ -60,7 +61,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
       onClick={() => ideMessenger.ide.openUrl(apiKeyUrl)}
     >
       <KeyIcon className="mr-1.5 h-3.5 w-3.5" />
-      <span>Check API key</span>
+      <span>{T("Check API key")}</span>
     </GhostButton>
   ) : null;
 
@@ -72,7 +73,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
       onClick={() => handleEditModel(selectedModel)}
     >
       <Cog6ToothIcon className="mr-1.5 h-3.5 w-3.5" />
-      <span>View config</span>
+      <span>{T("View config")}</span>
     </GhostButton>
   );
 
@@ -114,7 +115,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
       }}
     >
       <ArrowPathIcon className="mr-1.5 h-3.5 w-3.5" />
-      <span>Resubmit last message</span>
+      <span>{T("Resubmit last message")}</span>
     </GhostButton>
   );
 
@@ -125,7 +126,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
           There was an error handling the response from{" "}
           {selectedModel?.title || "the model"}.
         </p>
-        <p className="m-0 p-0">Please try to submit your message again.</p>
+        <p className="m-0 p-0">{T("Please try to submit your message again.")}</p>
         <div className="mt-3">{resubmitButton}</div>
       </div>
     </div>
@@ -150,10 +151,10 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
   if (statusCode === 404) {
     errorContent = (
       <div className="flex flex-col gap-2">
-        <span>Likely causes:</span>
+        <span>{T("Likely causes:")}</span>
         <ul className="m-0">
           <li>
-            <span>Invalid</span>
+            <span>{T("Invalid")}</span>
             <code>apiBase</code>
             {selectedModel && (
               <>
@@ -163,7 +164,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
             )}
           </li>
           <li>
-            <span>Model/deployment not found</span>
+            <span>{T("Model/deployment not found")}</span>
             {selectedModel && (
               <>
                 <span>{` for: `}</span>
@@ -231,7 +232,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
               onClick={() => ideMessenger.ide.openUrl(helpUrl)}
             >
               <ArrowTopRightOnSquareIcon className="mr-1.5 h-3.5 w-3.5" />
-              <span>View help documentation</span>
+              <span>{T("View help documentation")}</span>
             </GhostButton>
           )}
           {apiKeyUrl && (
@@ -240,7 +241,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
               onClick={() => ideMessenger.ide.openUrl(apiKeyUrl)}
             >
               <KeyIcon className="mr-1.5 h-3.5 w-3.5" />
-              <span>Check API key</span>
+              <span>{T("Check API key")}</span>
             </GhostButton>
           )}
           {configButton}
@@ -252,9 +253,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
   return (
     <div className="flex flex-col gap-4 px-3 pb-3 pt-3">
       {/* Concise error title */}
-      <h3 className="text-error m-0 p-0 text-lg font-medium">
-        Error handling model response
-      </h3>
+      <h3 className="text-error m-0 p-0 text-lg font-medium">{T("Error handling model response")}</h3>
 
       {errorContent}
 
@@ -262,7 +261,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
       {message && (
         <div className="mb-2">
           <ToggleDiv
-            title="View error output"
+            title={T("View error output")}
             testId="error-output-toggle"
             defaultOpen
           >
@@ -277,7 +276,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
                   className="flex items-center"
                 >
                   <ClipboardIcon className="mr-1.5 h-3.5 w-3.5" />
-                  <span>Copy output</span>
+                  <span>{T("Copy output")}</span>
                 </GhostButton>
 
                 <GhostButton
@@ -287,7 +286,7 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
                   className="flex items-center"
                 >
                   <ArrowTopRightOnSquareIcon className="mr-1.5 h-4 w-4" />
-                  <span className="text-xs">View Logs</span>
+                  <span className="text-xs">{T("View Logs")}</span>
                 </GhostButton>
               </div>
             </div>

@@ -33,6 +33,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { updateConfig } from "../../../redux/slices/configSlice";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { ToolPoliciesGroup } from "../components/ToolPoliciesGroup";
+import { T } from "../../../util/i18n";
 
 interface MCPServerStatusProps {
   allToolsOff: boolean;
@@ -203,9 +204,7 @@ function MCPServerPreview({
                 })}
               </div>
             ) : (
-              <div className="text-xs italic text-description-muted">
-                No {title.toLowerCase()} available
-              </div>
+              <div className="text-xs italic text-description-muted">{T("No {title.toLowerCase()} available")}</div>
             )}
           </div>
         )}
@@ -492,10 +491,10 @@ export function ToolsSection() {
         />
         <ConfigHeader
           className="pr-2"
-          title="MCP Servers"
+          title={T("MCP Servers")}
           variant="sm"
           onAddClick={handleAddMcpServer}
-          addButtonTooltip="Add MCP server"
+          addButtonTooltip={T("Add MCP Server")}
           showAddButton={!disableMcp}
         />
         {disableMcp ? (
@@ -524,7 +523,7 @@ export function ToolsSection() {
               ))
             ) : (
               <Card>
-                <EmptyState message="No MCP servers configured. Click the + button to add your first server." />
+                <EmptyState message={T("No MCP servers configured. Click the + button to add your first server.")} />
               </Card>
             )}
           </>

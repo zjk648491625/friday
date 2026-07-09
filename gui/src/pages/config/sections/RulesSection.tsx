@@ -44,6 +44,7 @@ import {
 } from "../../../redux/slices/uiSlice";
 import { fontSize } from "../../../util";
 import { ConfigHeader } from "../components/ConfigHeader";
+import { T } from "../../../util/i18n";
 
 interface PromptCommandWithSlug extends SlashCommandDescWithSource {
   slug?: string;
@@ -174,9 +175,9 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
     dispatch(
       setDialogMessage(
         <ConfirmationDialog
-          title="Delete Rule"
+          title={T("Delete Rule")}
           text="Are you sure you want to delete this rule file?"
-          confirmText="Delete"
+          confirmText={T("Delete")}
           onConfirm={async () => {
             try {
               await ideMessenger.request("config/deleteRule", {
@@ -224,14 +225,14 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
               </div>
             )}
             <div className="flex flex-row items-start gap-1">
-              <HeaderButtonWithToolTip onClick={onClickExpand} text="Expand">
+              <HeaderButtonWithToolTip onClick={onClickExpand} text={T("Expand")}>
                 <ArrowsPointingOutIcon className="h-3 w-3 text-description-muted" />
               </HeaderButtonWithToolTip>{" "}
               {rule.source === "default-chat" ||
               rule.source === "default-agent" ? (
                 <HeaderButtonWithToolTip
                   onClick={() => openRule(rule)}
-                  text="View"
+                  text={T("View")}
                 >
                   <EyeIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
@@ -244,7 +245,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
                 </HeaderButtonWithToolTip>
               )}
               {canDeleteRule && (
-                <HeaderButtonWithToolTip onClick={handleDelete} text="Delete">
+                <HeaderButtonWithToolTip onClick={handleDelete} text={T("Delete")}>
                   <TrashIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
               )}
@@ -267,7 +268,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
             }}
             className="mt-1.5 flex flex-col gap-1"
           >
-            <span className="italic">Applies to files</span>
+            <span className="italic">{T("Applies to files")}</span>
             <code
               className={`line-clamp-1 px-1 py-0.5 ${isDisabled ? "text-description-muted" : "text-description-muted"}`}
             >
@@ -343,7 +344,7 @@ function PromptsSubSection() {
         title="Prompts"
         variant="sm"
         onAddClick={handleAddPrompt}
-        addButtonTooltip="Add prompt"
+        addButtonTooltip={T("Add Prompt")}
       />
 
       {sortedCommands.length > 0 ? (
@@ -501,9 +502,7 @@ function RulesSubSection() {
               <RuleCard key={index} rule={rule} />
             ))}
             {configLoading && (
-              <div className="px-2 py-1.5 text-xs opacity-65">
-                Reloading rules from your config...
-              </div>
+              <div className="px-2 py-1.5 text-xs opacity-65">{T("Reloading rules from your config...")}</div>
             )}
           </div>
         ) : (

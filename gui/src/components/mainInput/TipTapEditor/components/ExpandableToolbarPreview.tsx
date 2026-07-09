@@ -17,6 +17,7 @@ import {
 import { useAppSelector } from "../../../../redux/hooks";
 import { getFontSize } from "../../../../util";
 import HeaderButtonWithToolTip from "../../../gui/HeaderButtonWithToolTip";
+import { T } from "../../../../util/i18n";
 
 const MAX_PREVIEW_HEIGHT = 100;
 const MAX_EXPANED_PREVIEW_HEIGHT = MAX_PREVIEW_HEIGHT * 3;
@@ -193,7 +194,7 @@ export function ExpandableToolbarPreview(props: ExpandableToolbarPreviewProps) {
           </HeaderButtonWithToolTip>
           {props.onDelete && (
             <HeaderButtonWithToolTip
-              text="Delete"
+              text={T("Delete")}
               onClick={(e) => {
                 e.stopPropagation();
                 props.onDelete?.();

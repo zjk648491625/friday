@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Input, SecondaryButton } from "..";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
+import { T } from "../../util/i18n";
 
 function AddRuleDialog({ mode }: { mode: "workspace" | "global" }) {
   const dispatch = useDispatch();
@@ -61,9 +62,7 @@ function AddRuleDialog({ mode }: { mode: "workspace" | "global" }) {
     <div className="px-2 pt-4 sm:px-4">
       <div>
         <h1 className="mb-0">{title}</h1>
-        <p className="m-0 mt-2 p-0 text-description">
-          Choose a name for the new rule file.
-        </p>
+        <p className="m-0 mt-2 p-0 text-description">{T("Choose a name for the new rule file.")}</p>
         <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-2">
           <label className="flex w-full flex-col gap-1">
             <span>Rule name</span>
@@ -81,16 +80,12 @@ function AddRuleDialog({ mode }: { mode: "workspace" | "global" }) {
               className="min-w-16"
               disabled={isSubmitting}
               type="submit"
-            >
-              Create
-            </SecondaryButton>
+            >{T("Create")}</SecondaryButton>
             <SecondaryButton
               type="button"
               className="min-w-16"
               onClick={closeDialog}
-            >
-              Cancel
-            </SecondaryButton>
+            >{T("Cancel")}</SecondaryButton>
           </div>
         </form>
       </div>

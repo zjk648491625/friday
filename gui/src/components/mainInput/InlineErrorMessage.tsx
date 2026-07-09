@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { IdeMessengerContext } from "../../context/IdeMessenger";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setInlineErrorMessage } from "../../redux/slices/sessionSlice";
+import { T } from "../../util/i18n";
 
 export type InlineErrorMessageType = "out-of-context";
 
@@ -29,8 +30,8 @@ export default function InlineErrorMessage() {
               });
             }}
           >
-            <span className="xs:flex hidden">Open config</span>
-            <span className="xs:hidden">Config</span>
+            <span className="xs:flex hidden">{T("Open config")}</span>
+            <span className="xs:hidden">{T("Config")}</span>
           </div>
           |
           <span
@@ -38,9 +39,7 @@ export default function InlineErrorMessage() {
             onClick={() => {
               dispatch(setInlineErrorMessage(undefined));
             }}
-          >
-            Hide
-          </span>
+          >{T("Hide")}</span>
         </div>
       </div>
     );

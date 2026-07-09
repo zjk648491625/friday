@@ -3,6 +3,7 @@ import { calculateRequestCost } from "core/llm/utils/calculateRequestCost";
 import React, { useMemo, useState } from "react";
 import { LLMLog } from "../../hooks/useLLMLog";
 import useTotalUsage from "../../hooks/useTotalUsage";
+import { T } from "../../util/i18n";
 
 interface TotalUsageProps {
   llmLog: LLMLog;
@@ -267,12 +268,12 @@ const TotalUsage: React.FC<TotalUsageProps> = ({ llmLog }) => {
 
       <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
         <StatCard
-          label="Input Tokens"
+          label={T("Input tokens")}
           value={totalUsage.totalPromptTokens}
           color="var(--vscode-charts-blue)"
         />
         <StatCard
-          label="Output Tokens"
+          label={T("Output tokens")}
           value={totalUsage.totalGeneratedTokens}
           color="var(--vscode-charts-green)"
         />
@@ -335,17 +336,13 @@ const TotalUsage: React.FC<TotalUsageProps> = ({ llmLog }) => {
           <div className="text-[color:var(--vscode-charts-green)]">
             {totalUsage.totalSuccessfulInteractions}
           </div>
-          <div className="text-[color:var(--vscode-descriptionForeground)]">
-            Success
-          </div>
+          <div className="text-[color:var(--vscode-descriptionForeground)]">{T("Success")}</div>
         </div>
         <div className="rounded border border-[color:var(--vscode-panel-border)] bg-[color:var(--vscode-editor-background)] p-2 text-center">
           <div className="text-[color:var(--vscode-charts-red)]">
             {totalUsage.totalErrorInteractions}
           </div>
-          <div className="text-[color:var(--vscode-descriptionForeground)]">
-            Error
-          </div>
+          <div className="text-[color:var(--vscode-descriptionForeground)]">{T("Error")}</div>
         </div>
         <div className="rounded border border-[color:var(--vscode-panel-border)] bg-[color:var(--vscode-editor-background)] p-2 text-center">
           <div className="text-[color:var(--vscode-charts-yellow)]">

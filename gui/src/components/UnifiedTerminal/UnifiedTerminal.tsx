@@ -11,6 +11,7 @@ import { getFontSize } from "../../util";
 import { CopyButton } from "../StyledMarkdownPreview/StepContainerPreToolbar/CopyButton";
 import { RunInTerminalButton } from "../StyledMarkdownPreview/StepContainerPreToolbar/RunInTerminalButton";
 import { ButtonContent, SpoilerButton } from "../ui/SpoilerButton";
+import { T } from "../../util/i18n";
 
 const blinkCursor = keyframes`
   0%, 50% { opacity: 1; }
@@ -440,7 +441,7 @@ export function UnifiedTerminalCommand({
                 isExpanded ? "rotate-0" : "-rotate-90"
               }`}
             />
-            <span className="text-description ml-2 select-none">Terminal</span>
+            <span className="text-description ml-2 select-none">{T("Terminal")}</span>
           </div>
 
           <div className="flex items-center gap-2.5">

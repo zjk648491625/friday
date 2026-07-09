@@ -21,6 +21,7 @@ import {
 import { isShareSessionSupported } from "../../util";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 import { ToolTip } from "../gui/Tooltip";
+import { T } from "../../util/i18n";
 
 const shareSessionSupported = isShareSessionSupported();
 
@@ -173,7 +174,7 @@ export function HistoryTableRow({
                 </HeaderButtonWithToolTip>
               )}
               <HeaderButtonWithToolTip
-                text="Delete"
+                text={T("Delete")}
                 onClick={async (e) => {
                   e.stopPropagation();
                   await dispatch(deleteSession(sessionMetadata.sessionId));
