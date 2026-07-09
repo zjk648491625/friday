@@ -183,3 +183,4 @@ keys
 # Friday AI - CodeBuddy workspace data
 .codebuddy/
 /.codebuddy/**
+manual-testing-sandbox/ 

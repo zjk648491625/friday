@@ -131,7 +131,7 @@ function InputToolbar(props: InputToolbarProps) {
                 </>
               ))}
             {props.toolbarOptions?.hideAddContext || (
-              <ToolTip place="top" content="Attach Context">
+              <ToolTip place="top" content={T("Attach Context")}>
                 <HoverItem onClick={props.onAddContextItem}>
                   <AtSymbolIcon className="h-3 w-3 hover:brightness-125" />
                 </HoverItem>
@@ -155,8 +155,8 @@ function InputToolbar(props: InputToolbarProps) {
                   place="top"
                   content={
                     hasReasoningEnabled
-                      ? "Disable model reasoning"
-                      : "Enable model reasoning"
+                      ? T("Disable model reasoning")
+                      : T("Enable model reasoning")
                   }
                 >
                   {hasReasoningEnabled ? (
@@ -198,13 +198,13 @@ function InputToolbar(props: InputToolbarProps) {
                   place="top-end"
                   content={`${
                     useActiveFile
-                      ? "Send Without Active File"
-                      : "Send With Active File"
+                      ? T("Send Without Active File")
+                      : T("Send With Active File")
                   } (${getMetaKeyLabel()}⏎)`}
                 >
                   <span>
                     {getMetaKeyLabel()}⏎{" "}
-                    {useActiveFile ? "No active file" : "Active file"}
+                    {useActiveFile ? T("No active file") : T("Active file")}
                   </span>
                 </ToolTip>
               </HoverItem>
@@ -218,12 +218,10 @@ function InputToolbar(props: InputToolbarProps) {
                 ideMessenger.post("focusEditor", undefined);
               }}
             >
-              <span>
-                <i>Esc</i> to exit Edit
-              </span>
+              <span>{T("Esc to exit Edit")}</span>
             </HoverItem>
           )}
-          <ToolTip place="top" content="Send (⏎)">
+          <ToolTip place="top" content={T("Send (⏎)")}>
             <Button
               variant={props.isMainInput ? "primary" : "secondary"}
               size="sm"
@@ -241,7 +239,7 @@ function InputToolbar(props: InputToolbarProps) {
               disabled={isEnterDisabled}
             >
               <span className="hidden md:inline">
-                ⏎ {props.toolbarOptions?.enterText ?? "Enter"}
+                ⏎ {props.toolbarOptions?.enterText ?? T("Enter")}
               </span>
               <span className="md:hidden">⏎</span>
             </Button>

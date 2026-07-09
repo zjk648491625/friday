@@ -16,7 +16,7 @@ import { ToolTip } from "../gui/Tooltip";
 import { useMainEditor } from "../mainInput/TipTapEditor";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "../ui";
 import { ModeIcon } from "./ModeIcon";
-import { T } from "../../util/i18n";
+import { T, Tfmt } from "../../util/i18n";
 
 export function ModeSelect() {
   const dispatch = useAppDispatch();
@@ -81,7 +81,7 @@ export function ModeSelect() {
           zIndex: 200001, // in front of listbox
         }}
         className="flex items-center gap-1"
-        content={`${mode} might not work well with this model.`}
+        content={Tfmt("{mode} might not work well with this model.", { mode: T(mode) })}
       >
         <ExclamationTriangleIcon className="text-warning h-2.5 w-2.5" />
       </ToolTip>
@@ -97,7 +97,7 @@ export function ModeSelect() {
         >
           <ModeIcon mode={mode} />
           <span className="hidden sm:block">
-            {mode === "chat" ? "Chat" : mode === "agent" ? "Agent" : "Plan"}
+            {mode === "chat" ? T("Chat") : mode === "agent" ? T("Agent") : T("Plan")}
           </span>
           <ChevronDownIcon
             className="h-2 w-2 flex-shrink-0"
@@ -108,7 +108,7 @@ export function ModeSelect() {
           <ListboxOption value="chat">
             <div className="flex flex-row items-center gap-1.5">
               <ModeIcon mode="chat" />
-              <span className="">Chat</span>
+              <span className="">{T("Chat")}</span>
               <ToolTip
                 style={{
                   zIndex: 200001,
@@ -167,7 +167,7 @@ export function ModeSelect() {
           </ListboxOption>
 
           <div className="text-description-muted px-2 py-1">
-            {`${metaKeyLabel} . for next mode`}
+            {Tfmt("{key} . for next mode", { key: metaKeyLabel })}
           </div>
         </ListboxOptions>
       </div>

@@ -3,6 +3,7 @@ import { useMemo, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { saveCurrentSession } from "../../redux/thunks/session";
 import { useCompactConversation } from "../../util/compactConversation";
+import { T, Tfmt } from "../../util/i18n";
 import { ToolTip } from "../gui/Tooltip";
 
 const ContextStatus = () => {
@@ -55,11 +56,11 @@ const ContextStatus = () => {
         content={
           <div className="flex flex-col gap-0 text-left text-xs">
             <span className="inline-block">
-              {`${percent}% of context filled.`}
+              {Tfmt("{percent}% of context filled.", { percent: String(percent) })}
             </span>
             {isPruned && (
               <span className="inline-block">
-                {`Oldest messages are being removed.`}
+                {T("Oldest messages are being removed.")}
               </span>
             )}
             {history.length > 0 && (
@@ -69,7 +70,7 @@ const ContextStatus = () => {
                     className="hover:text-link inline-block cursor-pointer underline"
                     onClick={() => compactConversation(history.length - 1)}
                   >
-                    Compact conversation
+                    {T("Compact conversation")}
                   </span>
                   {"\n"}
                   <span
@@ -83,7 +84,7 @@ const ContextStatus = () => {
                       );
                     }}
                   >
-                    Start a new session
+                    {T("Start a new session")}
                   </span>
                 </div>
               </div>
