@@ -2,10 +2,10 @@
 <!-- Modified by Friday AI Team - Rebranded from Continue -->
 <idea-plugin>
     <id>com.github.fridayai.fridayintellijextension</id>
-    <name>Friday AI</name>
-    <vendor url="https://www.continue.dev/">friday-ai-team</vendor>
+    <name>IronHero</name>
+    <vendor url="https://www.IronHero.com/">IronHero</vendor>
     <change-notes>
-        <![CDATA[View the latest release notes on <a href="https://github.com/continuedev/continue/releases">GitHub</a>]]></change-notes>
+        <![CDATA[IronHero - AI-powered coding assistant]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
@@ -43,7 +43,7 @@
         <applicationConfigurable
                 parentId="tools"
                 instance="com.github.fridayai.fridayintellijextension.services.FridayExtensionConfigurable"
-                id="com.github.fridayai.fridayintellijextension.services.FridayExtensionConfigurable"
+                id="com.github.fridayai.fridayintellijextension.fridayintellijextension.services.FridayExtensionConfigurable"
                 displayName="Friday AI"/>
         <applicationService
                 serviceImplementation="com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings"/>
@@ -186,7 +186,7 @@
             <override-text place="GoToAction" text="Friday: Add Highlighted Code to Context and Clear Chat"/>
         </action>
         <group id="FridayProjectViewPopUpMenuGroup" popup="true" text="Friday" icon="/icons/friday.svg">
-            <action id="com.github.fridayai.fridayintellijextension.actions.AddToChatAction"
+            <action id="com.github.fridayai.fridayintellijextension.fridayintellijextension.actions.AddToChatAction"
                     class="com.github.fridayai.fridayintellijextension.actions.AddToChatAction"
                     text="Add to Chat">
             </action>
