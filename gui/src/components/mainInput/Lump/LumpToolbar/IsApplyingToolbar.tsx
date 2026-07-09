@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../../../redux/hooks";
 import { cancelStream } from "../../../../redux/thunks/cancelStream";
 import { getAltKeyLabel, getMetaKeyLabel } from "../../../../util";
 import { GeneratingIndicator } from "./GeneratingIndicator";
+import { T } from "../../../../util/i18n";
 
 export const IsApplyingToolbar = () => {
   const ideMessenger = useContext(IdeMessengerContext);
@@ -13,7 +14,7 @@ export const IsApplyingToolbar = () => {
 
   return (
     <div className="flex w-full items-center justify-between">
-      <GeneratingIndicator text="Applying" testId={"notch-applying-text"} />
+      <GeneratingIndicator text={T("Applying")} testId={"notch-applying-text"} />
       <div
         data-testid="notch-applying-cancel-button"
         className="text-description text-2xs cursor-pointer p-0.5 pr-1 hover:brightness-125"

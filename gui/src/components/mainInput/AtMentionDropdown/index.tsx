@@ -36,6 +36,7 @@ import HeaderButtonWithToolTip from "../../gui/HeaderButtonWithToolTip";
 import { Button } from "../../ui";
 import { NAMED_ICONS } from "../icons";
 import type { ComboBoxItem, ComboBoxItemType } from "../types";
+import { T } from "../../../util/i18n";
 
 export function getIconFromDropdownItem(
   id: string | undefined,
@@ -613,7 +614,7 @@ const AtMentionDropdown = forwardRef((props: AtMentionDropdownProps, ref) => {
               );
             })
           ) : (
-            <ItemDiv className="item whitespace-nowrap">No results</ItemDiv>
+            <ItemDiv className="item whitespace-nowrap">{T("No results")}</ItemDiv>
           )}
         </>
       )}

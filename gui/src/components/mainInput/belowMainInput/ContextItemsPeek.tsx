@@ -16,6 +16,7 @@ import SafeImg from "../../SafeImg";
 import ToggleDiv from "../../ToggleDiv";
 import { getIconFromDropdownItem } from "../AtMentionDropdown";
 import { NAMED_ICONS } from "../icons";
+import { T } from "../../../util/i18n";
 
 interface ContextItemsPeekProps {
   contextItems?: ContextItemWithId[];
@@ -197,9 +198,7 @@ export function ContextItemsPeek({
           <ContextItemsPeekItem key={idx} contextItem={contextItem} />
         ))
       ) : (
-        <div className="text-description-muted pl-2 text-xs italic">
-          No results
-        </div>
+        <div className="text-description-muted pl-2 text-xs italic">{T("No results")}</div>
       )}
     </ToggleDiv>
   );

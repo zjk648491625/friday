@@ -11,6 +11,7 @@ import mermaid from "mermaid";
 import { useEffect, useRef, useState } from "react";
 import { useDebouncedEffect } from "../find/useDebounce";
 import { ToolTip } from "../gui/Tooltip";
+import { T } from "../../util/i18n";
 
 const MINIMUM_ZOOM_STEP = 0.05;
 
@@ -157,7 +158,7 @@ export default function MermaidDiagram({ code }: { code: string }) {
               />
             </ToolTip>
 
-            <ToolTip content="Reset Zoom">
+            <ToolTip content={T("Reset Zoom")}>
               <ArrowPathRoundedSquareIcon
                 ref={resetZoomButtonRef}
                 className="h-4 w-4 cursor-pointer"

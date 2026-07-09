@@ -471,7 +471,7 @@ export function ToolsSection() {
     <>
       <ConfigHeader
         title="Tools"
-        subtext="Manage MCP servers and tool policies"
+        subtext={T("Manage MCP servers and tool policies")}
         className="mb-2"
       />
       {!!availableToolsMessage && (

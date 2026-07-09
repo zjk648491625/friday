@@ -113,7 +113,7 @@ export function ModeSelect() {
                 style={{
                   zIndex: 200001,
                 }}
-                content="All tools disabled"
+                content={T("All tools disabled")}
               >
                 <InformationCircleIcon
                   data-tooltip-id="chat-tip"
@@ -136,7 +136,7 @@ export function ModeSelect() {
                 style={{
                   zIndex: 200001,
                 }}
-                content="Read-only/MCP tools available"
+                content={T("Read-only/MCP tools available")}
               >
                 <InformationCircleIcon className="h-2.5 w-2.5 flex-shrink-0" />
               </ToolTip>
@@ -155,7 +155,7 @@ export function ModeSelect() {
                 style={{
                   zIndex: 200001,
                 }}
-                content="All tools available"
+                content={T("All tools available")}
               >
                 <InformationCircleIcon className="h-2.5 w-2.5 flex-shrink-0" />
               </ToolTip>

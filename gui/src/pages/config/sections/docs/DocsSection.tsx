@@ -6,6 +6,7 @@ import { useAuth } from "../../../../context/Auth";
 import { useAppSelector } from "../../../../redux/hooks";
 import { EmptyState } from "../../../../components/ui";
 import DocsIndexingStatus from "./DocsIndexingStatus";
+import { T } from "../../../../util/i18n";
 
 function DocsIndexingStatuses() {
   const config = useAppSelector((store) => store.config.config);
@@ -51,7 +52,7 @@ function DocsIndexingStatuses() {
 
   if (sortedConfigDocs.length === 0) {
     return (
-      <EmptyState message="No documentation sources configured. Click the + button to add your first docs." />
+      <EmptyState message={T("No documentation sources configured. Click the + button to add your first docs.")} />
     );
   }
 

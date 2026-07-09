@@ -25,9 +25,7 @@ export function ApplyActions(props: ApplyActionsProps) {
     case "streaming":
       return (
         <div className="bg-badge flex select-none items-center rounded pl-2 pr-1">
-          <span className="inline-flex items-center gap-2 text-center text-xs text-description">
-            Applying
-            <Spinner />
+          <span className="inline-flex items-center gap-2 text-center text-xs text-description">{T("Applying")}<Spinner />
           </span>
         </div>
       );

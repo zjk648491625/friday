@@ -11,7 +11,7 @@ interface CreateFileButtonProps {
 
 export function CreateFileButton({ onClick }: CreateFileButtonProps) {
   return (
-    <ToolTip place="top" content="Create File with Code">
+    <ToolTip place="top" content={T("Create File with Code")}>
       <HoverItem className="!p-0">
         <button
           data-testid="codeblock-toolbar-create"

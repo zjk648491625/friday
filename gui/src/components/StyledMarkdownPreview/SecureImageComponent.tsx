@@ -1,6 +1,7 @@
 // Modified by Friday AI Team - Rebranded from Continue
 import React, { useState } from "react";
 import styled from "styled-components";
+import { T } from "../../util/i18n";
 import {
   lightGray,
   vscBackground,
@@ -163,7 +164,7 @@ export const SecureImageComponent: React.FC<SecureImageComponentProps> = ({
         </div>
       )}
 
-      <LoadButton onClick={() => setShowImage(true)}>Load Image</LoadButton>
+      <LoadButton onClick={() => setShowImage(true)}>{T("Load Image")}</LoadButton>
     </ImagePlaceholder>
   );
 };

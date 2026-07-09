@@ -21,6 +21,7 @@ import {
 } from "./findWidgetSearch";
 import { useDebounceValue } from "./useDebounce";
 import { useElementSize } from "./useElementSize";
+import { T } from "../../util/i18n";
 
 interface HighlightOverlayProps {
   rectangle: Rectangle;
@@ -226,7 +227,7 @@ export const useFindWidget = (
         onChange={(e) => {
           setCurrentValue(e.target.value);
         }}
-        placeholder="Search..."
+        placeholder={T("Search...")}
       />
       <p className="xs:block hidden min-w-12 whitespace-nowrap px-1 text-center text-xs">
         {matches.length === 0

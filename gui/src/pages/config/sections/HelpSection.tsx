@@ -183,7 +183,7 @@ export function HelpSection() {
             <div className="flex flex-col">
               <ConfigRow
                 title="Documentation"
-                description="Learn how to configure and use Friday"
+                description={T("Learn how to configure and use Friday")}
                 icon={LinkIcon}
                 onClick={() =>
                   ideMessenger.post("openUrl", "https://docs.friday.dev/")
@@ -200,7 +200,7 @@ export function HelpSection() {
             <div className="flex flex-col">
               <ConfigRow
                 title={T("Token usage")}
-                description="Daily token usage across models"
+                description={T("Daily token usage across models")}
                 icon={TableCellsIcon}
                 onClick={() => navigate(ROUTES.STATS)}
               />
@@ -217,7 +217,7 @@ export function HelpSection() {
 
               <ConfigRow
                 title={T("Quickstart")}
-                description="Reopen the quickstart and tutorial file"
+                description={T("Reopen the quickstart and tutorial file")}
                 icon={DocumentArrowUpIcon}
                 onClick={async () => {
                   navigate("/");
