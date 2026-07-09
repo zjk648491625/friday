@@ -170,7 +170,7 @@ function InputToolbar(props: InputToolbarProps) {
         </div>
 
         <div
-          className="text-description flex items-center gap-2 whitespace-nowrap"
+          className="text-description flex min-w-0 items-center gap-2 whitespace-nowrap overflow-hidden"
           style={{
             fontSize: tinyFont,
           }}

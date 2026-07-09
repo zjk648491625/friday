@@ -387,7 +387,7 @@ export function Chat() {
 
       <StepsDiv
         ref={stepsDivRef}
-        className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll`}
+        className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll overflow-x-hidden`}
       >
         <DeprecationBanner dismissable={true} />
         {highlights}
