@@ -1,4 +1,4 @@
-// Modified by Friday AI Team - Rebranded from Continue
+// Friday
 import {
   ArrowLeftIcon,
   CircleStackIcon,
@@ -9,6 +9,7 @@ import {
   QuestionMarkCircleIcon,
   WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
+import { T } from "../../util/i18n";
 import { ConfigSection } from "./components/ConfigSection";
 import { ConfigsSection } from "./sections/ConfigsSection";
 import { HelpSection } from "./sections/HelpSection";
@@ -39,7 +40,7 @@ export const topTabSections: TabSection[] = [
     tabs: [
       {
         id: "back",
-        label: "Back",
+        label: T("Back"),
         component: <div />,
         icon: <ArrowLeftIcon className="xs:h-4 xs:w-4 h-3 w-3 flex-shrink-0" />,
       },
@@ -51,7 +52,7 @@ export const topTabSections: TabSection[] = [
     tabs: [
       {
         id: "models",
-        label: "Models",
+        label: T("Models"),
         component: (
           <ConfigSection>
             <ModelsSection />
@@ -61,7 +62,7 @@ export const topTabSections: TabSection[] = [
       },
       {
         id: "rules",
-        label: "Rules",
+        label: T("Rules"),
         component: (
           <ConfigSection>
             <RulesSection />
@@ -71,7 +72,7 @@ export const topTabSections: TabSection[] = [
       },
       {
         id: "tools",
-        label: "Tools",
+        label: T("Tools"),
         component: (
           <ConfigSection>
             <ToolsSection />
@@ -89,7 +90,7 @@ export const topTabSections: TabSection[] = [
     tabs: [
       {
         id: "configs",
-        label: "Configs",
+        label: T("Configs"),
         component: (
           <ConfigSection>
             <ConfigsSection />
@@ -105,7 +106,7 @@ export const topTabSections: TabSection[] = [
     tabs: [
       {
         id: "indexing",
-        label: "Indexing",
+        label: T("Indexing"),
         component: (
           <ConfigSection>
             <IndexingSettingsSection />
@@ -125,7 +126,7 @@ export const bottomTabSections: TabSection[] = [
     tabs: [
       {
         id: "settings",
-        label: "Settings",
+        label: T("Settings"),
         component: (
           <ConfigSection>
             <UserSettingsSection />
@@ -135,7 +136,7 @@ export const bottomTabSections: TabSection[] = [
       },
       {
         id: "help",
-        label: "Help",
+        label: T("Help"),
         component: (
           <ConfigSection>
             <HelpSection />

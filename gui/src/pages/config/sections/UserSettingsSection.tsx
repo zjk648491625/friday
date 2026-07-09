@@ -12,6 +12,7 @@ import { setLocalStorage } from "../../../util/localStorage";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { UserSetting } from "../components/UserSetting";
 import { T } from "../../../util/i18n";
+import { useLanguage } from "../../../context/Language";
 
 export function UserSettingsSection() {
   /////// User settings section //////
@@ -20,6 +21,7 @@ export function UserSettingsSection() {
   const config = useAppSelector((state) => state.config.config);
 
   const [showExperimental, setShowExperimental] = useState(false);
+  const { language, setLanguage } = useLanguage();
 
   function handleUpdate(sharedConfig: SharedConfigSchema) {
     // Optimistic update
@@ -98,21 +100,21 @@ export function UserSettingsSection() {
                 <UserSetting
                   type="toggle"
                   title={T("Show Session Tabs")}
-                  description="Displays tabs above the chat as an alternative way to organize and access your sessions."
+                  description={T("Displays tabs above the chat as an alternative way to organize and access your sessions.")}
                   value={showSessionTabs}
                   onChange={(value) => handleUpdate({ showSessionTabs: value })}
                 />
                 <UserSetting
                   type="toggle"
                   title={T("Wrap Codeblocks")}
-                  description="Wraps long lines in code blocks instead of showing horizontal scroll."
+                  description={T("Wraps long lines in code blocks instead of showing horizontal scroll.")}
                   value={codeWrap}
                   onChange={(value) => handleUpdate({ codeWrap: value })}
                 />
                 <UserSetting
                   type="toggle"
                   title={T("Show chat scrollbar")}
-                  description="Enables a scrollbar in the chat window."
+                  description={T("Enables a scrollbar in the chat window.")}
                   value={showChatScrollbar}
                   onChange={(value) =>
                     handleUpdate({ showChatScrollbar: value })
@@ -120,15 +122,15 @@ export function UserSettingsSection() {
                 />
                 <UserSetting
                   type="toggle"
-                  title="Text-to-Speech Output"
-                  description="Reads LLM responses aloud with TTS."
+                  title={T("Text-to-Speech Output")}
+                  description={T("Reads LLM responses aloud with TTS.")}
                   value={readResponseTTS}
                   onChange={(value) => handleUpdate({ readResponseTTS: value })}
                 />
                 <UserSetting
                   type="toggle"
-                  title="Enable Session Titles"
-                  description="Generates summary titles for each chat session after the first message, using the current Chat model."
+                  title={T("Enable Session Titles")}
+                  description={T("Generates summary titles for each chat session after the first message, using the current Chat model.")}
                   value={!disableSessionTitles}
                   onChange={(value) =>
                     handleUpdate({ disableSessionTitles: !value })
@@ -136,8 +138,8 @@ export function UserSettingsSection() {
                 />
                 <UserSetting
                   type="toggle"
-                  title="Format Markdown"
-                  description="If off, shows responses as raw text."
+                  title={T("Format Markdown")}
+                  description={T("If off, shows responses as raw text.")}
                   value={!displayRawMarkdown}
                   onChange={(value) =>
                     handleUpdate({ displayRawMarkdown: !value })
@@ -152,10 +154,24 @@ export function UserSettingsSection() {
             <ConfigHeader title="Appearance" variant="sm" />
             <Card>
               <div className="flex flex-col gap-4">
+                <div className="flex items-start justify-start gap-4">
+                  <div className="flex flex-1 flex-col">
+                    <span className="text-sm font-medium text-foreground">{T("Language")}</span>
+                    <div className="mt-0.5 text-xs text-description-muted">切换界面显示语言 / Switch UI language</div>
+                  </div>
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as "zh" | "en")}
+                    className="border-command-border bg-vsc-input-background text-vsc-foreground rounded border px-2 py-1 text-sm"
+                  >
+                    <option value="zh">中文</option>
+                    <option value="en">English</option>
+                  </select>
+                </div>
                 <UserSetting
                   type="number"
                   title={T("Font Size")}
-                  description="Specifies base font size for UI elements."
+                  description={T("Specifies base font size for UI elements.")}
                   value={fontSize}
                   onChange={(val) => {
                     setLocalStorage("fontSize", val);
@@ -175,8 +191,8 @@ export function UserSettingsSection() {
               <div className="flex flex-col gap-4">
                 <UserSetting
                   type="select"
-                  title="Multiline Autocompletions"
-                  description="Controls multiline completions for autocomplete."
+                  title={T("Multiline Autocompletions")}
+                  description={T("Controls multiline completions for autocomplete.")}
                   value={useAutocompleteMultilineCompletions}
                   onChange={(value) =>
                     handleUpdate({
@@ -194,8 +210,8 @@ export function UserSettingsSection() {
                 />
                 <UserSetting
                   type="number"
-                  title="Autocomplete Timeout (ms)"
-                  description="Maximum time in milliseconds for autocomplete request/retrieval."
+                  title={T("Autocomplete Timeout (ms)")}
+                  description={T("Maximum time in milliseconds for autocomplete request/retrieval.")}
                   value={modelTimeout}
                   onChange={(val) => handleUpdate({ modelTimeout: val })}
                   min={100}
@@ -203,8 +219,8 @@ export function UserSettingsSection() {
                 />
                 <UserSetting
                   type="number"
-                  title="Autocomplete Debounce (ms)"
-                  description="Minimum time in milliseconds to trigger an autocomplete request after a change."
+                  title={T("Autocomplete Debounce (ms)")}
+                  description={T("Minimum time in milliseconds to trigger an autocomplete request after a change.")}
                   value={debounceDelay}
                   onChange={(val) => handleUpdate({ debounceDelay: val })}
                   min={0}
@@ -212,8 +228,8 @@ export function UserSettingsSection() {
                 />
                 <UserSetting
                   type="input"
-                  title="Disable autocomplete in files"
-                  description="List of comma-separated glob pattern to disable autocomplete in matching files."
+                  title={T("Disable autocomplete in files")}
+                  description={T("List of comma-separated glob pattern to disable autocomplete in matching files.")}
                   placeholder="**/*.(txt,md)"
                   value={formDisableAutocomplete}
                   onChange={setFormDisableAutocomplete}
@@ -240,7 +256,7 @@ export function UserSettingsSection() {
                 <div className="flex flex-col gap-x-1 gap-y-4">
                   <UserSetting
                     type="toggle"
-                    title="Add Current File by Default"
+                    title={T("Add Current File by Default")}
                     description=" the currently open file is added as context in every new conversation."
                     value={useCurrentFileAsContext}
                     onChange={(value) =>
@@ -249,7 +265,7 @@ export function UserSettingsSection() {
                   />
                   <UserSetting
                     type="toggle"
-                    title="Enable experimental tools"
+                    title={T("Enable experimental tools")}
                     description=" enables access to experimental tools that are still in development."
                     value={enableExperimentalTools}
                     onChange={(value) =>
@@ -258,7 +274,7 @@ export function UserSettingsSection() {
                   />
                   <UserSetting
                     type="toggle"
-                    title="Only use system message tools"
+                    title={T("Only use system message tools")}
                     description=" Friday will not attempt to use native tool calling and will only use system message tools."
                     value={onlyUseSystemMessageTools}
                     onChange={(value) =>
@@ -267,7 +283,7 @@ export function UserSettingsSection() {
                   />
                   <UserSetting
                     type="toggle"
-                    title="@Codebase: use tool calling only"
+                    title={T("@Codebase: use tool calling only")}
                     description=" @codebase context provider will only use tool calling for code retrieval."
                     value={codebaseToolCallingOnly}
                     onChange={(value) =>
@@ -276,7 +292,7 @@ export function UserSettingsSection() {
                   />
                   <UserSetting
                     type="toggle"
-                    title="Stream after tool rejection"
+                    title={T("Stream after tool rejection")}
                     description=" streaming will friday after the tool call is rejected."
                     value={fridayAfterToolRejection}
                     onChange={(value) =>
