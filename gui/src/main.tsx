@@ -8,24 +8,14 @@ import "./index.css";
 import { LanguageProvider } from "./context/Language";
 import { persistor, store } from "./redux/store";
 
-// ── Global DevTools trigger (runs before React, guaranteed to work in JCEF) ──
+// ── Global DevTools & clipboard helpers (runs before React, JCEF-safe) ──
 (function setupDevTools() {
   let devtoolsMenuEl: HTMLDivElement | null = null;
 
-  function openDevTools(e?: Event) {
-    e?.preventDefault();
-    // Use postIntellijMessage directly (available in JCEF webview)
+  function postToIde(messageType: string, data?: any) {
+    // Use the JBCefJSQuery bridge injected by FridayBrowser.kt
     if ((window as any).postIntellijMessage) {
-      (window as any).postIntellijMessage("toggleDevTools", undefined, crypto.randomUUID());
-    } else {
-      // Fallback: try vscode postMessage
-      try {
-        (window as any).postMessage({ messageType: "toggleDevTools", data: undefined, messageId: "" }, "*");
-      } catch (_) {}
-    }
-    if (devtoolsMenuEl) {
-      devtoolsMenuEl.remove();
-      devtoolsMenuEl = null;
+      (window as any).postIntellijMessage(messageType, data, "");
     }
   }
 
@@ -50,7 +40,6 @@ import { persistor, store } from "./redux/store";
     devtoolsMenuEl = document.createElement("div");
     devtoolsMenuEl.id = "friday-devtools-menu";
 
-    // Position towards center from edge
     const toRight = x > window.innerWidth / 2;
     const toBottom = y > window.innerHeight / 2;
     devtoolsMenuEl.style[toRight ? "right" : "left"] = toRight
@@ -61,42 +50,64 @@ import { persistor, store } from "./redux/store";
       : `${y}px`;
 
     const devToolsItem = document.createElement("div");
-    devToolsItem.textContent = "🔧 Open Dev Tools  (Ctrl+Shift+I)";
-    devToolsItem.onclick = () => openDevTools();
+    devToolsItem.textContent = "\uD83D\uDD27 Open Dev Tools  (Ctrl+Shift+I)";
+    devToolsItem.onclick = (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      postToIde("toggleDevTools");
+      hideMenu();
+    };
+    devtoolsMenuEl.appendChild(devToolsItem);
 
-    const copyItem = document.createElement("div");
+    // Copy selected text — use execCommand which works in JCEF
     const sel = window.getSelection()?.toString();
     if (sel) {
-      copyItem.textContent = "📋 Copy";
-      copyItem.onclick = () => {
-        navigator.clipboard.writeText(sel).catch(() => document.execCommand("copy"));
+      const copyItem = document.createElement("div");
+      copyItem.textContent = "\uD83D\uDCCB Copy";
+      copyItem.onclick = (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        document.execCommand("copy");
         hideMenu();
       };
+      devtoolsMenuEl.appendChild(copyItem);
     }
 
-    devtoolsMenuEl.appendChild(devToolsItem);
-    if (sel) devtoolsMenuEl.appendChild(copyItem);
     document.body.appendChild(devtoolsMenuEl);
   }
 
-  // Intercept right-click: prevent native menu, show custom menu
+  // Only intercept contextmenu on the document root (not inside editable/inputs)
   window.addEventListener("contextmenu", (e) => {
+    const target = e.target as HTMLElement;
+    // Don't intercept inside ProseMirror (TipTap editor) or any input/textarea
+    if (
+      target.closest?.(".ProseMirror") ||
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.isContentEditable
+    ) {
+      return; // let native behavior handle it (paste, etc.)
+    }
     e.preventDefault();
     e.stopPropagation();
     showDevToolsMenu(e.clientX, e.clientY);
-  }, true); // capture phase to beat JCEF native handler
+  });
 
   // Close menu on click elsewhere
-  window.addEventListener("click", hideMenu, true);
+  window.addEventListener("click", (e) => {
+    if (devtoolsMenuEl && !devtoolsMenuEl.contains(e.target as Node)) {
+      hideMenu();
+    }
+  });
 
-  // Keyboard shortcut: Ctrl+Shift+I
+  // Keyboard shortcut: Ctrl+Shift+I → open DevTools
   window.addEventListener("keydown", (e) => {
     if (e.key === "I" && e.ctrlKey && e.shiftKey) {
       e.preventDefault();
       e.stopPropagation();
-      openDevTools();
+      postToIde("toggleDevTools");
     }
-  }, true); // capture phase
+  });
 })();
 
 (async () => {
