@@ -76,7 +76,7 @@ const ListboxOption = React.forwardRef<HTMLLIElement, ListboxOptionProps>(
           "text-foreground flex select-none flex-row items-center justify-between px-2 py-1 first:rounded-t-md last:rounded-b-md",
           props.disabled
             ? "opacity-50"
-            : "bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer opacity-100 transition-colors duration-150",
+            : "bg-transparent hover:bg-gray-200/70 dark:hover:bg-gray-600/70 cursor-pointer opacity-100 transition-colors duration-150",
           props.className,
         )}
         style={{

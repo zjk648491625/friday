@@ -1,6 +1,10 @@
 import {
+  ArrowDownIcon,
   ArrowLeftIcon,
+  ArrowUpIcon,
   ChatBubbleOvalLeftIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from "@heroicons/react/24/outline";
 import { Editor, JSONContent } from "@tiptap/react";
 import { ChatHistoryItem, InputModifiers } from "core";
@@ -380,42 +384,107 @@ export function Chat() {
 
   const showScrollbar = showChatScrollbar ?? window.innerHeight > 5000;
 
+  // ---- Scroll navigation helpers ----
+  const scrollToTop = useCallback(() => {
+    stepsDivRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  const scrollToBottom = useCallback(() => {
+    const el = stepsDivRef.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, []);
+
+  const scrollToUserMsg = useCallback((dir: "prev" | "next") => {
+    const el = stepsDivRef.current;
+    if (!el) return;
+    const items = el.querySelectorAll("[data-user-msg]");
+    if (items.length === 0) return;
+    // Find first visible user message index
+    const containerTop = el.scrollTop;
+    const containerBottom = containerTop + el.clientHeight;
+    let currentIdx = dir === "prev" ? items.length - 1 : 0;
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i] as HTMLElement;
+      const itemTop = item.offsetTop;
+      if (itemTop >= containerTop && itemTop < containerBottom) {
+        currentIdx = i;
+        break;
+      }
+      if (itemTop < containerTop) currentIdx = i;
+    }
+    const targetIdx = dir === "prev"
+      ? Math.max(0, currentIdx - 1)
+      : Math.min(items.length - 1, currentIdx + 1);
+    (items[targetIdx] as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  const filteredHistory = useMemo(
+    () => history.filter((item) => item.message.role !== "system"),
+    [history],
+  );
+  // ----
+
   return (
     <>
       {!!showSessionTabs && !isInEdit && <TabBar ref={tabsRef} />}
       {widget}
 
-      <StepsDiv
-        ref={stepsDivRef}
-        className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll overflow-x-hidden`}
-      >
-        <DeprecationBanner dismissable={true} />
-        {highlights}
-        {history.length === 0 ? (
-          <EmptyChatBody showOnboardingCard={onboardingCard.show} />
-        ) : (
-          history
-            .filter((item) => item.message.role !== "system")
-            .map((item, index: number) => (
-              <div
-                key={item.message.id}
-                style={{
-                  minHeight: index === history.length - 1 ? "200px" : 0,
-                }}
-              >
-                <ErrorBoundary
-                  FallbackComponent={fallbackRender}
-                  onReset={() => {
-                    dispatch(newSession());
+      <div className="relative flex min-h-0 flex-1">
+        <StepsDiv
+          ref={stepsDivRef}
+          className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll overflow-x-hidden`}
+        >
+          <DeprecationBanner dismissable={true} />
+          {highlights}
+          {history.length === 0 ? (
+            <EmptyChatBody showOnboardingCard={onboardingCard.show} />
+          ) : (
+            history
+              .filter((item) => item.message.role !== "system")
+              .map((item, index: number) => (
+                <div
+                  key={item.message.id}
+                  {...(item.message.role === "user" ? { "data-user-msg": "true" } : {})}
+                  style={{
+                    minHeight: index === filteredHistory.length - 1 ? "200px" : 0,
                   }}
                 >
-                  {renderChatHistoryItem(item, index)}
-                </ErrorBoundary>
-                {index === history.length - 1 && <InlineErrorMessage />}
-              </div>
-            ))
+                  <ErrorBoundary
+                    FallbackComponent={fallbackRender}
+                    onReset={() => {
+                      dispatch(newSession());
+                    }}
+                  >
+                    {renderChatHistoryItem(item, index)}
+                  </ErrorBoundary>
+                  {index === filteredHistory.length - 1 && <InlineErrorMessage />}
+                </div>
+              ))
+          )}
+        </StepsDiv>
+
+        {/* Scroll navigation buttons */}
+        {filteredHistory.length > 0 && (
+          <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-0.5">
+            <button onClick={scrollToTop} title={T("Scroll to top")}
+              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
+              <ArrowUpIcon className="h-3.5 w-3.5 text-foreground" />
+            </button>
+            <button onClick={() => scrollToUserMsg("prev")} title={T("Previous user message")}
+              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
+              <ChevronUpIcon className="h-3.5 w-3.5 text-foreground" />
+            </button>
+            <button onClick={() => scrollToUserMsg("next")} title={T("Next user message")}
+              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
+              <ChevronDownIcon className="h-3.5 w-3.5 text-foreground" />
+            </button>
+            <button onClick={scrollToBottom} title={T("Scroll to bottom")}
+              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
+              <ArrowDownIcon className="h-3.5 w-3.5 text-foreground" />
+            </button>
+          </div>
         )}
-      </StepsDiv>
+      </div>
       <div className={"relative shrink-0"}>
         <FridayInputBox
           isMainInput

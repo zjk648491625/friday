@@ -672,6 +672,10 @@ const zh: Dict = {
   "Configure tools": "配置工具",
   "Configure models": "配置模型",
   "Select Config": "选择配置",
+  "Scroll to top": "滚动到顶部",
+  "Previous user message": "上一条用户消息",
+  "Next user message": "下一条用户消息",
+  "Scroll to bottom": "滚动到底部",
 };
 
 export function T(en: string): string {

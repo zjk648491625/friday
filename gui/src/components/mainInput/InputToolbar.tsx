@@ -181,16 +181,16 @@ function InputToolbar(props: InputToolbarProps) {
         >
           {!isInEdit && <ContextStatus />}
           {props.onOptimizePrompt && props.isMainInput && (
-            <ToolTip
-              place="top"
-              content={props.isOptimizing ? T("Optimizing...") : T("Optimize Prompt")}
-            >
-              <HoverItem
+            <ToolTip place="top" content={props.isOptimizing ? T("Optimizing...") : T("Optimize Prompt")}>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={props.isOptimizing ? undefined : props.onOptimizePrompt}
-                className={props.isOptimizing ? "opacity-50 cursor-not-allowed" : ""}
+                disabled={props.isOptimizing}
+                className="hover:enabled:text-foreground my-0 h-6 px-2 py-0"
               >
-                <SparklesIcon className={`h-3 w-3 hover:brightness-150 ${props.isOptimizing ? "animate-pulse" : ""}`} />
-              </HoverItem>
+                <SparklesIcon className={`h-4 w-4 ${props.isOptimizing ? "animate-pulse text-blue-400" : "text-description-muted hover:brightness-150"}`} />
+              </Button>
             </ToolTip>
           )}
           {!props.toolbarOptions?.hideUseCodebase && !isInEdit && (

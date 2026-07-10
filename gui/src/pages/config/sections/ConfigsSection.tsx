@@ -1,5 +1,5 @@
 import { Cog6ToothIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { useCallback, useContext, useRef } from "react";
+import { useCallback, useContext, useState } from "react";
 import { AssistantIcon } from "../../../components/AssistantAndOrgListbox/AssistantIcon";
 import ConfirmationDialog from "../../../components/dialogs/ConfirmationDialog";
 import { ToolTip } from "../../../components/gui/Tooltip";
@@ -16,7 +16,12 @@ export function ConfigsSection() {
   const ideMessenger = useContext(IdeMessengerContext);
   const dispatch = useAppDispatch();
   const configError = useAppSelector((state) => state.config.configError);
-  const renameInputRef = useRef<HTMLInputElement>(null);
+
+  // Rename dialog state (local React state, NOT dispatched JSX)
+  const [renameOpen, setRenameOpen] = useState(false);
+  const [renameUri, setRenameUri] = useState("");
+  const [renameBaseName, setRenameBaseName] = useState("");
+  const [renameInputValue, setRenameInputValue] = useState("");
 
   function handleAddConfig() {
     void ideMessenger.request("config/newAssistantFile", undefined);
@@ -49,6 +54,17 @@ export function ConfigsSection() {
     },
     [dispatch, ideMessenger],
   );
+
+  const doRename = useCallback(async () => {
+    const val = renameInputValue.trim();
+    if (!val || val === renameBaseName) return;
+    setRenameOpen(false);
+    try {
+      await ideMessenger.request("config/renameProfile", { uri: renameUri, newName: val });
+    } catch (error) {
+      console.error("Failed to rename profile:", error);
+    }
+  }, [renameInputValue, renameBaseName, renameUri, ideMessenger]);
 
   return (
     <>
@@ -115,61 +131,10 @@ export function ConfigsSection() {
                     <ToolTip content={T("Rename Config")}>
                       <Button
                         onClick={() => {
-                          const uri = profile.uri;
-                          const title = profile.title;
-                          // Extract base name without .yaml suffix for editing
-                          const baseName = title.replace(/\.yaml$/, "");
-                          dispatch(
-                            setDialogMessage(
-                              <div className="p-4">
-                                <h2 className="mb-3 text-lg font-semibold">{T("Rename Config")}</h2>
-                                <div className="flex items-center gap-1">
-                                  <input
-                                    ref={(el) => { (renameInputRef as any).current = el; }}
-                                    type="text"
-                                    defaultValue={baseName}
-                                    className="bg-vsc-input-background text-vsc-foreground w-full rounded-md border border-gray-500 px-3 py-2 text-sm outline-none focus:border-blue-500"
-                                    onKeyDown={(e) => {
-                                      if (e.key === "Enter") {
-                                        const val = (e.target as HTMLInputElement).value.trim();
-                                        if (val && val !== baseName) {
-                                          dispatch(setShowDialog(false));
-                                          dispatch(setDialogMessage(undefined));
-                                          void ideMessenger.request("config/renameProfile", { uri, newName: val });
-                                        }
-                                      }
-                                    }}
-                                    autoFocus
-                                  />
-                                  <span className="text-description text-sm">.yaml</span>
-                                </div>
-                                <div className="mt-3 flex justify-end gap-2">
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => {
-                                      dispatch(setShowDialog(false));
-                                      dispatch(setDialogMessage(undefined));
-                                    }}
-                                  >
-                                    {T("Cancel")}
-                                  </Button>
-                                  <Button
-                                    onClick={() => {
-                                      const val = renameInputRef.current?.value?.trim();
-                                      if (val && val !== baseName) {
-                                        dispatch(setShowDialog(false));
-                                        dispatch(setDialogMessage(undefined));
-                                        void ideMessenger.request("config/renameProfile", { uri, newName: val });
-                                      }
-                                    }}
-                                  >
-                                    {T("Confirm")}
-                                  </Button>
-                                </div>
-                              </div>,
-                            ),
-                          );
-                          dispatch(setShowDialog(true));
+                          setRenameUri(profile.uri);
+                          setRenameBaseName(profile.title.replace(/\.yaml$/, ""));
+                          setRenameInputValue(profile.title.replace(/\.yaml$/, ""));
+                          setRenameOpen(true);
                         }}
                         variant="ghost"
                         size="sm"
@@ -211,6 +176,30 @@ export function ConfigsSection() {
           <EmptyState message={T("No agents configured. Click the + button to add your first agent.")} />
         )}
       </Card>
+
+      {/* Rename dialog — controlled by local React state, NOT Redux dispatch */}
+      {renameOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40" onClick={() => setRenameOpen(false)}>
+          <div className="bg-vsc-editor-background w-full max-w-sm rounded-lg border border-gray-500 p-4 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <h2 className="mb-3 text-lg font-semibold">{T("Rename Config")}</h2>
+            <div className="flex items-center gap-1">
+              <input
+                type="text"
+                value={renameInputValue}
+                onChange={(e) => setRenameInputValue(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") doRename(); }}
+                className="bg-vsc-input-background text-vsc-foreground w-full rounded-md border border-gray-500 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                autoFocus
+              />
+              <span className="text-description text-sm">.yaml</span>
+            </div>
+            <div className="mt-3 flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setRenameOpen(false)}>{T("Cancel")}</Button>
+              <Button onClick={doRename} disabled={!renameInputValue.trim() || renameInputValue.trim() === renameBaseName}>{T("Confirm")}</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
