@@ -41,7 +41,7 @@ export function ConfigHeader({
         {subtext && <p className="text-description mt-1 text-sm">{subtext}</p>}
       </div>
       {showAddButton && onAddClick && (
-        <ToolTip content={addButtonTooltip}>
+        <ToolTip content={T(addButtonTooltip)}>
           <Button
             onClick={onAddClick}
             variant="icon"

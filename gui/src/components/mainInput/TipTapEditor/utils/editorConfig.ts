@@ -269,7 +269,7 @@ export function createEditorConfig(options: {
               }
               return false;
             },
-            "Shift-Enter": () =>
+            "Control-Enter": () =>
               this.editor.commands.first(({ commands }) => [
                 () => commands.newlineInCode(),
                 () => commands.createParagraphNear(),

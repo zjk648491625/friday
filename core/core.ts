@@ -425,6 +425,66 @@ export class Core {
       }
     });
 
+    on("config/deletePrompt", async (msg) => {
+      try {
+        const filepath = msg.data.filepath;
+        if (!isFridayConfigRelatedUri(filepath)) {
+          throw new Error("Only prompt files can be deleted");
+        }
+        const fileExists = await this.ide.fileExists(filepath);
+        if (fileExists) {
+          await this.ide.removeFile(filepath);
+          walkDirCache.invalidate();
+          await this.configHandler.reloadConfig(
+            "Prompt file deleted (config/deletePrompt message)",
+          );
+        }
+      } catch (error) {
+        console.error("Failed to delete prompt file:", error);
+        throw error;
+      }
+    });
+
+    on("config/deleteProfile", async (msg) => {
+      try {
+        const filepath = msg.data.uri;
+        const fileExists = await this.ide.fileExists(filepath);
+        if (fileExists) {
+          await this.ide.removeFile(filepath);
+          walkDirCache.invalidate();
+          await this.configHandler.refreshAll(
+            "Profile file deleted (config/deleteProfile message)",
+          );
+        }
+      } catch (error) {
+        console.error("Failed to delete profile file:", error);
+        throw error;
+      }
+    });
+
+    on("config/renameProfile", async (msg) => {
+      try {
+        const oldUri = msg.data.uri;
+        const newName = msg.data.newName;
+        const oldContent = await this.ide.readFile(oldUri);
+
+        // Determine new file path from old URI
+        const lastSlash = oldUri.lastIndexOf("/");
+        const dirPath = oldUri.substring(0, lastSlash);
+        const newUri = `${dirPath}/${newName}.yaml`;
+
+        await this.ide.writeFile(newUri, oldContent);
+        await this.ide.removeFile(oldUri);
+        walkDirCache.invalidate();
+        await this.configHandler.refreshAll(
+          "Profile file renamed (config/renameProfile message)",
+        );
+      } catch (error) {
+        console.error("Failed to rename profile file:", error);
+        throw error;
+      }
+    });
+
     on("config/openProfile", async (msg) => {
       await this.configHandler.openConfigProfile(msg.data.profileId);
     });

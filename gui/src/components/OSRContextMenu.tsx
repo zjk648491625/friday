@@ -34,6 +34,21 @@ const OSRContextMenu = () => {
     setPosition(null);
   }
 
+  function handleCopy() {
+    if (selectedTextRef.current) {
+      ideMessenger.post("copyText", { text: selectedTextRef.current });
+    }
+    setPosition(null);
+  }
+
+  function handleCut() {
+    if (selectedTextRef.current) {
+      ideMessenger.post("copyText", { text: selectedTextRef.current });
+      document.execCommand('delete');
+    }
+    setPosition(null);
+  }
+
   useEffect(() => {
     function leaveWindowHandler() {
       setPosition(null);
@@ -144,7 +159,7 @@ const OSRContextMenu = () => {
           className="cursor-pointer hover:opacity-90"
           onClick={(e) => {
             onMenuItemClick(e);
-            document.execCommand("copy");
+            handleCopy();
           }}
         >
           {T("Copy")}
@@ -155,7 +170,7 @@ const OSRContextMenu = () => {
           className="cursor-pointer hover:opacity-90"
           onClick={(e) => {
             onMenuItemClick(e);
-            document.execCommand("cut");
+            handleCut();
           }}
         >
           {T("Cut")}

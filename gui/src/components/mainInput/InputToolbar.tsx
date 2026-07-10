@@ -2,6 +2,7 @@ import {
   AtSymbolIcon,
   LightBulbIcon as LightBulbIconOutline,
   PhotoIcon,
+  SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { LightBulbIcon as LightBulbIconSolid } from "@heroicons/react/24/solid";
 import { InputModifiers } from "core";
@@ -18,6 +19,7 @@ import { setHasReasoningEnabled } from "../../redux/slices/sessionSlice";
 import { setReasoningSetting } from "../../redux/slices/uiSlice";
 import { exitEdit } from "../../redux/thunks/edit";
 import { getMetaKeyLabel, isMetaEquivalentKeyPressed } from "../../util";
+import { usePromptOptimizer } from "../../hooks/usePromptOptimizer";
 import { ToolTip } from "../gui/Tooltip";
 import ModelSelect from "../modelSelection/ModelSelect";
 import { ModeSelect } from "../ModeSelect";
@@ -40,6 +42,8 @@ interface InputToolbarProps {
   onAddContextItem?: () => void;
   onClick?: () => void;
   onImageFileSelected?: (file: File) => void;
+  onOptimizePrompt?: () => void;
+  isOptimizing?: boolean;
   hidden?: boolean;
   activeKey: string | null;
   toolbarOptions?: ToolbarOptions;
@@ -176,6 +180,19 @@ function InputToolbar(props: InputToolbarProps) {
           }}
         >
           {!isInEdit && <ContextStatus />}
+          {props.onOptimizePrompt && props.isMainInput && (
+            <ToolTip
+              place="top"
+              content={props.isOptimizing ? T("Optimizing...") : T("Optimize Prompt")}
+            >
+              <HoverItem
+                onClick={props.isOptimizing ? undefined : props.onOptimizePrompt}
+                className={props.isOptimizing ? "opacity-50 cursor-not-allowed" : ""}
+              >
+                <SparklesIcon className={`h-3 w-3 hover:brightness-150 ${props.isOptimizing ? "animate-pulse" : ""}`} />
+              </HoverItem>
+            </ToolTip>
+          )}
           {!props.toolbarOptions?.hideUseCodebase && !isInEdit && (
             <div className="hidden transition-colors duration-200 hover:underline md:flex">
               <HoverItem

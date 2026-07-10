@@ -21,7 +21,7 @@ const ListboxButton = React.forwardRef<HTMLButtonElement, ListboxButtonProps>(
         ref={ref}
         {...props}
         className={cn(
-          "bg-vsc-input-background text-vsc-foreground border-border m-0 flex flex-1 cursor-pointer flex-row items-center gap-1 border border-solid px-1 py-0.5 text-left transition-colors duration-200",
+          "bg-vsc-input-background text-vsc-foreground border-border m-0 flex flex-1 cursor-pointer flex-row items-center gap-1 rounded-md border border-solid px-1 py-0.5 text-left transition-all duration-200 hover:brightness-105",
           props.className,
         )}
         style={{
@@ -46,13 +46,14 @@ const ListboxOptions = React.forwardRef<HTMLUListElement, ListboxOptionsProps>(
         anchor={"bottom start"}
         {...props}
         className={cn(
-          "bg-vsc-input-background flex w-max min-w-[160px] max-w-[400px] flex-col overflow-auto px-0 shadow-md",
+          "bg-vsc-input-background flex w-max min-w-[160px] max-w-[400px] flex-col overflow-auto px-0",
           props.className,
         )}
         style={{
           border: `1px solid ${vscCommandCenterInactiveBorder}`,
           fontSize,
-          borderRadius: defaultBorderRadius,
+          borderRadius: "0.5rem",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)",
           zIndex: 200000,
           ...props.style,
         }}
@@ -72,10 +73,10 @@ const ListboxOption = React.forwardRef<HTMLLIElement, ListboxOptionProps>(
         ref={ref}
         {...props}
         className={cn(
-          "text-foreground flex select-none flex-row items-center justify-between px-2 py-1",
+          "text-foreground flex select-none flex-row items-center justify-between px-2 py-1 first:rounded-t-md last:rounded-b-md",
           props.disabled
             ? "opacity-50"
-            : "background-transparent hover:bg-list-active hover:text-list-active-foreground cursor-pointer opacity-100",
+            : "bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer opacity-100 transition-colors duration-150",
           props.className,
         )}
         style={{

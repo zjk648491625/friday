@@ -19,6 +19,7 @@ import HoverItem from "../../InputToolbar/HoverItem";
 import { useAuth } from "../../../../context/Auth";
 import { CONFIG_ROUTES } from "../../../../util/navigation";
 import { AssistantAndOrgListbox } from "../../../AssistantAndOrgListbox";
+import { T } from "../../../../util/i18n";
 
 export function BlockSettingsTopToolbar() {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ export function BlockSettingsTopToolbar() {
     <div className="flex flex-1 items-center justify-between gap-3">
       <div className="flex items-center gap-1">
         {shouldShowError && (
-          <ToolTip delayShow={700} content="View configuration errors">
+          <ToolTip delayShow={700} content={T("View configuration errors")}>
             <div
               role="button"
               tabIndex={0}
@@ -95,19 +96,19 @@ export function BlockSettingsTopToolbar() {
 
         {!hasActiveContent && (
           <div className="flex items-center gap-1.5">
-            <ToolTip content="Configure rules">
+            <ToolTip content={T("Configure rules")}>
               <HoverItem onClick={handleRulesClick} px={2}>
                 <PencilIcon className="text-description-muted h-3 w-3 hover:brightness-125" />
               </HoverItem>
             </ToolTip>
 
-            <ToolTip content="Configure tools">
+            <ToolTip content={T("Configure tools")}>
               <HoverItem onClick={handleToolsClick} px={2}>
                 <WrenchScrewdriverIcon className="text-description-muted h-3 w-3 hover:brightness-125" />
               </HoverItem>
             </ToolTip>
 
-            <ToolTip content="Configure models">
+            <ToolTip content={T("Configure models")}>
               <HoverItem onClick={handleModelsClick} px={2}>
                 <CubeIcon className="text-description-muted h-3 w-3 hover:brightness-125" />
               </HoverItem>
@@ -116,7 +117,7 @@ export function BlockSettingsTopToolbar() {
         )}
       </div>
 
-      <ToolTip place="top" content="Select Config">
+      <ToolTip place="top" content={T("Select Config")}>
         <div>
           <AssistantAndOrgListbox variant="lump" />
         </div>

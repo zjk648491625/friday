@@ -109,7 +109,7 @@ export function AssistantAndOrgListbox({
           >
             <div className="flex items-center justify-between px-1.5 py-1">
               <span className="text-description text-2xs font-medium">
-                Configs
+                {T("Configs")}
               </span>
               <div className="flex items-center gap-0.5">
                 <Button
@@ -171,7 +171,7 @@ export function AssistantAndOrgListbox({
             <div>
               <div className="text-description flex items-center justify-start px-2 py-1">
                 <span className="block" style={{ fontSize: tinyFont }}>
-                  <code>{getMetaKeyLabel()} ⇧ '</code> to toggle config
+                  <code>{getMetaKeyLabel()} ⇧ '</code>{T("to toggle config")}
                 </span>
               </div>
             </div>

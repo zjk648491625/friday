@@ -1,12 +1,12 @@
-import type { ToWebviewProtocol } from "core/protocol";
+import type { ToWebviewFromIdeProtocol } from "core/protocol/ideWebview";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useWebviewListener } from "./useWebviewListener";
 
-const openGUITypes: (keyof ToWebviewProtocol)[] = [
+const openGUITypes: (keyof ToWebviewFromIdeProtocol)[] = [
   "highlightedCode",
-  "focusFridayInput",
-  "focusFridayInputWithoutClear",
+  "focusContinueInput",
+  "focusContinueInputWithoutClear",
   "newSession",
 ];
 

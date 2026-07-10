@@ -1,6 +1,7 @@
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { ToolTip } from "./gui/Tooltip";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "./ui";
+import { T } from "../util/i18n";
 
 interface DropdownOption {
   value: string;
@@ -32,13 +33,13 @@ export function DropdownButton({
     <div
       className={`${marginBottom} flex items-center justify-between ${className}`}
     >
-      <h3 className={`my-0 ${titleSize}`}>{title}</h3>
+      <h3 className={`my-0 ${titleSize}`}>{T(title)}</h3>
       <Listbox value={null} onChange={() => {}}>
         <div className="relative">
-          <ToolTip content={addButtonTooltip}>
+          <ToolTip content={addButtonTooltip ? T(addButtonTooltip) : ""}>
             <ListboxButton
               className={`ring-offset-background focus-visible:ring-ring border-description hover:enabled:bg-input hover:enabled:text-foreground text-description inline-flex h-7 items-center justify-center gap-1 whitespace-nowrap rounded-md border border-solid bg-transparent px-1.5 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
-              aria-label={addButtonTooltip}
+              aria-label={addButtonTooltip ? T(addButtonTooltip) : ""}
             >
               <PlusIcon className="h-3 w-3" />
               <ChevronDownIcon className="h-3 w-3" />
@@ -58,7 +59,7 @@ export function DropdownButton({
                 }
                 onClick={() => onOptionClick(option.value)}
               >
-                <span className="block truncate">{option.label}</span>
+                <span className="block truncate">{T(option.label)}</span>
               </ListboxOption>
             ))}
           </ListboxOptions>

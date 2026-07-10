@@ -54,16 +54,18 @@ interface PromptRowProps {
   isBookmarked: boolean;
   setIsBookmarked: (isBookmarked: boolean) => void;
   onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 /**
- * Displays a single prompt row with bookmark and edit controls
+ * Displays a single prompt row with bookmark, edit and delete controls
  */
 function PromptRow({
   prompt,
   isBookmarked,
   setIsBookmarked,
   onEdit,
+  onDelete,
 }: PromptRowProps) {
   const { mainEditor } = useMainEditor();
 
@@ -88,7 +90,15 @@ function PromptRow({
     }
   };
 
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onDelete) {
+      onDelete();
+    }
+  };
+
   const canEdit = prompt.source !== "built-in";
+  const canDelete = prompt.source !== "built-in" && !!prompt.sourceFile;
 
   return (
     <div
@@ -112,6 +122,12 @@ function PromptRow({
             className={`h-3 w-3 cursor-pointer text-description-muted hover:brightness-125`}
             onClick={canEdit ? handleEditClick : undefined}
             aria-disabled={!canEdit}
+          />
+        )}
+        {canDelete && (
+          <TrashIcon
+            className="h-3 w-3 cursor-pointer text-description-muted hover:text-red-400"
+            onClick={handleDeleteClick}
           />
         )}
         <div
@@ -175,7 +191,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
       setDialogMessage(
         <ConfirmationDialog
           title={T("Delete Rule")}
-          text="Are you sure you want to delete this rule file?"
+          text={T("Are you sure you want to delete this rule file?")}
           confirmText={T("Delete")}
           onConfirm={async () => {
             try {
@@ -238,7 +254,7 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
               ) : (
                 <HeaderButtonWithToolTip
                   onClick={() => openRule(rule)}
-                  text="Edit"
+                  text={T("Edit")}
                 >
                   <PencilIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
@@ -287,6 +303,7 @@ function PromptsSubSection() {
   const { selectedProfile } = useAuth();
   const { isCommandBookmarked, toggleBookmark } = useBookmarkedSlashCommands();
   const ideMessenger = useContext(IdeMessengerContext);
+  const dispatch = useAppDispatch();
 
   const slashCommands = useAppSelector(
     (state) => state.config.config.slashCommands ?? [],
@@ -296,6 +313,29 @@ function PromptsSubSection() {
 
   const handleEdit = (prompt: PromptCommandWithSlug) => {
     editBlock(prompt.slug, prompt.sourceFile);
+  };
+
+  const handleDelete = (prompt: PromptCommandWithSlug) => {
+    if (!prompt.sourceFile) return;
+    dispatch(
+      setDialogMessage(
+        <ConfirmationDialog
+          title={T("Delete Prompt")}
+          text={T("Are you sure you want to delete this prompt?")}
+          confirmText={T("Delete")}
+          onConfirm={async () => {
+            try {
+              await ideMessenger.request("config/deletePrompt", {
+                filepath: prompt.sourceFile!,
+              });
+            } catch (error) {
+              console.error("Failed to delete prompt:", error);
+            }
+          }}
+        />,
+      ),
+    );
+    dispatch(setShowDialog(true));
   };
 
   const handleAddPrompt = () => {
@@ -356,13 +396,14 @@ function PromptsSubSection() {
                 isBookmarked={isCommandBookmarked(prompt.name)}
                 setIsBookmarked={() => toggleBookmark(prompt)}
                 onEdit={() => handleEdit(prompt)}
+                onDelete={() => handleDelete(prompt)}
               />
             ))}
           </div>
         </Card>
       ) : (
         <Card>
-          <EmptyState message="No prompts configured. Click the + button to add your first prompt." />
+          <EmptyState message={T("No prompts configured. Click the + button to add your first prompt.")} />
         </Card>
       )}
     </div>
@@ -491,7 +532,7 @@ function RulesSubSection() {
         variant="sm"
         options={globalRulesOptions}
         onOptionClick={handleOptionClick}
-        addButtonTooltip="Add rules"
+        addButtonTooltip={T("Add rules")}
       />
 
       <Card>
@@ -505,7 +546,7 @@ function RulesSubSection() {
             )}
           </div>
         ) : (
-          <EmptyState message="No rules configured. Click the + button to add your first rule." />
+          <EmptyState message={T("No rules configured. Click the + button to add your first rule.")} />
         )}
       </Card>
     </div>

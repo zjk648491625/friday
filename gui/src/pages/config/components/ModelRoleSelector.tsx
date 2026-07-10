@@ -118,18 +118,18 @@ const ModelRoleSelector = ({
                       const isConfigInvalid =
                         option.configurationStatus !==
                         LLMConfigurationStatuses.VALID;
-                      let invalidMessage = "(Invalid config)";
+                      let invalidMessage = T("(Invalid config)");
                       if (
                         option.configurationStatus ===
                         LLMConfigurationStatuses.MISSING_ENV_SECRET
                       ) {
-                        invalidMessage = "(Missing env secret)";
+                        invalidMessage = T("(Missing env secret)");
                       }
                       if (
                         option.configurationStatus ===
                         LLMConfigurationStatuses.MISSING_API_KEY
                       ) {
-                        invalidMessage = "(Missing API Key)";
+                        invalidMessage = T("(Missing API Key)");
                       }
 
                       return (

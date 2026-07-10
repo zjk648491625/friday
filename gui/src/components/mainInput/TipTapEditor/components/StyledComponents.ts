@@ -13,17 +13,21 @@ import { getFontSize } from "../../../../util";
 export const InputBoxDiv = styled.div<{}>`
   resize: none;
   font-family: inherit;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   padding-bottom: 1px;
   margin: 0;
   height: auto;
   background-color: ${vscInputBackground};
   color: ${vscForeground};
 
-  border: 1px solid ${vscCommandCenterInactiveBorder};
-  transition: border-color 0.15s ease-in-out;
+  border: 1.5px solid ${vscCommandCenterInactiveBorder};
+  border-left: 3px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   &:focus-within {
-    border: 1px solid ${vscCommandCenterActiveBorder};
+    border-color: ${vscCommandCenterActiveBorder};
+    border-left: 3px solid rgba(59, 130, 246, 0.7);
+    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   outline: none;
@@ -31,8 +35,7 @@ export const InputBoxDiv = styled.div<{}>`
 
   &:focus {
     outline: none;
-
-    border: 0.5px solid ${vscInputBorderFocus};
+    border-color: ${vscInputBorderFocus};
   }
 
   &::placeholder {

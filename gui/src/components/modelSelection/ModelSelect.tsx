@@ -95,12 +95,12 @@ function ModelOption({
             {option.title}
             {option.isAutoDetected && (
               <span className="text-description-muted ml-1.5 text-[10px] italic">
-                (autodetected)
+                {T("(autodetected)")}
               </span>
             )}
             {showMissingApiKeyMsg && (
               <span className="ml-1.5 text-[10px] italic">
-                (Missing API key)
+                {T("(Missing API key)")}
               </span>
             )}
           </span>

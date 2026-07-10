@@ -23,6 +23,8 @@ import "./TipTapEditor.css";
 import { createEditorConfig, getPlaceholderText } from "./utils/editorConfig";
 import { handleImageFile } from "./utils/imageUtils";
 import { useEditorEventHandlers } from "./utils/keyHandlers";
+import { getLocalStorage, setLocalStorage } from "../../../util/localStorage";
+import { usePromptOptimizer } from "../../../hooks/usePromptOptimizer";
 
 export interface TipTapEditorProps {
   availableContextProviders: ContextProviderDescription[];
@@ -97,9 +99,53 @@ function TipTapEditorInner(props: TipTapEditorProps) {
 
   useEffect(() => {
     if (props.isMainInput) {
-      editor?.commands.clearContent(true);
+      // Restore draft content when switching back to main input
+      const draftKey = `inputDraft_${props.historyKey}`;
+      const savedDraft = getLocalStorage(draftKey as any);
+      if (savedDraft && editor) {
+        setTimeout(() => {
+          editor.commands.setContent(savedDraft as any);
+        }, 0);
+      }
     }
   }, [editor, props.isMainInput]);
+
+  // Auto-save draft content on editor changes
+  const saveTimerRef = useRef<NodeJS.Timeout | null>(null);
+  useEffect(() => {
+    if (!editor || !props.isMainInput) return;
+    const handleUpdate = () => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+      saveTimerRef.current = setTimeout(() => {
+        const json = editor.getJSON();
+        const draftKey: any = `inputDraft_${props.historyKey}`;
+        // Only save if there's actual content
+        if (json.content && json.content.length > 0) {
+          setLocalStorage(draftKey, json as any);
+        } else {
+          setLocalStorage(draftKey, undefined as any);
+        }
+      }, 300);
+    };
+    editor.on("update", handleUpdate);
+    return () => {
+      editor.off("update", handleUpdate);
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    };
+  }, [editor, props.isMainInput, props.historyKey]);
+
+  // Save draft on unmount
+  useEffect(() => {
+    return () => {
+      if (editor && props.isMainInput) {
+        const json = editor.getJSON();
+        const draftKey: any = `inputDraft_${props.historyKey}`;
+        if (json.content && json.content.length > 0) {
+          setLocalStorage(draftKey, json as any);
+        }
+      }
+    };
+  }, [editor, props.isMainInput, props.historyKey]);
 
   useEffect(() => {
     if (isInEdit) {
@@ -205,6 +251,8 @@ function TipTapEditorInner(props: TipTapEditorProps) {
     setShouldHideToolbar(false);
   }, [cancelBlurTimeout]);
 
+  const { optimizePrompt, isOptimizing } = usePromptOptimizer();
+
   return (
     <InputBoxDiv
       onFocus={handleFocus}
@@ -280,6 +328,8 @@ function TipTapEditorInner(props: TipTapEditorProps) {
           hidden={shouldHideToolbar && !props.isMainInput}
           onAddContextItem={() => insertCharacterWithWhitespace("@")}
           onEnter={onEnter}
+          onOptimizePrompt={props.isMainInput ? () => optimizePrompt(editor) : undefined}
+          isOptimizing={isOptimizing}
           onImageFileSelected={(file) => {
             void handleImageFile(ideMessenger, file).then((result) => {
               if (!editor) {
