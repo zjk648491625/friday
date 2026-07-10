@@ -149,7 +149,6 @@ continue_server.dist
 
 *.notes.md
 notes.md
-*.notes.md
 
 manual-testing-sandbox/.idea/**
 manual-testing-sandbox/.continue/**
@@ -161,7 +160,7 @@ extensions/intellij/.idea/**
 **/.idea/inspectionProfiles/Project_Default.xml
 **/.idea/php.xml
 **/.idea/kotlinc.xml
-
+**/.idea/**
 
 extensions/intellij/bin
 extensions/.continue-debug/
@@ -181,6 +180,8 @@ keys
 .copy-log
 
 # Friday AI - CodeBuddy workspace data
+./.friday
+/.friday/**
 .codebuddy/
 /.codebuddy/**
 manual-testing-sandbox/ 

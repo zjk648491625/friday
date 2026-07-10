@@ -16,6 +16,7 @@ interface StepContainerProps {
   index: number;
   isLast: boolean;
   latestSummaryIndex?: number;
+  timestamp?: number;
 }
 
 export default function StepContainer(props: StepContainerProps) {
@@ -106,8 +107,13 @@ export default function StepContainer(props: StepContainerProps) {
 
       {showResponseActions && (
         <div
-          className={`mt-2 h-7 transition-opacity duration-300 ease-in-out ${isBeforeLatestSummary || isStreaming ? "opacity-35" : ""} ${isStreaming && "pointer-events-none cursor-not-allowed"}`}
+          className={`mt-2 flex h-7 items-center gap-2 transition-opacity duration-300 ease-in-out ${isBeforeLatestSummary || isStreaming ? "opacity-35" : ""} ${isStreaming && "pointer-events-none cursor-not-allowed"}`}
         >
+          {props.timestamp && (
+            <span className="shrink-0 text-[10px] text-gray-500">
+              {new Date(props.timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+            </span>
+          )}
           <ResponseActions
             isTruncated={isTruncated}
             onDelete={onDelete}

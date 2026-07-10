@@ -60,6 +60,7 @@ describe("sessionSlice streamUpdate", () => {
           id: "initial-user-message",
         },
         contextItems: [],
+        timestamp: 0,
       },
     ] as ChatHistoryItemWithMessageId[],
     isStreaming: false,
@@ -372,6 +373,7 @@ describe("sessionSlice streamUpdate", () => {
           id: "thinking-message",
         },
         contextItems: [],
+        timestamp: Date.now(),
       });
 
       const action = {
@@ -402,6 +404,7 @@ describe("sessionSlice streamUpdate", () => {
           id: "assistant-message",
         },
         contextItems: [],
+        timestamp: Date.now(),
       });
 
       const action = {
