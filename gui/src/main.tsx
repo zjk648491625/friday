@@ -26,7 +26,7 @@ import { persistor, store } from "./redux/store";
     }
   }
 
-  function showDevToolsMenu(x: number, y: number) {
+  function showDevToolsMenu(x: number, y: number, selText?: string) {
     hideMenu();
 
     const style = document.createElement("style");
@@ -59,15 +59,14 @@ import { persistor, store } from "./redux/store";
     };
     devtoolsMenuEl.appendChild(devToolsItem);
 
-    // Copy selected text — use execCommand which works in JCEF
-    const sel = window.getSelection()?.toString();
-    if (sel) {
+    // Copy selected text via IDE bridge (execCommand doesn't work in JCEF)
+    if (selText) {
       const copyItem = document.createElement("div");
       copyItem.textContent = "\uD83D\uDCCB Copy";
       copyItem.onclick = (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        document.execCommand("copy");
+        postToIde("copyText", { text: selText });
         hideMenu();
       };
       devtoolsMenuEl.appendChild(copyItem);
@@ -86,11 +85,13 @@ import { persistor, store } from "./redux/store";
       target.tagName === "TEXTAREA" ||
       target.isContentEditable
     ) {
-      return; // let native behavior handle it (paste, etc.)
+      return;
     }
+    // Capture selection BEFORE preventDefault (which may clear it)
+    const selText = window.getSelection()?.toString()?.trim();
     e.preventDefault();
     e.stopPropagation();
-    showDevToolsMenu(e.clientX, e.clientY);
+    showDevToolsMenu(e.clientX, e.clientY, selText || undefined);
   });
 
   // Close menu on click elsewhere

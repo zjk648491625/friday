@@ -1,10 +1,6 @@
 import {
-  ArrowDownIcon,
   ArrowLeftIcon,
-  ArrowUpIcon,
   ChatBubbleOvalLeftIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
 } from "@heroicons/react/24/outline";
 import { Editor, JSONContent } from "@tiptap/react";
 import { ChatHistoryItem, InputModifiers } from "core";
@@ -434,7 +430,7 @@ export function Chat() {
           ref={stepsDivRef}
           className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll overflow-x-hidden`}
         >
-          <DeprecationBanner dismissable={true} />
+          <DeprecationBanner />
           {highlights}
           {history.length === 0 ? (
             <EmptyChatBody showOnboardingCard={onboardingCard.show} />
@@ -463,25 +459,26 @@ export function Chat() {
           )}
         </StepsDiv>
 
-        {/* Scroll navigation buttons */}
+        {/* Scroll navigation buttons — floating emoji */}
+        <style>{`
+          @keyframes float-up-down { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+          @keyframes float-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+          .scroll-btn { display:flex;align-items:center;justify-content:center;
+            width:22px;height:22px;border-radius:50%;cursor:pointer;
+            background:rgba(128,128,128,0.12);font-size:11px;line-height:1;
+            opacity:0.25;transition:all 0.2s;backdrop-filter:blur(4px);
+            animation:float-up-down 3s ease-in-out infinite; }
+          .scroll-btn:hover { opacity:1;background:rgba(128,128,128,0.3);animation:float-pulse 0.6s ease-in-out; }
+          .scroll-btn:nth-child(2){animation-delay:0.2s}
+          .scroll-btn:nth-child(3){animation-delay:0.4s}
+          .scroll-btn:nth-child(4){animation-delay:0.6s}
+        `}</style>
         {filteredHistory.length > 0 && (
-          <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-0.5">
-            <button onClick={scrollToTop} title={T("Scroll to top")}
-              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
-              <ArrowUpIcon className="h-3.5 w-3.5 text-foreground" />
-            </button>
-            <button onClick={() => scrollToUserMsg("prev")} title={T("Previous user message")}
-              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
-              <ChevronUpIcon className="h-3.5 w-3.5 text-foreground" />
-            </button>
-            <button onClick={() => scrollToUserMsg("next")} title={T("Next user message")}
-              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
-              <ChevronDownIcon className="h-3.5 w-3.5 text-foreground" />
-            </button>
-            <button onClick={scrollToBottom} title={T("Scroll to bottom")}
-              className="rounded bg-black/20 p-1 opacity-30 hover:opacity-90 hover:bg-black/40 transition-opacity">
-              <ArrowDownIcon className="h-3.5 w-3.5 text-foreground" />
-            </button>
+          <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1">
+            <button onClick={scrollToTop} title={T("Scroll to top")} className="scroll-btn">🔝</button>
+            <button onClick={() => scrollToUserMsg("prev")} title={T("Previous user message")} className="scroll-btn">⬆️</button>
+            <button onClick={() => scrollToUserMsg("next")} title={T("Next user message")} className="scroll-btn">⬇️</button>
+            <button onClick={scrollToBottom} title={T("Scroll to bottom")} className="scroll-btn">🔽</button>
           </div>
         )}
       </div>

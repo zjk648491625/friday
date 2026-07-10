@@ -285,5 +285,6 @@ export default memo(
     prev.disabled === next.disabled &&
     prev.isMainInput === next.isMainInput &&
     prev.activeKey === next.activeKey &&
+    prev.isOptimizing === next.isOptimizing &&
     shallowToolbarOptionsEqual(prev.toolbarOptions, next.toolbarOptions),
 );
