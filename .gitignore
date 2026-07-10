@@ -180,8 +180,7 @@ keys
 .copy-log
 
 # Friday AI - CodeBuddy workspace data
-./.friday
-/.friday/**
+.friday/
 .codebuddy/
 /.codebuddy/**
 manual-testing-sandbox/ 
