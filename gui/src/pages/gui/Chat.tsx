@@ -281,17 +281,24 @@ export function Chat() {
 
       if (message.role === "user") {
         return (
-          <FridayInputBox
-            onEnter={(editorState, modifiers) =>
-              sendInput(editorState, modifiers, index)
-            }
-            isLastUserInput={isLastUserInput(index)}
-            isMainInput={false}
-            editorState={editorState ?? item.message.content}
-            contextItems={contextItems}
-            appliedRules={appliedRules}
-            inputId={message.id}
-          />
+          <div>
+            <FridayInputBox
+              onEnter={(editorState, modifiers) =>
+                sendInput(editorState, modifiers, index)
+              }
+              isLastUserInput={isLastUserInput(index)}
+              isMainInput={false}
+              editorState={editorState ?? item.message.content}
+              contextItems={contextItems}
+              appliedRules={appliedRules}
+              inputId={message.id}
+            />
+            {item.timestamp && (
+              <div className="mr-2 text-right text-[10px] text-gray-500 opacity-60">
+                {new Date(item.timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+              </div>
+            )}
+          </div>
         );
       }
 
@@ -331,6 +338,11 @@ export function Chat() {
                 historyIndex={index}
               />
             )}
+            {item.timestamp && (
+              <div className="mr-2 text-left text-[10px] text-gray-500 opacity-60">
+                {new Date(item.timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+              </div>
+            )}
           </>
         );
       }
@@ -356,22 +368,29 @@ export function Chat() {
 
       // Default case - regular assistant message
       return (
-        <div className="thread-message">
-          <TimelineItem
-            item={item}
-            iconElement={<ChatBubbleOvalLeftIcon width="16px" height="16px" />}
-            open={
-              typeof stepsOpen[index] === "undefined" ? true : stepsOpen[index]!
-            }
-            onToggle={() => {}}
-          >
-            <StepContainer
-              index={index}
-              isLast={index === history.length - 1}
+        <div>
+          <div className="thread-message">
+            <TimelineItem
               item={item}
-              latestSummaryIndex={latestSummaryIndex}
-            />
-          </TimelineItem>
+              iconElement={<ChatBubbleOvalLeftIcon width="16px" height="16px" />}
+              open={
+                typeof stepsOpen[index] === "undefined" ? true : stepsOpen[index]!
+              }
+              onToggle={() => {}}
+            >
+              <StepContainer
+                index={index}
+                isLast={index === history.length - 1}
+                item={item}
+                latestSummaryIndex={latestSummaryIndex}
+              />
+            </TimelineItem>
+          </div>
+          {item.timestamp && (
+            <div className="ml-2 text-left text-[10px] text-gray-500 opacity-60">
+              {new Date(item.timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+            </div>
+          )}
         </div>
       );
     },

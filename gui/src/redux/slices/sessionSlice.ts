@@ -198,6 +198,7 @@ export function handleStreamingToolCallUpdates(
 // The proper fix is adding a UUID to all chat messages, but this is the temp workaround.
 export type ChatHistoryItemWithMessageId = ChatHistoryItem & {
   message: ChatMessage & { id: string };
+  timestamp: number;
 };
 
 type SessionState = {
@@ -397,6 +398,7 @@ export const sessionSlice = createSlice({
             },
             contextItems: [],
             editorState,
+            timestamp: Date.now(),
           },
           {
             message: {
@@ -597,6 +599,7 @@ export const sessionSlice = createSlice({
                 id: uuidv4(),
               },
               contextItems: [],
+              timestamp: Date.now(),
             };
             state.history.push(historyItem);
             lastItem = state.history[state.history.length - 1];
