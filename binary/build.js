@@ -17,14 +17,14 @@ const build = path.join(__dirname, "build");
 
 function cleanSlate() {
   // Clean slate
-  rimrafSync(bin);
-  rimrafSync(out);
-  rimrafSync(build);
-  rimrafSync(path.join(__dirname, "tmp"));
-  rimrafSync(path.join(__dirname, "tree-sitter"));
-  fs.mkdirSync(bin);
-  fs.mkdirSync(out);
-  fs.mkdirSync(build);
+  try { rimrafSync(bin); } catch(e) { console.warn("[warn] Failed to clean bin:", e.message); }
+  try { rimrafSync(out); } catch(e) { console.warn("[warn] Failed to clean out:", e.message); }
+  try { rimrafSync(build); } catch(e) { console.warn("[warn] Failed to clean build:", e.message); }
+  try { rimrafSync(path.join(__dirname, "tmp")); } catch(e) { console.warn("[warn] Failed to clean tmp, skipping:", e.message); }
+  try { rimrafSync(path.join(__dirname, "tree-sitter")); } catch(e) { console.warn("[warn] Failed to clean tree-sitter:", e.message); }
+  if (!fs.existsSync(bin)) fs.mkdirSync(bin, { recursive: true });
+  if (!fs.existsSync(out)) fs.mkdirSync(out, { recursive: true });
+  if (!fs.existsSync(build)) fs.mkdirSync(build, { recursive: true });
 }
 
 const esbuildOutputFile = "out/index.js";
@@ -62,8 +62,8 @@ async function buildWithEsbuild() {
     ],
     format: "cjs",
     platform: "node",
-    sourcemap: true,
-    minify: !esbuildOnly,
+    sourcemap: false,
+    minify: true,
     treeShaking: true,
     loader: {
       // eslint-disable-next-line @typescript-eslint/naming-convention

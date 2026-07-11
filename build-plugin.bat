@@ -1,11 +1,28 @@
 @echo off
+setlocal enabledelayedexpansion
+set "ROOT=%~dp0"
+cd /d "%ROOT%"
+
+set NO_CACHE=0
+if "%~1"=="" goto :start
+if /i "%~1"=="-c" set NO_CACHE=1
+if /i "%~1"=="--clean" set NO_CACHE=1
+
+:start
 echo ========================================
 echo   Friday IntelliJ Plugin Build Script
 echo ========================================
-echo.
+
+if %NO_CACHE%==1 (
+    echo [CLEAN] Cleaning caches...
+    if exist "%ROOT%gui\node_modules\.vite" rmdir /s /q "%ROOT%gui\node_modules\.vite"
+    if exist "%ROOT%gui\dist" rmdir /s /q "%ROOT%gui\dist"
+    if exist "%ROOT%extensions\intellij\build" rmdir /s /q "%ROOT%extensions\intellij\build"
+    echo [CLEAN] Done.
+)
 
 echo [1/3] Building GUI frontend...
-cd /d "%~dp0gui"
+cd /d "%ROOT%gui"
 call npx vite build
 if %ERRORLEVEL% neq 0 (
     echo ERROR: GUI build failed!
@@ -14,22 +31,26 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo [2/3] Copying assets to plugin webview...
-cd /d "%~dp0"
-xcopy gui\dist\assets extensions\intellij\src\main\resources\webview\assets\ /E /Y /Q
-if not exist "extensions\intellij\src\main\resources\webview\fonts" mkdir "extensions\intellij\src\main\resources\webview\fonts"
-if not exist "extensions\intellij\src\main\resources\webview\logos" mkdir "extensions\intellij\src\main\resources\webview\logos"
-copy /Y gui\dist\index.html extensions\intellij\src\main\resources\webview\index.html >nul
-REM Inject JetBrains IDE detection for IntelliJ webview
-powershell -Command "(Get-Content 'extensions\intellij\src\main\resources\webview\index.html') -replace '</head>', '<script>localStorage.setItem(\"ide\", JSON.stringify(\"jetbrains\"));</script></head>' | Set-Content 'extensions\intellij\src\main\resources\webview\index.html'"
-copy /Y gui\dist\indexConsole.html extensions\intellij\src\main\resources\webview\indexConsole.html >nul
-copy /Y gui\dist\jetbrains_index.html extensions\intellij\src\main\resources\webview\jetbrains_index.html >nul
-copy /Y gui\dist\jetbrains_editorInset_index.html extensions\intellij\src\main\resources\webview\jetbrains_editorInset_index.html >nul
-xcopy gui\dist\fonts extensions\intellij\src\main\resources\webview\fonts\ /E /Y /Q
-xcopy gui\dist\logos extensions\intellij\src\main\resources\webview\logos\ /E /Y /Q
+cd /d "%ROOT%"
+xcopy "%ROOT%gui\dist\assets" "%ROOT%extensions\intellij\src\main\resources\webview\assets\" /E /Y /Q
+if not exist "%ROOT%extensions\intellij\src\main\resources\webview\fonts" mkdir "%ROOT%extensions\intellij\src\main\resources\webview\fonts"
+if not exist "%ROOT%extensions\intellij\src\main\resources\webview\logos" mkdir "%ROOT%extensions\intellij\src\main\resources\webview\logos"
+copy /Y "%ROOT%gui\dist\play_button.png" "%ROOT%extensions\intellij\src\main\resources\webview\play_button.png" >nul
+copy /Y "%ROOT%gui\dist\index.html" "%ROOT%extensions\intellij\src\main\resources\webview\index.html" >nul
+powershell -Command "(Get-Content '%ROOT%extensions\intellij\src\main\resources\webview\index.html') -replace '</head>', '<script>localStorage.setItem(\"ide\", JSON.stringify(\"jetbrains\"));</script></head>' | Set-Content '%ROOT%extensions\intellij\src\main\resources\webview\index.html'"
+copy /Y "%ROOT%gui\dist\indexConsole.html" "%ROOT%extensions\intellij\src\main\resources\webview\indexConsole.html" >nul
+copy /Y "%ROOT%gui\dist\jetbrains_index.html" "%ROOT%extensions\intellij\src\main\resources\webview\jetbrains_index.html" >nul
+copy /Y "%ROOT%gui\dist\jetbrains_editorInset_index.html" "%ROOT%extensions\intellij\src\main\resources\webview\jetbrains_editorInset_index.html" >nul
+xcopy "%ROOT%gui\dist\fonts" "%ROOT%extensions\intellij\src\main\resources\webview\fonts\" /E /Y /Q
+xcopy "%ROOT%gui\dist\logos" "%ROOT%extensions\intellij\src\main\resources\webview\logos\" /E /Y /Q
 
 echo [3/3] Building IntelliJ plugin...
-cd /d "%~dp0extensions\intellij"
-call gradlew buildPlugin
+cd /d "%ROOT%extensions\intellij"
+if %NO_CACHE%==1 (
+    call gradlew clean buildPlugin --no-configuration-cache
+) else (
+    call gradlew buildPlugin
+)
 if %ERRORLEVEL% neq 0 (
     echo ERROR: Plugin build failed!
     pause
@@ -40,5 +61,5 @@ echo.
 echo ========================================
 echo   BUILD SUCCESSFUL!
 echo ========================================
-dir build\distributions\*.zip
-pause
+dir "%ROOT%extensions\intellij\build\distributions\*.zip"
+endlocal

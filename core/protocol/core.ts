@@ -82,7 +82,12 @@ export type ToCoreFromIdeOrWebviewProtocol = {
     },
     void,
   ];
+  "config/debug": [{ test?: boolean }, { ok: boolean; received: any }];
   "config/addLocalWorkspaceBlock": [
+    { blockType: BlockType; baseFilename?: string },
+    void,
+  ];
+  "config/addGlobalBlock": [
     { blockType: BlockType; baseFilename?: string },
     void,
   ];
@@ -91,8 +96,10 @@ export type ToCoreFromIdeOrWebviewProtocol = {
   "config/deletePrompt": [{ filepath: string }, void];
   "config/deleteProfile": [{ uri: string }, void];
   "config/renameProfile": [{ uri: string; newName: string }, void];
+  "config/renameRule": [{ filepath: string; newName: string }, void];
+  "config/renamePrompt": [{ filepath: string; newName: string }, void];
   "config/newPromptFile": [undefined, void];
-  "config/newAssistantFile": [undefined, void];
+  "config/newAssistantFile": [{ global?: boolean }, void];
   "config/ideSettingsUpdate": [IdeSettings, void];
   "config/getSerializedProfileInfo": [
     undefined,

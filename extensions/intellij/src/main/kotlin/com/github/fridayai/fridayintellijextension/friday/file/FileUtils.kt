@@ -13,6 +13,7 @@ import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
+import java.io.File
 import kotlin.math.min
 
 
@@ -20,31 +21,46 @@ class FileUtils(
     private val project: Project,
 ) {
     fun fileExists(fileUri: String): Boolean =
-        findFile(fileUri) != null
+        toIoFile(fileUri).exists() || findFile(fileUri) != null
 
     fun writeFile(fileUri: String, content: String) {
-        val path = VfsUtilCore.urlToPath(fileUri)
-        val pathDirectory = VfsUtil.getParentDir(path)
-            ?: return LOG.warn("Parent directory is null for $path")
-        val vfsDirectory = VfsUtil.createDirectories(pathDirectory)
-            ?: return LOG.warn("Could not create directories for $path")
-        val pathFilename = VfsUtil.extractFileName(path)
-            ?: return LOG.warn("Could not get filename for $path")
-        runWriteAction {
-            val newFile = vfsDirectory.createChildData(this, pathFilename)
-            VfsUtil.saveText(newFile, content)
-        }
+        val io = toIoFile(fileUri)
+        io.parentFile?.mkdirs()
+        io.writeText(content)
+        // Best-effort: refresh the VFS so the IDE editor reflects the change.
+        findFile(fileUri)?.let { VfsUtil.markDirtyAndRefresh(true, false, false, it) }
     }
 
     fun removeFile(fileUri: String) {
-        val found = findFile(fileUri)
-            ?: return LOG.warn("File not found: $fileUri")
-        runWriteAction {
-            found.delete(this)
+        val io = toIoFile(fileUri)
+        var deleted = false
+        if (io.exists()) {
+            deleted = io.delete()
+            if (!deleted) {
+                LOG.warn("Failed to delete file via filesystem, trying VFS: $fileUri")
+            }
+        }
+        if (!deleted) {
+            val found = findFile(fileUri)
+            if (found != null) {
+                runWriteAction {
+                    found.delete(this)
+                }
+            } else if (!io.exists()) {
+                // File already gone (may have been deleted by the filesystem attempt above)
+            } else {
+                LOG.warn("File not found in VFS and filesystem delete failed: $fileUri")
+            }
         }
     }
 
     fun listDir(fileUri: String): List<List<Any>> {
+        val io = toIoFile(fileUri)
+        if (io.exists() && io.isDirectory) {
+            return io.listFiles()?.map { f ->
+                listOf(f.name, if (f.isDirectory) FileType.DIRECTORY.value else FileType.FILE.value)
+            } ?: emptyList()
+        }
         val found = findFile(fileUri)
             ?: return emptyList()
         if (!found.isDirectory)
@@ -59,6 +75,11 @@ class FileUtils(
     }
 
     fun readFile(fileUri: String, maxLength: Int = 100_000): String {
+        val io = toIoFile(fileUri)
+        if (io.exists()) {
+            val text = runCatching { io.readText() }.getOrElse { "" }
+            return normalizeLineEndings(text)
+        }
         val found = findFile(fileUri)
             ?: return ""
         val text = runReadAction {
@@ -95,6 +116,24 @@ class FileUtils(
         val normalizedAuthority = normalizeWindowsAuthority(noParams)
         return VirtualFileManager.getInstance()
             .refreshAndFindFileByUrl(normalizedAuthority)
+    }
+
+    /**
+     * Resolves a file URI (or a raw filesystem path) to a [File] so that
+     * operations work regardless of whether the file lives inside the IDE's
+     * VFS (e.g. global config/rules under the user home or a .friday folder
+     * which may not be part of any content root).
+     */
+    private fun toIoFile(fileUri: String): File {
+        val noParams = fileUri.substringBefore("?")
+        val url = if (noParams.startsWith("file://")) {
+            normalizeWindowsAuthority(noParams)
+        } else {
+            // Raw path: Windows "C:\..." or "/C:/..." or unix "/path"
+            "file:///" + noParams.replace('\\', '/').removePrefix("/")
+        }
+        val path = VfsUtilCore.urlToPath(url)
+        return File(path)
     }
 
     private fun readDocument(file: VirtualFile, maxLength: Int): String? {

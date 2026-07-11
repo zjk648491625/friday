@@ -154,6 +154,10 @@ export async function findAvailableFilename(
   return fileUri;
 }
 
+function tsSuffix(): string {
+  return new Date().toISOString().replace(/[-:T.]/g, "").slice(0, 14);
+}
+
 export async function createNewWorkspaceBlockFile(
   ide: IDE,
   blockType: BlockType,
@@ -161,24 +165,27 @@ export async function createNewWorkspaceBlockFile(
 ): Promise<void> {
   const workspaceDirs = await ide.getWorkspaceDirs();
   if (workspaceDirs.length === 0) {
-    throw new Error(
-      "No workspace directories found. Make sure you've opened a folder in your IDE.",
-    );
+    throw new Error("No workspace directories found.");
   }
-
   const baseDirUri = joinPathsToUri(workspaceDirs[0], `.friday/${blockType}`);
-
-  const fileUri = await findAvailableFilename(
-    baseDirUri,
-    blockType,
-    ide.fileExists.bind(ide),
-    undefined,
-    false,
-    baseFilename,
-  );
-
+  const ext = getFileExtension(blockType);
+  const name = baseFilename || `${blockType}_${tsSuffix()}`;
+  const fileUri = joinPathsToUri(baseDirUri, `${name}.${ext}`);
   const fileContent = getFileContent(blockType);
+  await ide.writeFile(fileUri, fileContent);
+  await ide.openFile(fileUri);
+}
 
+export async function createNewGlobalBlockFile(
+  ide: IDE,
+  blockType: BlockType,
+  baseFilename?: string,
+): Promise<void> {
+  const baseDirUri = joinPathsToUri(localPathToUri(getFridayGlobalPath()), blockType);
+  const ext = getFileExtension(blockType);
+  const name = baseFilename || `${blockType}_${tsSuffix()}`;
+  const fileUri = joinPathsToUri(baseDirUri, `${name}.${ext}`);
+  const fileContent = getFileContent(blockType);
   await ide.writeFile(fileUri, fileContent);
   await ide.openFile(fileUri);
 }
@@ -188,24 +195,11 @@ export async function createNewGlobalRuleFile(
   baseFilename?: string,
 ): Promise<void> {
   try {
-    const globalDir = localPathToUri(getFridayGlobalPath());
-
-    // Create the rules subdirectory within the global directory
-    const rulesDir = joinPathsToUri(globalDir, "rules");
-
-    const fileUri = await findAvailableFilename(
-      rulesDir,
-      "rules",
-      ide.fileExists.bind(ide),
-      undefined,
-      true, // isGlobal = true for global rules
-      baseFilename,
-    );
-
+    const rulesDir = joinPathsToUri(localPathToUri(getFridayGlobalPath()), "rules");
+    const name = baseFilename || `rule_${tsSuffix()}`;
+    const fileUri = joinPathsToUri(rulesDir, `${name}.md`);
     const fileContent = getFileContent("rules");
-
     await ide.writeFile(fileUri, fileContent);
-
     await ide.openFile(fileUri);
   } catch (error) {
     throw error;

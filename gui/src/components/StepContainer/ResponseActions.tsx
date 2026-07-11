@@ -19,6 +19,7 @@ export interface ResponseActionsProps {
   onDelete: () => void;
   item: ChatHistoryItem;
   isLast: boolean;
+  timestamp?: number;
 }
 
 export default function ResponseActions({
@@ -27,6 +28,7 @@ export default function ResponseActions({
   item,
   isTruncated,
   onDelete,
+  timestamp,
   isLast,
 }: ResponseActionsProps) {
   const contextPercentage = useAppSelector(
@@ -46,6 +48,11 @@ export default function ResponseActions({
 
   return (
     <div className="text-description-muted mx-2 flex cursor-default items-center justify-end space-x-1 bg-transparent pb-0 text-xs">
+      {timestamp && (
+        <span className="mr-2 text-[10px] text-gray-500">
+          {new Date(timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+        </span>
+      )}
       <HeaderButtonWithToolTip
         testId={`compact-button-${index}`}
         text={

@@ -278,6 +278,15 @@ class IdeProtocolClient(
                         respond(null)
                     }
 
+                    "removeFile" -> {
+                        val params = gsonService.gson.fromJson(
+                            dataElement.toString(),
+                            RemoveFileParams::class.java
+                        )
+                        ide.removeFile(params.path)
+                        respond(null)
+                    }
+
                     "fileExists" -> {
                         val params = gsonService.gson.fromJson(
                             dataElement.toString(),

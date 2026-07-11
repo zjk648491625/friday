@@ -63,6 +63,7 @@ import {
   setupQuickstartConfig,
 } from "./config/onboarding";
 import {
+  createNewGlobalBlockFile,
   createNewGlobalRuleFile,
   createNewWorkspaceBlockFile,
 } from "./config/workspace/workspaceBlocks";
@@ -301,6 +302,13 @@ export class Core {
       return "pong";
     });
 
+    // Debug: verify config-related handlers are registered
+    on("config/debug", async (msg) => {
+      console.log(`[DEBUG] config/debug received, data:`, JSON.stringify(msg.data));
+      void this.ide.showToast("info", "Core received config/debug: " + JSON.stringify(msg.data));
+      return { ok: true, received: msg.data };
+    });
+
     // History
     on("history/list", async (msg) => {
       const sessions = historyManager.list(msg.data);
@@ -372,7 +380,8 @@ export class Core {
     });
 
     on("config/newAssistantFile", async (msg) => {
-      await createNewAssistantFile(this.ide, undefined);
+      const isGlobal = msg.data?.global ?? true;
+      await createNewAssistantFile(this.ide, undefined, isGlobal);
       await this.configHandler.refreshAll(
         "Assistant file created (config/newAssistantFile message)",
       );
@@ -387,6 +396,18 @@ export class Core {
       walkDirCache.invalidate();
       await this.configHandler.reloadConfig(
         "Local block created (config/addLocalWorkspaceBlock message)",
+      );
+    });
+
+    on("config/addGlobalBlock", async (msg) => {
+      await createNewGlobalBlockFile(
+        this.ide,
+        msg.data.blockType,
+        msg.data.baseFilename,
+      );
+      walkDirCache.invalidate();
+      await this.configHandler.reloadConfig(
+        "Global block created (config/addGlobalBlock message)",
       );
     });
 
@@ -405,83 +426,108 @@ export class Core {
     on("config/deleteRule", async (msg) => {
       try {
         const filepath = msg.data.filepath;
-        if (
-          !isColocatedRulesFile(filepath) &&
-          !isFridayConfigRelatedUri(filepath)
-        ) {
-          throw new Error("Only rule files can be deleted");
-        }
-        const fileExists = await this.ide.fileExists(filepath);
-        if (fileExists) {
+        const exists = await this.ide.fileExists(filepath);
+        if (exists) {
           await this.ide.removeFile(filepath);
           walkDirCache.invalidate();
-          await this.configHandler.reloadConfig(
-            "Rule file deleted (config/deleteRule message)",
-          );
+          await this.configHandler.reloadConfig("Rule deleted");
+          void this.ide.showToast("info", "Rule deleted");
+        } else {
+          void this.ide.showToast("warning", "Rule file not found: " + filepath);
         }
-      } catch (error) {
-        console.error("Failed to delete rule file:", error);
-        throw error;
+      } catch (error: any) {
+        void this.ide.showToast("error", "Delete rule error: " + (error?.message || String(error)));
       }
     });
 
     on("config/deletePrompt", async (msg) => {
       try {
         const filepath = msg.data.filepath;
-        if (!isFridayConfigRelatedUri(filepath)) {
-          throw new Error("Only prompt files can be deleted");
-        }
-        const fileExists = await this.ide.fileExists(filepath);
-        if (fileExists) {
+        const exists = await this.ide.fileExists(filepath);
+        if (exists) {
           await this.ide.removeFile(filepath);
           walkDirCache.invalidate();
-          await this.configHandler.reloadConfig(
-            "Prompt file deleted (config/deletePrompt message)",
-          );
+          await this.configHandler.reloadConfig("Prompt deleted");
+          void this.ide.showToast("info", "Prompt deleted");
+        } else {
+          void this.ide.showToast("warning", "Prompt file not found: " + filepath);
         }
-      } catch (error) {
-        console.error("Failed to delete prompt file:", error);
-        throw error;
+      } catch (error: any) {
+        void this.ide.showToast("error", "Delete prompt error: " + (error?.message || String(error)));
       }
     });
 
     on("config/deleteProfile", async (msg) => {
       try {
-        const filepath = msg.data.uri;
-        const fileExists = await this.ide.fileExists(filepath);
-        if (fileExists) {
-          await this.ide.removeFile(filepath);
+        const uri = msg.data.uri;
+        const exists = await this.ide.fileExists(uri);
+        if (exists) {
+          await this.ide.removeFile(uri);
           walkDirCache.invalidate();
-          await this.configHandler.refreshAll(
-            "Profile file deleted (config/deleteProfile message)",
-          );
+          await this.configHandler.refreshAll("Profile deleted");
+          void this.ide.showToast("info", "Config deleted");
+        } else {
+          void this.ide.showToast("warning", "Config file not found: " + uri);
         }
-      } catch (error) {
-        console.error("Failed to delete profile file:", error);
-        throw error;
+      } catch (error: any) {
+        void this.ide.showToast("error", "Delete config error: " + (error?.message || String(error)));
       }
     });
+
+    // Rename a file by copying its content to a new path (with the proper
+    // extension) and removing the original. `newName` may or may not include
+    // an extension; the original file's extension is always used.
+    const renameFileByUri = async (
+      oldUri: string,
+      newName: string,
+      extension: string,
+    ): Promise<string> => {
+      const cleanNew = newName.replace(/\.[^./\\]+$/, "");
+      // Normalize to forward slashes so the path manipulation works on
+      // Windows (where file paths may contain backslashes).
+      const normalized = oldUri.replace(/\\/g, "/");
+      const lastSlash = normalized.lastIndexOf("/");
+      const dirPath = normalized.substring(0, lastSlash);
+      const newUri = `${dirPath}/${cleanNew}.${extension}`;
+      const oldContent = await this.ide.readFile(oldUri);
+      await this.ide.writeFile(newUri, oldContent);
+      await this.ide.removeFile(oldUri);
+      return newUri;
+    };
 
     on("config/renameProfile", async (msg) => {
       try {
         const oldUri = msg.data.uri;
-        const newName = msg.data.newName;
-        const oldContent = await this.ide.readFile(oldUri);
-
-        // Determine new file path from old URI
-        const lastSlash = oldUri.lastIndexOf("/");
-        const dirPath = oldUri.substring(0, lastSlash);
-        const newUri = `${dirPath}/${newName}.yaml`;
-
-        await this.ide.writeFile(newUri, oldContent);
-        await this.ide.removeFile(oldUri);
+        const newUri = await renameFileByUri(oldUri, msg.data.newName, "yaml");
         walkDirCache.invalidate();
-        await this.configHandler.refreshAll(
-          "Profile file renamed (config/renameProfile message)",
-        );
-      } catch (error) {
-        console.error("Failed to rename profile file:", error);
-        throw error;
+        await this.configHandler.refreshAll("Profile renamed");
+        void this.ide.showToast("info", `Renamed to ${newUri.split("/").pop()}`);
+      } catch (error: any) {
+        void this.ide.showToast("error", "Rename config error: " + (error?.message || String(error)));
+      }
+    });
+
+    on("config/renameRule", async (msg) => {
+      try {
+        const oldUri = msg.data.filepath;
+        const newUri = await renameFileByUri(oldUri, msg.data.newName, "md");
+        walkDirCache.invalidate();
+        await this.configHandler.reloadConfig("Rule renamed");
+        void this.ide.showToast("info", `Renamed to ${newUri.split("/").pop()}`);
+      } catch (error: any) {
+        void this.ide.showToast("error", "Rename rule error: " + (error?.message || String(error)));
+      }
+    });
+
+    on("config/renamePrompt", async (msg) => {
+      try {
+        const oldUri = msg.data.filepath;
+        const newUri = await renameFileByUri(oldUri, msg.data.newName, "md");
+        walkDirCache.invalidate();
+        await this.configHandler.reloadConfig("Prompt renamed");
+        void this.ide.showToast("info", `Renamed to ${newUri.split("/").pop()}`);
+      } catch (error: any) {
+        void this.ide.showToast("error", "Rename prompt error: " + (error?.message || String(error)));
       }
     });
 

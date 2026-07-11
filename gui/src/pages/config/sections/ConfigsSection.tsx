@@ -2,6 +2,7 @@ import { Cog6ToothIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outlin
 import { useCallback, useContext, useState } from "react";
 import { AssistantIcon } from "../../../components/AssistantAndOrgListbox/AssistantIcon";
 import ConfirmationDialog from "../../../components/dialogs/ConfirmationDialog";
+import { DropdownButton } from "../../../components/DropdownButton";
 import { ToolTip } from "../../../components/gui/Tooltip";
 import { Button, Card, Divider, EmptyState } from "../../../components/ui";
 import { useAuth } from "../../../context/Auth";
@@ -11,8 +12,21 @@ import { ConfigHeader } from "../components/ConfigHeader";
 import { setDialogMessage, setShowDialog } from "../../../redux/slices/uiSlice";
 import { T } from "../../../util/i18n";
 
+const configModeOptions = [
+  { value: "workspace", label: "Current workspace" },
+  { value: "global", label: "Global" },
+];
+
+// Extract the config file's base name (without extension) from its uri,
+// so renaming operates on the real file rather than the display title.
+function baseNameFromUri(uri: string): string {
+  const decoded = decodeURIComponent(uri);
+  const base = decoded.split("/").pop() || "";
+  return base.replace(/\.(yaml|yml)$/i, "");
+}
+
 export function ConfigsSection() {
-  const { profiles, selectedProfile } = useAuth();
+  const { profiles, selectedProfile, refreshProfiles } = useAuth();
   const ideMessenger = useContext(IdeMessengerContext);
   const dispatch = useAppDispatch();
   const configError = useAppSelector((state) => state.config.configError);
@@ -23,8 +37,8 @@ export function ConfigsSection() {
   const [renameBaseName, setRenameBaseName] = useState("");
   const [renameInputValue, setRenameInputValue] = useState("");
 
-  function handleAddConfig() {
-    void ideMessenger.request("config/newAssistantFile", undefined);
+  function handleAddConfig(mode: string = "global") {
+    void ideMessenger.request("config/newAssistantFile", { global: mode === "global" });
   }
 
   function handleConfigureAgent(profileId: string) {
@@ -33,6 +47,7 @@ export function ConfigsSection() {
 
   const handleDeleteProfile = useCallback(
     (uri: string) => {
+      console.log("[DELETE-CONFIG] preparing delete for:", uri);
       dispatch(
         setDialogMessage(
           <ConfirmationDialog
@@ -41,10 +56,14 @@ export function ConfigsSection() {
             confirmText={T("Delete")}
             onConfirm={async () => {
               try {
-                await ideMessenger.request("config/deleteProfile", { uri });
+                console.log("[DELETE-CONFIG] sending request with uri:", uri);
+                const result = await ideMessenger.request("config/deleteProfile", { uri });
+                console.log("[DELETE-CONFIG] result:", result);
                 dispatch(setShowDialog(false));
-              } catch (error) {
-                console.error("Failed to delete profile:", error);
+                void refreshProfiles();
+              } catch (error: any) {
+                console.error("[DELETE-CONFIG] error:", error?.message || error);
+                alert("Delete failed: " + (error?.message || String(error)));
               }
             }}
           />,
@@ -61,16 +80,18 @@ export function ConfigsSection() {
     setRenameOpen(false);
     try {
       await ideMessenger.request("config/renameProfile", { uri: renameUri, newName: val });
+      void refreshProfiles();
     } catch (error) {
       console.error("Failed to rename profile:", error);
     }
-  }, [renameInputValue, renameBaseName, renameUri, ideMessenger]);
+  }, [renameInputValue, renameBaseName, renameUri, ideMessenger, refreshProfiles]);
 
   return (
     <>
-      <ConfigHeader
+      <DropdownButton
         title="Configs"
-        onAddClick={handleAddConfig}
+        options={configModeOptions}
+        onOptionClick={(val) => handleAddConfig(val)}
         addButtonTooltip={T("Add config")}
       />
 
@@ -100,6 +121,9 @@ export function ConfigsSection() {
                         }`}
                       >
                         {profile.title}
+                        <span className="ml-1 text-[10px] text-blue-400">
+                          {/users|home/i.test(profile.uri || "") ? " [全局]" : " [工作区]"}
+                        </span>
                       </h3>
                       {errors && errors.length > 0 && (
                         <div className="space-y-1 overflow-hidden">
@@ -132,8 +156,8 @@ export function ConfigsSection() {
                       <Button
                         onClick={() => {
                           setRenameUri(profile.uri);
-                          setRenameBaseName(profile.title.replace(/\.yaml$/, ""));
-                          setRenameInputValue(profile.title.replace(/\.yaml$/, ""));
+                          setRenameBaseName(baseNameFromUri(profile.uri));
+                          setRenameInputValue(baseNameFromUri(profile.uri));
                           setRenameOpen(true);
                         }}
                         variant="ghost"

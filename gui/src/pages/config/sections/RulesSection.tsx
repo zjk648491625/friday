@@ -4,6 +4,7 @@ import {
   BookmarkIcon as BookmarkOutline,
   EyeIcon,
   PencilIcon,
+  PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { BookmarkIcon as BookmarkSolid } from "@heroicons/react/24/solid";
@@ -55,6 +56,7 @@ interface PromptRowProps {
   setIsBookmarked: (isBookmarked: boolean) => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  onRename?: () => void;
 }
 
 /**
@@ -99,6 +101,7 @@ function PromptRow({
 
   const canEdit = prompt.source !== "built-in";
   const canDelete = prompt.source !== "built-in" && !!prompt.sourceFile;
+  const canRename = prompt.source !== "built-in" && !!prompt.sourceFile;
 
   return (
     <div
@@ -111,6 +114,11 @@ function PromptRow({
       <div className="flex min-w-0 flex-col">
         <span className="text-foreground shrink-0 font-medium">
           {prompt.name}
+          {prompt.sourceFile && (
+            <span className="ml-1 text-[10px] text-blue-400">
+              {/users|home/i.test(prompt.sourceFile) ? " [全局]" : " [工作区]"}
+            </span>
+          )}
         </span>
         <span className="line-clamp-2 text-[11px] text-description-muted">
           {prompt.description}
@@ -122,6 +130,16 @@ function PromptRow({
             className={`h-3 w-3 cursor-pointer text-description-muted hover:brightness-125`}
             onClick={canEdit ? handleEditClick : undefined}
             aria-disabled={!canEdit}
+          />
+        )}
+        {canRename && (
+          <PencilSquareIcon
+            className="h-3 w-3 cursor-pointer text-description-muted hover:brightness-125"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRename?.();
+            }}
+            aria-label="Rename"
           />
         )}
         {canDelete && (
@@ -147,9 +165,10 @@ function PromptRow({
 
 interface RuleCardProps {
   rule: RuleWithSource;
+  onRename?: (filepath: string) => void;
 }
 
-const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
+const RuleCard: React.FC<RuleCardProps> = ({ rule, onRename }) => {
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
   const policy = useAppSelector((state) =>
@@ -227,6 +246,11 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
             }}
           >
             {title}
+            {rule.sourceFile && (
+              <span className="ml-1 text-[10px] text-blue-400">
+                {/users|home/i.test(rule.sourceFile) ? " [全局]" : " [工作区]"}
+              </span>
+            )}
           </span>
           <div className="flex flex-row items-center gap-2">
             {rule.name && policy && (
@@ -257,6 +281,14 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
                   text={T("Edit")}
                 >
                   <PencilIcon className="h-3 w-3 text-description-muted" />
+                </HeaderButtonWithToolTip>
+              )}
+              {canDeleteRule && (
+                <HeaderButtonWithToolTip
+                  onClick={() => onRename?.(rule.sourceFile!)}
+                  text={T("Rename")}
+                >
+                  <PencilSquareIcon className="h-3 w-3 text-description-muted" />
                 </HeaderButtonWithToolTip>
               )}
               {canDeleteRule && (
@@ -299,7 +331,11 @@ const RuleCard: React.FC<RuleCardProps> = ({ rule }) => {
 /**
  * Section that displays all available prompts with bookmarking functionality
  */
-function PromptsSubSection() {
+function PromptsSubSection({
+  onRenamePrompt,
+}: {
+  onRenamePrompt?: (filepath: string) => void;
+}) {
   const { selectedProfile } = useAuth();
   const { isCommandBookmarked, toggleBookmark } = useBookmarkedSlashCommands();
   const ideMessenger = useContext(IdeMessengerContext);
@@ -338,10 +374,12 @@ function PromptsSubSection() {
     dispatch(setShowDialog(true));
   };
 
-  const handleAddPrompt = () => {
-    void ideMessenger.request("config/addLocalWorkspaceBlock", {
-      blockType: "prompts",
-    });
+  const handleAddPrompt = (mode: string = "global") => {
+    if (mode === "global") {
+      void ideMessenger.request("config/addGlobalBlock", { blockType: "prompts" });
+    } else {
+      void ideMessenger.request("config/addLocalWorkspaceBlock", { blockType: "prompts" });
+    }
   };
 
   const sortedCommands = useMemo(() => {
@@ -379,10 +417,11 @@ function PromptsSubSection() {
 
   return (
     <div>
-      <ConfigHeader
+      <DropdownButton
         title="Prompts"
         variant="sm"
-        onAddClick={handleAddPrompt}
+        options={globalRulesOptions}
+        onOptionClick={handleAddPrompt}
         addButtonTooltip={T("Add Prompt")}
       />
 
@@ -397,6 +436,11 @@ function PromptsSubSection() {
                 setIsBookmarked={() => toggleBookmark(prompt)}
                 onEdit={() => handleEdit(prompt)}
                 onDelete={() => handleDelete(prompt)}
+                onRename={
+                  prompt.sourceFile
+                    ? () => onRenamePrompt?.(prompt.sourceFile!)
+                    : undefined
+                }
               />
             ))}
           </div>
@@ -459,7 +503,11 @@ const globalRulesOptions = [
   { value: "global", label: "Global" },
 ];
 
-function RulesSubSection() {
+function RulesSubSection({
+  onRenameRule,
+}: {
+  onRenameRule?: (filepath: string) => void;
+}) {
   const { selectedProfile } = useAuth();
   const config = useAppSelector((store) => store.config.config);
   const mode = useAppSelector((store) => store.session.mode);
@@ -539,7 +587,13 @@ function RulesSubSection() {
         {sortedRules.length > 0 ? (
           <div className="flex flex-col gap-3">
             {sortedRules.map((rule, index) => (
-              <RuleCard key={index} rule={rule} />
+              <RuleCard
+                key={index}
+                rule={rule}
+                onRename={
+                  rule.sourceFile ? () => onRenameRule?.(rule.sourceFile!) : undefined
+                }
+              />
             ))}
             {configLoading && (
               <div className="px-2 py-1.5 text-xs opacity-65">{T("Reloading rules from your config...")}</div>
@@ -554,14 +608,92 @@ function RulesSubSection() {
 }
 
 export function RulesSection() {
+  const ideMessenger = useContext(IdeMessengerContext);
+  const [renameTarget, setRenameTarget] = useState<{
+    kind: "rule" | "prompt";
+    filepath: string;
+    baseName: string;
+  } | null>(null);
+  const [renameValue, setRenameValue] = useState("");
+
+  const openRename = (kind: "rule" | "prompt", filepath: string) => {
+    const decoded = decodeURIComponent(filepath);
+    const base = decoded.split("/").pop() || "";
+    const name = base.replace(/\.(md|yaml|yml)$/i, "");
+    setRenameTarget({ kind, filepath, baseName: name });
+    setRenameValue(name);
+  };
+
+  const doRename = async () => {
+    if (!renameTarget) return;
+    const val = renameValue.trim();
+    if (!val || val === renameTarget.baseName) {
+      setRenameTarget(null);
+      return;
+    }
+    const msg =
+      renameTarget.kind === "rule" ? "config/renameRule" : "config/renamePrompt";
+    try {
+      await ideMessenger.request(msg, {
+        filepath: renameTarget.filepath,
+        newName: val,
+      });
+    } catch (error) {
+      console.error("Failed to rename", error);
+    }
+    setRenameTarget(null);
+  };
+
   return (
     <>
       <ConfigHeader title="Rules" />
 
       <div className="space-y-6">
-        <RulesSubSection />
-        <PromptsSubSection />
+        <RulesSubSection onRenameRule={(fp) => openRename("rule", fp)} />
+        <PromptsSubSection onRenamePrompt={(fp) => openRename("prompt", fp)} />
       </div>
+
+      {renameTarget && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40"
+          onClick={() => setRenameTarget(null)}
+        >
+          <div
+            className="bg-vsc-editor-background w-full max-w-sm rounded-lg border border-gray-500 p-4 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="mb-3 text-lg font-semibold">
+              {renameTarget.kind === "rule" ? "Rename Rule" : "Rename Prompt"}
+            </h2>
+            <div className="flex items-center gap-1">
+              <input
+                type="text"
+                value={renameValue}
+                onChange={(e) => setRenameValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") void doRename();
+                }}
+                className="bg-vsc-input-background text-vsc-foreground w-full rounded-md border border-gray-500 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                autoFocus
+              />
+              <span className="text-description text-sm">.md</span>
+            </div>
+            <div className="mt-3 flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setRenameTarget(null)}>
+                {T("Cancel")}
+              </Button>
+              <Button
+                onClick={() => void doRename()}
+                disabled={
+                  !renameValue.trim() || renameValue.trim() === renameTarget.baseName
+                }
+              >
+                {T("Confirm")}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

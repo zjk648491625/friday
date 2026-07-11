@@ -39,30 +39,34 @@ models:
       - image_input
 `;
 
+import { getFridayGlobalPath } from "../util/paths";
+import { localPathToUri } from "../util/pathToUri";
+
 export async function createNewAssistantFile(
   ide: IDE,
   assistantPath: string | undefined,
+  global: boolean = true,
 ): Promise<void> {
-  const workspaceDirs = await ide.getWorkspaceDirs();
-  if (workspaceDirs.length === 0) {
-    throw new Error(
-      "No workspace directories found. Make sure you've opened a folder in your IDE.",
+  let baseDirUri: string;
+  if (global) {
+    baseDirUri = joinPathsToUri(
+      localPathToUri(getFridayGlobalPath()),
+      assistantPath ?? "agents",
+    );
+  } else {
+    const workspaceDirs = await ide.getWorkspaceDirs();
+    if (workspaceDirs.length === 0) {
+      throw new Error("No workspace directories found.");
+    }
+    baseDirUri = joinPathsToUri(
+      workspaceDirs[0],
+      `.friday/${assistantPath ?? "agents"}`,
     );
   }
 
-  const baseDirUri = joinPathsToUri(
-    workspaceDirs[0],
-    assistantPath ?? ".friday/agents",
-  );
-
-  // Find the first available filename
-  let counter = 0;
-  let assistantFileUri: string;
-  do {
-    const suffix = counter === 0 ? "" : `-${counter}`;
-    assistantFileUri = joinPathsToUri(baseDirUri, `new-config${suffix}.yaml`);
-    counter++;
-  } while (await ide.fileExists(assistantFileUri));
+  // Generate timestamp-based filename to avoid conflicts
+  const ts = new Date().toISOString().replace(/[-:T.]/g, "").slice(0, 14);
+  const assistantFileUri = joinPathsToUri(baseDirUri, `config_${ts}.yaml`);
 
   await ide.writeFile(assistantFileUri, DEFAULT_ASSISTANT_FILE);
   await ide.openFile(assistantFileUri);
