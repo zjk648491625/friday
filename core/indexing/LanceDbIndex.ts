@@ -11,6 +11,11 @@ import {
 } from "../index";
 import { getLanceDbPath, migrate } from "../util/paths";
 import { getUriPathBasename } from "../util/uri";
+import {
+  ensureLanceDbNative,
+  getLanceDbNativePath,
+  isLanceDbNativeAvailable,
+} from "../util/nativeAddon";
 
 import { basicChunker } from "./chunk/basic.js";
 import { chunkDocument, shouldChunk } from "./chunk/chunk.js";
@@ -49,9 +54,9 @@ export class LanceDbIndex implements CodebaseIndex {
   /**
    * Factory method for creating LanceDbIndex instances.
    *
-   * We dynamically import LanceDB only when supported to avoid native module loading errors
-   * on incompatible platforms. LanceDB has CPU-specific native dependencies that can crash
-   * the application if loaded on unsupported architectures.
+   * We dynamically import LanceDB only when needed. If the native addon is
+   * not available, we trigger a background download to the user's local dir
+   * and degrade gracefully — the next call will pick it up automatically.
    *
    * See isSupportedLanceDbCpuTargetForLinux() for platform compatibility details.
    */
@@ -63,11 +68,24 @@ export class LanceDbIndex implements CodebaseIndex {
       return null;
     }
 
+    // Priority 1: bundled vectordb (npm import)
     try {
       this.lance = await import("vectordb");
       return new LanceDbIndex(embeddingsProvider, readFile);
-    } catch (err) {
-      console.error("Failed to load LanceDB:", err);
+    } catch {
+      // Priority 2: user's pre-downloaded native addon
+      if (isLanceDbNativeAvailable()) {
+        try {
+          this.lance = require(getLanceDbNativePath());
+          return new LanceDbIndex(embeddingsProvider, readFile);
+        } catch (e) {
+          console.error("[LanceDbIndex] Failed to load local native addon:", (e as Error).message);
+        }
+      }
+
+      // Not available — degrade gracefully, trigger async download
+      console.log("[LanceDbIndex] LanceDB not available, triggering background download...");
+      ensureLanceDbNative();
       return null;
     }
   }
