@@ -27,7 +27,7 @@ export const multiEditTool: Tool = {
   isInstant: false,
   function: {
     name: BuiltInToolNames.MultiEdit,
-    description: `Make multiple find-and-replace edits to a single file. All edits applied atomically in sequence order. Each edit needs old_string (exact match including whitespace/indentation) and new_string (must differ from old_string). Optionally use replace_all to replace all occurrences. Always read the file with ${BuiltInToolNames.ReadFile} first. ${NO_PARALLEL_TOOL_CALLING_INSTRUCTION}. Only use emojis if user explicitly requests.`,
+    description: `Make multiple find-and-replace edits to a single file. All edits applied atomically in sequence order. Each edit needs old_string (exact match including whitespace/indentation) and new_string (must differ from old_string). Optionally use replace_all to replace all occurrences. Always read the file with ${BuiltInToolNames.ReadFile} first. ${NO_PARALLEL_TOOL_CALLING_INSTRUCTION}. Make all edits in one call — files may change between tool calls (linters, user edits). Plan edits carefully — earlier edits change file content that later edits search against. Only use emojis if user explicitly requests.`,
     parameters: {
       type: "object",
       required: ["filepath", "edits"],

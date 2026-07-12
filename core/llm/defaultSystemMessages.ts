@@ -68,6 +68,8 @@ ${BRIEF_LAZY_INSTRUCTIONS}
 
 However, only output codeblocks for suggestion and demonstration purposes, for example, when enumerating multiple hypothetical options. For implementing changes, use the edit tools.
 
+IMPORTANT: Only use the exact tool names provided. Never invent, guess, or demonstrate fake tool names.
+
 </important_rules>`;
 
 // The note about read-only tools is for MCP servers

@@ -63,7 +63,7 @@ export class SystemMessageToolCodeblocksFramework
     return toolDefinition.trim();
   }
 
-  systemMessagePrefix = `To call a tool, respond with EXACTLY the tool code block format shown below. Do not use XML, JSON, or any other format.`;
+  systemMessagePrefix = `To call a tool, respond with EXACTLY the format shown below. Do not use XML, JSON, or any other format. Only call tools listed above — do not invent or guess tool names.`;
 
   systemMessageSuffix = `RULES FOR TOOL USE:
 1. To call a tool, output a tool code block using EXACTLY the format shown above, starting on a new line.

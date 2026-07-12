@@ -15,7 +15,7 @@ export const readFileImpl: ToolImpl = async (args, extras) => {
   if (!resolvedPath) {
     throw new FridayError(
       FridayErrorReason.FileNotFound,
-      `File "${filepath}" does not exist or is not accessible. You might want to check the path and try again.`,
+      `File "${filepath}" does not exist. Use "ls" to list files in the directory, or "file_glob_search" to find files by pattern.`,
     );
   }
 

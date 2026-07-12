@@ -1274,7 +1274,10 @@ export class Core {
     );
 
     if (!tool) {
-      throw new Error(`Tool ${toolCall.function.name} not found`);
+      const availableNames = config.tools.map((t) => t.function.name).join(", ");
+      throw new Error(
+        `Tool "${toolCall.function.name}" not found. Available tools: ${availableNames}`,
+      );
     }
 
     if (!config.selectedModelByRole.chat) {
