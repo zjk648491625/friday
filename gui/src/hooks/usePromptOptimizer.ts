@@ -4,17 +4,50 @@ import { IdeMessengerContext } from "../context/IdeMessenger";
 import { useAppSelector } from "../redux/hooks";
 import { selectSelectedChatModel } from "../redux/slices/configSlice";
 
+const PROMPT_OPTIMIZE_MODEL_KEY = "friday-prompt-optimize-model";
+
+function getStoredOptimizeModel(): string | null {
+  try {
+    return localStorage.getItem(PROMPT_OPTIMIZE_MODEL_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function getPromptOptimizeModel(): string | null {
+  return getStoredOptimizeModel();
+}
+
+export function setPromptOptimizeModel(title: string | null) {
+  try {
+    if (title) {
+      localStorage.setItem(PROMPT_OPTIMIZE_MODEL_KEY, title);
+    } else {
+      localStorage.removeItem(PROMPT_OPTIMIZE_MODEL_KEY);
+    }
+    window.dispatchEvent(new Event("promptOptimizeModelChanged"));
+  } catch {}
+}
+
 export function usePromptOptimizer() {
   const ideMessenger = useContext(IdeMessengerContext);
-  const defaultModel = useAppSelector(selectSelectedChatModel);
+  const chatModel = useAppSelector(selectSelectedChatModel);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const editorRef = useRef<Editor | null>(null);
 
   const optimizePrompt = useCallback(async (editor: Editor | null) => {
-    if (!editor || !defaultModel) return;
+    if (!editor) return;
 
     const originalText = editor.getText();
     if (!originalText.trim()) return;
+
+    // Use dedicated prompt optimize model if set, otherwise fallback to chat model
+    const storedTitle = getStoredOptimizeModel();
+    const modelTitle = storedTitle || chatModel?.title;
+    if (!modelTitle) {
+      ideMessenger.post("showToast", ["warning", "请先配置提示词优化模型"]);
+      return;
+    }
 
     editorRef.current = editor;
     setIsOptimizing(true);
@@ -31,25 +64,25 @@ Optimized:`;
         completionOptions: {
           maxTokens: Math.min(originalText.length * 2 + 200, 4096),
           temperature: 0.3,
-        } as any,
-        title: defaultModel.title,
-      });
+        },
+        title: modelTitle,
+      } as any);
 
       const text = typeof result === "string" ? result : "";
       if (text.trim()) {
         editorRef.current?.commands.setContent(text.trim());
-        setIsOptimizing(false);
+        ideMessenger.post("showToast", ["info", "提示词优化完成"]);
       } else {
-        setIsOptimizing(false);
         ideMessenger.post("showToast", ["warning", "优化返回为空，请重试"]);
       }
     } catch (error: any) {
       console.error("Failed to optimize prompt:", error);
-      setIsOptimizing(false);
       const msg = error?.message || String(error);
       ideMessenger.post("showToast", ["error", msg.length > 100 ? "优化失败：" + msg.slice(0, 100) + "..." : "优化失败：" + msg]);
+    } finally {
+      setIsOptimizing(false);
     }
-  }, [ideMessenger, defaultModel]);
+  }, [ideMessenger, chatModel]);
 
   return { optimizePrompt, isOptimizing };
 }

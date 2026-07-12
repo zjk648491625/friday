@@ -1,6 +1,6 @@
 import { ModelRole } from "@friday-ai/config-yaml";
 import { ModelDescription } from "core";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Shortcut from "../../../components/gui/Shortcut";
 import { useEditModel } from "../../../components/mainInput/Lump/useEditBlock";
 import { Card, Divider, Toggle } from "../../../components/ui";
@@ -14,6 +14,8 @@ import { getMetaKeyLabel, isJetBrains } from "../../../util";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { ModelRoleRow } from "../components/ModelRoleRow";
 import { T } from "../../../util/i18n";
+import { getPromptOptimizeModel, setPromptOptimizeModel } from "../../../hooks/usePromptOptimizer";
+import ModelRoleSelector from "../components/ModelRoleSelector";
 
 const MODEL_DOCS_URLS = {
   chat: {
@@ -40,6 +42,38 @@ export function ModelsSection() {
   const jetbrains = isJetBrains();
   const metaKey = getMetaKeyLabel();
   const [showAdditionalRoles, setShowAdditionalRoles] = useState(false);
+
+  // Prompt optimize model - stored in localStorage, independent of config roles
+  // finalToBrowserConfig doesn't include a flat `models` field,
+  // so we deduplicate from modelsByRole to get all configured models
+  const allModels: ModelDescription[] = Object.values(config.modelsByRole ?? {})
+    .flat()
+    .filter((m: ModelDescription, i, arr) => arr.findIndex((x) => x.title === m.title) === i);
+  const [promptOptModel, setPromptOptModel] = useState<ModelDescription | null>(null);
+  const [promptOptInit, setPromptOptInit] = useState(false);
+
+  useEffect(() => {
+    const stored = getPromptOptimizeModel();
+    if (stored) {
+      const found = allModels.find((m) => m.title === stored) ?? null;
+      setPromptOptModel(found);
+    }
+    setPromptOptInit(true);
+  }, [allModels]);
+
+  useEffect(() => {
+    const handler = () => {
+      const stored = getPromptOptimizeModel();
+      if (stored) {
+        const found = allModels.find((m) => m.title === stored) ?? null;
+        setPromptOptModel(found);
+      } else {
+        setPromptOptModel(null);
+      }
+    };
+    window.addEventListener("promptOptimizeModelChanged", handler);
+    return () => window.removeEventListener("promptOptimizeModelChanged", handler);
+  }, [allModels]);
 
   function handleRoleUpdate(role: ModelRole, model: ModelDescription | null) {
     if (!model) {
@@ -211,6 +245,28 @@ export function ModelsSection() {
           </div>
         </Toggle>
       </Card>
+
+      {promptOptInit && (
+        <Card>
+          <div className="py-6 first:pt-0 last:pb-0">
+            <div className="mb-2">
+              <span className="text-base font-medium text-foreground">{T("Prompt Optimization")}</span>
+            </div>
+            <p className="text-description mt-1 mb-2 text-xs">{T("Model used to optimize user prompts via the sparkle button in chat input")}</p>
+            <ModelRoleSelector
+              displayName={T("Prompt Optimization")}
+              description={T("Select the model for prompt optimization")}
+              models={allModels}
+              selectedModel={promptOptModel}
+              onSelect={(model) => {
+                setPromptOptModel(model);
+                setPromptOptimizeModel(model?.title ?? null);
+              }}
+              setupURL=""
+            />
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
