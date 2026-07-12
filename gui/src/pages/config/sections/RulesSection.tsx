@@ -68,6 +68,7 @@ function PromptRow({
   setIsBookmarked,
   onEdit,
   onDelete,
+  onRename,
 }: PromptRowProps) {
   const { mainEditor } = useMainEditor();
 
