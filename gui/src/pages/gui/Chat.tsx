@@ -394,10 +394,9 @@ export function Chat() {
       }
 
       if (message.role === "assistant") {
-        // Only show avatar on the first AI block after a user message
-        const visibleHistory = history.filter((h) => h.message.role !== "system");
-        const prevVisible = visibleHistory[visibleHistory.indexOf(item) - 1];
-        const showAvatar = !prevVisible || prevVisible.message.role !== "assistant";
+        // Only show avatar on the first AI block after a user message.
+        // Use the index from the filtered map (same as visibleHistory order).
+        const showAvatar = index === 0 || filteredHistory[index - 1]?.message.role !== "assistant";
 
         return (
           <div className={`msg-row ${showAvatar ? "with-avatar" : "no-avatar"}`}>
@@ -581,13 +580,22 @@ export function Chat() {
           .scroll-btn:nth-child(2){animation-delay:0.2s}
           .scroll-btn:nth-child(3){animation-delay:0.4s}
           .scroll-btn:nth-child(4){animation-delay:0.6s}
+          .scroll-tip { position:relative }
+          .scroll-tip::after {
+            content:attr(data-tip);
+            position:absolute;right:110%;top:50%;transform:translateY(-50%);
+            background:rgba(0,0,0,0.75);color:#fff;font-size:10px;
+            padding:2px 6px;border-radius:4px;white-space:nowrap;
+            opacity:0;pointer-events:none;transition:opacity 0.15s;
+          }
+          .scroll-tip:hover::after { opacity:1 }
         `}</style>
         {filteredHistory.length > 0 && (
           <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1">
-            <button onClick={scrollToTop} title={T("Scroll to top")} className="scroll-btn">🔝</button>
-            <button onClick={() => scrollToUserMsg("prev")} title={T("Previous user message")} className="scroll-btn">⬆️</button>
-            <button onClick={() => scrollToUserMsg("next")} title={T("Next user message")} className="scroll-btn">⬇️</button>
-            <button onClick={scrollToBottom} title={T("Scroll to bottom")} className="scroll-btn">⏬</button>
+            <button onClick={scrollToTop} data-tip={T("Scroll to top")} className="scroll-btn scroll-tip">🔝</button>
+            <button onClick={() => scrollToUserMsg("prev")} data-tip={T("Previous user message")} className="scroll-btn scroll-tip">⬆️</button>
+            <button onClick={() => scrollToUserMsg("next")} data-tip={T("Next user message")} className="scroll-btn scroll-tip">⬇️</button>
+            <button onClick={scrollToBottom} data-tip={T("Scroll to bottom")} className="scroll-btn scroll-tip">⏬</button>
           </div>
         )}
       </div>
