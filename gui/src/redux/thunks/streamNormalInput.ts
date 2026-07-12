@@ -172,7 +172,9 @@ export const streamNormalInput = createAsyncThunk<
 
     dispatch(setActive());
     dispatch(setInlineErrorMessage(undefined));
-    dispatch(setTaskStatus(depth === 0 ? "🤖 AI 思考中..." : `🔄 第 ${depth + 1} 轮工具调用`));
+    // Step prefix preserved throughout streaming: "第1轮" / "第2轮" ...
+    const stepPrefix = depth === 0 ? "" : `🔄 第${depth + 1}轮 `;
+    dispatch(setTaskStatus(depth === 0 ? "🤖 AI 思考中..." : `${stepPrefix}调用工具中...`));
 
     const precompiledRes = await extra.ideMessenger.request("llm/compileChat", {
       messages,
@@ -242,7 +244,7 @@ export const streamNormalInput = createAsyncThunk<
           }
           if (accumulatedText.trim()) {
             const preview = accumulatedText.replace(/\n/g, " ").slice(-60);
-            dispatch(setTaskStatus(`📝 ${preview}`));
+            dispatch(setTaskStatus(`${stepPrefix}📝 ${preview}`));
           }
           lastStatusUpdate = now;
         }

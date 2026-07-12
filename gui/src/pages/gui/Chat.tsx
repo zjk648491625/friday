@@ -72,6 +72,7 @@ function findLatestSummaryIndex(history: ChatHistoryItem[]): number {
 const StepsDiv = styled.div`
   position: relative;
   background-color: transparent;
+  padding: 0 20px;
 
   & > * {
     position: relative;
@@ -79,6 +80,86 @@ const StepsDiv = styled.div`
 
   .thread-message {
     margin: 0 0 0 1px;
+  }
+
+  /* AI message row — tight blocks, avatar only on first of a sequence */
+  .msg-row {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .msg-row.with-avatar {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .msg-row.no-avatar {
+    gap: 0;
+    margin-left: 38px; /* indent to align with avatar column */
+  }
+
+  /* User message row — right side, auto-width */
+  .msg-row.user {
+    justify-content: flex-end;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    flex-direction: row;
+  }
+
+  .msg-row.user:first-child {
+    margin-top: 0;
+  }
+
+  /* Avatar column */
+  .msg-avatar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 28px;
+    opacity: 0.75;
+  }
+
+  .msg-avatar-col.right {
+    order: 2;
+  }
+
+  .msg-avatar-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .msg-avatar-icon.ai {
+    background: rgba(128,128,128,0.15);
+  }
+
+  .msg-avatar-icon.user {
+    background: rgba(59,130,246,0.15);
+  }
+
+  .msg-avatar-label {
+    font-size: 9px;
+    margin-top: 2px;
+    color: var(--vscode-descriptionForeground, #888);
+    white-space: nowrap;
+  }
+
+  /* Message body */
+  .msg-body {
+    min-width: 0;
+  }
+
+  .msg-body.ai-body {
+    flex: 1;
+  }
+
+  .msg-body.user-body {
+    max-width: 75%;
   }
 `;
 
@@ -281,23 +362,29 @@ export function Chat() {
 
       if (message.role === "user") {
         return (
-          <div>
-            <FridayInputBox
-              onEnter={(editorState, modifiers) =>
-                sendInput(editorState, modifiers, index)
-              }
-              isLastUserInput={isLastUserInput(index)}
-              isMainInput={false}
-              editorState={editorState ?? item.message.content}
-              contextItems={contextItems}
-              appliedRules={appliedRules}
-              inputId={message.id}
-            />
-            {item.timestamp && (
-              <div className="mr-2 text-right text-[10px] text-gray-500 opacity-60">
-                {new Date(item.timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
-              </div>
-            )}
+          <div className="msg-row user">
+            <div className="msg-body user-body">
+              <FridayInputBox
+                onEnter={(editorState, modifiers) =>
+                  sendInput(editorState, modifiers, index)
+                }
+                isLastUserInput={isLastUserInput(index)}
+                isMainInput={false}
+                editorState={editorState ?? item.message.content}
+                contextItems={contextItems}
+                appliedRules={appliedRules}
+                inputId={message.id}
+              />
+              {item.timestamp && (
+                <div className="mr-2 mt-0.5 text-right text-[10px] text-gray-500 opacity-60">
+                  {new Date(item.timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+                </div>
+              )}
+            </div>
+            <div className="msg-avatar-col right">
+              <div className="msg-avatar-icon user" title="You">👤</div>
+              <span className="msg-avatar-label">{T("User")}</span>
+            </div>
           </div>
         );
       }
@@ -307,39 +394,52 @@ export function Chat() {
       }
 
       if (message.role === "assistant") {
-        return (
-          <>
-            {/* Always render assistant content through normal path */}
-            <div className="thread-message">
-              <TimelineItem
-                item={item}
-                iconElement={
-                  <ChatBubbleOvalLeftIcon width="16px" height="16px" />
-                }
-                open={
-                  typeof stepsOpen[index] === "undefined"
-                    ? true
-                    : stepsOpen[index]!
-                }
-                onToggle={() => {}}
-              >
-                <StepContainer
-                  index={index}
-                  isLast={index === history.length - 1}
-                  item={item}
-                  latestSummaryIndex={latestSummaryIndex}
-                  timestamp={item.timestamp}
-                />
-              </TimelineItem>
-            </div>
+        // Only show avatar on the first AI block after a user message
+        const visibleHistory = history.filter((h) => h.message.role !== "system");
+        const prevVisible = visibleHistory[visibleHistory.indexOf(item) - 1];
+        const showAvatar = !prevVisible || prevVisible.message.role !== "assistant";
 
-            {toolCallStates && (
-              <ToolCallDiv
-                toolCallStates={toolCallStates}
-                historyIndex={index}
-              />
+        return (
+          <div className={`msg-row ${showAvatar ? "with-avatar" : "no-avatar"}`}>
+            {showAvatar && (
+              <div className="msg-avatar-col">
+                <div className="msg-avatar-icon ai" title="Friday AI">🤖</div>
+                <span className="msg-avatar-label">Friday</span>
+              </div>
             )}
-          </>
+            <div className="msg-body ai-body">
+              {/* Always render assistant content through normal path */}
+              <div className="thread-message">
+                <TimelineItem
+                  item={item}
+                  iconElement={
+                    <ChatBubbleOvalLeftIcon width="16px" height="16px" />
+                  }
+                  open={
+                    typeof stepsOpen[index] === "undefined"
+                      ? true
+                      : stepsOpen[index]!
+                  }
+                  onToggle={() => {}}
+                >
+                  <StepContainer
+                    index={index}
+                    isLast={index === history.length - 1}
+                    item={item}
+                    latestSummaryIndex={latestSummaryIndex}
+                    timestamp={item.timestamp}
+                  />
+                </TimelineItem>
+              </div>
+
+              {toolCallStates && (
+                <ToolCallDiv
+                  toolCallStates={toolCallStates}
+                  historyIndex={index}
+                />
+              )}
+            </div>
+          </div>
         );
       }
 
@@ -473,11 +573,11 @@ export function Chat() {
           @keyframes float-up-down { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
           @keyframes float-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
           .scroll-btn { display:flex;align-items:center;justify-content:center;
-            width:22px;height:22px;border-radius:50%;cursor:pointer;
-            background:rgba(128,128,128,0.12);font-size:11px;line-height:1;
-            opacity:0.25;transition:all 0.2s;backdrop-filter:blur(4px);
+            width:26px;height:26px;border-radius:50%;cursor:pointer;
+            background:rgba(128,128,128,0.18);font-size:13px;line-height:1;
+            opacity:0.4;transition:all 0.2s;backdrop-filter:blur(4px);
             animation:float-up-down 3s ease-in-out infinite; }
-          .scroll-btn:hover { opacity:1;background:rgba(128,128,128,0.3);animation:float-pulse 0.6s ease-in-out; }
+          .scroll-btn:hover { opacity:1;background:rgba(128,128,128,0.4);animation:float-pulse 0.6s ease-in-out; }
           .scroll-btn:nth-child(2){animation-delay:0.2s}
           .scroll-btn:nth-child(3){animation-delay:0.4s}
           .scroll-btn:nth-child(4){animation-delay:0.6s}
@@ -487,7 +587,7 @@ export function Chat() {
             <button onClick={scrollToTop} title={T("Scroll to top")} className="scroll-btn">🔝</button>
             <button onClick={() => scrollToUserMsg("prev")} title={T("Previous user message")} className="scroll-btn">⬆️</button>
             <button onClick={() => scrollToUserMsg("next")} title={T("Next user message")} className="scroll-btn">⬇️</button>
-            <button onClick={scrollToBottom} title={T("Scroll to bottom")} className="scroll-btn">🔽</button>
+            <button onClick={scrollToBottom} title={T("Scroll to bottom")} className="scroll-btn">⏬</button>
           </div>
         )}
       </div>
