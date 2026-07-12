@@ -44,6 +44,10 @@ copy /Y "%ROOT%gui\dist\jetbrains_editorInset_index.html" "%ROOT%extensions\inte
 xcopy "%ROOT%gui\dist\fonts" "%ROOT%extensions\intellij\src\main\resources\webview\fonts\" /E /Y /Q
 xcopy "%ROOT%gui\dist\logos" "%ROOT%extensions\intellij\src\main\resources\webview\logos\" /E /Y /Q
 
+echo [2.5/3] Removing unnecessary binary files...
+if exist "%ROOT%binary\bin\win32-x64\friday-binary.exe" del "%ROOT%binary\bin\win32-x64\friday-binary.exe"
+if exist "%ROOT%binary\bin\win32-x64\friday-binary.js" (echo   Keeping friday-binary.js) else (echo   WARNING: friday-binary.js not found!)
+
 echo [3/3] Building IntelliJ plugin...
 cd /d "%ROOT%extensions\intellij"
 if %NO_CACHE%==1 (
