@@ -43,12 +43,7 @@ export const readFileRangeTool: Tool = {
     },
   },
   systemMessageDescription: {
-    prefix: `To read a specific range of lines from a file, use the ${BuiltInToolNames.ReadFileRange} tool. Only supports positive line numbers (1-based from start). For reading from the end of files, use the terminal tool with 'tail' command instead:`,
-    exampleArgs: [
-      ["filepath", "path/to/the_file.txt"],
-      ["startLine", 10],
-      ["endLine", 20],
-    ],
+    prefix: `To read a specific range of lines from a file, use the ${BuiltInToolNames.ReadFileRange} tool with filepath, startLine, and endLine (1-based). For reading from the end of files, use the terminal tool with 'tail' command instead.`,
   },
   defaultToolPolicy: "allowedWithoutPermission",
   toolCallIcon: "DocumentIcon",

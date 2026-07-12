@@ -35,11 +35,7 @@ export const lsTool: Tool = {
   },
   defaultToolPolicy: "allowedWithoutPermission",
   systemMessageDescription: {
-    prefix: `To list files and folders in a given directory, call the ${BuiltInToolNames.LSTool} tool with "dirPath" and "recursive". For example:`,
-    exampleArgs: [
-      ["dirPath", "path/to/dir"],
-      ["recursive", "false"],
-    ],
+    prefix: `To list files and folders in a given directory, call the ${BuiltInToolNames.LSTool} tool with "dirPath" and "recursive".`,
   },
   toolCallIcon: "FolderIcon",
   preprocessArgs: async (args, { ide }) => {
