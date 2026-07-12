@@ -11,10 +11,14 @@ import {
   setInactive,
   setToolCallCalling,
   updateToolCallOutput,
+  updateToolCallProgress,
 } from "../slices/sessionSlice";
 import { ThunkApiType } from "../store";
 import { findToolCallById, logToolUsage } from "../util";
 import { streamResponseAfterToolCall } from "./streamResponseAfterToolCall";
+
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 2000;
 
 export const callToolById = createAsyncThunk<
   void,
@@ -46,52 +50,107 @@ export const callToolById = createAsyncThunk<
     }),
   );
 
+  const toolName = toolCallState.toolCall.function.name;
   let output: ContextItem[] | undefined = undefined;
   let mcpUiState: McpUiState | undefined = undefined;
   let error: FridayError | undefined = undefined;
   let streamResponse: boolean;
 
+  // Progress message
+  const sendProgress = (msg: string) => {
+    dispatch(updateToolCallProgress({ toolCallId, progressMessage: msg }));
+  };
+
+  // Execute tool call with retry
+  const executeToolCall = async (): Promise<{
+    output?: ContextItem[];
+    mcpUiState?: McpUiState;
+    error?: FridayError;
+    streamResponse: boolean;
+  }> => {
+    let lastError: Error | undefined;
+
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        if (attempt > 0) {
+          sendProgress(`重试 ${toolName} (${attempt}/${MAX_RETRIES})...`);
+          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt));
+        } else {
+          sendProgress(`执行: ${toolName}`);
+        }
+
+        if (CLIENT_TOOLS_IMPLS.find((t) => t === toolName)) {
+          const result = await callClientTool(toolCallState, {
+            dispatch,
+            ideMessenger: extra.ideMessenger,
+            getState,
+          });
+          if (result.error && attempt < MAX_RETRIES) {
+            lastError = new Error(result.error.message);
+            continue;
+          }
+          sendProgress(result.error ? `${toolName} 失败` : `${toolName} 完成`);
+          return {
+            output: result.output,
+            mcpUiState: undefined,
+            error: result.error,
+            streamResponse: result.respondImmediately,
+          };
+        } else {
+          const result = await extra.ideMessenger.request("tools/call", {
+            toolCall: toolCallState.toolCall,
+          });
+          if (result.status === "error") {
+            lastError = new Error(result.error);
+            if (attempt < MAX_RETRIES) continue;
+            throw lastError;
+          }
+          const hasError = !!result.content.errorMessage;
+          if (hasError && attempt < MAX_RETRIES) {
+            lastError = new Error(result.content.errorMessage);
+            continue;
+          }
+          sendProgress(hasError ? `${toolName} 失败` : `${toolName} 完成`);
+          return {
+            output: result.content.contextItems,
+            mcpUiState: result.content.mcpUiState,
+            error: hasError
+              ? new FridayError(
+                  result.content.errorReason || FridayErrorReason.Unspecified,
+                  result.content.errorMessage!,
+                )
+              : undefined,
+            streamResponse: true,
+          };
+        }
+      } catch (e: any) {
+        lastError = e;
+        if (attempt < MAX_RETRIES) {
+          console.warn(`Tool ${toolName} failed (attempt ${attempt + 1}): ${e.message}, retrying...`);
+          continue;
+        }
+      }
+    }
+    // All retries exhausted
+    throw lastError || new Error(`Tool ${toolName} failed after ${MAX_RETRIES} retries`);
+  };
+
   // IMPORTANT:
   // Errors that occur while calling tool call implementations
   // Are caught and passed in output as context items
-  // Errors that occur outside specifically calling the tool
-  // Should not be caught here - should be handled as normal stream errors
-  if (
-    CLIENT_TOOLS_IMPLS.find(
-      (toolName) => toolName === toolCallState.toolCall.function.name,
-    )
-  ) {
-    // Tool is called on client side
-    const {
-      output: clientToolOutput,
-      respondImmediately,
-      error: clientToolError,
-    } = await callClientTool(toolCallState, {
-      dispatch,
-      ideMessenger: extra.ideMessenger,
-      getState,
-    });
-    output = clientToolOutput;
-    error = clientToolError;
-    streamResponse = respondImmediately;
-  } else {
-    // Tool is called on core side
-    const result = await extra.ideMessenger.request("tools/call", {
-      toolCall: toolCallState.toolCall,
-    });
-    if (result.status === "error") {
-      throw new Error(result.error);
-    } else {
-      output = result.content.contextItems;
-      mcpUiState = result.content.mcpUiState;
-      error = result.content.errorMessage
-        ? new FridayError(
-            result.content.errorReason || FridayErrorReason.Unspecified,
-            result.content.errorMessage,
-          )
-        : undefined;
-    }
+  try {
+    const result = await executeToolCall();
+    output = result.output;
+    mcpUiState = result.mcpUiState;
+    error = result.error;
+    streamResponse = result.streamResponse;
+  } catch (e: any) {
+    error = new FridayError(
+      FridayErrorReason.Unspecified,
+      `${toolName} 执行失败 (已重试${MAX_RETRIES}次): ${e.message}`,
+    );
     streamResponse = true;
+    sendProgress(`${toolName} 失败`);
   }
 
   if (error) {

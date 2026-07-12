@@ -224,6 +224,7 @@ type SessionState = {
   contextPercentage?: number;
   inlineErrorMessage?: InlineErrorMessageType;
   compactionLoading: Record<number, boolean>; // Track compaction loading by message index
+  toolCallProgressById: Record<string, string>; // toolCallId -> progress message
 };
 
 export const INITIAL_SESSION_STATE: SessionState = {
@@ -244,6 +245,7 @@ export const INITIAL_SESSION_STATE: SessionState = {
   lastSessionId: undefined,
   newestToolbarPreviewForInput: {},
   compactionLoading: {},
+  toolCallProgressById: {},
 };
 
 export const sessionSlice = createSlice({
@@ -964,6 +966,12 @@ export const sessionSlice = createSlice({
         toolCallState.status = "calling";
       }
     },
+    updateToolCallProgress: (
+      state,
+      action: PayloadAction<{ toolCallId: string; progressMessage: string }>,
+    ) => {
+      state.toolCallProgressById[action.payload.toolCallId] = action.payload.progressMessage;
+    },
     setMode: (state, action: PayloadAction<MessageModes>) => {
       state.mode = action.payload;
     },
@@ -1078,6 +1086,7 @@ export const {
   updateApplyState,
   abortStream,
   setToolCallCalling,
+  updateToolCallProgress,
   cancelToolCall,
   errorToolCall,
   acceptToolCall,

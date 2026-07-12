@@ -5,6 +5,7 @@ import {
   openContextItem,
 } from "../../../components/mainInput/belowMainInput/ContextItemsPeek";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
+import { useAppSelector } from "../../../redux/hooks";
 import { ToggleWithIcon } from "./ToggleWithIcon";
 import { ToolCallStatusMessage } from "./ToolCallStatusMessage";
 import { ToolTruncateHistoryIcon } from "./ToolTruncateHistoryIcon";
@@ -24,6 +25,9 @@ export function SimpleToolCallUI({
   historyIndex,
 }: SimpleToolCallUIProps) {
   const ideMessenger = useContext(IdeMessengerContext);
+  const progressMsg = useAppSelector(
+    (s) => s.session.toolCallProgressById[toolCallState.toolCallId],
+  );
   const shownContextItems = useMemo(() => {
     const contextItems = toolCallStateToContextItems(toolCallState);
     return contextItems.filter((item) => !item.hidden);
@@ -67,6 +71,10 @@ export function SimpleToolCallUI({
           <ToolTruncateHistoryIcon historyIndex={historyIndex} />
         )}
       </div>
+
+      {progressMsg && toolCallState.status === "calling" && (
+        <div className="text-description mt-0.5 pl-5 text-xs italic opacity-70">{progressMsg}</div>
+      )}
 
       {isToggleable && (
         <div

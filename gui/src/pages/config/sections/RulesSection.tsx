@@ -31,7 +31,7 @@ import {
   useOpenRule,
 } from "../../../components/mainInput/Lump/useEditBlock";
 import { useMainEditor } from "../../../components/mainInput/TipTapEditor";
-import { Card, EmptyState } from "../../../components/ui";
+import { Button, Card, EmptyState } from "../../../components/ui";
 import { useAuth } from "../../../context/Auth";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
 import { useBookmarkedSlashCommands } from "../../../hooks/useBookmarkedSlashCommands";
@@ -153,7 +153,7 @@ function PromptRow({
           className="cursor-pointer pt-0.5 text-description-muted hover:brightness-125"
         >
           {isBookmarked ? (
-            <BookmarkSolid className="h-3 w-3" />
+ <BookmarkSolid className="h-3 w-3" />
           ) : (
             <BookmarkOutline className="h-3 w-3" />
           )}

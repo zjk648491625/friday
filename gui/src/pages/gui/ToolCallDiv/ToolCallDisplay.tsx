@@ -2,6 +2,7 @@ import { Tool, ToolCallState } from "core";
 import { useContext, useMemo } from "react";
 import { openContextItem } from "../../../components/mainInput/belowMainInput/ContextItemsPeek";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
+import { useAppSelector } from "../../../redux/hooks";
 import { ToolCallStatusMessage } from "./ToolCallStatusMessage";
 import { toolCallStateToContextItems } from "./utils";
 import { ToolTruncateHistoryIcon } from "./ToolTruncateHistoryIcon";
@@ -22,6 +23,9 @@ export function ToolCallDisplay({
   historyIndex,
 }: ToolCallDisplayProps) {
   const ideMessenger = useContext(IdeMessengerContext);
+  const progressMsg = useAppSelector(
+    (s) => s.session.toolCallProgressById[toolCallState.toolCallId],
+  );
   const shownContextItems = useMemo(() => {
     const contextItems = toolCallStateToContextItems(toolCallState);
     return contextItems.filter((item) => !item.hidden);
@@ -56,6 +60,9 @@ export function ToolCallDisplay({
             <ToolTruncateHistoryIcon historyIndex={historyIndex} />
           )}
         </div>
+        {progressMsg && toolCallState.status === "calling" && (
+          <div className="text-description mt-1 text-xs italic opacity-70">{progressMsg}</div>
+        )}
       </div>
       <div>{children}</div>
     </div>
