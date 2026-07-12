@@ -215,7 +215,6 @@ export const streamNormalInput = createAsyncThunk<
           gen,
           streamAborter,
           systemToolsFramework,
-          activeTools.map((t) => t.function.name),
         );
       }
 

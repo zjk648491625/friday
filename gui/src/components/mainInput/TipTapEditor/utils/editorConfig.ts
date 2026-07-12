@@ -405,6 +405,8 @@ export function createEditorConfig(options: {
 
     if (props.isMainInput) {
       addRef.current(json);
+      // Clear input draft after sending — only unsent drafts should persist
+      try { localStorage.removeItem(`inputDraft_${props.historyKey}`); } catch {}
     }
 
     props.onEnter(json, modifiers, editor);
