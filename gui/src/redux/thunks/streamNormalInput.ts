@@ -1,5 +1,5 @@
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
-import { LLMFullCompletionOptions, ModelDescription } from "core";
+import { ChatMessage, LLMFullCompletionOptions, ModelDescription, PromptLog } from "core";
 import { getRuleId } from "core/llm/rules/getSystemMessageWithRules";
 import { ToCoreProtocol } from "core/protocol";
 import { BUILT_IN_GROUP_NAME } from "core/tools/builtIn";
@@ -215,25 +215,50 @@ export const streamNormalInput = createAsyncThunk<
           gen,
           streamAborter,
           systemToolsFramework,
+          activeTools.map((t) => t.function.name),
         );
       }
 
-      let next = await gen.next();
+      let next: any;
       let chunkCount = 0;
       let lastStatusUpdate = 0;
       let accumulatedText = "";
+      let heartbeatTick = 0;
+
+      // Helper: race gen.next() against heartbeat timeout
+      const genNextWithHeartbeat = async (gen: any) => {
+        while (true) {
+          const race: { type: string; value?: any } = await Promise.race([
+            gen.next().then((r: any) => ({ type: "done", value: r })),
+            new Promise<{ type: string }>((resolve) =>
+              setTimeout(() => resolve({ type: "hb" }), 600),
+            ),
+          ]);
+          if (race.type === "hb") {
+            if (!getState().session.isStreaming) break;
+            heartbeatTick++;
+            const dots = ".".repeat((heartbeatTick % 3) + 1);
+            dispatch(setTaskStatus(`${stepPrefix}💭 深度思考中${dots}`));
+          } else {
+            return race.value;
+          }
+        }
+        return { done: true, value: undefined };
+      };
+
+      next = await genNextWithHeartbeat(gen);
       while (!next.done) {
         if (!getState().session.isStreaming) {
           dispatch(abortStream());
           break;
         }
 
-        dispatch(streamUpdate(next.value));
+        dispatch(streamUpdate(next.value as ChatMessage[]));
 
         // Throttled status update (every 300ms) with streaming text + thinking
         chunkCount++;
         const now = Date.now();
-        if (now - lastStatusUpdate > 300 && next.value?.length) {
+        if (now - lastStatusUpdate > 300 && (next.value as ChatMessage[])?.length) {
           for (const msg of next.value as any[]) {
             if ((msg.role === "assistant" || msg.role === "thinking") && msg.content) {
               const content = Array.isArray(msg.content)
@@ -249,19 +274,20 @@ export const streamNormalInput = createAsyncThunk<
           lastStatusUpdate = now;
         }
 
-        next = await gen.next();
+        next = await genNextWithHeartbeat(gen);
       }
 
       // Attach prompt log and end thinking for reasoning models
       if (next.done && next.value) {
-        dispatch(addPromptCompletionPair([next.value]));
+        dispatch(addPromptCompletionPair([next.value as PromptLog]));
 
         try {
+          const log = next.value as PromptLog;
           extra.ideMessenger.post("devdata/log", {
             name: "chatInteraction",
             data: {
-              prompt: next.value.prompt,
-              completion: next.value.completion,
+              prompt: log.prompt,
+              completion: log.completion,
               modelProvider: selectedChatModel.underlyingProviderName,
               modelName: selectedChatModel.title,
               modelTitle: selectedChatModel.title,

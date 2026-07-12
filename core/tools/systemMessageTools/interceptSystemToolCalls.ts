@@ -25,6 +25,7 @@ export async function* interceptSystemToolCalls(
   messageGenerator: AsyncGenerator<ChatMessage[], PromptLog | undefined>,
   abortController: AbortController,
   systemToolFramework: SystemMessageToolsFramework,
+  knownToolNames?: string[],
 ): AsyncGenerator<ChatMessage[], PromptLog | undefined> {
   let buffer = "";
   let parseState: ToolCallParseState | undefined;
@@ -83,11 +84,45 @@ export async function* interceptSystemToolCalls(
           }
 
           if (parseState && !parseState.done) {
-            const delta = systemToolFramework.handleToolCallBuffer(
-              buffer,
-              parseState,
-            );
+            let delta: any;
+            try {
+              delta = systemToolFramework.handleToolCallBuffer(
+                buffer,
+                parseState,
+              );
+            } catch (e) {
+              // Malformed tool call (e.g. AI hallucinated END_ARG/BEGIN_ARG in text)
+              // Discard the broken parse state and yield buffer as normal content
+              console.warn("[interceptSystemToolCalls] tool call parse error, resetting:", (e as Error).message);
+              parseState = undefined;
+              yield [
+                {
+                  ...message,
+                  content: [{ type: "text", text: buffer }],
+                },
+              ];
+              buffer = "";
+              continue;
+            }
             if (delta) {
+              // Validate tool name against known tools — if AI hallucinated
+              // a tool block (e.g. in a plan), discard it as normal text
+              if (
+                knownToolNames?.length &&
+                delta.function?.name &&
+                !knownToolNames.includes(delta.function.name)
+              ) {
+                console.warn("[interceptSystemToolCalls] unknown tool:", delta.function.name, "discarding fake tool call");
+                parseState = undefined;
+                yield [
+                  {
+                    ...message,
+                    content: [{ type: "text", text: buffer }],
+                  },
+                ];
+                buffer = "";
+                continue;
+              }
               yield [
                 {
                   ...message,

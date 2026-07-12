@@ -78,7 +78,8 @@ CRITICAL: Follow the exact syntax. Do not use XML tags, JSON objects, or any oth
 6. Do NOT use JSON format for tool calls.
 7. Do NOT invent tools that are not listed above.
 8. If the user's request can be addressed with a listed tool, use it rather than guessing.
-9. Do not perform actions with hypothetical files. Use tools to find relevant files.`;
+9. Do not perform actions with hypothetical files. Use tools to find relevant files.
+10. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text, plan, explanation, code block, or thinking — these are ONLY for actual tool call code blocks. Violating this will break the system.`;
 
   exampleDynamicToolDefinition = `
 \`\`\`tool_definition
