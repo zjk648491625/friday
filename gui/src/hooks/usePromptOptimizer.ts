@@ -57,11 +57,20 @@ export function usePromptOptimizer() {
     setIsOptimizing(true);
 
     try {
-      const optimizationPrompt = `You are a prompt optimization assistant. Improve this prompt to be clearer and more effective, preserving its original language and intent. Return ONLY the optimized text with no explanation.
+      const optimizationPrompt = `You are a prompt refinement expert. Think carefully about the user's input and rewrite it into a clearer, more effective prompt that an AI can immediately understand and act on.
 
-Prompt to optimize: """${originalText}"""
+Guidelines:
+- Preserve ALL original requirements, constraints, and intent — do not drop or add anything.
+- If the original is vague or rambling, tighten it up. If it's already terse, expand with necessary precision.
+- Choose the form that works best: concise and direct, or structured and detailed — use your judgment.
+- Remove noise: filler words, tangents, polite fluff. Keep substance.
+- Maintain the original language.
+- Return ONLY the refined prompt, no explanation.
 
-Optimized:`;
+User input:
+"""${originalText}"""
+
+Refined:`;
 
       console.log("[OPTIMIZE] sending llm/complete request, model:", modelTitle, "prompt len:", optimizationPrompt.length);
       const result = await ideMessenger.request("llm/complete", {
