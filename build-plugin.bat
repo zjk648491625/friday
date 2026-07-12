@@ -46,8 +46,9 @@ xcopy "%ROOT%gui\dist\logos" "%ROOT%extensions\intellij\src\main\resources\webvi
 
 echo [2.5/3] Removing unnecessary binary files...
 if exist "%ROOT%binary\bin\win32-x64\friday-binary.exe" del "%ROOT%binary\bin\win32-x64\friday-binary.exe"
-rem Remove duplicate out/ directory (same files as in bin/win32-x64/)
+rem Remove duplicate out/ directories (same files as in bin/win32-x64/)
 if exist "%ROOT%binary\out" rmdir /s /q "%ROOT%binary\out"
+if exist "%ROOT%binary\bin\out" rmdir /s /q "%ROOT%binary\bin\out"
 if exist "%ROOT%binary\bin\win32-x64\friday-binary.js" (echo   Keeping friday-binary.js) else (echo   WARNING: friday-binary.js not found!)
 
 echo [3/3] Building IntelliJ plugin...
