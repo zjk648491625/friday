@@ -26,6 +26,8 @@ export function ToolCallDisplay({
   const progressMsg = useAppSelector(
     (s) => s.session.toolCallProgressById[toolCallState.toolCallId],
   );
+  const taskStatus = useAppSelector((s) => s.session.taskStatus);
+  const isStreaming = useAppSelector((s) => s.session.isStreaming);
   const shownContextItems = useMemo(() => {
     const contextItems = toolCallStateToContextItems(toolCallState);
     return contextItems.filter((item) => !item.hidden);
@@ -38,6 +40,9 @@ export function ToolCallDisplay({
       openContextItem(shownContextItems[0], ideMessenger);
     }
   }
+
+  const statusText = progressMsg || (toolCallState.status === "calling" && taskStatus) || null;
+
   return (
     <div className="flex flex-col justify-center px-4">
       <div className="mb-2 flex flex-col">
@@ -60,8 +65,13 @@ export function ToolCallDisplay({
             <ToolTruncateHistoryIcon historyIndex={historyIndex} />
           )}
         </div>
-        {progressMsg && toolCallState.status === "calling" && (
-          <div className="text-description mt-1 text-xs italic opacity-70">{progressMsg}</div>
+        {toolCallState.status === "calling" && (
+          <div className="mt-1 flex items-center gap-1.5">
+            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" title="正常运行中" />
+            {statusText && (
+              <span className="text-description text-xs opacity-60">{statusText}</span>
+            )}
+          </div>
         )}
       </div>
       <div>{children}</div>

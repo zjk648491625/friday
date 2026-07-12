@@ -28,6 +28,7 @@ export function SimpleToolCallUI({
   const progressMsg = useAppSelector(
     (s) => s.session.toolCallProgressById[toolCallState.toolCallId],
   );
+  const taskStatus = useAppSelector((s) => s.session.taskStatus);
   const shownContextItems = useMemo(() => {
     const contextItems = toolCallStateToContextItems(toolCallState);
     return contextItems.filter((item) => !item.hidden);
@@ -47,6 +48,8 @@ export function SimpleToolCallUI({
       openContextItem(shownContextItems[0], ideMessenger);
     }
   }
+
+  const statusText = progressMsg || (toolCallState.status === "calling" && taskStatus) || null;
 
   return (
     <div className="mt-1 flex flex-col px-4">
@@ -72,8 +75,13 @@ export function SimpleToolCallUI({
         )}
       </div>
 
-      {progressMsg && toolCallState.status === "calling" && (
-        <div className="text-description mt-0.5 pl-5 text-xs italic opacity-70">{progressMsg}</div>
+      {toolCallState.status === "calling" && (
+        <div className="mt-0.5 flex items-center gap-1.5 pl-5">
+          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" title="正常运行中" />
+          {statusText && (
+            <span className="text-description text-xs opacity-60">{statusText}</span>
+          )}
+        </div>
       )}
 
       {isToggleable && (
