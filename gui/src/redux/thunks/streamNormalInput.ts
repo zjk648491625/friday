@@ -15,6 +15,7 @@ import {
   setInactive,
   setInlineErrorMessage,
   setIsPruned,
+  setTaskStatus,
   setToolGenerated,
   streamUpdate,
 } from "../slices/sessionSlice";
@@ -171,6 +172,7 @@ export const streamNormalInput = createAsyncThunk<
 
     dispatch(setActive());
     dispatch(setInlineErrorMessage(undefined));
+    dispatch(setTaskStatus(depth === 0 ? "🤖 AI 思考中..." : `🔄 第 ${depth + 1} 轮工具调用`));
 
     const precompiledRes = await extra.ideMessenger.request("llm/compileChat", {
       messages,
@@ -215,6 +217,9 @@ export const streamNormalInput = createAsyncThunk<
       }
 
       let next = await gen.next();
+      let chunkCount = 0;
+      let lastStatusUpdate = 0;
+      let accumulatedText = "";
       while (!next.done) {
         if (!getState().session.isStreaming) {
           dispatch(abortStream());
@@ -222,6 +227,26 @@ export const streamNormalInput = createAsyncThunk<
         }
 
         dispatch(streamUpdate(next.value));
+
+        // Throttled status update (every 300ms) with streaming text + thinking
+        chunkCount++;
+        const now = Date.now();
+        if (now - lastStatusUpdate > 300 && next.value?.length) {
+          for (const msg of next.value as any[]) {
+            if ((msg.role === "assistant" || msg.role === "thinking") && msg.content) {
+              const content = Array.isArray(msg.content)
+                ? msg.content.map((c: any) => c.text || c.thinking || "").join("")
+                : String(msg.content || "");
+              if (content.trim()) accumulatedText += content;
+            }
+          }
+          if (accumulatedText.trim()) {
+            const preview = accumulatedText.replace(/\n/g, " ").slice(-60);
+            dispatch(setTaskStatus(`📝 ${preview}`));
+          }
+          lastStatusUpdate = now;
+        }
+
         next = await gen.next();
       }
 

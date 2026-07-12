@@ -225,6 +225,7 @@ type SessionState = {
   inlineErrorMessage?: InlineErrorMessageType;
   compactionLoading: Record<number, boolean>; // Track compaction loading by message index
   toolCallProgressById: Record<string, string>; // toolCallId -> progress message
+  taskStatus: string | null; // Current agent task status for heartbeat display
 };
 
 export const INITIAL_SESSION_STATE: SessionState = {
@@ -246,6 +247,7 @@ export const INITIAL_SESSION_STATE: SessionState = {
   newestToolbarPreviewForInput: {},
   compactionLoading: {},
   toolCallProgressById: {},
+  taskStatus: null,
 };
 
 export const sessionSlice = createSlice({
@@ -522,6 +524,7 @@ export const sessionSlice = createSlice({
       }
 
       state.isStreaming = false;
+      state.taskStatus = null;
     },
     abortStream: (state) => {
       state.streamAborter.abort();
@@ -972,6 +975,12 @@ export const sessionSlice = createSlice({
     ) => {
       state.toolCallProgressById[action.payload.toolCallId] = action.payload.progressMessage;
     },
+    setTaskStatus: (
+      state,
+      action: PayloadAction<string | null>,
+    ) => {
+      state.taskStatus = action.payload;
+    },
     setMode: (state, action: PayloadAction<MessageModes>) => {
       state.mode = action.payload;
     },
@@ -1087,6 +1096,7 @@ export const {
   abortStream,
   setToolCallCalling,
   updateToolCallProgress,
+  setTaskStatus,
   cancelToolCall,
   errorToolCall,
   acceptToolCall,

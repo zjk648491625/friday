@@ -39,11 +39,15 @@ export function usePromptOptimizer() {
     if (!editor) return;
 
     const originalText = editor.getText();
-    if (!originalText.trim()) return;
+    if (!originalText.trim()) {
+      console.log("[OPTIMIZE] empty text, skip");
+      return;
+    }
 
     // Use dedicated prompt optimize model if set, otherwise fallback to chat model
     const storedTitle = getStoredOptimizeModel();
     const modelTitle = storedTitle || chatModel?.title;
+    console.log("[OPTIMIZE] storedTitle:", storedTitle, "chatTitle:", chatModel?.title, "final:", modelTitle);
     if (!modelTitle) {
       ideMessenger.post("showToast", ["warning", "请先配置提示词优化模型"]);
       return;
@@ -59,6 +63,7 @@ Prompt to optimize: """${originalText}"""
 
 Optimized:`;
 
+      console.log("[OPTIMIZE] sending llm/complete request, model:", modelTitle, "prompt len:", optimizationPrompt.length);
       const result = await ideMessenger.request("llm/complete", {
         prompt: optimizationPrompt,
         completionOptions: {
@@ -67,16 +72,24 @@ Optimized:`;
         },
         title: modelTitle,
       } as any);
-
-      const text = typeof result === "string" ? result : "";
+      // ideMessenger wraps core responses as { done, content }, but protocol type is string|ErrorWebviewMessage
+      // Use bracket notation + Record cast to avoid TS2339 on dynamic properties
+      let text = "";
+      if (typeof result === "string") {
+        text = result;
+      } else if (result && typeof result === "object") {
+        const obj = result as Record<string, any>;
+        text = obj["content"] || obj["completion"] || obj["text"] || obj["response"] || "";
+      }
       if (text.trim()) {
         editorRef.current?.commands.setContent(text.trim());
         ideMessenger.post("showToast", ["info", "提示词优化完成"]);
       } else {
+        console.log("[OPTIMIZE] empty result, typeof:", typeof result, "value:", result);
         ideMessenger.post("showToast", ["warning", "优化返回为空，请重试"]);
       }
     } catch (error: any) {
-      console.error("Failed to optimize prompt:", error);
+      console.error("[OPTIMIZE] caught error:", error?.message || error);
       const msg = error?.message || String(error);
       ideMessenger.post("showToast", ["error", msg.length > 100 ? "优化失败：" + msg.slice(0, 100) + "..." : "优化失败：" + msg]);
     } finally {
