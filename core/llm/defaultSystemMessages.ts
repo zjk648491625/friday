@@ -1,10 +1,7 @@
 export const DEFAULT_SYSTEM_MESSAGES_URL =
   "https://github.com/friday-ai/friday/blob/main/core/llm/defaultSystemMessages.ts";
 
-export const CODEBLOCK_FORMATTING_INSTRUCTIONS = `\
-  Always include the language and file name in the info string when you write code blocks.
-  If you are editing "src/main.py" for example, your code block should start with '\`\`\`python src/main.py'
-`;
+export const CODEBLOCK_FORMATTING_INSTRUCTIONS = `Include language and filename in codeblock info strings, e.g. '\`\`\`python src/main.py'.`;
 
 export const EDIT_CODE_INSTRUCTIONS = `\
   When addressing code modification requests, present a concise code snippet that

@@ -63,21 +63,12 @@ export class SystemMessageToolCodeblocksFramework
     return toolDefinition.trim();
   }
 
-  systemMessagePrefix = `You have access to tools. To call a tool, you MUST respond with EXACTLY the tool code block format shown below.
-
-CRITICAL: Follow the exact syntax. Do not use XML tags, JSON objects, or any other format for tool calls.`;
+  systemMessagePrefix = `To call a tool, respond with EXACTLY the tool code block format shown below. Do not use XML, JSON, or any other format.`;
 
   systemMessageSuffix = `RULES FOR TOOL USE:
-1. To call a tool, output a tool code block using EXACTLY the format shown above.
-2. Always start the code block on a new line.
-3. You can only call ONE tool at a time.
-4. The tool code block MUST be the last thing in your response. Stop immediately after the closing fence.
-5. Do NOT wrap tool calls in XML tags like <tool_call> or <function=...>.
-6. Do NOT use JSON format for tool calls.
-7. Do NOT invent tools that are not listed above.
-8. If the user's request can be addressed with a listed tool, use it rather than guessing.
-9. Do not perform actions with hypothetical files. Use tools to find relevant files.
-10. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text, plan, explanation, code block, or thinking — these are ONLY for actual tool call code blocks. Violating this will break the system.`;
+1. To call a tool, output a tool code block using EXACTLY the format shown above, starting on a new line.
+2. The tool code block MUST be the last thing in your response. Stop immediately after the closing fence. Only call ONE tool at a time.
+3. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text — these are ONLY for actual tool call code blocks. Violating this will break the system.`;
 
   exampleDynamicToolDefinition = `
 \`\`\`tool_definition

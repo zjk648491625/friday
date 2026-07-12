@@ -23,18 +23,7 @@ export const singleFindAndReplaceTool: Tool = {
   isInstant: false,
   function: {
     name: BuiltInToolNames.SingleFindAndReplace,
-    description: `Performs exact string replacements in a file.
-
-IMPORTANT:
-- ALWAYS use the \`${BuiltInToolNames.ReadFile}\` tool just before making edits, to understand the file's up-to-date contents and context. The user can also edit the file while you are working with it.
-- ${NO_PARALLEL_TOOL_CALLING_INSTRUCTION}
-- When editing text from \`${BuiltInToolNames.ReadFile}\` tool output, ensure you preserve exact whitespace/indentation.
-- Only use emojis if the user explicitly requests it. Avoid adding emojis to files unless asked.
-- Use \`replace_all\` for replacing and renaming strings across the file. This parameter is useful if you want to rename a variable, for instance.
-
-WARNINGS:
-- When not using \`replace_all\`, the edit will FAIL if \`old_string\` is not unique in the file. Either provide a larger string with more surrounding context to make it unique or use \`replace_all\` to change every instance of \`old_string\`.
-- The edit will likely fail if you have not recently used the \`${BuiltInToolNames.ReadFile}\` tool to view up-to-date file contents.`,
+    description: `Performs exact string replacements in a file. Always read the file with ${BuiltInToolNames.ReadFile} first to get up-to-date contents. ${NO_PARALLEL_TOOL_CALLING_INSTRUCTION}. Use replace_all to replace all occurrences. Only use emojis if user explicitly requests. When not using replace_all, old_string must be unique; provide more surrounding context to make it unique if needed.`,
     parameters: {
       type: "object",
       required: ["filepath", "old_string", "new_string"],
