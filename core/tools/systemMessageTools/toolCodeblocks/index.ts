@@ -5,10 +5,8 @@ import { handleToolCallBuffer } from "./parseSystemToolCall";
 export class SystemMessageToolCodeblocksFramework
   implements SystemMessageToolsFramework
 {
-  // Poor models are really bad at following instructions, alternate starts allowed:
   acceptedToolCallStarts: [string, string][] = [
     ["```tool\n", "```tool\n"],
-    ["tool_name:", "```tool\nTOOL_NAME:"],
   ];
 
   toolCallStateToSystemToolCall(state: ToolCallState): string {
