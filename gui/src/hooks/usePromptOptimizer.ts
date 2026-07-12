@@ -83,7 +83,6 @@ Optimized:`;
       }
       if (text.trim()) {
         editorRef.current?.commands.setContent(text.trim());
-        ideMessenger.post("showToast", ["info", "提示词优化完成"]);
       } else {
         console.log("[OPTIMIZE] empty result, typeof:", typeof result, "value:", result);
         ideMessenger.post("showToast", ["warning", "优化返回为空，请重试"]);
