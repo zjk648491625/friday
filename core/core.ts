@@ -679,10 +679,19 @@ export class Core {
 
     on("llm/complete", async (msg) => {
       const { config } = await this.configHandler.loadConfig();
-      const model = config?.selectedModelByRole.chat;
-      if (!model) {
-        throw new Error("No chat model selected");
+      // Support explicit model title override (e.g. for prompt optimization)
+      let model = config?.selectedModelByRole.chat;
+      console.log("[llm/complete] requested title:", msg.data.title, "fallback chat:", model?.title);
+      if (msg.data.title) {
+        const allModels = Object.values(config?.modelsByRole ?? {}).flat();
+        const explicitModel = allModels.find((m) => m.title === msg.data.title);
+        console.log("[llm/complete] searched", allModels.length, "models for:", msg.data.title, "found:", !!explicitModel);
+        if (explicitModel) model = explicitModel;
       }
+      if (!model) {
+        throw new Error("No model available for completion");
+      }
+      console.log("[llm/complete] using model:", model.title, "provider:", model.providerName);
       const abortController = this.addMessageAbortController(msg.messageId);
 
       const completion = await model.complete(
@@ -690,6 +699,7 @@ export class Core {
         abortController.signal,
         msg.data.completionOptions,
       );
+      console.log("[llm/complete] result length:", completion?.length ?? 0);
       return completion;
     });
     on("llm/listModels", this.handleListModels.bind(this));
