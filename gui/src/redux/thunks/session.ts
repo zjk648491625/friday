@@ -12,6 +12,7 @@ import {
   setIsSessionMetadataLoading,
   updateSessionMetadata,
 } from "../slices/sessionSlice";
+import { setTabs } from "../slices/tabsSlice";
 import { ThunkApiType } from "../store";
 import { updateSelectedModelByRole } from "../thunks/updateSelectedModelByRole";
 
@@ -38,17 +39,30 @@ export const refreshSessionMetadata = createAsyncThunk<
     limit?: number;
   },
   ThunkApiType
->("session/refreshMetadata", async ({ offset, limit }, { dispatch, extra }) => {
+>("session/refreshMetadata", async ({ offset, limit }, { dispatch, extra, getState }) => {
+  const dirsResult = await extra.ideMessenger.request("getWorkspaceDirs", undefined);
+  const workspaceDirectory = (dirsResult.status === "success" ? dirsResult.content?.[0] : undefined) || "";
   const result = await extra.ideMessenger.request("history/list", {
     limit,
     offset,
+    workspaceDirectory,
   });
   if (result.status === "error") {
     throw new Error(result.error);
   }
+  const sessions = result.content;
+  const sessionIds = new Set(sessions.map((s) => s.sessionId));
+
+  // Filter tabs: keep only tabs belonging to current workspace sessions
+  const state = getState();
+  const filteredTabs = state.tabs.tabs.filter(
+    (tab) => !tab.sessionId || sessionIds.has(tab.sessionId),
+  );
+  dispatch(setTabs(filteredTabs));
+
   dispatch(setIsSessionMetadataLoading(false));
-  dispatch(setAllSessionMetadata(result.content));
-  return result.content;
+  dispatch(setAllSessionMetadata(sessions));
+  return sessions;
 });
 
 export const deleteSession = createAsyncThunk<void, string, ThunkApiType>(
@@ -247,10 +261,12 @@ export const saveCurrentSession = createAsyncThunk<
       title = NEW_SESSION_TITLE;
     }
 
+    const dirsResult = await extra.ideMessenger.request("getWorkspaceDirs", undefined);
+    const workspaceDir = dirsResult.status === "success" ? dirsResult.content?.[0] || "" : "";
     const updatedSession: Session = {
       sessionId: session.id,
       title,
-      workspaceDirectory: window.workspacePaths?.[0] || "",
+      workspaceDirectory: workspaceDir,
       history: session.history,
       mode: session.mode,
       chatModelTitle: selectedChatModel?.title ?? null,
