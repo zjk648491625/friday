@@ -45,6 +45,8 @@ export const EDIT_CODE_INSTRUCTIONS = `\
 
 const BRIEF_LAZY_INSTRUCTIONS = `For larger codeblocks (>20 lines), use brief language-appropriate placeholders for unmodified sections, e.g. '// ... existing code ...'`;
 
+const LANGUAGE_INSTRUCTION = `Respond in the same language the user uses. If they write in Chinese, respond in Chinese.`;
+
 export const DEFAULT_CHAT_SYSTEM_MESSAGE = `\
 <important_rules>
   You are in chat mode.
@@ -54,6 +56,8 @@ export const DEFAULT_CHAT_SYSTEM_MESSAGE = `\
 
 ${CODEBLOCK_FORMATTING_INSTRUCTIONS}
 ${EDIT_CODE_INSTRUCTIONS}
+
+${LANGUAGE_INSTRUCTION}
 </important_rules>`;
 
 export const DEFAULT_AGENT_SYSTEM_MESSAGE = `\
@@ -69,6 +73,8 @@ ${BRIEF_LAZY_INSTRUCTIONS}
 However, only output codeblocks for suggestion and demonstration purposes, for example, when enumerating multiple hypothetical options. For implementing changes, use the edit tools.
 
 IMPORTANT: Only use the exact tool names provided. Never invent, guess, or demonstrate fake tool names.
+
+${LANGUAGE_INSTRUCTION}
 
 </important_rules>`;
 
@@ -87,4 +93,6 @@ ${BRIEF_LAZY_INSTRUCTIONS}
 However, only output codeblocks for suggestion and planning purposes. When ready to implement changes, request to switch to Agent mode.
 
   In plan mode, only write code when directly suggesting changes. Prioritize understanding and developing a plan.
+
+${LANGUAGE_INSTRUCTION}
 </important_rules>`;
