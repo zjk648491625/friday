@@ -195,6 +195,18 @@ export function Chat() {
   );
   const isStreaming = useAppSelector((state) => state.session.isStreaming);
   const [stepsOpen] = useState<(boolean | undefined)[]>([]);
+  const [showHistoryPopup, setShowHistoryPopup] = useState(false);
+  const historyPopupRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!showHistoryPopup) return;
+    const handler = (e: MouseEvent) => {
+      if (historyPopupRef.current && !historyPopupRef.current.contains(e.target as Node)) {
+        setShowHistoryPopup(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showHistoryPopup]);
   const mainTextInputRef = useRef<HTMLInputElement>(null);
   const stepsDivRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -395,8 +407,18 @@ export function Chat() {
 
       if (message.role === "assistant") {
         // Only show avatar on the first AI block after a user message.
-        // Use the index from the filtered map (same as visibleHistory order).
-        const showAvatar = index === 0 || filteredHistory[index - 1]?.message.role !== "assistant";
+        // Skip tool messages when checking previous for avatar grouping.
+        let showAvatar = index === 0;
+        if (!showAvatar) {
+          let prevWasAssistant = false;
+          for (let j = index - 1; j >= 0; j--) {
+            const prev = filteredHistory[j];
+            if (!prev) continue;
+            if (prev.message.role === "assistant") { prevWasAssistant = true; break; }
+            if (prev.message.role === "user") break;
+          }
+          showAvatar = !prevWasAssistant;
+        }
 
         return (
           <div className={`msg-row ${showAvatar ? "with-avatar" : "no-avatar"}`}>
@@ -437,6 +459,22 @@ export function Chat() {
                   historyIndex={index}
                 />
               )}
+
+              {item.promptLogs && item.promptLogs.length > 0 && (() => {
+                const last = item.promptLogs[item.promptLogs.length - 1] as any;
+                const inp = last?.promptTokens ?? last?.tokens ?? 0;
+                const out = last?.completionTokens ?? last?.generatedTokens ?? 0;
+                return (
+                  <div className="flex gap-2 mt-2 opacity-40 hover:opacity-80 transition-opacity" style={{ fontSize: "10px" }}>
+                    <span className="rounded-full px-2 py-0.5" style={{background:"rgba(128,128,128,0.12)",color:"var(--vscode-descriptionForeground)"}}>
+                      ⬇ {Number(inp).toLocaleString()}
+                    </span>
+                    <span className="rounded-full px-2 py-0.5" style={{background:"rgba(59,130,246,0.12)",color:"#93c5fd"}}>
+                      ⬆ {Number(out).toLocaleString()}
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         );
@@ -580,6 +618,7 @@ export function Chat() {
           .scroll-btn:nth-child(2){animation-delay:0.2s}
           .scroll-btn:nth-child(3){animation-delay:0.4s}
           .scroll-btn:nth-child(4){animation-delay:0.6s}
+          .scroll-btn:nth-child(5){animation-delay:0.8s}
           .scroll-tip { position:relative }
           .scroll-tip::after {
             content:attr(data-tip);
@@ -589,13 +628,31 @@ export function Chat() {
             opacity:0;pointer-events:none;transition:opacity 0.15s;
           }
           .scroll-tip:hover::after { opacity:1 }
+          .history-popup { position:absolute;right:40px;top:0;width:280px;max-height:400px;
+            overflow-y:auto;background:var(--vscode-sideBar-background);border:1px solid var(--vscode-panel-border);
+            border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.4);z-index:50;padding:8px 0; }
+          .history-popup-item { padding:6px 12px;cursor:pointer;font-size:12px;
+            color:var(--vscode-foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+          .history-popup-item:hover { background:var(--vscode-list-hoverBackground); }
         `}</style>
         {filteredHistory.length > 0 && (
           <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1">
             <button onClick={scrollToTop} data-tip={T("Scroll to top")} className="scroll-btn scroll-tip">🔝</button>
             <button onClick={() => scrollToUserMsg("prev")} data-tip={T("Previous user message")} className="scroll-btn scroll-tip">⬆️</button>
+            <button onClick={() => setShowHistoryPopup(!showHistoryPopup)} data-tip={T("History")} className="scroll-btn scroll-tip" style={{fontSize:"16px",fontWeight:"bold"}}>☰</button>
             <button onClick={() => scrollToUserMsg("next")} data-tip={T("Next user message")} className="scroll-btn scroll-tip">⬇️</button>
             <button onClick={scrollToBottom} data-tip={T("Scroll to bottom")} className="scroll-btn scroll-tip">⏬</button>
+            {showHistoryPopup && (
+              <div className="history-popup" ref={historyPopupRef}>
+                {filteredHistory.filter((item: any) => item.message.role === "user").map((item: any, i: number) => (
+                  <div key={i} className="history-popup-item" onClick={() => {
+                    const all = document.querySelectorAll("[data-user-msg]");
+                    if (all[i]) (all[i] as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
+                    setShowHistoryPopup(false);
+                  }}>{renderChatMessage(item.message).substring(0, 50)}</div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
