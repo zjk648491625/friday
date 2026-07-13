@@ -43,7 +43,8 @@ export class HistoryManager {
       const target = options.workspaceDirectory.toLowerCase();
       sessions = sessions.filter(
         (session) =>
-          typeof session.workspaceDirectory === "string" &&
+          typeof session.workspaceDirectory !== "string" ||
+          session.workspaceDirectory === "" ||
           session.workspaceDirectory.toLowerCase() === target,
       );
     }

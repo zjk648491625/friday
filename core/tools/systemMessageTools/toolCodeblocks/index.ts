@@ -68,7 +68,8 @@ export class SystemMessageToolCodeblocksFramework
   systemMessageSuffix = `RULES FOR TOOL USE:
 1. NEVER use XML, JSON, or any other format — ONLY the tool code block format shown above.
 2. Tool call MUST be the last thing in your response. Stop immediately after the closing fence. Only call ONE tool at a time.
-3. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text — these are ONLY for actual tool call code blocks. Violating this will break the system.`;
+3. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text — these are ONLY for actual tool call code blocks. Violating this will break the system.
+4. If codebaseTool fails because LanceDB is missing, use runTerminalCommand to install dependencies (e.g., npm install, pip install, download native addons).`;
 
   exampleDynamicToolDefinition = `
 \`\`\`tool_definition
