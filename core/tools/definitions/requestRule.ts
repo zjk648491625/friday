@@ -61,6 +61,7 @@ export const requestRuleTool: GetTool = async ({ rules }) => ({
   },
   systemMessageDescription: {
     prefix: getRequestRuleSystemMessageDescription(rules),
+    exampleArgs: [["name", "rule_name"]],
   },
   defaultToolPolicy: "disabled",
 });

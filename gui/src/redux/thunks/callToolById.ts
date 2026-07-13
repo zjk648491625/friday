@@ -24,7 +24,7 @@ export const callToolById = createAsyncThunk<
   void,
   { toolCallId: string; isAutoApproved?: boolean; depth?: number },
   ThunkApiType
->("chat/callTool", async (inputs, { dispatch, extra, getState }) => {
+>("chat/callTool", async (inputs, { dispatch, extra, getState, signal }) => {
   const { toolCallId, isAutoApproved, depth = 0 } = inputs;
 
   const state = getState();
@@ -61,7 +61,7 @@ export const callToolById = createAsyncThunk<
     dispatch(updateToolCallProgress({ toolCallId, progressMessage: msg }));
   };
 
-  // Execute tool call with retry
+  // Execute tool call with retry (only retry on IPC/network errors, not tool business errors)
   const executeToolCall = async (): Promise<{
     output?: ContextItem[];
     mcpUiState?: McpUiState;
@@ -71,10 +71,19 @@ export const callToolById = createAsyncThunk<
     let lastError: Error | undefined;
 
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+      // Check abort signal before each attempt
+      if (signal.aborted) {
+        throw new Error("Tool call aborted by user");
+      }
+
       try {
         if (attempt > 0) {
           sendProgress(`重试 ${toolName} (${attempt}/${MAX_RETRIES})...`);
-          await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt));
+          await new Promise((r, reject) => {
+            const timeout = setTimeout(r, RETRY_DELAY_MS * attempt);
+            const onAbort = () => { clearTimeout(timeout); reject(new Error("Aborted")); };
+            signal.addEventListener("abort", onAbort, { once: true });
+          });
         } else {
           sendProgress(`执行: ${toolName}`);
         }
@@ -85,10 +94,7 @@ export const callToolById = createAsyncThunk<
             ideMessenger: extra.ideMessenger,
             getState,
           });
-          if (result.error && attempt < MAX_RETRIES) {
-            lastError = new Error(result.error.message);
-            continue;
-          }
+          // Client tool business errors are NOT retried
           sendProgress(result.error ? `${toolName} 失败` : `${toolName} 完成`);
           return {
             output: result.output,
@@ -100,16 +106,14 @@ export const callToolById = createAsyncThunk<
           const result = await extra.ideMessenger.request("tools/call", {
             toolCall: toolCallState.toolCall,
           });
+          // Only retry on IPC-level errors (core process crash, timeout)
           if (result.status === "error") {
             lastError = new Error(result.error);
             if (attempt < MAX_RETRIES) continue;
             throw lastError;
           }
+          // Tool business errors (invalid args, etc) are NOT retried
           const hasError = !!result.content.errorMessage;
-          if (hasError && attempt < MAX_RETRIES) {
-            lastError = new Error(result.content.errorMessage);
-            continue;
-          }
           sendProgress(hasError ? `${toolName} 失败` : `${toolName} 完成`);
           return {
             output: result.content.contextItems,
@@ -124,6 +128,7 @@ export const callToolById = createAsyncThunk<
           };
         }
       } catch (e: any) {
+        if (e.message === "Aborted") throw e;
         lastError = e;
         if (attempt < MAX_RETRIES) {
           console.warn(`Tool ${toolName} failed (attempt ${attempt + 1}): ${e.message}, retrying...`);

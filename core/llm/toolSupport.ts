@@ -1,3 +1,4 @@
+
 import { ModelDescription } from "..";
 
 export const PROVIDER_TOOL_SUPPORT: Record<string, (model: string) => boolean> =
@@ -260,7 +261,8 @@ export const PROVIDER_TOOL_SUPPORT: Record<string, (model: string) => boolean> =
       if (
         lower === "deepseek-reasoner" ||
         lower === "deepseek-chat" ||
-        lower.startsWith("deepseek-coder")
+        lower.startsWith("deepseek-coder") ||
+        lower.startsWith("deepseek-v")  // v3, v4, future versions
       ) {
         return true;
       }

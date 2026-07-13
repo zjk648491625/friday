@@ -1,8 +1,5 @@
 import { Tool } from "../..";
-import { closeTag } from "./systemToolUtils";
 import { SystemMessageToolsFramework } from "./types";
-
-export const TOOL_INSTRUCTIONS_TAG = "<tool_use_instructions>";
 
 export const generateToolsSystemMessage = (
   tools: Tool[],
@@ -20,7 +17,6 @@ export const generateToolsSystemMessage = (
   );
 
   const instructions: string[] = [];
-  instructions.push(TOOL_INSTRUCTIONS_TAG);
   instructions.push(framework.systemMessagePrefix);
 
   if (withPredefinedMessage.length > 0) {
@@ -33,6 +29,8 @@ export const generateToolsSystemMessage = (
       );
       instructions.push(`\n${definition}`);
     }
+    instructions.push(`\nThe format for EVERY tool is identical — use this EXACT structure with BEGIN_ARG/END_ARG:`);
+    instructions.push(framework.exampleDynamicToolCall);
   }
 
   if (withDynamicMessage.length > 0) {
@@ -60,7 +58,6 @@ export const generateToolsSystemMessage = (
 
   instructions.push("\n" + framework.systemMessageSuffix);
 
-  instructions.push(`${closeTag(TOOL_INSTRUCTIONS_TAG)}`);
   return instructions.join("\n");
 };
 

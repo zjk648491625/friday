@@ -28,7 +28,8 @@ export const grepSearchTool: Tool = {
   },
   defaultToolPolicy: "allowedWithoutPermission",
   systemMessageDescription: {
-    prefix: `To perform a grep search within the project, call the ${BuiltInToolNames.GrepSearch} tool with the query regex pattern.`,
+    prefix: `To perform a grep search within the project, call the ${BuiltInToolNames.GrepSearch} tool with the query pattern to match. For example:`,
+    exampleArgs: [["query", ".*main_services.*"]],
   },
   toolCallIcon: "MagnifyingGlassIcon",
 };

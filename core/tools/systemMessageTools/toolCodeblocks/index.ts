@@ -66,8 +66,8 @@ export class SystemMessageToolCodeblocksFramework
   systemMessagePrefix = `To call a tool, respond with EXACTLY the format shown below. Do not use XML, JSON, or any other format. Only call tools listed above — do not invent or guess tool names.`;
 
   systemMessageSuffix = `RULES FOR TOOL USE:
-1. To call a tool, output a tool code block using EXACTLY the format shown above, starting on a new line.
-2. The tool code block MUST be the last thing in your response. Stop immediately after the closing fence. Only call ONE tool at a time.
+1. NEVER use XML, JSON, or any other format — ONLY the tool code block format shown above.
+2. Tool call MUST be the last thing in your response. Stop immediately after the closing fence. Only call ONE tool at a time.
 3. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text — these are ONLY for actual tool call code blocks. Violating this will break the system.`;
 
   exampleDynamicToolDefinition = `

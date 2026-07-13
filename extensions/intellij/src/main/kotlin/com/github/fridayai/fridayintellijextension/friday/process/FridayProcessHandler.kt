@@ -20,6 +20,9 @@ class FridayProcessHandler(
     private val reader = BufferedReader(InputStreamReader(process.input, Charsets.UTF_8))
     private val log = Logger.getInstance(FridayProcessHandler::class.java)
 
+    // Messages containing these prefixes are logged at INFO level (one-time init events)
+    private val infoLevelPrefixes = listOf("[nativeAddon]", "[LanceDbIndex]")
+
     init {
         scope.launch(Dispatchers.IO) {
             try {
@@ -27,7 +30,11 @@ class FridayProcessHandler(
                     val line = reader.readLine()
                     if (line != null && line.isNotEmpty()) {
                         try {
-                            log.debug("Handle: $line")
+                            if (infoLevelPrefixes.any { line.contains(it) }) {
+                                log.info("Handle: $line")
+                            } else {
+                                log.debug("Handle: $line")
+                            }
                             handleMessage(line)
                         } catch (e: Exception) {
                         }

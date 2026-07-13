@@ -30,7 +30,8 @@ export const readFileTool: Tool = {
     },
   },
   systemMessageDescription: {
-    prefix: `To read a file, use the ${BuiltInToolNames.ReadFile} tool with the filepath.`,
+    prefix: `To read a file with a known filepath, use the ${BuiltInToolNames.ReadFile} tool. For example, to read a file located at 'path/to/file.txt', you would respond with this:`,
+    exampleArgs: [["filepath", "path/to/the_file.txt"]],
   },
   defaultToolPolicy: "allowedWithoutPermission",
   toolCallIcon: "DocumentIcon",

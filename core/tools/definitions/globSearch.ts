@@ -27,7 +27,8 @@ export const globSearchTool: Tool = {
   },
   defaultToolPolicy: "allowedWithoutPermission",
   systemMessageDescription: {
-    prefix: `To search for files by glob pattern, use the ${BuiltInToolNames.FileGlobSearch} tool.`,
+    prefix: `To return a list of files based on a glob search pattern, use the ${BuiltInToolNames.FileGlobSearch} tool`,
+    exampleArgs: [["pattern", "*.py"]],
   },
   toolCallIcon: "MagnifyingGlassIcon",
 };
