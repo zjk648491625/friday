@@ -69,6 +69,29 @@ function findLatestSummaryIndex(history: ChatHistoryItem[]): number {
   return -1; // No summary found
 }
 
+const TotalTokenBar = ({ filteredHistory }: { filteredHistory: ChatHistoryItem[] }) => {
+  let totalIn = 0, totalOut = 0, totalCached = 0;
+  for (const item of filteredHistory) {
+    if (item.promptLogs) {
+      for (const log of item.promptLogs) {
+        if (log.usage) {
+          totalIn += log.usage.promptTokens || 0;
+          totalOut += log.usage.completionTokens || 0;
+          totalCached += log.usage.promptTokensDetails?.cachedTokens || 0;
+        }
+      }
+    }
+  }
+  if (totalIn === 0 && totalOut === 0) return null;
+  return (
+    <div className="flex items-center justify-center gap-3 py-1.5 border-t" style={{ fontSize: "10px", opacity: 0.5, borderColor: "var(--vscode-panel-border)" }}>
+      <span>⬇ {totalIn.toLocaleString()}</span>
+      <span>⬆ {totalOut.toLocaleString()}</span>
+      {totalCached > 0 && <span>🗲 {totalCached.toLocaleString()}</span>}
+    </div>
+  );
+};
+
 const StepsDiv = styled.div`
   position: relative;
   background-color: transparent;
@@ -197,6 +220,16 @@ export function Chat() {
   const [stepsOpen] = useState<(boolean | undefined)[]>([]);
   const [showHistoryPopup, setShowHistoryPopup] = useState(false);
   const historyPopupRef = useRef<HTMLDivElement>(null);
+  const mainTextInputRef = useRef<HTMLInputElement>(null);
+  const stepsDivRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const history = useAppSelector((state) => state.session.history);
+
+  const filteredHistory = useMemo(
+    () => history.filter((item) => item.message.role !== "system"),
+    [history],
+  );
+
   useEffect(() => {
     if (!showHistoryPopup) return;
     const handler = (e: MouseEvent) => {
@@ -207,10 +240,6 @@ export function Chat() {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, [showHistoryPopup]);
-  const mainTextInputRef = useRef<HTMLInputElement>(null);
-  const stepsDivRef = useRef<HTMLDivElement>(null);
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const history = useAppSelector((state) => state.session.history);
   const showChatScrollbar = useAppSelector(
     (state) => state.config.config.ui?.showChatScrollbar,
   );
@@ -429,6 +458,30 @@ export function Chat() {
               </div>
             )}
             <div className="msg-body ai-body">
+              {/* Token usage badge — top of message */}
+              {item.promptLogs && item.promptLogs.length > 0 && (() => {
+                const logs = item.promptLogs;
+                const lastUsg = logs[logs.length - 1]?.usage;
+                // Use real usage from API if available, otherwise estimate from text length
+                const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
+                const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
+                const cached = lastUsg?.promptTokensDetails?.cachedTokens;
+                const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
+                const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
+                if (inp === 0 && out === 0) return null;
+                return (
+                  <div className="flex items-center gap-2 mb-1" style={{ fontSize: "10px", opacity: 0.4, userSelect: "none" }}>
+                    <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.12)", color: "var(--vscode-descriptionForeground)" }}>⬇ {inp.toLocaleString()}</span>
+                    <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(59,130,246,0.12)", color: "#93c5fd" }}>⬆ {out.toLocaleString()}</span>
+                    {typeof cached === "number" && cached > 0 && (
+                      <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(16,185,129,0.12)", color: "#6ee7b7" }}>🗲 {cached.toLocaleString()}</span>
+                    )}
+                    {elapsed && (
+                      <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.08)", color: "var(--vscode-descriptionForeground)" }}>🕐 {elapsed}s</span>
+                    )}
+                  </div>
+                );
+              })()}
               {/* Always render assistant content through normal path */}
               <div className="thread-message">
                 <TimelineItem
@@ -459,22 +512,6 @@ export function Chat() {
                   historyIndex={index}
                 />
               )}
-
-              {item.promptLogs && item.promptLogs.length > 0 && (() => {
-                const last = item.promptLogs[item.promptLogs.length - 1] as any;
-                const inp = last?.promptTokens ?? last?.tokens ?? 0;
-                const out = last?.completionTokens ?? last?.generatedTokens ?? 0;
-                return (
-                  <div className="flex gap-2 mt-2 opacity-40 hover:opacity-80 transition-opacity" style={{ fontSize: "10px" }}>
-                    <span className="rounded-full px-2 py-0.5" style={{background:"rgba(128,128,128,0.12)",color:"var(--vscode-descriptionForeground)"}}>
-                      ⬇ {Number(inp).toLocaleString()}
-                    </span>
-                    <span className="rounded-full px-2 py-0.5" style={{background:"rgba(59,130,246,0.12)",color:"#93c5fd"}}>
-                      ⬆ {Number(out).toLocaleString()}
-                    </span>
-                  </div>
-                );
-              })()}
             </div>
           </div>
         );
@@ -486,7 +523,7 @@ export function Chat() {
           return null;
         }
         return (
-          <div className={isBeforeLatestSummary ? "opacity-50" : ""}>
+          <div className={isBeforeLatestSummary ? "opacity-50" : ""} style={{ marginLeft: "38px" }}>
             <ThinkingBlockPeek
               content={thinkingContent}
               redactedThinking={message.redactedThinking}
@@ -521,7 +558,7 @@ export function Chat() {
         </div>
       );
     },
-    [sendInput, isLastUserInput, history, stepsOpen, isStreaming],
+    [sendInput, isLastUserInput, history, filteredHistory, stepsOpen, isStreaming],
   );
 
   const showScrollbar = showChatScrollbar ?? window.innerHeight > 5000;
@@ -559,11 +596,6 @@ export function Chat() {
       : Math.min(items.length - 1, currentIdx + 1);
     (items[targetIdx] as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
-
-  const filteredHistory = useMemo(
-    () => history.filter((item) => item.message.role !== "system"),
-    [history],
-  );
   // ----
 
   return (
@@ -656,6 +688,7 @@ export function Chat() {
           </div>
         )}
       </div>
+      <TotalTokenBar filteredHistory={filteredHistory} />
       <div className={"relative shrink-0"}>
         <FridayInputBox
           isMainInput
