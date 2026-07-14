@@ -114,7 +114,7 @@ const TotalTokenBar = ({ filteredHistory }: { filteredHistory: ChatHistoryItem[]
   const cacheHitRate = totalIn > 0 ? (totalCached / totalIn) * 100 : 0;
 
   return (
-    <div className="border-t" style={{ borderColor: "var(--vscode-panel-border)" }}>
+    <div className="border-t" style={{ borderColor: "var(--vscode-panel-border)", position: "relative" }}>
       <div className="flex items-center gap-2 py-1.5 px-3" style={{ fontSize: "10px", opacity: 0.75 }}>
         {/* Capsule: total */}
         <button
@@ -124,7 +124,7 @@ const TotalTokenBar = ({ filteredHistory }: { filteredHistory: ChatHistoryItem[]
           style={{
             padding: "1px 8px",
             borderRadius: "10px",
-            background: "rgba(59,130,246,0.12)",
+            background: expanded ? "rgba(59,130,246,0.25)" : "rgba(59,130,246,0.12)",
             color: "#93c5fd",
             border: "none",
             cursor: "pointer",
@@ -150,21 +150,19 @@ const TotalTokenBar = ({ filteredHistory }: { filteredHistory: ChatHistoryItem[]
             🕐 {formatMs(totalMs)}
           </span>
         )}
-        {expanded && (
-          <span style={{ color: "var(--vscode-descriptionForeground)", fontSize: "10px" }}>
-            Token 消耗明细
-          </span>
-        )}
       </div>
 
       {expanded && (
         <div
-          className="mx-3 mb-2 p-3 rounded"
+          className="p-3 rounded"
           style={{
+            position: "absolute", bottom: "100%", left: 8, right: 8, marginBottom: 4, zIndex: 100,
             background: "var(--vscode-editor-background)",
             border: "1px solid var(--vscode-panel-border)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
             fontSize: "11px",
           }}
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Header row: 总计 */}
           <div className="flex justify-between items-center mb-2 pb-2" style={{ borderBottom: "1px solid var(--vscode-panel-border)" }}>
@@ -413,6 +411,9 @@ export function Chat() {
   // Keep a ref to the latest setQueuedMessages so sendInput (useCallback) always has the current version
   const setQueuedMessagesRef = useRef(setQueuedMessages);
   setQueuedMessagesRef.current = setQueuedMessages;
+
+  // Token detail popover — which message index has detail open
+  const [tokenPopoverIndex, setTokenPopoverIndex] = useState<number | null>(null);
 
   // Auto-send first queued message when streaming ends (for current session)
   useEffect(() => {
@@ -699,32 +700,7 @@ export function Chat() {
                     item={item}
                     latestSummaryIndex={latestSummaryIndex}
                     timestamp={item.timestamp}
-                    leftSlot={
-                      item.promptLogs && item.promptLogs.length > 0
-                        ? (() => {
-                            const logs = item.promptLogs;
-                            const lastUsg = logs[logs.length - 1]?.usage;
-                            const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
-                            const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
-                            const cached = lastUsg?.promptTokensDetails?.cachedTokens;
-                            const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
-                            const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
-                            if (inp === 0 && out === 0) return null;
-                            return (
-                              <span style={{ fontSize: "10px", userSelect: "none", opacity: 0.75, display: "inline-flex", gap: 6, alignItems: "center" }}>
-                                <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.12)", color: "var(--vscode-descriptionForeground)" }}>⬇ {inp.toLocaleString()}</span>
-                                <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(59,130,246,0.12)", color: "#93c5fd" }}>⬆ {out.toLocaleString()}</span>
-                                {typeof cached === "number" && cached > 0 && (
-                                  <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(16,185,129,0.12)", color: "#6ee7b7" }}>🗲 {cached.toLocaleString()}</span>
-                                )}
-                                {elapsed && (
-                                  <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.08)", color: "var(--vscode-descriptionForeground)" }}>🕐 {elapsed}s</span>
-                                )}
-                              </span>
-                            );
-                          })()
-                        : undefined
-                    }
+                    leftSlot={undefined}
                   />
                 </TimelineItem>
               </div>
@@ -735,6 +711,82 @@ export function Chat() {
                   historyIndex={index}
                 />
               )}
+              {/* Token usage capsule — always visible, independent of ResponseActions */}
+              {item.promptLogs && item.promptLogs.length > 0 && (() => {
+                const logs = item.promptLogs;
+                const lastUsg = logs[logs.length - 1]?.usage;
+                const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
+                const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
+                const cached = lastUsg?.promptTokensDetails?.cachedTokens;
+                const reasoning = lastUsg?.completionTokensDetails?.reasoningTokens;
+                const total = inp + out;
+                const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
+                const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
+                if (total === 0) return null;
+                const isOpen = tokenPopoverIndex === index;
+                return (
+                  <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 4, marginTop: 4, paddingLeft: 14 }}>
+                    <button
+                      onClick={() => setTokenPopoverIndex(isOpen ? null : index)}
+                      style={{
+                        border: "none", cursor: "pointer", fontSize: "10px", opacity: 0.75,
+                        padding: "1px 8px", borderRadius: "10px",
+                        background: isOpen ? "rgba(59,130,246,0.2)" : "rgba(128,128,128,0.08)",
+                        color: isOpen ? "#93c5fd" : "var(--vscode-descriptionForeground)",
+                        display: "inline-flex", gap: 4, alignItems: "center",
+                      }}
+                      title="点击查看 Token 明细"
+                    >
+                      <span>🪙</span>
+                      <span>{total.toLocaleString()}</span>
+                    </button>
+                    {elapsed && (
+                      <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.06)", color: "var(--vscode-descriptionForeground)", fontSize: "10px", opacity: 0.6 }}>
+                        🕐 {elapsed}s
+                      </span>
+                    )}
+                    {isOpen && (
+                      <div
+                        style={{
+                          position: "absolute", bottom: "100%", left: 14, marginBottom: 4, zIndex: 100,
+                          minWidth: 200, padding: "8px 10px", borderRadius: 8,
+                          background: "var(--vscode-editor-background)",
+                          border: "1px solid var(--vscode-panel-border)",
+                          boxShadow: "0 4px 16px rgba(0,0,0,0.3)", fontSize: "11px",
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex justify-between mb-1 pb-1" style={{ borderBottom: "1px solid var(--vscode-panel-border)" }}>
+                          <span style={{ color: "var(--vscode-descriptionForeground)" }}>总计</span>
+                          <span style={{ fontWeight: 600, color: "#93c5fd" }}>{total.toLocaleString()}</span>
+                        </div>
+                        <div className="grid gap-0.5" style={{ gridTemplateColumns: "1fr auto" }}>
+                          <span style={{ color: "var(--vscode-descriptionForeground)" }}>输入</span><span>{inp.toLocaleString()}</span>
+                          {typeof cached === "number" && cached > 0 && (
+                            <><span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存命中</span><span style={{ color: "#6ee7b7" }}>{cached.toLocaleString()}</span></>
+                          )}
+                          <span style={{ color: "var(--vscode-descriptionForeground)" }}>输出</span><span>{out.toLocaleString()}</span>
+                          {typeof reasoning === "number" && reasoning > 0 && (
+                            <><span style={{ color: "var(--vscode-descriptionForeground)" }}>思考过程</span><span>{reasoning.toLocaleString()}</span></>
+                          )}
+                        </div>
+                        {typeof cached === "number" && inp > 0 && (
+                          <div className="flex justify-between mt-1 pt-1" style={{ borderTop: "1px dashed var(--vscode-panel-border)", fontSize: "10px" }}>
+                            <span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存命中率</span>
+                            <span style={{ color: "#6ee7b7" }}>{((cached / inp) * 100).toFixed(1)}%</span>
+                          </div>
+                        )}
+                        {elapsed && (
+                          <div className="flex justify-between mt-1 pt-1" style={{ borderTop: "1px dashed var(--vscode-panel-border)", fontSize: "10px" }}>
+                            <span style={{ color: "var(--vscode-descriptionForeground)" }}>耗时</span>
+                            <span>{elapsed}s</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         );

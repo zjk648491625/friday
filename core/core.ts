@@ -1273,14 +1273,22 @@ export class Core {
       throw new Error("Config not loaded");
     }
 
-    const tool = config.tools.find(
-      (t) => t.function.name === toolCall.function.name,
+    const rawName = toolCall.function.name;
+    // Exact match first, then normalized fuzzy match (trim + case-insensitive)
+    let tool = config.tools.find(
+      (t) => t.function.name === rawName,
     );
+    if (!tool) {
+      const normalized = rawName.trim().toLowerCase();
+      tool = config.tools.find(
+        (t) => t.function.name.trim().toLowerCase() === normalized,
+      );
+    }
 
     if (!tool) {
       const availableNames = config.tools.map((t) => t.function.name).join(", ");
       throw new Error(
-        `Tool "${toolCall.function.name}" not found. Available tools: ${availableNames}`,
+        `Tool "${rawName}" not found. Available tools: ${availableNames}`,
       );
     }
 
