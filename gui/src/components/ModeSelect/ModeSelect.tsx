@@ -92,7 +92,8 @@ export function ModeSelect() {
       <div className="relative">
         <ListboxButton
           data-testid="mode-select-button"
-          className="xs:px-2 text-description bg-lightgray/20 gap-1 rounded-full border-none px-1.5 py-0.5 transition-colors duration-200 hover:brightness-110"
+          className="xs:px-2 text-description gap-1 rounded-full border-none px-1.5 py-0.5 transition-colors duration-200 hover:brightness-110"
+          style={{ background: "rgba(128,128,128,0.08)", backdropFilter: "blur(8px)" }}
         >
           <ModeIcon mode={mode} />
           <span className="hidden sm:block">

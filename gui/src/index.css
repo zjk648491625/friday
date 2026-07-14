@@ -147,3 +147,75 @@ body {
   font-weight: 600;
   letter-spacing: 0.02em;
 }
+
+/* ===== Unified dropdown/list hover: subtle overlay, no blur ===== */
+
+/* --- Dropdown panels: always frosted glass --- */
+[role="listbox"],
+[data-headlessui-state="open"] {
+  background: rgba(30, 30, 30, 0.88) !important;
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* --- All list/dropdown item hover: just a subtle overlay --- */
+[role="option"]:hover,
+.listbox-option:hover,
+[role="listbox"] [role="option"]:hover {
+  background: rgba(128, 128, 128, 0.1) !important;
+}
+
+/* --- All list/dropdown item selected/active --- */
+[role="option"][aria-selected="true"],
+[data-headlessui-state="active"],
+[data-headlessui-state="selected"],
+.listbox-option[aria-selected="true"],
+[role="listbox"] [role="option"][aria-selected="true"] {
+  background: rgba(128, 128, 128, 0.12) !important;
+}
+
+/* --- Override Tailwind bg utilities for dropdown items --- */
+.bg-list-active,
+[class*="hover:bg-input"]:hover,
+[class*="hover:bg-list-active"]:hover {
+  background: rgba(128, 128, 128, 0.1) !important;
+}
+
+/* --- History / table row hover --- */
+.hover\:bg-input:hover {
+  background: rgba(128, 128, 128, 0.06) !important;
+}
+
+/* --- Context items / rules peek --- */
+.hover\:bg-white\/10:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* --- AtMention dropdown panel --- */
+.at-mention-dropdown {
+  background: rgba(30, 30, 30, 0.9) !important;
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* --- AtMention item selected --- */
+.at-mention-dropdown .is-selected,
+.is-selected[class*="bg-"] {
+  background: rgba(128, 128, 128, 0.12) !important;
+}
+
+/* --- LanguageSwitch & misc --- */
+.hover\:bg-list-hover:hover,
+.hover\:bg-vsc-background:hover {
+  background: rgba(128, 128, 128, 0.08) !important;
+}
+
+/* --- Console list item --- */
+.hover\:bg-\[color\:var\(--vscode-list-inactiveSelectionBackground\)\]:hover {
+  background: rgba(128, 128, 128, 0.08) !important;
+}
+
+/* --- TabBar tab hover --- */
+[class*="tab-hover"]:hover {
+  background: rgba(128, 128, 128, 0.08) !important;
+}

@@ -24,13 +24,13 @@ export const OptionDiv = styled.div<{
     cursor: pointer;
 
     &:hover {
-      background: ${lightGray}33;
+      background: rgba(128, 128, 128, 0.1);
     }
 
     ${
       isSelected &&
       `
-      background: ${lightGray}22;
+      background: rgba(128, 128, 128, 0.12);
     `
     }
   `}

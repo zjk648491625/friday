@@ -161,7 +161,14 @@ export function UserSettingsSection() {
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value as "zh" | "en")}
-                    className="border-command-border bg-vsc-input-background text-vsc-foreground rounded border px-2 py-1 text-sm"
+                    className="rounded border px-2.5 py-1 text-sm outline-none cursor-pointer"
+                    style={{
+                      background: "rgba(128,128,128,0.08)",
+                      backdropFilter: "blur(8px)",
+                      WebkitBackdropFilter: "blur(8px)",
+                      borderColor: "var(--vscode-panel-border)",
+                      color: "var(--vscode-foreground)",
+                    }}
                   >
                     <option value="zh">中文</option>
                     <option value="en">English</option>

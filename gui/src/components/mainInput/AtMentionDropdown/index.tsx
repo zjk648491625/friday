@@ -93,8 +93,9 @@ const ItemsDiv = styled.div`
   padding: 0.2rem;
   position: relative; // absolute to test tippy.js bug
 
-  background-color: ${vscQuickInputBackground};
-  /* backdrop-filter: blur(12px); */
+  background-color: rgba(30, 30, 30, 0.88);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
 `;
 
 const ItemDiv = styled.div`
