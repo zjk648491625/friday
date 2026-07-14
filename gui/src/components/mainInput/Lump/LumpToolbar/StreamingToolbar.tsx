@@ -17,11 +17,12 @@ export function StreamingToolbar({
       <GeneratingIndicator />
       <div
         onClick={onStop}
-        className="text-2xs cursor-pointer px-1.5 py-0.5 hover:brightness-125"
+        className="cursor-pointer rounded px-2 py-1 hover:bg-[rgba(239,68,68,0.15)] transition-colors"
+        style={{ fontSize: "13px", fontWeight: 600 }}
+        title="停止当前任务"
       >
-        <span className="text-description">{displayText}</span>
-        {/* JetBrains overrides cmd+backspace, so we have to use another shortcut */}
-        <span className="text-description-muted ml-1 opacity-75">
+        <span style={{ color: "#f87171" }}>🛑 {displayText}</span>
+        <span style={{ color: "var(--vscode-descriptionForeground)", fontSize: "10px", fontWeight: 400, marginLeft: 6, opacity: 0.6 }}>
           {jetbrains ? getAltKeyLabel() : getMetaKeyLabel()}⌫
         </span>
       </div>

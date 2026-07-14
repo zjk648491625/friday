@@ -544,6 +544,7 @@ export interface ChatHistoryItem {
   reasoning?: Reasoning;
   appliedRules?: RuleMetadata[];
   conversationSummary?: string;
+  timestamp?: number;
 }
 
 export interface LLMFullCompletionOptions extends BaseCompletionOptions {

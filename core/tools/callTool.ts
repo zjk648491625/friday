@@ -225,7 +225,9 @@ export async function callBuiltInTool(
     case BuiltInToolNames.ViewSubdirectory:
       return await viewSubdirectoryImpl(args, extras);
     default:
-      throw new Error(`Tool "${functionName}" not found`);
+      throw new Error(
+        `Tool "${functionName}" not found. Available tools: ${Object.values(BuiltInToolNames).join(", ")}`,
+      );
   }
 }
 

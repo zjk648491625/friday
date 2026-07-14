@@ -62,6 +62,7 @@ function InputToolbar(props: InputToolbarProps) {
   const hasReasoningEnabled = useAppSelector(
     (store) => store.session.hasReasoningEnabled,
   );
+  const isStreaming = useAppSelector((state) => state.session.isStreaming);
   const isEnterDisabled =
     props.disabled || (isInEdit && codeToEdit.length === 0);
 
@@ -237,11 +238,12 @@ function InputToolbar(props: InputToolbarProps) {
               <span>{T("Esc to exit Edit")}</span>
             </HoverItem>
           )}
-          <ToolTip place="top" content={T("Send (⏎)")}>
+          <ToolTip place="top" content={isStreaming ? T("加入队列 (⏎)") : T("Send (⏎)")}>
             <Button
-              variant={props.isMainInput ? "primary" : "secondary"}
+              variant={isStreaming ? "secondary" : (props.isMainInput ? "primary" : "secondary")}
               size="sm"
               data-testid="submit-input-button"
+              className={isStreaming ? "!bg-[rgba(245,158,11,0.15)] !text-[#fbbf24] hover:!bg-[rgba(245,158,11,0.25)]" : ""}
               onClick={async (e) => {
                 if (props.onEnter) {
                   props.onEnter({
@@ -255,9 +257,13 @@ function InputToolbar(props: InputToolbarProps) {
               disabled={isEnterDisabled}
             >
               <span className="hidden md:inline">
-                ⏎ {props.toolbarOptions?.enterText ?? T("Enter")}
+                {isStreaming ? (
+                  <>📥 {T("入队")}</>
+                ) : (
+                  <>⏎ {props.toolbarOptions?.enterText ?? T("Enter")}</>
+                )}
               </span>
-              <span className="md:hidden">⏎</span>
+              <span className="md:hidden">{isStreaming ? "📥" : "⏎"}</span>
             </Button>
           </ToolTip>
         </div>

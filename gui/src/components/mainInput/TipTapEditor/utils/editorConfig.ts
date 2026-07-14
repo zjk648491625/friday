@@ -392,7 +392,11 @@ export function createEditorConfig(options: {
     if (!editor) {
       return;
     }
-    if (isStreamingRef.current || (codeToEdit.length === 0 && isInEdit)) {
+    // For main input, allow Enter during streaming → message will be queued
+    if (!props.isMainInput && isStreamingRef.current) {
+      return;
+    }
+    if (codeToEdit.length === 0 && isInEdit) {
       return;
     }
 

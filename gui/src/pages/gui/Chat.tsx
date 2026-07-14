@@ -35,6 +35,7 @@ import {
   cancelToolCall,
   ChatHistoryItemWithMessageId,
   newSession,
+  setMainEditorContentTrigger,
   updateToolCallOutput,
 } from "../../redux/slices/sessionSlice";
 import { streamEditThunk } from "../../redux/thunks/edit";
@@ -389,6 +390,42 @@ export function Chat() {
   const tabsRef = useRef<HTMLDivElement>(null);
   const history = useAppSelector((state) => state.session.history);
 
+  const currentSessionId = useAppSelector((state) => state.session.id);
+
+  // Message queue: persisted per session, auto-send when streaming ends
+  type QueuedItem = { content: JSONContent; modifiers: InputModifiers };
+  const queuesRef = useRef<Map<string, QueuedItem[]>>(new Map());
+  const [renderTick, setRenderTick] = useState(0);
+  const [queueTip, setQueueTip] = useState(false);
+  const prevStreaming = useRef(isStreaming);
+  const prevSessionRef = useRef(currentSessionId);
+  const sendInputRef = useRef<any>(null);
+
+  // Derive current session's queue from the Map
+  const queuedMessages = queuesRef.current.get(currentSessionId) || [];
+  const setQueuedMessages = (fn: QueuedItem[] | ((prev: QueuedItem[]) => QueuedItem[])) => {
+    const prev = queuesRef.current.get(currentSessionId) || [];
+    const next = typeof fn === "function" ? (fn as any)(prev) : fn;
+    queuesRef.current.set(currentSessionId, next);
+    setRenderTick((t) => t + 1);
+  };
+  // Keep a ref to the latest setQueuedMessages so sendInput (useCallback) always has the current version
+  const setQueuedMessagesRef = useRef(setQueuedMessages);
+  setQueuedMessagesRef.current = setQueuedMessages;
+
+  // Auto-send first queued message when streaming ends (for current session)
+  useEffect(() => {
+    if (prevStreaming.current && !isStreaming && queuedMessages.length > 0) {
+      const [next, ...rest] = queuedMessages;
+      queuesRef.current.set(currentSessionId, rest);
+      setRenderTick((t) => t + 1);
+      if (sendInputRef.current) {
+        sendInputRef.current(next.content, next.modifiers, undefined, undefined as any);
+      }
+    }
+    prevStreaming.current = isStreaming;
+  }, [isStreaming, queuedMessages.length, currentSessionId]);
+
   const filteredHistory = useMemo(
     () => history.filter((item) => item.message.role !== "system"),
     [history],
@@ -463,6 +500,19 @@ export function Chat() {
         stateSnapshot.config.config.selectedModelByRole;
       const currentMode = stateSnapshot.session.mode;
 
+      // If currently streaming, queue this message instead of sending
+      if (stateSnapshot.session.isStreaming) {
+        if (setQueuedMessagesRef.current) {
+          setQueuedMessagesRef.current((prev: QueuedItem[]) => [...prev, { content: editorState, modifiers }]);
+        }
+        setQueueTip(true);
+        setTimeout(() => setQueueTip(false), 2500);
+        if (editorToClearOnSend) {
+          editorToClearOnSend.commands.clearContent();
+        }
+        return;
+      }
+
       // Cancel all pending tool calls
       latestPendingToolCalls.forEach((toolCallState) => {
         dispatch(
@@ -519,6 +569,7 @@ export function Chat() {
     },
     [dispatch, ideMessenger, reduxStore],
   );
+  sendInputRef.current = sendInput;
 
   useWebviewListener(
     "newSession",
@@ -810,6 +861,7 @@ export function Chat() {
 
         {/* Scroll navigation buttons — floating emoji */}
         <style>{`
+          @keyframes fadeOut { 0%,70%{opacity:1} 100%{opacity:0} }
           @keyframes float-up-down { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
           @keyframes float-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
           .scroll-btn { display:flex;align-items:center;justify-content:center;
@@ -860,6 +912,80 @@ export function Chat() {
         )}
       </div>
       <TotalTokenBar filteredHistory={filteredHistory} />
+      {/* Message queue — only shown when there are queued messages */}
+      {queuedMessages.length > 0 && (
+        <div
+          className="flex flex-col gap-1.5 px-3 py-2"
+          style={{
+            borderTop: "1px solid var(--vscode-panel-border)",
+            background: "var(--vscode-editor-background)",
+            fontSize: "12px",
+          }}
+        >
+          {queueTip && (
+            <div className="text-center" style={{ color: "#6ee7b7", fontSize: "11px", animation: "fadeOut 2.5s ease forwards" }}>
+              ✓ 已加入队列，当前任务完成后自动发送
+            </div>
+          )}
+          <div style={{ color: "var(--vscode-descriptionForeground)", fontSize: "10px", marginBottom: 2 }}>
+            队列 ({queuedMessages.length})
+          </div>
+          {queuedMessages.map((item, i) => {
+            const text = (() => {
+              try {
+                return item.content?.content
+                  ?.map((node: any) => node?.content?.map((n: any) => n?.text || "").join("") || "")
+                  .join(" ") || "(空消息)";
+              } catch { return "(消息)"; }
+            })();
+            return (
+              <div
+                key={i}
+                className="flex items-center justify-between rounded px-2 py-1"
+                style={{
+                  background: "rgba(59,130,246,0.08)",
+                  border: "1px solid rgba(59,130,246,0.15)",
+                  fontSize: "11px",
+                }}
+              >
+                <span className="truncate flex-1" style={{ color: "var(--vscode-foreground)" }}>
+                  <span style={{ color: "var(--vscode-descriptionForeground)", marginRight: 4 }}>
+                    {i + 1}.
+                  </span>
+                  {text.substring(0, 80)}{text.length > 80 ? "…" : ""}
+                </span>
+                <span style={{ display: "flex", gap: 2 }}>
+                  <button
+                    onClick={() => {
+                      setQueuedMessages((prev) => prev.filter((_, j) => j !== i));
+                      dispatch(setMainEditorContentTrigger(item.content));
+                    }}
+                    style={{
+                      background: "none", border: "none", cursor: "pointer",
+                      color: "var(--vscode-descriptionForeground)", fontSize: "10px",
+                      padding: "0 4px", opacity: 0.6,
+                    }}
+                    title="撤回编辑"
+                  >
+                    ↩
+                  </button>
+                  <button
+                    onClick={() => setQueuedMessages((prev) => prev.filter((_, j) => j !== i))}
+                    style={{
+                      background: "none", border: "none", cursor: "pointer",
+                      color: "var(--vscode-descriptionForeground)", fontSize: "10px",
+                      padding: "0 4px", opacity: 0.6,
+                    }}
+                    title="移除"
+                  >
+                    ✕
+                  </button>
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className={"relative shrink-0"}>
         <FridayInputBox
           isMainInput

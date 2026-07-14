@@ -93,6 +93,7 @@ const zh: Dict = {
   "Send Message": "发送消息", "Type a message...": "输入消息...",
   "Send": "发送", "Enter": "发送", Thinking: "思考中",
   "Send (⏎)": "发送 (⏎)",
+  "加入队列 (⏎)": "加入队列 (⏎)", "入队": "入队",
   "Generating...": "生成中...", "Streaming...": "流式输出中...",
   "Loading...": "加载中...", "Please wait...": "请稍候...",
   "Empty": "空", "No items": "暂无内容",
