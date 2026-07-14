@@ -106,6 +106,12 @@ export default function StepContainer(props: StepContainerProps) {
         {props.isLast && <ThinkingIndicator historyItem={props.item} />}
       </div>
 
+      {/* Token badge row — always visible, aligned with text */}
+      {props.leftSlot && (
+        <div className="mt-1 flex items-center" style={{ paddingLeft: 14, paddingRight: 14 }}>
+          {props.leftSlot}
+        </div>
+      )}
       {showResponseActions && (
         <div
           className={`mt-2 h-7 transition-opacity duration-300 ease-in-out ${isBeforeLatestSummary || isStreaming ? "opacity-35" : ""} ${isStreaming && "pointer-events-none cursor-not-allowed"}`}
@@ -118,7 +124,6 @@ export default function StepContainer(props: StepContainerProps) {
             item={props.item}
             isLast={props.isLast}
             timestamp={props.timestamp}
-            leftSlot={props.leftSlot}
           />
         </div>
       )}
