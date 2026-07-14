@@ -42,6 +42,7 @@ import { streamEditThunk } from "../../redux/thunks/edit";
 import { loadLastSession } from "../../redux/thunks/session";
 import { streamResponseThunk } from "../../redux/thunks/streamResponse";
 import { isJetBrains, isMetaEquivalentKeyPressed } from "../../util";
+import { ToolTip } from "../../components/gui/Tooltip";
 import { ToolCallDiv } from "./ToolCallDiv";
 
 import { useStore } from "react-redux";
@@ -862,6 +863,10 @@ export function Chat() {
         {/* Scroll navigation buttons — floating emoji */}
         <style>{`
           @keyframes fadeOut { 0%,70%{opacity:1} 100%{opacity:0} }
+          .queue-action-btn { background:none;border:none;cursor:pointer;font-size:14px;
+            color:var(--vscode-descriptionForeground);padding:2px 6px;border-radius:4px;
+            opacity:0.75;transition:opacity 0.15s,background 0.15s; }
+          .queue-action-btn:hover { opacity:1;background:rgba(128,128,128,0.15); }
           @keyframes float-up-down { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
           @keyframes float-pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
           .scroll-btn { display:flex;align-items:center;justify-content:center;
@@ -954,32 +959,26 @@ export function Chat() {
                   </span>
                   {text.substring(0, 80)}{text.length > 80 ? "…" : ""}
                 </span>
-                <span style={{ display: "flex", gap: 2 }}>
-                  <button
-                    onClick={() => {
-                      setQueuedMessages((prev) => prev.filter((_, j) => j !== i));
-                      dispatch(setMainEditorContentTrigger(item.content));
-                    }}
-                    style={{
-                      background: "none", border: "none", cursor: "pointer",
-                      color: "var(--vscode-descriptionForeground)", fontSize: "10px",
-                      padding: "0 4px", opacity: 0.6,
-                    }}
-                    title="撤回编辑"
-                  >
-                    ↩
-                  </button>
-                  <button
-                    onClick={() => setQueuedMessages((prev) => prev.filter((_, j) => j !== i))}
-                    style={{
-                      background: "none", border: "none", cursor: "pointer",
-                      color: "var(--vscode-descriptionForeground)", fontSize: "10px",
-                      padding: "0 4px", opacity: 0.6,
-                    }}
-                    title="移除"
-                  >
-                    ✕
-                  </button>
+                <span style={{ display: "flex", gap: 4 }}>
+                  <ToolTip place="top" content="撤回编辑">
+                    <button
+                      onClick={() => {
+                        setQueuedMessages((prev) => prev.filter((_, j) => j !== i));
+                        dispatch(setMainEditorContentTrigger(item.content));
+                      }}
+                      className="queue-action-btn"
+                    >
+                      ↩️
+                    </button>
+                  </ToolTip>
+                  <ToolTip place="top" content="移除">
+                    <button
+                      onClick={() => setQueuedMessages((prev) => prev.filter((_, j) => j !== i))}
+                      className="queue-action-btn"
+                    >
+                      🗑️
+                    </button>
+                  </ToolTip>
                 </span>
               </div>
             );
