@@ -70,24 +70,187 @@ function findLatestSummaryIndex(history: ChatHistoryItem[]): number {
 }
 
 const TotalTokenBar = ({ filteredHistory }: { filteredHistory: ChatHistoryItem[] }) => {
-  let totalIn = 0, totalOut = 0, totalCached = 0;
+  const [expanded, setExpanded] = useState(false);
+  let totalIn = 0, totalOut = 0, totalCached = 0, totalCacheWrite = 0;
+  let totalReasoning = 0;
   for (const item of filteredHistory) {
     if (item.promptLogs) {
       for (const log of item.promptLogs) {
-        if (log.usage) {
-          totalIn += log.usage.promptTokens || 0;
-          totalOut += log.usage.completionTokens || 0;
-          totalCached += log.usage.promptTokensDetails?.cachedTokens || 0;
-        }
+        // Prefer real API usage, fallback to text-length estimation (~3.5 chars per token)
+        const inp = log.usage?.promptTokens ?? Math.round((log.prompt?.length || 0) / 3.5);
+        const out = log.usage?.completionTokens ?? Math.round((log.completion?.length || 0) / 3.5);
+        const cached = log.usage?.promptTokensDetails?.cachedTokens;
+        const cacheWrite = log.usage?.promptTokensDetails?.cacheWriteTokens;
+        const reasoning = log.usage?.completionTokensDetails?.reasoningTokens;
+        totalIn += inp;
+        totalOut += out;
+        if (typeof cached === "number") totalCached += cached;
+        if (typeof cacheWrite === "number") totalCacheWrite += cacheWrite;
+        if (typeof reasoning === "number") totalReasoning += reasoning;
       }
     }
   }
-  if (totalIn === 0 && totalOut === 0) return null;
+  const totalContent = Math.max(0, totalOut - totalReasoning);
+  const total = totalIn + totalOut;
+  if (total === 0 && totalOut === 0) return null;
+
+  // Total elapsed = first user message → last message
+  const firstUser = filteredHistory.find((x: any) => x?.message?.role === "user");
+  const lastMsg = filteredHistory[filteredHistory.length - 1];
+  const totalMs =
+    firstUser?.timestamp && lastMsg?.timestamp ? lastMsg.timestamp - firstUser.timestamp : 0;
+  const formatMs = (ms: number) => {
+    if (ms < 1000) return `${ms}ms`;
+    const s = ms / 1000;
+    if (s < 60) return `${s.toFixed(1)}s`;
+    const m = Math.floor(s / 60);
+    const rs = Math.floor(s % 60);
+    return `${m}m${rs}s`;
+  };
+
+  const cacheMiss = Math.max(0, totalIn - totalCached);
+  const cacheHitRate = totalIn > 0 ? (totalCached / totalIn) * 100 : 0;
+
   return (
-    <div className="flex items-center justify-center gap-3 py-1.5 border-t" style={{ fontSize: "10px", opacity: 0.5, borderColor: "var(--vscode-panel-border)" }}>
-      <span>⬇ {totalIn.toLocaleString()}</span>
-      <span>⬆ {totalOut.toLocaleString()}</span>
-      {totalCached > 0 && <span>🗲 {totalCached.toLocaleString()}</span>}
+    <div className="border-t" style={{ borderColor: "var(--vscode-panel-border)" }}>
+      <div className="flex items-center gap-2 py-1.5 px-3" style={{ fontSize: "10px", opacity: 0.75 }}>
+        {/* Capsule: total */}
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          title="点击查看 Token 消耗明细"
+          className="flex items-center gap-1.5"
+          style={{
+            padding: "1px 8px",
+            borderRadius: "10px",
+            background: "rgba(59,130,246,0.12)",
+            color: "#93c5fd",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "10px",
+          }}
+        >
+          <span>🪙</span>
+          <span>{total.toLocaleString()}</span>
+          <span style={{ opacity: 0.6, fontSize: "9px" }}>{expanded ? "▴" : "▾"}</span>
+        </button>
+        {/* Time capsule */}
+        {totalMs > 0 && (
+          <span
+            style={{
+              padding: "1px 8px",
+              borderRadius: "10px",
+              background: "rgba(128,128,128,0.08)",
+              color: "var(--vscode-descriptionForeground)",
+              fontSize: "10px",
+            }}
+            title="总会话耗时"
+          >
+            🕐 {formatMs(totalMs)}
+          </span>
+        )}
+        {expanded && (
+          <span style={{ color: "var(--vscode-descriptionForeground)", fontSize: "10px" }}>
+            Token 消耗明细
+          </span>
+        )}
+      </div>
+
+      {expanded && (
+        <div
+          className="mx-3 mb-2 p-3 rounded"
+          style={{
+            background: "var(--vscode-editor-background)",
+            border: "1px solid var(--vscode-panel-border)",
+            fontSize: "11px",
+          }}
+        >
+          {/* Header row: 总计 */}
+          <div className="flex justify-between items-center mb-2 pb-2" style={{ borderBottom: "1px solid var(--vscode-panel-border)" }}>
+            <span style={{ color: "var(--vscode-descriptionForeground)" }}>总计</span>
+            <span style={{ fontWeight: 600, color: "#93c5fd" }}>{total.toLocaleString()}</span>
+          </div>
+          {/* 输入 section */}
+          <div className="mb-2">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: "#3b82f6", display: "inline-block" }} />
+              <span style={{ color: "var(--vscode-foreground)", fontWeight: 500 }}>输入</span>
+            </div>
+            <div className="grid gap-0.5" style={{ gridTemplateColumns: "1fr auto", paddingLeft: 16 }}>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存命中</span>
+              <span>{totalCached.toLocaleString()}</span>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存未命中</span>
+              <span>{cacheMiss.toLocaleString()}</span>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存写入</span>
+              <span>{totalCacheWrite.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center mt-1 pt-1" style={{ borderTop: "1px dashed var(--vscode-panel-border)" }}>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>输入小计</span>
+              <span style={{ fontWeight: 500 }}>{totalIn.toLocaleString()}</span>
+            </div>
+          </div>
+          {/* 输出 section */}
+          <div className="mb-2">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: "#8b5cf6", display: "inline-block" }} />
+              <span style={{ color: "var(--vscode-foreground)", fontWeight: 500 }}>输出</span>
+            </div>
+            <div className="grid gap-0.5" style={{ gridTemplateColumns: "1fr auto", paddingLeft: 16 }}>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>思考过程</span>
+              <span>{totalReasoning.toLocaleString()}</span>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>回复内容</span>
+              <span>{totalContent.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between items-center mt-1 pt-1" style={{ borderTop: "1px dashed var(--vscode-panel-border)" }}>
+              <span style={{ color: "var(--vscode-descriptionForeground)" }}>输出小计</span>
+              <span style={{ fontWeight: 500 }}>{totalOut.toLocaleString()}</span>
+            </div>
+          </div>
+          {/* Cache hit rate + progress bar */}
+          {totalIn > 0 && (
+            <div className="pt-2" style={{ borderTop: "1px solid var(--vscode-panel-border)" }}>
+              <div className="flex items-center justify-between mb-1">
+                <span className="flex items-center gap-1.5">
+                  <span style={{ color: "#f59e0b" }}>⚡</span>
+                  <span style={{ color: "var(--vscode-foreground)" }}>缓存命中率</span>
+                </span>
+                <span style={{ color: "#6ee7b7", fontWeight: 600 }}>{cacheHitRate.toFixed(1)}%</span>
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  height: 6,
+                  borderRadius: 3,
+                  background: "rgba(128,128,128,0.15)",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    width: `${Math.min(100, cacheHitRate)}%`,
+                    height: "100%",
+                    background: "linear-gradient(90deg, #10b981, #6ee7b7)",
+                    transition: "width 0.3s ease",
+                  }}
+                />
+              </div>
+              <div className="flex items-center gap-3 mt-2" style={{ fontSize: "10px", color: "var(--vscode-descriptionForeground)" }}>
+                <span className="flex items-center gap-1">
+                  <span style={{ width: 6, height: 6, borderRadius: 1, background: "#10b981", display: "inline-block" }} />
+                  命中
+                </span>
+                <span className="flex items-center gap-1">
+                  <span style={{ width: 6, height: 6, borderRadius: 1, background: "#f59e0b", display: "inline-block" }} />
+                  写入
+                </span>
+                <span className="flex items-center gap-1">
+                  <span style={{ width: 6, height: 6, borderRadius: 1, background: "#ef4444", display: "inline-block" }} />
+                  未命中
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -118,7 +281,7 @@ const StepsDiv = styled.div`
 
   .msg-row.no-avatar {
     gap: 0;
-    margin-left: 38px; /* indent to align with avatar column */
+    margin-left: 20px;
   }
 
   /* User message row — right side, auto-width */
@@ -166,9 +329,9 @@ const StepsDiv = styled.div`
   }
 
   .msg-avatar-label {
-    font-size: 9px;
+    font-size: 15px;
     margin-top: 2px;
-    color: var(--vscode-descriptionForeground, #888);
+    color: var(--vscode-foreground);
     white-space: nowrap;
   }
 
@@ -179,6 +342,7 @@ const StepsDiv = styled.div`
 
   .msg-body.ai-body {
     flex: 1;
+    margin-right: 20px;
   }
 
   .msg-body.user-body {
@@ -242,6 +406,9 @@ export function Chat() {
   }, [showHistoryPopup]);
   const showChatScrollbar = useAppSelector(
     (state) => state.config.config.ui?.showChatScrollbar,
+  );
+  const configFontSize = useAppSelector(
+    (state) => state.config.config.ui?.fontSize,
   );
   const codeToEdit = useAppSelector((state) => state.editModeState.codeToEdit);
   const isInEdit = useAppSelector((store) => store.session.isInEdit);
@@ -422,9 +589,9 @@ export function Chat() {
                 </div>
               )}
             </div>
+            <span className="msg-avatar-label" style={{ fontSize: configFontSize || undefined }}>{T("User")}</span>
             <div className="msg-avatar-col right">
               <div className="msg-avatar-icon user" title="You">👤</div>
-              <span className="msg-avatar-label">{T("User")}</span>
             </div>
           </div>
         );
@@ -454,34 +621,12 @@ export function Chat() {
             {showAvatar && (
               <div className="msg-avatar-col">
                 <div className="msg-avatar-icon ai" title="Friday AI">🤖</div>
-                <span className="msg-avatar-label">Friday</span>
               </div>
             )}
+            {showAvatar && (
+              <span className="msg-avatar-label" style={{ fontSize: configFontSize || undefined }}>Friday</span>
+            )}
             <div className="msg-body ai-body">
-              {/* Token usage badge — top of message */}
-              {item.promptLogs && item.promptLogs.length > 0 && (() => {
-                const logs = item.promptLogs;
-                const lastUsg = logs[logs.length - 1]?.usage;
-                // Use real usage from API if available, otherwise estimate from text length
-                const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
-                const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
-                const cached = lastUsg?.promptTokensDetails?.cachedTokens;
-                const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
-                const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
-                if (inp === 0 && out === 0) return null;
-                return (
-                  <div className="flex items-center gap-2 mb-1" style={{ fontSize: "10px", opacity: 0.4, userSelect: "none" }}>
-                    <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.12)", color: "var(--vscode-descriptionForeground)" }}>⬇ {inp.toLocaleString()}</span>
-                    <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(59,130,246,0.12)", color: "#93c5fd" }}>⬆ {out.toLocaleString()}</span>
-                    {typeof cached === "number" && cached > 0 && (
-                      <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(16,185,129,0.12)", color: "#6ee7b7" }}>🗲 {cached.toLocaleString()}</span>
-                    )}
-                    {elapsed && (
-                      <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.08)", color: "var(--vscode-descriptionForeground)" }}>🕐 {elapsed}s</span>
-                    )}
-                  </div>
-                );
-              })()}
               {/* Always render assistant content through normal path */}
               <div className="thread-message">
                 <TimelineItem
@@ -502,6 +647,32 @@ export function Chat() {
                     item={item}
                     latestSummaryIndex={latestSummaryIndex}
                     timestamp={item.timestamp}
+                    leftSlot={
+                      item.promptLogs && item.promptLogs.length > 0
+                        ? (() => {
+                            const logs = item.promptLogs;
+                            const lastUsg = logs[logs.length - 1]?.usage;
+                            const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
+                            const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
+                            const cached = lastUsg?.promptTokensDetails?.cachedTokens;
+                            const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
+                            const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
+                            if (inp === 0 && out === 0) return null;
+                            return (
+                              <span style={{ fontSize: "10px", userSelect: "none", opacity: 0.75, display: "inline-flex", gap: 6, alignItems: "center" }}>
+                                <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.12)", color: "var(--vscode-descriptionForeground)" }}>⬇ {inp.toLocaleString()}</span>
+                                <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(59,130,246,0.12)", color: "#93c5fd" }}>⬆ {out.toLocaleString()}</span>
+                                {typeof cached === "number" && cached > 0 && (
+                                  <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(16,185,129,0.12)", color: "#6ee7b7" }}>🗲 {cached.toLocaleString()}</span>
+                                )}
+                                {elapsed && (
+                                  <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.08)", color: "var(--vscode-descriptionForeground)" }}>🕐 {elapsed}s</span>
+                                )}
+                              </span>
+                            );
+                          })()
+                        : undefined
+                    }
                   />
                 </TimelineItem>
               </div>
@@ -523,7 +694,7 @@ export function Chat() {
           return null;
         }
         return (
-          <div className={isBeforeLatestSummary ? "opacity-50" : ""} style={{ marginLeft: "38px" }}>
+          <div className={isBeforeLatestSummary ? "opacity-50" : ""} style={{ marginLeft: "20px" }}>
             <ThinkingBlockPeek
               content={thinkingContent}
               redactedThinking={message.redactedThinking}

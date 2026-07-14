@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ChatHistoryItem } from "core";
 import { renderChatMessage } from "core/util/messageContent";
+import type { ReactNode } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { useCompactConversation } from "../../util/compactConversation";
 import { FeedbackButtons } from "../FeedbackButtons";
@@ -20,6 +21,7 @@ export interface ResponseActionsProps {
   item: ChatHistoryItem;
   isLast: boolean;
   timestamp?: number;
+  leftSlot?: ReactNode;
 }
 
 export default function ResponseActions({
@@ -30,6 +32,7 @@ export default function ResponseActions({
   onDelete,
   timestamp,
   isLast,
+  leftSlot,
 }: ResponseActionsProps) {
   const contextPercentage = useAppSelector(
     (state) => state.session.contextPercentage,
@@ -47,63 +50,66 @@ export default function ResponseActions({
   const compactConversation = useCompactConversation();
 
   return (
-    <div className="text-description-muted mx-2 flex cursor-default items-center justify-end space-x-1 bg-transparent pb-0 text-xs">
-      {timestamp && (
-        <span className="mr-2 text-[10px] text-gray-500">
-          {new Date(timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
-        </span>
-      )}
-      <HeaderButtonWithToolTip
-        testId={`compact-button-${index}`}
-        text={
-          showLabel
-            ? T("Summarize conversation to reduce context length")
-            : T("Compact conversation")
-        }
-        tabIndex={-1}
-        onClick={() => compactConversation(index)}
-      >
-        <div className="flex items-center space-x-1">
-          <ArrowsPointingInIcon
-            className={`h-3.5 w-3.5 ${buttonColorClass || "text-description-muted"}`}
-          />
-          {showLabel && (
-            <span
-              className={`text-xs ${buttonColorClass || "text-description-muted"}`}
-            >
-              {T("Compact conversation")}
-            </span>
-          )}
-        </div>
-      </HeaderButtonWithToolTip>
-
-      {isTruncated && (
+    <div className="text-description-muted mx-2 flex cursor-default items-center justify-between bg-transparent pb-0 text-xs">
+      <div className="flex-1">{leftSlot}</div>
+      <div className="flex items-center space-x-1">
+        {timestamp && (
+          <span className="mr-2 text-[10px] text-gray-500">
+            {new Date(timestamp).toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })}
+          </span>
+        )}
         <HeaderButtonWithToolTip
+          testId={`compact-button-${index}`}
+          text={
+            showLabel
+              ? T("Summarize conversation to reduce context length")
+              : T("Compact conversation")
+          }
           tabIndex={-1}
-          text={T("Friday generation")}
-          onClick={onFridayGeneration}
+          onClick={() => compactConversation(index)}
         >
-          <BarsArrowDownIcon className="text-description-muted h-3.5 w-3.5" />
+          <div className="flex items-center space-x-1">
+            <ArrowsPointingInIcon
+              className={`h-3.5 w-3.5 ${buttonColorClass || "text-description-muted"}`}
+            />
+            {showLabel && (
+              <span
+                className={`text-xs ${buttonColorClass || "text-description-muted"}`}
+              >
+                {T("Compact conversation")}
+              </span>
+            )}
+          </div>
         </HeaderButtonWithToolTip>
-      )}
 
-      <HeaderButtonWithToolTip
-        testId={`delete-button-${index}`}
-        text={T("Delete")}
-        tabIndex={-1}
-        onClick={onDelete}
-      >
-        <TrashIcon className="text-description-muted h-3.5 w-3.5" />
-      </HeaderButtonWithToolTip>
+        {isTruncated && (
+          <HeaderButtonWithToolTip
+            tabIndex={-1}
+            text={T("Friday generation")}
+            onClick={onFridayGeneration}
+          >
+            <BarsArrowDownIcon className="text-description-muted h-3.5 w-3.5" />
+          </HeaderButtonWithToolTip>
+        )}
 
-      <CopyIconButton
-        tabIndex={-1}
-        text={renderChatMessage(item.message)}
-        clipboardIconClassName="h-3.5 w-3.5 text-description-muted"
-        checkIconClassName="h-3.5 w-3.5 text-success"
-      />
+        <HeaderButtonWithToolTip
+          testId={`delete-button-${index}`}
+          text={T("Delete")}
+          tabIndex={-1}
+          onClick={onDelete}
+        >
+          <TrashIcon className="text-description-muted h-3.5 w-3.5" />
+        </HeaderButtonWithToolTip>
 
-      <FeedbackButtons item={item} />
+        <CopyIconButton
+          tabIndex={-1}
+          text={renderChatMessage(item.message)}
+          clipboardIconClassName="h-3.5 w-3.5 text-description-muted"
+          checkIconClassName="h-3.5 w-3.5 text-success"
+        />
+
+        <FeedbackButtons item={item} />
+      </div>
     </div>
   );
 }

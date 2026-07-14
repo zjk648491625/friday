@@ -25,7 +25,8 @@ const zh: Dict = {
   "Delete": "删除", "Save": "保存", "Remove": "移除",
   "Connect": "连接", "Disconnect": "断开连接",
   "Submit": "提交", "Restart": "重启", "Retry": "重试",
-  "Rebuild": "重建", "Clear chats": "清空对话",
+  "Rebuild": "重建", "Clear chats": "全局清空会话",
+  "Clear workspace sessions": "清除工作区会话",
   "Clear history": "清除历史", "Delete session": "删除会话",
   "Rename": "重命名", "Reset": "重置", "Refresh": "刷新",
   "Reload": "刷新", "Copy": "复制", "Copied": "已复制",
@@ -432,6 +433,10 @@ const zh: Dict = {
   "Archive conversation": "归档对话",
   "No conversations matching": "无匹配对话",
   "Clear sessions": "清空会话",
+  "Are you sure you want to permanently delete all chat sessions for the current workspace?":
+    "确定要永久删除当前工作区的所有对话会话吗？",
+  "Are you sure you want to permanently delete all chat sessions globally?":
+    "确定要永久删除所有对话会话（包括当前会话）吗？",
   "Loading Sessions...": "加载会话中...",
   "No past sessions found. To start a new session, either click the \"+\" button or use the keyboard shortcut:": "未找到历史会话。点击\"+\"按钮或使用快捷键新建会话：",
   "Chat history is saved to": "聊天记录保存至",

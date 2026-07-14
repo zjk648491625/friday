@@ -35,6 +35,15 @@ export function History() {
   const ideMessenger = useContext(IdeMessengerContext);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [workspaceDir, setWorkspaceDir] = useState("");
+
+  useEffect(() => {
+    ideMessenger.request("getWorkspaceDirs", undefined).then((result) => {
+      if (result.status === "success" && result.content?.[0]) {
+        setWorkspaceDir(result.content[0]);
+      }
+    });
+  }, [ideMessenger]);
 
   const minisearch = useRef<MiniSearch>(
     new MiniSearch({
@@ -124,14 +133,50 @@ export function History() {
     dispatch(
       setDialogMessage(
         <ConfirmationDialog
-          title={T("Clear sessions")}
-          text={T("Are you sure you want to permanently delete all chat sessions, including the current chat session?")}
+          title={T("Clear chats")}
+          text={T("Are you sure you want to permanently delete all chat sessions globally?")}
           onConfirm={async () => {
             // optimistic update
             dispatch(setAllSessionMetadata([]));
 
             // actual update + refresh
             await ideMessenger.request("history/clear", undefined);
+            void dispatch(refreshSessionMetadata({}));
+
+            // start a new session
+            dispatch(newSession());
+            navigate(ROUTES.HOME);
+          }}
+        />,
+      ),
+    );
+    dispatch(setShowDialog(true));
+  };
+
+  const showClearWorkspaceSessionsDialog = () => {
+    if (!workspaceDir) return;
+    dispatch(
+      setDialogMessage(
+        <ConfirmationDialog
+          title={T("Clear workspace sessions")}
+          text={T("Are you sure you want to permanently delete all chat sessions for the current workspace?")}
+          onConfirm={async () => {
+            // optimistically filter workspace sessions from metadata
+            const wd = workspaceDir.toLowerCase();
+            dispatch(
+              setAllSessionMetadata(
+                allSessionMetadata.filter(
+                  (s) =>
+                    !s.workspaceDirectory ||
+                    s.workspaceDirectory.toLowerCase() !== wd,
+                ),
+              ),
+            );
+
+            // actual update + refresh
+            await ideMessenger.request("history/clearWorkspace", {
+              workspaceDirectory: workspaceDir,
+            });
             void dispatch(refreshSessionMetadata({}));
 
             // start a new session
@@ -209,8 +254,17 @@ export function History() {
         </table>
       </div>
 
-      <div className="border-border flex flex-col items-end justify-center border-0 border-t border-solid px-2 py-3 text-xs">
-        <Button variant="secondary" size="sm" onClick={showClearSessionsDialog}>{T("Clear chats")}</Button>
+      <div className="border-border flex flex-col items-end justify-center gap-1.5 border-0 border-t border-solid px-2 py-3 text-xs">
+        <div className="flex gap-1.5">
+          {workspaceDir && (
+            <Button variant="secondary" size="sm" onClick={showClearWorkspaceSessionsDialog}>
+              {T("Clear workspace sessions")}
+            </Button>
+          )}
+          <Button variant="secondary" size="sm" onClick={showClearSessionsDialog}>
+            {T("Clear chats")}
+          </Button>
+        </div>
         <span
           className="text-description text-2xs"
           data-testid="history-sessions-note"

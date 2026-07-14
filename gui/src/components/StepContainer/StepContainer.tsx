@@ -17,6 +17,7 @@ interface StepContainerProps {
   isLast: boolean;
   latestSummaryIndex?: number;
   timestamp?: number;
+  leftSlot?: React.ReactNode;
 }
 
 export default function StepContainer(props: StepContainerProps) {
@@ -117,6 +118,7 @@ export default function StepContainer(props: StepContainerProps) {
             item={props.item}
             isLast={props.isLast}
             timestamp={props.timestamp}
+            leftSlot={props.leftSlot}
           />
         </div>
       )}
