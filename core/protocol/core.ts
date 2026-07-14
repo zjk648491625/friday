@@ -73,6 +73,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
   "history/save": [Session, void];
   "history/share": [{ id: string; outputDir?: string }, void];
   "history/clear": [undefined, void];
+  "history/clearWorkspace": [{ workspaceDirectory: string }, void];
   "devdata/log": [DevDataLogEvent, void];
   "config/addOpenAiKey": [string, void];
   "config/addModel": [

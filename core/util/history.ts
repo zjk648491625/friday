@@ -89,6 +89,45 @@ export class HistoryManager {
     fs.rmSync(getSessionsFolderPath(), { recursive: true, force: true });
   }
 
+  clearWorkspace(workspaceDirectory: string) {
+    const sessionsListFile = getSessionsListPath();
+    if (!fs.existsSync(sessionsListFile)) return;
+
+    const raw = fs.readFileSync(sessionsListFile, "utf-8");
+    let sessionsList =
+      safeParseArray<BaseSessionMetadata>(
+        raw,
+        "Error parsing sessions.json",
+      ) ?? [];
+
+    const target = workspaceDirectory.toLowerCase();
+    const toDelete = sessionsList.filter(
+      (s) =>
+        typeof s.workspaceDirectory === "string" &&
+        s.workspaceDirectory !== "" &&
+        s.workspaceDirectory.toLowerCase() === target,
+    );
+
+    // Delete each matching session file
+    for (const session of toDelete) {
+      const sessionFile = getSessionFilePath(session.sessionId);
+      try {
+        if (fs.existsSync(sessionFile)) fs.unlinkSync(sessionFile);
+      } catch (e) {
+        console.warn(`Failed to delete session file ${sessionFile}: ${e}`);
+      }
+    }
+
+    // Remove from sessions list
+    const deleteIds = new Set(toDelete.map((s) => s.sessionId));
+    sessionsList = sessionsList.filter((s) => !deleteIds.has(s.sessionId));
+
+    fs.writeFileSync(
+      sessionsListFile,
+      JSON.stringify(sessionsList, undefined, 2),
+    );
+  }
+
   load(sessionId: string): Session {
     try {
       const sessionFile = getSessionFilePath(sessionId);

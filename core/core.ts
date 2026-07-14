@@ -339,6 +339,10 @@ export class Core {
       historyManager.clearAll();
     });
 
+    on("history/clearWorkspace", (msg) => {
+      historyManager.clearWorkspace(msg.data.workspaceDirectory);
+    });
+
     on("devdata/log", async (msg) => {
       void DataLogger.getInstance().logDevData(msg.data);
     });
