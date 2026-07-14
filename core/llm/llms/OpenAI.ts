@@ -482,6 +482,11 @@ class OpenAI extends BaseLLM {
       }
     }
 
+    // Explicit prompt caching — enables cache stats in response for OpenAI/DeepSeek
+    if (this.completionOptions.promptCaching) {
+      (body as any).prompt_caching = true;
+    }
+
     return body;
   }
 

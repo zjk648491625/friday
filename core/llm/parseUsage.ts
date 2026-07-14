@@ -2,10 +2,20 @@ import type { Usage } from "../index.js";
 
 /**
  * Parse usage data from various LLM provider formats into a unified Usage object.
- * Handles: OpenAI (camelCase & snake_case), Anthropic, Cohere, Gemini, and generic fallback.
+ * Handles: OpenAI (camelCase & snake_case), Anthropic, Cohere, Gemini, DeepSeek, and generic fallback.
  */
 export function parseUsage(raw: any): Usage | undefined {
   if (!raw || typeof raw !== "object") return undefined;
+
+  // Debug: log usage format to help identify provider-specific fields
+  if (typeof raw.prompt_tokens === "number" || typeof raw.promptTokens === "number") {
+    const keys = Object.keys(raw).join(", ");
+    const details = raw.prompt_tokens_details ? JSON.stringify(raw.prompt_tokens_details) : "none";
+    const dscache = raw.prompt_cache_hit_tokens !== undefined
+      ? ` deepseek_cache={hit:${raw.prompt_cache_hit_tokens},miss:${raw.prompt_cache_miss_tokens}}`
+      : "";
+    console.log(`[FRIDAY_USAGE] keys=[${keys}] details=${details}${dscache}`);
+  }
 
   // Direct camelCase match (already normalized)
   if (
@@ -78,6 +88,27 @@ export function parseUsage(raw: any): Usage | undefined {
       completionTokens: out,
       promptTokens: inp,
       totalTokens: raw.totalTokenCount ?? inp + out,
+      promptTokensDetails:
+        Object.keys(details).length > 0 ? details : undefined,
+    };
+  }
+
+  // DeepSeek: cache stats at top level (prompt_cache_hit_tokens / prompt_cache_miss_tokens)
+  // DeepSeek also uses standard snake_case for prompt_tokens/completion_tokens
+  if (
+    typeof raw.prompt_cache_hit_tokens === "number" ||
+    typeof raw.prompt_cache_miss_tokens === "number"
+  ) {
+    const inp = raw.prompt_tokens ?? 0;
+    const out = raw.completion_tokens ?? 0;
+    const details: NonNullable<Usage["promptTokensDetails"]> = {};
+    if (typeof raw.prompt_cache_hit_tokens === "number") {
+      details.cachedTokens = raw.prompt_cache_hit_tokens;
+    }
+    return {
+      promptTokens: inp,
+      completionTokens: out,
+      totalTokens: raw.total_tokens ?? inp + out,
       promptTokensDetails:
         Object.keys(details).length > 0 ? details : undefined,
     };

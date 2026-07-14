@@ -1010,6 +1010,7 @@ export abstract class BaseLLM implements ILLM {
     });
 
     if (chunk.role === "assistant" && chunk.usage) {
+      console.log("[FRIDAY_USAGE] processChatChunk usage keys:", Object.keys(chunk.usage).join(", "));
       usage = parseUsage(chunk.usage);
     }
 
@@ -1052,6 +1053,7 @@ export abstract class BaseLLM implements ILLM {
       }
       // Capture usage from the final chunk via existing normalizer
       if ((chunk as any).usage) {
+        console.log("[FRIDAY_USAGE] raw chunk.usage keys:", Object.keys((chunk as any).usage).join(", "), "json:", JSON.stringify((chunk as any).usage).substring(0, 300));
         yield { role: "assistant", content: "", usage: parseUsage((chunk as any).usage) } as any;
       }
     }

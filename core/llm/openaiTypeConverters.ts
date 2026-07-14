@@ -357,7 +357,7 @@ export function fromChatCompletionChunk(
       })
     | undefined;
 
-  if (delta?.content) {
+  if (delta?.content !== undefined && delta?.content !== null) {
     return {
       role: "assistant",
       content: delta.content,
