@@ -81,6 +81,7 @@ class MessageTypes {
             "history/save",
             "history/loadRemote",
             "history/clear",
+            "history/clearWorkspace",
             "devdata/log",
             "config/addModel",
             "config/newPromptFile",
