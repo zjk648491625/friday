@@ -67,6 +67,7 @@ import {
   toFimBody,
 } from "./openaiTypeConverters.js";
 import { applyToolOverrides } from "../tools/applyToolOverrides.js";
+import { parseUsage } from "./parseUsage.js";
 
 export class LLMError extends Error {
   constructor(
@@ -86,38 +87,6 @@ export function isModelInstaller(provider: any): provider is ModelInstaller {
 }
 
 type InteractionStatus = "in_progress" | "success" | "error" | "cancelled";
-
-/**
- * Normalize a usage object from snake_case (OpenAI/Anthropic API wire format)
- * to camelCase (Usage interface). Idempotent - if already camelCase, passes through.
- */
-function normalizeUsage(raw: any): Usage {
-  if (!raw) return raw;
-  if (typeof raw.promptTokens === "number" || typeof raw.completionTokens === "number") {
-    return raw as Usage;
-  }
-  const ptDetails = raw.prompt_tokens_details;
-  const ctDetails = raw.completion_tokens_details;
-  return {
-    promptTokens: raw.prompt_tokens ?? 0,
-    completionTokens: raw.completion_tokens ?? 0,
-    promptTokensDetails: ptDetails
-      ? {
-          cachedTokens: ptDetails.cached_tokens ?? ptDetails.cache_read_tokens,
-          cacheWriteTokens: ptDetails.cache_write_tokens ?? ptDetails.cache_creation_input_tokens,
-          audioTokens: ptDetails.audio_tokens,
-        }
-      : undefined,
-    completionTokensDetails: ctDetails
-      ? {
-          acceptedPredictionTokens: ctDetails.accepted_prediction_tokens,
-          reasoningTokens: ctDetails.reasoning_tokens,
-          rejectedPredictionTokens: ctDetails.rejected_prediction_tokens,
-          audioTokens: ctDetails.audio_tokens,
-        }
-      : undefined,
-  };
-}
 
 export abstract class BaseLLM implements ILLM {
   static providerName: string;
@@ -1022,12 +991,12 @@ export abstract class BaseLLM implements ILLM {
   ): {
     completion: string[];
     thinking: string[];
-    usage: Usage | null;
+    usage: Usage | undefined;
     chunk: ChatMessage;
   } {
     const completion: string[] = [];
     const thinking: string[] = [];
-    let usage: Usage | null = null;
+    let usage: Usage | undefined;
 
     if (chunk.role === "assistant") {
       completion.push(this._formatChatMessage(chunk));
@@ -1041,7 +1010,7 @@ export abstract class BaseLLM implements ILLM {
     });
 
     if (chunk.role === "assistant" && chunk.usage) {
-      usage = normalizeUsage(chunk.usage);
+      usage = parseUsage(chunk.usage);
     }
 
     return {
@@ -1081,9 +1050,9 @@ export abstract class BaseLLM implements ILLM {
       if ((chunk as any).citations && Array.isArray((chunk as any).citations)) {
         onCitations((chunk as any).citations);
       }
-      // Capture usage from the final chunk (choices are empty, delta is undefined)
+      // Capture usage from the final chunk via existing normalizer
       if ((chunk as any).usage) {
-        yield { role: "assistant", content: "", usage: (chunk as any).usage } as any;
+        yield { role: "assistant", content: "", usage: parseUsage((chunk as any).usage) } as any;
       }
     }
   }
@@ -1267,7 +1236,7 @@ export abstract class BaseLLM implements ILLM {
             const result = this.processChatChunk(chunk, interaction);
             completion.push(...result.completion);
             thinking.push(...result.thinking);
-            if (result.usage !== null) {
+            if (result.usage !== undefined) {
               usage = result.usage;
             }
             yield result.chunk;
@@ -1293,7 +1262,7 @@ export abstract class BaseLLM implements ILLM {
             const result = this.processChatChunk(chunk, interaction);
             completion.push(...result.completion);
             thinking.push(...result.thinking);
-            if (result.usage !== null) {
+            if (result.usage !== undefined) {
               usage = result.usage;
             }
             yield result.chunk;

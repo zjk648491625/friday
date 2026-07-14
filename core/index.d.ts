@@ -407,6 +407,7 @@ export interface ThinkingChatMessage {
 export interface Usage {
   completionTokens: number;
   promptTokens: number;
+  totalTokens?: number;
   promptTokensDetails?: {
     cachedTokens?: number;
     /** This an Anthropic-specific property */
