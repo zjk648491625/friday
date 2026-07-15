@@ -583,6 +583,8 @@ const zh: Dict = {
   "@codebase context provider will only use tool calling for code retrieval.": "@codebase 上下文提供者仅使用工具调用来检索代码。",
   "Stream after tool rejection": "工具拒绝后继续流式输出",
   "streaming will friday after the tool call is rejected.": "工具调用被拒绝后将继续流式输出。",
+  "Debug Logging": "调试日志",
+  "Write raw API request/response to ~/.friday/logs/debug.log for troubleshooting. (Restart required to apply)": "将原始API请求/响应写入 ~/.friday/logs/debug.log 用于排查问题。（重启后生效）",
 
   // ═══════ 批次2：模型描述 ═══════
   "Learn how to configure and use Friday": "了解如何配置和使用 Friday",

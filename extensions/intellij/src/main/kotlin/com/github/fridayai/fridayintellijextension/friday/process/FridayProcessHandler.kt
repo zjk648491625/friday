@@ -21,7 +21,7 @@ class FridayProcessHandler(
     private val log = Logger.getInstance(FridayProcessHandler::class.java)
 
     // Messages containing these prefixes are logged at INFO level (one-time init events)
-    private val infoLevelPrefixes = listOf("[nativeAddon]", "[LanceDbIndex]", "[FRIDAY_USAGE]")
+    private val infoLevelPrefixes = listOf("[nativeAddon]", "[LanceDbIndex]")
 
     init {
         scope.launch(Dispatchers.IO) {

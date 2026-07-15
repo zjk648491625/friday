@@ -39,8 +39,7 @@ export interface ToolbarOptions {
 
 interface InputToolbarProps {
   onEnter?: (modifiers: InputModifiers) => void;
-  onAddContextItem?: () => void;
-  onClick?: () => void;
+
   onImageFileSelected?: (file: File) => void;
   onOptimizePrompt?: () => void;
   isOptimizing?: boolean;
@@ -194,39 +193,7 @@ function InputToolbar(props: InputToolbarProps) {
               </Button>
             </ToolTip>
           )}
-          {!props.toolbarOptions?.hideUseCodebase && !isInEdit && (
-            <div className="hidden transition-colors duration-200 hover:underline md:flex">
-              <HoverItem
-                className={
-                  props.activeKey === "Meta" ||
-                  props.activeKey === "Control" ||
-                  props.activeKey === "Alt"
-                    ? "underline"
-                    : ""
-                }
-                onClick={(e) =>
-                  props.onEnter?.({
-                    useCodebase: false,
-                    noContext: !useActiveFile,
-                  })
-                }
-              >
-                <ToolTip
-                  place="top-end"
-                  content={`${
-                    useActiveFile
-                      ? T("Send Without Active File")
-                      : T("Send With Active File")
-                  } (${getMetaKeyLabel()}⏎)`}
-                >
-                  <span>
-                    {getMetaKeyLabel()}⏎{" "}
-                    {useActiveFile ? T("No active file") : T("Active file")}
-                  </span>
-                </ToolTip>
-              </HoverItem>
-            </div>
-          )}
+          
           {isInEdit && (
             <HoverItem
               className="hidden hover:underline sm:flex"
@@ -244,14 +211,9 @@ function InputToolbar(props: InputToolbarProps) {
               size="sm"
               data-testid="submit-input-button"
               className={isStreaming ? "!bg-[rgba(245,158,11,0.15)] !text-[#fbbf24] hover:!bg-[rgba(245,158,11,0.25)]" : ""}
-              onClick={async (e) => {
+              onClick={() => {
                 if (props.onEnter) {
-                  props.onEnter({
-                    useCodebase: false,
-                    noContext: useActiveFile
-                      ? isMetaEquivalentKeyPressed(e as any) || e.altKey
-                      : !(isMetaEquivalentKeyPressed(e as any) || e.altKey),
-                  });
+                  props.onEnter({ useCodebase: false, noContext: false });
                 }
               }}
               disabled={isEnterDisabled}

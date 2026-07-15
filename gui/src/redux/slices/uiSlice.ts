@@ -33,6 +33,27 @@ type UIState = {
 
 export const DEFAULT_TOOL_SETTING: ToolPolicy = "allowedWithPermission";
 export const DEFAULT_RULE_SETTING: RulePolicy = "on";
+
+// Tool policies are persisted to ~/.friday/friday-settings.json via settings/save
+// On startup, load from the file via settings/get
+let _loadedFromFile = false;
+export function getLoadedFromFile() { return _loadedFromFile; }
+export function setLoadedFromFile(v: boolean) { _loadedFromFile = v; }
+
+const TOOL_POLICIES_KEY = "friday_tool_policies_v1";
+function loadToolPolicies(): ToolPolicies {
+  try {
+    const raw = localStorage.getItem(TOOL_POLICIES_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+export function restoreToolPolicies(policies: ToolPolicies) {
+  try { localStorage.setItem(TOOL_POLICIES_KEY, JSON.stringify(policies)); } catch {}
+}
+function saveToolPolicies(policies: ToolPolicies) {
+  try { localStorage.setItem(TOOL_POLICIES_KEY, JSON.stringify(policies)); } catch {}
+}
+
 export const DEFAULT_UI_SLICE: UIState = {
   showDialog: false,
   dialogMessage: undefined,
@@ -43,7 +64,7 @@ export const DEFAULT_UI_SLICE: UIState = {
     getLocalStorage(LocalStorageKey.HasDismissedExploreDialog) ?? false,
   shouldAddFileForEditing: false,
   ttsActive: false,
-  toolSettings: {},
+  toolSettings: loadToolPolicies(),
   toolGroupSettings: {
     [BUILT_IN_GROUP_NAME]: "include",
   },
@@ -89,6 +110,7 @@ export const uiSlice = createSlice({
       }>,
     ) => {
       state.toolSettings[action.payload.toolName] = action.payload.policy;
+      saveToolPolicies(state.toolSettings);
     },
     clearToolPolicy: (state, action: PayloadAction<string>) => {
       delete state.toolSettings[action.payload];

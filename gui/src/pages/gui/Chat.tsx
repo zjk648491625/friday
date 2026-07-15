@@ -156,10 +156,11 @@ const TotalTokenBar = ({ filteredHistory }: { filteredHistory: ChatHistoryItem[]
         <div
           className="p-3 rounded"
           style={{
-            position: "absolute", bottom: "100%", left: 8, right: 8, marginBottom: 4, zIndex: 100,
-            background: "var(--vscode-editor-background)",
-            border: "1px solid var(--vscode-panel-border)",
-            boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+            position: "absolute", bottom: "100%", left: 8, marginBottom: 4, zIndex: 100,
+            minWidth: 220, maxWidth: 340,
+            background: "var(--vscode-editor-background, #1e1e1e)",
+            border: "1px solid var(--vscode-panel-border, #333)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
             fontSize: "11px",
           }}
           onClick={(e) => e.stopPropagation()}
@@ -714,14 +715,16 @@ export function Chat() {
                             const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
                             const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
                             const cached = lastUsg?.promptTokensDetails?.cachedTokens;
+                            const cacheWrite = lastUsg?.promptTokensDetails?.cacheWriteTokens;
                             const reasoning = lastUsg?.completionTokensDetails?.reasoningTokens;
                             const total = inp + out;
                             const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
                             const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
                             if (total === 0) return null;
                             const isOpen = tokenHoverIndex === index;
-                            const cacheMiss = Math.max(0, inp - (cached ?? 0));
+                            const cacheMiss = Math.max(0, inp - ((cached ?? 0) + (cacheWrite ?? 0)));
                             const contentTokens = Math.max(0, out - (reasoning ?? 0));
+                            const cacheHitRate = inp > 0 && typeof cached === "number" ? (cached / inp) * 100 : 0;
                             return (
                               <div style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 4 }}>
                                 <span
@@ -747,9 +750,9 @@ export function Chat() {
                                     style={{
                                       position: "absolute", bottom: "100%", left: 0, marginBottom: 4, zIndex: 100,
                                       minWidth: 220, padding: "8px 10px", borderRadius: 8,
-                                      background: "var(--vscode-editor-background)",
-                                      border: "1px solid var(--vscode-panel-border)",
-                                      boxShadow: "0 4px 16px rgba(0,0,0,0.3)", fontSize: "11px",
+                                      background: "var(--vscode-editor-background, #1e1e1e)",
+                                      border: "1px solid var(--vscode-panel-border, #333)",
+                                      boxShadow: "0 4px 16px rgba(0,0,0,0.5)", fontSize: "11px",
                                     }}
                                   >
                                     <div className="flex justify-between mb-2 pb-2" style={{ borderBottom: "1px solid var(--vscode-panel-border)" }}>
@@ -762,11 +765,14 @@ export function Chat() {
                                         <span style={{ fontWeight: 500 }}>输入</span>
                                       </div>
                                       <div className="grid gap-0.5" style={{ gridTemplateColumns: "1fr auto", paddingLeft: 16 }}>
-                                        {typeof cached === "number" && cached > 0 && (
+                                        {typeof cached === "number" && (
                                           <><span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存命中</span><span style={{ color: "#6ee7b7" }}>{cached.toLocaleString()}</span></>
                                         )}
-                                        {typeof cached === "number" && cacheMiss > 0 && (
+                                        {cacheMiss > 0 && (
                                           <><span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存未命中</span><span>{cacheMiss.toLocaleString()}</span></>
+                                        )}
+                                        {typeof cacheWrite === "number" && cacheWrite > 0 && (
+                                          <><span style={{ color: "var(--vscode-descriptionForeground)" }}>缓存写入</span><span>{cacheWrite.toLocaleString()}</span></>
                                         )}
                                       </div>
                                       <div className="flex justify-between mt-0.5 pt-0.5" style={{ borderTop: "1px dashed var(--vscode-panel-border)" }}>
@@ -790,14 +796,19 @@ export function Chat() {
                                         <span style={{ fontWeight: 500 }}>{out.toLocaleString()}</span>
                                       </div>
                                     </div>
-                                    {typeof cached === "number" && inp > 0 && (
+                                    {cacheHitRate > 0 && (
                                       <div className="pt-2" style={{ borderTop: "1px solid var(--vscode-panel-border)" }}>
                                         <div className="flex justify-between mb-1">
                                           <span className="flex items-center gap-1"><span style={{ color: "#f59e0b" }}>⚡</span>缓存命中率</span>
-                                          <span style={{ color: "#6ee7b7", fontWeight: 600 }}>{((cached / inp) * 100).toFixed(1)}%</span>
+                                          <span style={{ color: "#6ee7b7", fontWeight: 600 }}>{cacheHitRate.toFixed(1)}%</span>
                                         </div>
                                         <div style={{ width: "100%", height: 5, borderRadius: 3, background: "rgba(128,128,128,0.15)", overflow: "hidden" }}>
-                                          <div style={{ width: `${Math.min(100, (cached / inp) * 100)}%`, height: "100%", background: "linear-gradient(90deg, #10b981, #6ee7b7)" }} />
+                                          <div style={{ width: `${Math.min(100, cacheHitRate)}%`, height: "100%", background: "linear-gradient(90deg, #10b981, #6ee7b7)" }} />
+                                        </div>
+                                        <div className="flex items-center gap-3 mt-2" style={{ fontSize: "10px", color: "var(--vscode-descriptionForeground)" }}>
+                                          <span className="flex items-center gap-1"><span style={{ width: 6, height: 6, borderRadius: 1, background: "#10b981", display: "inline-block" }} />命中</span>
+                                          <span className="flex items-center gap-1"><span style={{ width: 6, height: 6, borderRadius: 1, background: "#f59e0b", display: "inline-block" }} />写入</span>
+                                          <span className="flex items-center gap-1"><span style={{ width: 6, height: 6, borderRadius: 1, background: "#ef4444", display: "inline-block" }} />未命中</span>
                                         </div>
                                       </div>
                                     )}

@@ -3,19 +3,12 @@ import type { Usage } from "../index.js";
 /**
  * Parse usage data from various LLM provider formats into a unified Usage object.
  * Handles: OpenAI (camelCase & snake_case), Anthropic, Cohere, Gemini, DeepSeek, and generic fallback.
+ *
+ * DeepSeek V4 Pro returns both standard OpenAI snake_case AND top-level cache fields like
+ * `prompt_cache_hit_tokens` / `prompt_cache_miss_tokens`. We merge both sources.
  */
 export function parseUsage(raw: any): Usage | undefined {
   if (!raw || typeof raw !== "object") return undefined;
-
-  // Debug: log usage format to help identify provider-specific fields
-  if (typeof raw.prompt_tokens === "number" || typeof raw.promptTokens === "number") {
-    const keys = Object.keys(raw).join(", ");
-    const details = raw.prompt_tokens_details ? JSON.stringify(raw.prompt_tokens_details) : "none";
-    const dscache = raw.prompt_cache_hit_tokens !== undefined
-      ? ` deepseek_cache={hit:${raw.prompt_cache_hit_tokens},miss:${raw.prompt_cache_miss_tokens}}`
-      : "";
-    console.log(`[FRIDAY_USAGE] keys=[${keys}] details=${details}${dscache}`);
-  }
 
   // Direct camelCase match (already normalized)
   if (
@@ -59,7 +52,6 @@ export function parseUsage(raw: any): Usage | undefined {
   ) {
     const inp = raw.input_tokens ?? 0;
     const out = raw.output_tokens ?? 0;
-    // Both can coexist in the same response — capture both simultaneously
     const details: NonNullable<Usage["promptTokensDetails"]> = {};
     if (raw.cache_read_input_tokens !== undefined) {
       details.cachedTokens = raw.cache_read_input_tokens;
@@ -93,56 +85,41 @@ export function parseUsage(raw: any): Usage | undefined {
     };
   }
 
-  // DeepSeek: cache stats at top level (prompt_cache_hit_tokens / prompt_cache_miss_tokens)
-  // DeepSeek also uses standard snake_case for prompt_tokens/completion_tokens
-  if (
-    typeof raw.prompt_cache_hit_tokens === "number" ||
-    typeof raw.prompt_cache_miss_tokens === "number"
-  ) {
-    const inp = raw.prompt_tokens ?? 0;
-    const out = raw.completion_tokens ?? 0;
-    const details: NonNullable<Usage["promptTokensDetails"]> = {};
-    if (typeof raw.prompt_cache_hit_tokens === "number") {
-      details.cachedTokens = raw.prompt_cache_hit_tokens;
-    }
-    return {
-      promptTokens: inp,
-      completionTokens: out,
-      totalTokens: raw.total_tokens ?? inp + out,
-      promptTokensDetails:
-        Object.keys(details).length > 0 ? details : undefined,
-    };
-  }
-
-  // OpenAI / DeepSeek snake_case
+  // OpenAI / DeepSeek snake_case — unified handler for both
   const promptTokens = raw.prompt_tokens ?? 0;
   const completionTokens = raw.completion_tokens ?? 0;
   if (promptTokens > 0 || completionTokens > 0) {
     const ptD = raw.prompt_tokens_details;
     const ctD = raw.completion_tokens_details;
 
-    // Build promptTokensDetails only when values are actually present
+    // Build promptTokensDetails from standard nested fields
     const ptDetails: NonNullable<Usage["promptTokensDetails"]> = {};
     if (ptD?.cached_tokens !== undefined)
       ptDetails.cachedTokens = ptD.cached_tokens;
     if (ptD?.cache_write_tokens !== undefined)
       ptDetails.cacheWriteTokens =
-        ptD.cache_write_tokens ??
-        ptD.cache_creation_input_tokens;
+        ptD.cache_write_tokens ?? ptD.cache_creation_input_tokens;
     if (ptD?.audio_tokens !== undefined)
       ptDetails.audioTokens = ptD.audio_tokens;
 
+    // DeepSeek fallback: top-level prompt_cache_hit_tokens (only if not already set)
+    if (
+      ptDetails.cachedTokens === undefined &&
+      typeof raw.prompt_cache_hit_tokens === "number"
+    ) {
+      ptDetails.cachedTokens = raw.prompt_cache_hit_tokens;
+    }
+
+    // Build completionTokensDetails
     const ctDetails: NonNullable<Usage["completionTokensDetails"]> = {};
     if (ctD?.accepted_prediction_tokens !== undefined)
-      ctDetails.acceptedPredictionTokens =
-        ctD.accepted_prediction_tokens;
+      ctDetails.acceptedPredictionTokens = ctD.accepted_prediction_tokens;
     if (ctD?.audio_tokens !== undefined)
       ctDetails.audioTokens = ctD.audio_tokens;
     if (ctD?.reasoning_tokens !== undefined)
       ctDetails.reasoningTokens = ctD.reasoning_tokens;
     if (ctD?.rejected_prediction_tokens !== undefined)
-      ctDetails.rejectedPredictionTokens =
-        ctD.rejected_prediction_tokens;
+      ctDetails.rejectedPredictionTokens = ctD.rejected_prediction_tokens;
 
     return {
       promptTokens,

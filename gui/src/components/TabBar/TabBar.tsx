@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { defaultBorderRadius } from "..";
 import { newSession } from "../../redux/slices/sessionSlice";
+import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
 import {
   addTab,
   handleSessionChange,
@@ -14,6 +15,8 @@ import {
 import { AppDispatch, RootState } from "../../redux/store";
 import { loadSession, saveCurrentSession } from "../../redux/thunks/session";
 import { varWithFallback } from "../../styles/theme";
+import ConfirmationDialog from "../dialogs/ConfirmationDialog";
+import { T } from "../../util/i18n";
 
 // Haven't set up theme colors for tabs yet
 // Will keep it simple and choose from existing ones. Comments show vars we could use
@@ -181,9 +184,33 @@ export const TabBar = React.forwardRef<HTMLDivElement>((_, ref) => {
     }
   }, [tabs.map((t) => t.id).join(",")]);
 
+  const isStreaming = useSelector((state: RootState) => state.session.isStreaming);
+
   const handleTabClick = async (id: string) => {
     const targetTab = tabs.find((tab) => tab.id === id);
     if (!targetTab) return;
+
+    if (targetTab.sessionId && isStreaming) {
+      dispatch(
+        setDialogMessage(
+          <ConfirmationDialog
+            title={T("Switch session")}
+            text="当前会话正在进行中，切换会话将丢失进度。确定要切换吗？"
+            onConfirm={async () => {
+              await dispatch(
+                loadSession({
+                  sessionId: targetTab.sessionId,
+                  saveCurrentSession: hasHistory,
+                }),
+              );
+              dispatch(setActiveTab(id));
+            }}
+          />,
+        ),
+      );
+      dispatch(setShowDialog(true));
+      return;
+    }
 
     if (targetTab.sessionId) {
       // Switch to existing session

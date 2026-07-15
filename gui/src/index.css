@@ -84,6 +84,16 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+/* Global dark themed scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128,128,128,0.25) transparent;
+}
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.25); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.4); }
+
 .truncate-start {
   display: inline-block;
   vertical-align: middle;

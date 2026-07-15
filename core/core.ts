@@ -1,4 +1,7 @@
 import { fetchwithRequestOptions } from "@friday-ai/fetch";
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
 import * as URI from "uri-js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -541,6 +544,21 @@ export class Core {
 
     on("config/ideSettingsUpdate", async (msg) => {
       await this.configHandler.updateIdeSettings(msg.data);
+    });
+
+    on("settings/get", async () => {
+      const file = path.join(os.homedir(), ".friday", "friday-settings.json");
+      try {
+        if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, "utf8"));
+      } catch {}
+      return {};
+    });
+
+    on("settings/save", async (msg) => {
+      const file = path.join(os.homedir(), ".friday", "friday-settings.json");
+      const dir = path.dirname(file);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(file, JSON.stringify(msg.data, null, 2), "utf8");
     });
 
     on("config/refreshProfiles", async (msg) => {

@@ -87,6 +87,8 @@ class MessageTypes {
             "config/newPromptFile",
             "config/newAssistantFile",
             "config/ideSettingsUpdate",
+            "settings/get",
+            "settings/save",
             "config/addLocalWorkspaceBlock",
             "config/addGlobalRule",
             "config/debug",

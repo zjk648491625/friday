@@ -245,20 +245,12 @@ export function createEditorConfig(options: {
             },
 
             "Mod-Enter": () => {
-              onEnter({
-                useCodebase: false,
-                noContext: !!useActiveFile,
-              });
-
-              return true;
+              // Ctrl/Cmd+Enter: just insert newline, don't send
+              return false;
             },
             "Alt-Enter": () => {
-              onEnter({
-                useCodebase: false,
-                noContext: !!useActiveFile,
-              });
-
-              return true;
+              // Alt+Enter: just insert newline, don't send
+              return false;
             },
             "Mod-Backspace": () => {
               // If you press cmd+backspace wanting to cancel,

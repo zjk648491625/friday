@@ -12,12 +12,34 @@ import { ConfigHeader } from "../components/ConfigHeader";
 import { UserSetting } from "../components/UserSetting";
 import { T } from "../../../util/i18n";
 import { useLanguage } from "../../../context/Language";
+import { useSettings } from "../../../hooks/useSettings";
+
+function DebugToggle() {
+  const [on, setOn] = useState(() => {
+    try { return !!localStorage.getItem("friday_debug_enabled"); } catch { return false; }
+  });
+  const { saveSetting } = useSettings();
+  return (
+    <UserSetting
+      type="toggle"
+      title={T("Debug Logging")}
+      description={T("Write raw API request/response to ~/.friday/logs/debug.log for troubleshooting. (Restart required to apply)")}
+      value={on}
+      onChange={(v) => {
+        setOn(v);
+        try { localStorage.setItem("friday_debug_enabled", v ? "1" : ""); } catch {}
+        saveSetting("debugEnabled", v);
+      }}
+    />
+  );
+}
 
 export function UserSettingsSection() {
   /////// User settings section //////
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
   const config = useAppSelector((state) => state.config.config);
+  const { saveSetting } = useSettings();
 
   const [showExperimental, setShowExperimental] = useState(false);
   const { language, setLanguage } = useLanguage();
@@ -153,27 +175,17 @@ export function UserSettingsSection() {
             <ConfigHeader title="Appearance" variant="sm" />
             <Card>
               <div className="flex flex-col gap-4">
-                <div className="flex items-start justify-start gap-4">
-                  <div className="flex flex-1 flex-col">
-                    <span className="text-sm font-medium text-foreground">{T("Language")}</span>
-                    <div className="mt-0.5 text-xs text-description-muted">切换界面显示语言 / Switch UI language</div>
-                  </div>
-                  <select
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value as "zh" | "en")}
-                    className="rounded border px-2.5 py-1 text-sm outline-none cursor-pointer"
-                    style={{
-                      background: "rgba(128,128,128,0.08)",
-                      backdropFilter: "blur(8px)",
-                      WebkitBackdropFilter: "blur(8px)",
-                      borderColor: "var(--vscode-panel-border)",
-                      color: "var(--vscode-foreground)",
-                    }}
-                  >
-                    <option value="zh">中文</option>
-                    <option value="en">English</option>
-                  </select>
-                </div>
+                <UserSetting
+                  type="select"
+                  title={T("Language")}
+                  description={T("Switch UI language / 切换界面显示语言")}
+                  value={language}
+                  onChange={(lang) => { setLanguage(lang as "zh" | "en"); saveSetting("language", lang); }}
+                  options={[
+                    { label: "中文", value: "zh" },
+                    { label: "English", value: "en" },
+                  ]}
+                />
                 <UserSetting
                   type="number"
                   title={T("Font Size")}
@@ -305,6 +317,7 @@ export function UserSettingsSection() {
                       handleUpdate({ fridayAfterToolRejection: value })
                     }
                   />
+                  <DebugToggle />
                 </div>
               </Toggle>
             </Card>

@@ -68,6 +68,29 @@ import {
 } from "./openaiTypeConverters.js";
 import { applyToolOverrides } from "../tools/applyToolOverrides.js";
 import { parseUsage } from "./parseUsage.js";
+import { getLogsDirPath } from "../util/paths.js";
+import * as fs from "fs";
+
+// Reliable debug logging — writes to ~/.friday/logs/
+function writeDebugLog(filename: string, data: any) {
+  const ts = new Date().toISOString();
+  let body: string;
+  try {
+    body = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+  } catch (e) {
+    body = `[JSON.stringify failed: ${String(e)}] raw type: ${typeof data}`;
+  }
+  const line = `\n[${ts}]\n${body}\n`;
+  // Primary: write to file
+  try {
+    const dir = getLogsDirPath();
+    fs.appendFileSync(`${dir}/${filename}`, line, "utf8");
+  } catch (e: any) {
+    // Fallback: stderr — captured by IDE plugin process stdout/stderr
+    console.error(`[writeDebugLog] file write failed: ${e?.message || e}`);
+    console.error(`[writeDebugLog] ${filename}: ${body.substring(0, 2000)}`);
+  }
+}
 
 export class LLMError extends Error {
   constructor(
@@ -199,6 +222,7 @@ export abstract class BaseLLM implements ILLM {
   toolOverrides?: ToolOverride[];
 
   lastRequestId: string | undefined;
+  lastStreamUsage: any | undefined;
 
   private _llmOptions: LLMOptions;
 
@@ -1010,7 +1034,6 @@ export abstract class BaseLLM implements ILLM {
     });
 
     if (chunk.role === "assistant" && chunk.usage) {
-      console.log("[FRIDAY_USAGE] processChatChunk usage keys:", Object.keys(chunk.usage).join(", "));
       usage = parseUsage(chunk.usage);
     }
 
@@ -1045,16 +1068,18 @@ export abstract class BaseLLM implements ILLM {
         this.lastRequestId = (chunk as any).id;
       }
       const chatChunk = fromChatCompletionChunk(chunk as any);
+      if ((chunk as any).choices?.[0]?.delta?.tool_calls) {
+        writeDebugLog("toolcalls.log", (chunk as any).choices[0].delta.tool_calls);
+      }
       if (chatChunk) {
         yield chatChunk;
       }
       if ((chunk as any).citations && Array.isArray((chunk as any).citations)) {
         onCitations((chunk as any).citations);
       }
-      // Capture usage from the final chunk via existing normalizer
+      // Capture usage from final stream chunk (e.g. DeepSeek)
       if ((chunk as any).usage) {
-        console.log("[FRIDAY_USAGE] raw chunk.usage keys:", Object.keys((chunk as any).usage).join(", "), "json:", JSON.stringify((chunk as any).usage).substring(0, 300));
-        yield { role: "assistant", content: "", usage: parseUsage((chunk as any).usage) } as any;
+        this.lastStreamUsage = (chunk as any).usage;
       }
     }
   }
@@ -1106,6 +1131,7 @@ export abstract class BaseLLM implements ILLM {
     messageOptions?: MessageOption,
   ): AsyncGenerator<ChatMessage, PromptLog> {
     this.lastRequestId = undefined;
+    this.lastStreamUsage = undefined;
 
     // Apply per-model tool overrides if configured
     let effectiveTools = options.tools;
@@ -1271,6 +1297,13 @@ export abstract class BaseLLM implements ILLM {
           }
         }
       }
+
+      // Streaming adapters separate usage-only chunks from content chunks.
+      // processChatChunk skips them (no content/delta), so capture via side channel.
+      if (usage === undefined && this.lastStreamUsage) {
+        usage = parseUsage(this.lastStreamUsage) ?? undefined;
+      }
+      this.lastStreamUsage = undefined;
 
       if (citations) {
         const cits = citations as string[];
