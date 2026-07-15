@@ -20,6 +20,10 @@ import {
   ProviderInfo,
   providers,
 } from "../pages/AddNewModel/configs/providers";
+import CustomModelForm from "./CustomModelForm";
+import { useAppDispatch } from "../redux/hooks";
+import { setDialogMessage, setShowDialog } from "../redux/slices/uiSlice";
+import { T } from "../util/i18n";
 
 interface AddModelFormProps {
   onDone: () => void;
@@ -40,6 +44,7 @@ export function AddModelForm({ onDone }: AddModelFormProps) {
   );
   const formMethods = useForm();
   const ideMessenger = useContext(IdeMessengerContext);
+  const dispatch = useAppDispatch();
 
   const [fetchedModelsList, setFetchedModelsList] = useState<ModelPackage[]>(
     [],
@@ -217,6 +222,26 @@ export function AddModelForm({ onDone }: AddModelFormProps) {
                   Click here
                 </a>{" "}
                 to view the full list
+                <br />
+                <a
+                  className="cursor-pointer text-blue-400 underline hover:text-blue-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(setShowDialog(true));
+                    dispatch(
+                      setDialogMessage(
+                        <CustomModelForm
+                          onDone={() => {
+                            dispatch(setShowDialog(false));
+                            onDone();
+                          }}
+                        />,
+                      ),
+                    );
+                  }}
+                >
+                  {T("Or configure custom model freely")}
+                </a>
               </span>
             </div>
 
@@ -239,12 +264,10 @@ export function AddModelForm({ onDone }: AddModelFormProps) {
                 <label className="block text-sm font-medium">Model</label>
                 <button
                   type="button"
-                  title="Use entered API key to fetch available models"
+                  title={T("Refresh models from endpoint")}
                   className={`cursor-pointer border-none bg-transparent p-0 ${
-                    apiKeyValue &&
-                    apiKeyValue.length > 0 &&
-                    selectedProvider.provider !== "ollama" &&
-                    selectedProvider.provider !== "openrouter"
+                    (apiKeyValue && apiKeyValue.length > 0) ||
+                    (formMethods.watch("apiBase") && formMethods.watch("apiBase").length > 0)
                       ? `text-description-muted hover:text-foreground`
                       : "invisible"
                   }`}

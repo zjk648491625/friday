@@ -365,7 +365,7 @@ export class Core {
         await this.configHandler.openConfigProfile();
         return;
       }
-      addModel(model, msg.data.role);
+      addModel(model, msg.data.role, (msg.data as any).roles);
       void this.configHandler.reloadConfig(
         "Model added (config/addModel message)",
       );

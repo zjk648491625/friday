@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/Auth";
 import { AddModelForm } from "../../forms/AddModelForm";
+import CustomModelForm from "../../forms/CustomModelForm";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
 import { updateSelectedModelByRole } from "../../redux/thunks/updateSelectedModelByRole";
@@ -222,6 +223,24 @@ function ModelSelect() {
     );
   }
 
+  function onClickCustomModel(e: MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    closeDropDown(buttonRef.current);
+
+    dispatch(setShowDialog(true));
+    dispatch(
+      setDialogMessage(
+        <CustomModelForm
+          onDone={() => {
+            dispatch(setShowDialog(false));
+          }}
+        />,
+      ),
+    );
+  }
+
   function onClickConfigureModels(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
@@ -312,6 +331,18 @@ function ModelSelect() {
                 <span className="text-description text-2xs flex flex-row items-center">
                   <PlusIcon className="mr-1.5 h-3.5 w-3.5" />
                   {T("Add Chat model")}
+                </span>
+              </ListboxOption>
+              <ListboxOption
+                key={options.length + 1}
+                onClick={onClickCustomModel}
+                value={"customModel" as any}
+                fontSizeModifier={-2}
+                className="px-2 py-2"
+              >
+                <span className="text-description text-2xs flex flex-row items-center">
+                  <PlusIcon className="mr-1.5 h-3.5 w-3.5" />
+                  {T("Custom Model")}
                 </span>
               </ListboxOption>
 

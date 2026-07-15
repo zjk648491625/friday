@@ -26,6 +26,7 @@ function stringify(obj: any, indentation?: number): string {
 export function addModel(
   model: JSONModelDescription,
   role?: keyof ExperimentalModelRoles,
+  roles?: string[],
 ) {
   editConfigFile(
     (config) => {
@@ -43,7 +44,7 @@ export function addModel(
 
       config.models.push(model);
 
-      // Set the role for the model
+      // Set the role for the model (JSON: single role via experimental.modelRoles)
       if (role) {
         if (!config.experimental) {
           config.experimental = {};
@@ -84,6 +85,7 @@ export function addModel(
         maxStopWords: model.maxStopWords,
         defaultCompletionOptions: model.completionOptions,
         ...(capabilities.length > 0 ? { capabilities } : {}),
+        ...(roles && roles.length > 0 ? { roles: roles as any } : {}),
       };
       config.models.push(desc);
       return config;

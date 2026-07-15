@@ -80,6 +80,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
     {
       model: SerializedContinueConfig["models"][number];
       role?: keyof ExperimentalModelRoles;
+      roles?: string[];
     },
     void,
   ];

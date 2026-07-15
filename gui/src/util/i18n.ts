@@ -689,6 +689,21 @@ const zh: Dict = {
   "Previous user message": "上一条用户消息",
   "Next user message": "下一条用户消息",
   "Scroll to bottom": "滚动到底部",
+  "Custom Model": "自定义模型",
+  "Provider Type": "提供商类型",
+  "Model Name": "模型名称",
+  "e.g. gpt-4o, claude-sonnet-4-6": "例如 gpt-4o, claude-sonnet-4-6",
+  "Refresh models from endpoint": "从端点刷新模型列表",
+  "API Base URL": "API 基础地址",
+  "Any OpenAI compatible endpoint": "任意 OpenAI 兼容端点",
+  "Any Anthropic Messages API compatible endpoint": "任意 Anthropic Messages API 兼容端点",
+  "Enter API key (optional for local endpoints)": "输入 API Key（本地端点可选）",
+  "This will add the model to your config file": "此操作将模型添加到配置文件",
+  "Enable Prompt Caching": "启用提示词缓存",
+  "Reduces cost and latency for repeated prompts (provider must support it)": "为重复提示词降低费用和延迟（需提供商支持）",
+  "Advanced Options": "高级选项",
+  "Or configure custom model freely": "或自由配置自定义模型",
+  "Role": "角色",
 };
 
 export function T(en: string): string {
