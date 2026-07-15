@@ -67,8 +67,8 @@ class MessageTypes {
             "didCloseFiles",
             "toolCallPartialOutput",
             "navigateTo",
-            "focusContinueInput",
-            "focusContinueInputWithoutClear",
+            "focusFridayInput",
+            "focusFridayInputWithoutClear",
         )
 
         // Note: If updating these values, make a corresponding update in

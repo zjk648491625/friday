@@ -56,15 +56,15 @@ export type ToWebviewFromIdeProtocol = ToWebviewFromIdeOrCoreProtocol & {
   setInactive: [undefined, void];
   newSessionWithPrompt: [{ prompt: string }, void];
   userInput: [{ input: string }, void];
-  focusContinueInput: [undefined, void];
-  focusContinueInputWithoutClear: [undefined, void];
-  focusContinueInputWithNewSession: [undefined, void];
+  focusFridayInput: [undefined, void];
+  focusFridayInputWithoutClear: [undefined, void];
+  focusFridayInputWithNewSession: [undefined, void];
   highlightedCode: [HighlightedCodePayload, void];
   setCodeToEdit: [SetCodeToEditPayload, void];
   navigateTo: [{ path: string; toggle?: boolean }, void];
   addModel: [undefined, void];
 
-  focusContinueSessionId: [{ sessionId: string | undefined }, void];
+  focusFridaySessionId: [{ sessionId: string | undefined }, void];
   newSession: [undefined, void];
   setTheme: [{ theme: any }, void];
   setColors: [{ [key: string]: string }, void];

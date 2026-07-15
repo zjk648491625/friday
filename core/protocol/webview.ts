@@ -1,6 +1,6 @@
 import { ConfigResult } from "@friday-ai/config-yaml";
 import type {
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   ContextItemWithId,
   ContextProviderName,
   IndexingProgressUpdate,
@@ -11,7 +11,7 @@ import type { ProfileDescription } from "../config/ProfileLifecycleManager.js";
 export type ToWebviewFromIdeOrCoreProtocol = {
   configUpdate: [
     {
-      result: ConfigResult<BrowserSerializedContinueConfig>;
+      result: ConfigResult<BrowserSerializedFridayConfig>;
       profileId: string | null;
       profiles: ProfileDescription[];
     },
@@ -27,7 +27,7 @@ export type ToWebviewFromIdeOrCoreProtocol = {
     void,
   ];
   didCloseFiles: [{ uris: string[] }, void];
-  isContinueInputFocused: [undefined, boolean];
+  isFridayInputFocused: [undefined, boolean];
   addContextItem: [
     {
       historyIndex: number;

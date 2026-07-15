@@ -51,28 +51,28 @@ try {
 
     // Handle TypeScript paths and local packages
     alias: {
-      "@continuedev/config-yaml": resolve(
+      "@friday-ai/config-yaml": resolve(
         __dirname,
         "../../packages/config-yaml/dist/index.js",
       ),
-      "@continuedev/openai-adapters": resolve(
+      "@friday-ai/openai-adapters": resolve(
         __dirname,
         "../../packages/openai-adapters/dist/index.js",
       ),
-      "@continuedev/config-types": resolve(
+      "@friday-ai/config-types": resolve(
         __dirname,
         "../../packages/config-types/dist/index.js",
       ),
       core: resolve(__dirname, "../../core"),
-      "@continuedev/fetch": resolve(
+      "@friday-ai/fetch": resolve(
         __dirname,
         "../../packages/fetch/dist/index.js",
       ),
-      "@continuedev/llm-info": resolve(
+      "@friday-ai/llm-info": resolve(
         __dirname,
         "../../packages/llm-info/dist/index.js",
       ),
-      "@continuedev/terminal-security": resolve(
+      "@friday-ai/terminal-security": resolve(
         __dirname,
         "../../packages/terminal-security/dist/index.js",
       ),

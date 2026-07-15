@@ -16,7 +16,7 @@ import { GlobalContextModelSelections } from "../util/GlobalContext";
 
 import {
   BaseSessionMetadata,
-  BrowserSerializedContinueConfig,
+  BrowserSerializedFridayConfig,
   ChatMessage,
   CompiledMessagesResult,
   CompleteOnboardingPayload,
@@ -35,7 +35,7 @@ import {
   PromptLog,
   RangeInFile,
   RangeInFileWithNextEditInfo,
-  SerializedContinueConfig,
+  SerializedFridayConfig,
   Session,
   SiteIndexingConfig,
   SlashCommandDescWithSource,
@@ -47,7 +47,7 @@ import { GetLspDefinitionsFunction } from "../autocomplete/types";
 import { ConfigHandler } from "../config/ConfigHandler";
 import { ProcessedItem } from "../nextEdit/NextEditPrefetchQueue";
 import { NextEditOutcome } from "../nextEdit/types";
-import { ContinueErrorReason } from "../util/errors";
+import { FridayErrorReason } from "../util/errors";
 
 export enum OnboardingModes {
   API_KEY = "API Key",
@@ -78,7 +78,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
   "config/addOpenAiKey": [string, void];
   "config/addModel": [
     {
-      model: SerializedContinueConfig["models"][number];
+      model: SerializedFridayConfig["models"][number];
       role?: keyof ExperimentalModelRoles;
       roles?: string[];
     },
@@ -106,7 +106,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
   "config/getSerializedProfileInfo": [
     undefined,
     {
-      result: ConfigResult<BrowserSerializedContinueConfig>;
+      result: ConfigResult<BrowserSerializedFridayConfig>;
       profileId: string | null;
       profiles: ProfileDescription[];
     },
@@ -317,7 +317,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
     {
       contextItems: ContextItem[];
       errorMessage?: string;
-      errorReason?: ContinueErrorReason;
+      errorReason?: FridayErrorReason;
       mcpUiState?: McpUiState;
     },
   ];
@@ -334,7 +334,7 @@ export type ToCoreFromIdeOrWebviewProtocol = {
     { toolName: string; args: Record<string, unknown> },
     {
       preprocessedArgs?: Record<string, unknown>;
-      errorReason?: ContinueErrorReason;
+      errorReason?: FridayErrorReason;
       errorMessage?: string;
     },
   ];

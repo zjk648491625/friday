@@ -6,8 +6,8 @@ set -e
 #   oneper install --pr X     - Install VSIX from PR number X
 #   oneper install --latest   - Install latest pre-release from marketplace
 
-REPO="continuedev/continue"
-ONEPER_DIR="$HOME/.continue/.utils/oneper"
+REPO="fridayai/friday"
+ONEPER_DIR="$HOME/.friday/.utils/oneper"
 
 show_help() {
     echo "oneper - Install Continue VS Code extension from builds or latest pre-release"

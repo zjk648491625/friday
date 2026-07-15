@@ -138,20 +138,20 @@ codeql
 **/**/.kotlin
 **/**/build
 
-continue_server.build
-continue_server.dist
+friday_server.build
+friday_server.dist
 
 # Icon
 # Icon? removed - too broad, blocked icons/
 
-.continuerc.json
+.fridayrc.json
 .aider*
 
 *.notes.md
 notes.md
 
 manual-testing-sandbox/.idea/**
-manual-testing-sandbox/.continue/**
+manual-testing-sandbox/.friday/**
 extensions/intellij/.idea/**
 
 **/.idea/workspace.xml
@@ -163,15 +163,15 @@ extensions/intellij/.idea/**
 **/.idea/**
 
 extensions/intellij/bin
-extensions/.continue-debug/
+extensions/.friday-debug/
 
 *.vsix
 
 # intellij module library files
 *.iml
 
-.continuerules
-**/.continue/assistants/
+.fridayrules
+**/.friday/assistants/
 keys
 
 .channels_cache.json
