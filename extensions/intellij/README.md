@@ -1,36 +1,50 @@
 <!-- Plugin description -->
 
-<h1 align="center">Friday AI</h1>
+<h2>Friday AI</h2>
 
-<div align="center">
+<p><b>🚀 开源 AI 编程助手 | 本地优先 · 隐私至上</b></p>
 
-<a target="_blank" href="https://opensource.org/licenses/Apache-2.0" style="background:none">
-    <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" style="height: 22px;" />
-</a>
+<p>Friday AI 直接将 AI 编程助手嵌入你的 JetBrains IDE，让你完全掌控数据和模型选择。</p>
 
-<p></p>
+<h3>✨ 核心特性</h3>
+<ul>
+  <li>🔒 <b>本地优先</b> — 无需云账号，完全本地运行</li>
+  <li>🧠 <b>代码补全</b> — Tab 键自动补全，支持多行建议</li>
+  <li>💬 <b>AI 对话</b> — 在编辑器内与任意 LLM 对话，理解完整代码上下文</li>
+  <li>✏️ <b>代码编辑</b> — 选中代码用自然语言指令修改</li>
+  <li>🔌 <b>自带 Key</b> — 支持 OpenAI、Anthropic、本地 Ollama 等任意兼容 API 的模型</li>
+  <li>📎 <b>上下文感知</b> — 自动理解当前文件、项目结构和终端输出</li>
+</ul>
 
-AI-powered coding assistant for JetBrains IDEs.
+<br/>
+<p><b>🚀 Open-Source AI Code Assistant | Local-First · Privacy-First</b></p>
 
-<p></p>
+<p>Friday AI brings powerful AI coding assistance directly into your JetBrains IDE, giving you full control over your data and model choices.</p>
 
-Features: Agent | Chat | Edit | Autocomplete
+<h3>✨ Key Features</h3>
+<ul>
+  <li>🔒 <b>Local-First</b> — No cloud account required, runs entirely locally</li>
+  <li>🧠 <b>Code Autocomplete</b> — Tab-to-accept completions with multiline suggestions</li>
+  <li>💬 <b>AI Chat</b> — Chat with any LLM inside your editor with full code context</li>
+  <li>✏️ <b>Code Editing</b> — Select code and describe changes in natural language</li>
+  <li>🔌 <b>Bring Your Own Key</b> — Works with OpenAI, Anthropic, Ollama, and any API-compatible model</li>
+  <li>📎 <b>Context-Aware</b> — Automatically understands current file, project structure, and terminal output</li>
+</ul>
 
-</div>
+<p align="right"><i>Apache 2.0 License</i></p>
 
 <!-- Plugin description end -->
 
 ---
 
-## Friday AI - JetBrains 插件
+## 技术栈
 
-AI 驱动的 JetBrains IDE 编程助手。支持对话、代码编辑、自动补全、Agent 等核心功能。
+| 组件 | 技术 |
+|------|------|
+| Core Engine | TypeScript, Node.js |
+| GUI | React, TypeScript, Redux, Tailwind CSS |
+| Extension | Kotlin, IntelliJ Platform SDK |
 
-### 功能
-- **Agent** — AI 代理执行复杂开发任务
-- **Chat** — 对话式代码问答
-- **Edit** — AI 辅助代码编辑
-- **Autocomplete** — 行内代码自动补全
+## 许可证
 
-### 许可证
-Apache 2.0 © Friday AI, Inc.
+Apache License 2.0。详见 [LICENSE](../../LICENSE) 和 [NOTICE](../../NOTICE)。

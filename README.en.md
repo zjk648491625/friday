@@ -72,12 +72,4 @@ friday/
 
 ## 📄 License
 
-This project is derived from Continue (Continue Dev, Inc.) and is licensed under Apache License 2.0.
-
-```
-Copyright 2023 Continue
-Modified by Friday AI Team
-Licensed under Apache License 2.0
-```
-
-See [LICENSE](./LICENSE) and [NOTICE](./NOTICE) for full details.
+Apache License 2.0. See [LICENSE](./LICENSE) and [NOTICE](./NOTICE) for full details.

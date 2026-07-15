@@ -72,12 +72,4 @@ friday/
 
 ## 📄 许可证
 
-本项目基于 Continue (Continue Dev, Inc.) 修改而来，使用 Apache License 2.0。
-
-```
-Copyright 2023 Continue
-Modified by Friday AI Team
-Licensed under Apache License 2.0
-```
-
-完整许可详见 [LICENSE](./LICENSE) 和 [NOTICE](./NOTICE)。
+Apache License 2.0。详见 [LICENSE](./LICENSE) 和 [NOTICE](./NOTICE)。
