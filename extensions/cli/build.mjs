@@ -26,8 +26,22 @@ const optionalDevtoolsPlugin = {
   name: "optional-devtools",
   setup(build) {
     build.onResolve({ filter: /^react-devtools-core$/ }, () => {
-      // Return path to our stub instead of marking as external
       return { path: resolve(__dirname, "stubs/react-devtools-core.js") };
+    });
+  },
+};
+
+// Plugin to skip large directories that don't need bundling
+const skipLargeDirsPlugin = {
+  name: "skip-large-dirs",
+  setup(build) {
+    // Skip binary/, vendor/, __mocks__/ directories
+    build.onResolve({ filter: /[\/\\](binary|vendor|__mocks__)[\/\\]/ }, (args) => {
+      return { external: true, path: args.path };
+    });
+    // Treat native addons as external
+    build.onResolve({ filter: /\.node$/ }, (args) => {
+      return { external: true, path: args.path };
     });
   },
 };
@@ -44,7 +58,7 @@ try {
     sourcemap: true,
     minify: !noMinify, // Use --no-minify flag to control minification
     metafile: true,
-    plugins: [optionalDevtoolsPlugin],
+    plugins: [optionalDevtoolsPlugin, skipLargeDirsPlugin],
 
     // Handle .js extensions in imports
     resolveExtensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
