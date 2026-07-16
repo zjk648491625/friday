@@ -52,8 +52,11 @@ export default function GUI() {
         <History />
       </aside>
       <div
-        className="4xl:flex hidden w-1.5 cursor-col-resize hover:bg-[#3b82f6] active:bg-[#3b82f6] transition-colors flex-shrink-0 rounded-full"
+        className="4xl:flex hidden w-2 flex-shrink-0 rounded transition-colors"
+        style={{ cursor: "col-resize" }}
         onMouseDown={onMouseDown}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#3b82f6")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
       />
       <main className="no-scrollbar flex min-h-0 min-w-0 flex-1 flex-col">
         <Chat />
