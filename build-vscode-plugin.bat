@@ -42,6 +42,15 @@ if exist "%SQLITE_SRC%" (
     echo   Run 'cd core ^&^& npm rebuild sqlite3' to build it.
 )
 
+rem Copy xhr-sync-worker.js for jsdom
+set "XHR_SRC=%ROOT%core\node_modules\jsdom\lib\jsdom\living\xhr\xhr-sync-worker.js"
+if exist "%XHR_SRC%" (
+    copy /Y "%XHR_SRC%" "out\xhr-sync-worker.js" >nul
+    echo   xhr-sync-worker.js copied for jsdom.
+) else (
+    echo   WARNING: xhr-sync-worker.js not found at %XHR_SRC%
+)
+
 echo [4/4] Packaging VSIX...
 call npx vsce package --skip-license --no-dependencies
 if %ERRORLEVEL% neq 0 (

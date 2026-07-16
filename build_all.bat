@@ -106,6 +106,10 @@ if errorlevel 2 (echo [4/5] VSCode: SKIPPED) else (
     if exist "%ROOT%build\Release\node_sqlite3.node" (
         copy /Y "%ROOT%build\Release\node_sqlite3.node" "out\Release\node_sqlite3.node" >nul
         echo   sqlite3 native module copied to out\Release\.
+    )
+    if exist "%ROOT%core\node_modules\jsdom\lib\jsdom\living\xhr\xhr-sync-worker.js" (
+        copy /Y "%ROOT%core\node_modules\jsdom\lib\jsdom\living\xhr\xhr-sync-worker.js" "out\xhr-sync-worker.js" >nul
+        echo   xhr-sync-worker.js copied.
     ) else (
         echo   WARNING: sqlite3 native not found, run: cd core ^&^& npm rebuild sqlite3
     )

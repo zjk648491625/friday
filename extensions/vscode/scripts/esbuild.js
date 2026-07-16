@@ -76,6 +76,17 @@ const esbuildConfig = {
               console.warn("sqlite3 binding not found at:", sqlite3Node);
             }
 
+            // Copy xhr-sync-worker.js for jsdom (internally requires resolve)
+            const xhrSrc = path.join(
+              __dirname, "..", "..", "..", "core", "node_modules",
+              "jsdom", "lib", "jsdom", "living", "xhr", "xhr-sync-worker.js",
+            );
+            const xhrDest = path.join(__dirname, "..", "out", "xhr-sync-worker.js");
+            if (fs.existsSync(xhrSrc)) {
+              fs.copyFileSync(xhrSrc, xhrDest);
+              console.log("Copied xhr-sync-worker.js for jsdom");
+            }
+
             console.log("VS Code Extension esbuild complete"); // used verbatim in vscode tasks to detect completion
           }
         });
