@@ -10,7 +10,11 @@ const esbuildConfig = {
   entryPoints: ["src/extension.ts"],
   bundle: true,
   outfile: "out/extension.js",
-  external: ["vscode", "esbuild", "./xhr-sync-worker.js"],
+  external: [
+    "vscode",
+    "esbuild",
+    "./xhr-sync-worker.js",
+  ],
   format: "cjs",
   platform: "node",
   sourcemap: flags.includes("--sourcemap"),
@@ -45,6 +49,22 @@ const esbuildConfig = {
             } catch (e) {
               console.error("Failed to write esbuild meta file", e);
             }
+
+            // Copy sqlite3 native binding to out/ for VSIX packaging
+            const path = require("path");
+            const sqlite3Node = path.join(
+              __dirname, "..", "..", "..", "build", "Release", "node_sqlite3.node",
+            );
+            const destDir = path.join(__dirname, "..", "out");
+            const dest = path.join(destDir, "node_sqlite3.node");
+            if (fs.existsSync(sqlite3Node)) {
+              if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+              fs.copyFileSync(sqlite3Node, dest);
+              console.log("Copied sqlite3 native binding (1.81MB)");
+            } else {
+              console.warn("sqlite3 binding not found at:", sqlite3Node);
+            }
+
             console.log("VS Code Extension esbuild complete"); // used verbatim in vscode tasks to detect completion
           }
         });

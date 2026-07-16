@@ -331,12 +331,6 @@
         "group": "Friday"
       },
       {
-        "command": "friday.focusFridayInput",
-        "category": "Friday",
-        "title": "Focus Friday Chat",
-        "group": "Friday"
-      },
-      {
         "command": "friday.enterEnterpriseLicenseKey",
         "category": "Friday",
         "title": "Enter Enterprise License Key",
