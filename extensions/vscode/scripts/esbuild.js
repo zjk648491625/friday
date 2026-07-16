@@ -50,17 +50,17 @@ const esbuildConfig = {
               console.error("Failed to write esbuild meta file", e);
             }
 
-            // Copy sqlite3 native binding to out/ for VSIX packaging
+            // Copy sqlite3 native binding to out/Release/ for VSIX packaging
             const path = require("path");
             const sqlite3Node = path.join(
               __dirname, "..", "..", "..", "build", "Release", "node_sqlite3.node",
             );
-            const destDir = path.join(__dirname, "..", "out");
+            const destDir = path.join(__dirname, "..", "out", "Release");
             const dest = path.join(destDir, "node_sqlite3.node");
             if (fs.existsSync(sqlite3Node)) {
               if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
               fs.copyFileSync(sqlite3Node, dest);
-              console.log("Copied sqlite3 native binding (1.81MB)");
+              console.log("Copied sqlite3 native binding (1.81MB) to out/Release/");
             } else {
               console.warn("sqlite3 binding not found at:", sqlite3Node);
             }

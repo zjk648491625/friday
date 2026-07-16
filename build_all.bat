@@ -102,10 +102,10 @@ if errorlevel 2 (echo [4/5] VSCode: SKIPPED) else (
     cd /d "%ROOT%extensions\vscode"
     node scripts/esbuild.js --minify
     if !ERRORLEVEL! neq 0 (echo esbuild FAILED! & pause & exit /b 1)
-    if not exist "out" mkdir "out"
+    if not exist "out\Release" mkdir "out\Release"
     if exist "%ROOT%build\Release\node_sqlite3.node" (
-        copy /Y "%ROOT%build\Release\node_sqlite3.node" "out\node_sqlite3.node" >nul
-        echo   sqlite3 native module copied.
+        copy /Y "%ROOT%build\Release\node_sqlite3.node" "out\Release\node_sqlite3.node" >nul
+        echo   sqlite3 native module copied to out\Release\.
     ) else (
         echo   WARNING: sqlite3 native not found, run: cd core ^&^& npm rebuild sqlite3
     )

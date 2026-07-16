@@ -32,11 +32,11 @@ if %ERRORLEVEL% neq 0 (
 )
 
 rem Copy sqlite3 native module (pre-compiled binary in project root)
-if not exist "out" mkdir "out"
+if not exist "out\Release" mkdir "out\Release"
 set "SQLITE_SRC=%ROOT%build\Release\node_sqlite3.node"
 if exist "%SQLITE_SRC%" (
-    copy /Y "%SQLITE_SRC%" "out\node_sqlite3.node" >nul
-    echo   sqlite3 native module copied.
+    copy /Y "%SQLITE_SRC%" "out\Release\node_sqlite3.node" >nul
+    echo   sqlite3 native module copied to out\Release\.
 ) else (
     echo   WARNING: sqlite3 native module not found at %SQLITE_SRC%
     echo   Run 'cd core ^&^& npm rebuild sqlite3' to build it.
