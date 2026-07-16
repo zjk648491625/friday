@@ -13,7 +13,7 @@ echo   Friday Build (press y/n, 60s timeout = default)
 echo ==================================================
 echo.
 
-:: --- Clean (default n) ---
+::: --- Clean (default n) ---
 choice /t 60 /d n /c yn /m "Clear caches?"
 if errorlevel 2 (echo [CLEAN] Skipped.) else (
     echo [CLEAN] Removing caches...
@@ -25,7 +25,7 @@ if errorlevel 2 (echo [CLEAN] Skipped.) else (
 )
 echo.
 
-:: --- Core (default y) ---
+::: --- Core (default y) ---
 choice /t 60 /d y /c yn /m "Build Core?"
 if errorlevel 2 (echo [1/5] Core: SKIPPED) else (
     echo [1/5] Building Core...
@@ -53,7 +53,7 @@ if errorlevel 2 (echo [1/5] Core: SKIPPED) else (
 )
 echo.
 
-:: --- GUI (default y) ---
+::: --- GUI (default y) ---
 choice /t 60 /d y /c yn /m "Build GUI?"
 if errorlevel 2 (echo [2/5] GUI: SKIPPED) else (
     echo [2/5] Building GUI...
@@ -64,7 +64,7 @@ if errorlevel 2 (echo [2/5] GUI: SKIPPED) else (
 )
 echo.
 
-:: --- IntelliJ (default y) ---
+::: --- IntelliJ (default y) ---
 choice /t 60 /d y /c yn /m "Build IntelliJ Plugin?"
 if errorlevel 2 (echo [3/5] IntelliJ: SKIPPED) else (
     echo [3/5] Copying GUI to IntelliJ...
@@ -89,19 +89,35 @@ if errorlevel 2 (echo [3/5] IntelliJ: SKIPPED) else (
 )
 echo.
 
-:: --- VSCode (default n) ---
+::: --- VSCode (default n) ---
 choice /t 60 /d n /c yn /m "Build VSCode Plugin?"
 if errorlevel 2 (echo [4/5] VSCode: SKIPPED) else (
     echo [4/5] Building VSCode plugin...
     cd /d "%ROOT%extensions\vscode"
     if not exist node_modules call npm install
-    call npx vsce package
+    echo   [4.1] Copying GUI assets...
+    cd /d "%ROOT%"
+    xcopy "%ROOT%gui\dist\*" "%ROOT%extensions\vscode\gui\" /E /Y /Q
+    echo   [4.2] Building extension (esbuild)...
+    cd /d "%ROOT%extensions\vscode"
+    node scripts/esbuild.js --minify
+    if !ERRORLEVEL! neq 0 (echo esbuild FAILED! & pause & exit /b 1)
+    if not exist "out" mkdir "out"
+    if exist "%ROOT%build\Release\node_sqlite3.node" (
+        copy /Y "%ROOT%build\Release\node_sqlite3.node" "out\node_sqlite3.node" >nul
+        echo   sqlite3 native module copied.
+    ) else (
+        echo   WARNING: sqlite3 native not found, run: cd core ^&^& npm rebuild sqlite3
+    )
+    echo   [4.3] Packaging VSIX...
+    call npx vsce package --skip-license --no-dependencies
     if !ERRORLEVEL! neq 0 (echo VSCode FAILED! & pause & exit /b 1)
     echo [VSCode] Done.
+    dir "%ROOT%extensions\vscode\friday-ai-*.vsix" 2>nul
 )
 echo.
 
-:: --- CLI (default n) ---
+::: --- CLI (default n) ---
 choice /t 60 /d n /c yn /m "Build CLI?"
 if errorlevel 2 (echo [5/5] CLI: SKIPPED) else (
     echo [5/5] Building CLI...
