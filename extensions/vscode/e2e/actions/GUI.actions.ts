@@ -42,7 +42,7 @@ export class GUIActions {
     for (let i = 0; i < iframes.length; i++) {
       const iframe = iframes[i];
       const src = await iframe.getAttribute("src");
-      if (src.includes("extensionId=Friday.friday")) {
+      if (src.includes("extensionId=IronHero.friday-ai")) {
         fridayIFrame = iframe;
         break;
       }

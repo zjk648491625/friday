@@ -14,6 +14,7 @@ const esbuildConfig = {
     "vscode",
     "esbuild",
     "./xhr-sync-worker.js",
+    "lru-cache",
   ],
   format: "cjs",
   platform: "node",

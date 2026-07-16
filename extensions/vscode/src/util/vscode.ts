@@ -22,7 +22,7 @@ export function getNonce() {
 }
 
 export function getExtensionUri(): vscode.Uri {
-  return vscode.extensions.getExtension("Friday.friday")!.extensionUri;
+  return vscode.extensions.getExtension("IronHero.friday-ai")!.extensionUri;
 }
 
 export function getViewColumnOfFile(

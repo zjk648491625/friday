@@ -105,7 +105,7 @@ export class RecentlyVisitedRangesService {
             // Exclude Friday's own output as it makes it super-hard for users to test the autocomplete feature
             // while looking at the prompts in the Friday's output
             !s.filepath.startsWith(
-              "output:extension-output-Friday.friday",
+              "output:extension-output-IronHero.friday-ai",
             )),
       )
       .sort((a, b) => b.timestamp - a.timestamp)

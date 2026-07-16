@@ -28,7 +28,7 @@ export const isValidSnippet = (snippet: AutocompleteSnippet): boolean => {
 
   if (
     (snippet as AutocompleteCodeSnippet).filepath?.startsWith(
-      "output:extension-output-Friday.friday",
+      "output:extension-output-IronHero.friday-ai",
     )
   ) {
     return false;

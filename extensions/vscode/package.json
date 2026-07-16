@@ -21,7 +21,7 @@
   "displayName": "Friday AI - Open-Source AI Code Assistant",
   "pricing": "Free",
   "description": "🚀 开源 AI 编程助手 | 本地优先 · 隐私至上\n\nFriday AI 直接将 AI 编程助手嵌入你的 IDE，让你完全掌控数据和模型选择。支持 OpenAI、Anthropic、Ollama 等，自带 Key 无需云账号。\n\n✨ 核心特性: AI 对话 · 代码补全 · 代码编辑 · 上下文感知 · 本地优先\n\n🚀 Open-Source AI Code Assistant | Local-First · Privacy-First\n\nFriday AI brings powerful AI coding directly into your IDE with full data control. BYOK - works with OpenAI, Anthropic, Ollama, and any API-compatible model.",
-  "publisher": "Friday",
+  "publisher": "IronHero",
   "engines": {
     "vscode": "^1.70.0",
     "node": ">=20.20.1"
@@ -737,7 +737,7 @@
     "https-proxy-agent": "^7.0.2",
     "ignore": "^5.3.0",
     "jsdom": "^24.0.0",
-    "lru-cache": "^11.2.4",
+    "lru-cache": "^11.5.2",
     "minisearch": "^7.0.0",
     "mocha": "^11.7.5",
     "monaco-editor": "^0.53.0",

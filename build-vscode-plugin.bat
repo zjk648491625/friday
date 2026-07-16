@@ -10,7 +10,7 @@ echo ========================================
 echo [1/4] Building GUI frontend...
 cd /d "%ROOT%gui"
 call npx vite build
-if %ERRORLEVEL% neq 0 (
+if !ERRORLEVEL! neq 0 (
     echo ERROR: GUI build failed!
     pause
     exit /b 1
@@ -21,39 +21,41 @@ cd /d "%ROOT%"
 xcopy "%ROOT%gui\dist\*" "%ROOT%extensions\vscode\gui\" /E /Y /Q
 echo   GUI assets copied.
 
-echo [3/4] Building VSCode extension (esbuild + sqlite3 native)...
+echo [3/4] Building VSCode extension (esbuild + native modules)...
 cd /d "%ROOT%extensions\vscode"
-if not exist node_modules call npm install
+call npm install
 node scripts/esbuild.js --minify
-if %ERRORLEVEL% neq 0 (
+if !ERRORLEVEL! neq 0 (
     echo ERROR: esbuild failed!
     pause
     exit /b 1
 )
 
-rem Copy sqlite3 native module (pre-compiled binary in project root)
+:: Copy sqlite3 native module
 if not exist "out\Release" mkdir "out\Release"
-set "SQLITE_SRC=%ROOT%build\Release\node_sqlite3.node"
-if exist "%SQLITE_SRC%" (
-    copy /Y "%SQLITE_SRC%" "out\Release\node_sqlite3.node" >nul
-    echo   sqlite3 native module copied to out\Release\.
+if exist "%ROOT%build\Release\node_sqlite3.node" (
+    copy /Y "%ROOT%build\Release\node_sqlite3.node" "out\Release\node_sqlite3.node" >nul
+    echo   sqlite3 native module copied.
 ) else (
-    echo   WARNING: sqlite3 native module not found at %SQLITE_SRC%
-    echo   Run 'cd core ^&^& npm rebuild sqlite3' to build it.
+    echo   WARNING: sqlite3 native not found at %ROOT%build\Release\node_sqlite3.node
 )
 
-rem Copy xhr-sync-worker.js for jsdom
-set "XHR_SRC=%ROOT%core\node_modules\jsdom\lib\jsdom\living\xhr\xhr-sync-worker.js"
-if exist "%XHR_SRC%" (
-    copy /Y "%XHR_SRC%" "out\xhr-sync-worker.js" >nul
-    echo   xhr-sync-worker.js copied for jsdom.
-) else (
-    echo   WARNING: xhr-sync-worker.js not found at %XHR_SRC%
+:: Copy xhr-sync-worker.js for jsdom
+if exist "%ROOT%core\node_modules\jsdom\lib\jsdom\living\xhr\xhr-sync-worker.js" (
+    copy /Y "%ROOT%core\node_modules\jsdom\lib\jsdom\living\xhr\xhr-sync-worker.js" "out\xhr-sync-worker.js" >nul
+    echo   xhr-sync-worker.js copied.
+)
+
+:: Copy lru-cache to out/node_modules/ (included in VSIX per .vscodeignore)
+if not exist "out\node_modules" mkdir "out\node_modules"
+if exist "node_modules\lru-cache" (
+    xcopy "node_modules\lru-cache" "out\node_modules\lru-cache\" /E /Y /Q >nul
+    echo   lru-cache copied to out/node_modules/.
 )
 
 echo [4/4] Packaging VSIX...
 call npx vsce package --skip-license --no-dependencies
-if %ERRORLEVEL% neq 0 (
+if !ERRORLEVEL! neq 0 (
     echo ERROR: VSIX packaging failed!
     pause
     exit /b 1
