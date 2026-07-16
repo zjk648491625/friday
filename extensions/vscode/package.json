@@ -2,7 +2,7 @@
   "name": "friday",
   "icon": "media/icon.png",
   "author": "Friday AI, Inc",
-  "version": "1.3.40",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/friday-ai/friday"
@@ -18,9 +18,9 @@
   "homepage": "https://friday.dev",
   "qna": "https://github.com/friday-ai/friday/issues/new/choose",
   "license": "Apache-2.0",
-  "displayName": "Friday - open-source AI code agent",
+  "displayName": "Friday AI - Open-Source AI Code Assistant",
   "pricing": "Free",
-  "description": "The leading open-source AI code agent",
+  "description": "🚀 开源 AI 编程助手 | 本地优先 · 隐私至上\n\nFriday AI 直接将 AI 编程助手嵌入你的 IDE，让你完全掌控数据和模型选择。支持 OpenAI、Anthropic、Ollama 等，自带 Key 无需云账号。\n\n✨ 核心特性: AI 对话 · 代码补全 · 代码编辑 · 上下文感知 · 本地优先\n\n🚀 Open-Source AI Code Assistant | Local-First · Privacy-First\n\nFriday AI brings powerful AI coding directly into your IDE with full data control. BYOK - works with OpenAI, Anthropic, Ollama, and any API-compatible model.",
   "publisher": "Friday",
   "engines": {
     "vscode": "^1.70.0",
