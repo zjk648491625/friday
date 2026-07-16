@@ -106,7 +106,7 @@ tasks {
     }
 
     patchPluginXml {
-        pluginDescription = providers.fileContents(layout.projectDirectory.file("README.md")).asText.get()
+        pluginDescription = layout.projectDirectory.file("README.md").asFile.readText(Charsets.UTF_8)
             .substringAfter("<!-- Plugin description -->")
             .substringBefore("<!-- Plugin description end -->")
             .let(::markdownToHTML)
