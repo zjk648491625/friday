@@ -132,6 +132,8 @@ export type ToCoreFromIdeOrWebviewProtocol = {
     },
     GlobalContextModelSelections,
   ];
+  "settings/get": [{ key: string }, { value?: any }];
+  "settings/save": [{ key: string; value: any }, void];
   "context/getContextItems": [
     {
       name: string;

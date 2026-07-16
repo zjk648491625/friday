@@ -677,6 +677,10 @@ class VsCodeIde implements IDE {
     const settings = vscode.workspace.getConfiguration(EXTENSION_NAME);
     // Friday AI: Remote config & user token removed (local-only mode)
     const ideSettings: IdeSettings = {
+      remoteConfigServerUrl: undefined,
+      remoteConfigSyncPeriod: 0,
+      userToken: "",
+      fridayTestEnvironment: "production",
       pauseCodebaseIndexOnStart: settings.get<boolean>(
         "pauseCodebaseIndexOnStart",
         false,
