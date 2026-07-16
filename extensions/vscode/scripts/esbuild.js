@@ -31,6 +31,17 @@ const esbuildConfig = {
   metafile: true,
   plugins: [
     {
+      name: "fix-lru-cache",
+      setup(build) {
+        // lru-cache v11 ESM uses tracingChannel (Node 19+), VSCode has Node 16.
+        // Force resolve to CJS entry which is Node 14 compatible.
+        build.onResolve({ filter: /^lru-cache$/ }, () => {
+          const path = require("path");
+          return { path: path.resolve(__dirname, "../node_modules/lru-cache/index.js") };
+        });
+      },
+    },
+    {
       name: "on-end-plugin",
       setup(build) {
         build.onEnd((result) => {
