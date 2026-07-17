@@ -265,12 +265,7 @@ export function AddModelForm({ onDone }: AddModelFormProps) {
                 <button
                   type="button"
                   title={T("Refresh models from endpoint")}
-                  className={`cursor-pointer border-none bg-transparent p-0 ${
-                    (apiKeyValue && apiKeyValue.length > 0) ||
-                    (formMethods.watch("apiBase") && formMethods.watch("apiBase").length > 0)
-                      ? `text-description-muted hover:text-foreground`
-                      : "invisible"
-                  }`}
+                  className="cursor-pointer border-none bg-transparent p-0 text-description-muted hover:text-foreground"
                   onClick={handleFetchModels}
                   disabled={isFetchingModels}
                 >

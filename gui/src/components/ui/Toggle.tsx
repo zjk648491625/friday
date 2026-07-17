@@ -37,7 +37,7 @@ export function Toggle({
       </div>
       <div
         className={`duration-400 overflow-hidden transition-all ease-in-out ${
-          isOpen ? "mt-4 max-h-screen" : "max-h-0"
+          isOpen ? "mt-4 max-h-[70vh] overflow-y-auto" : "max-h-0 overflow-y-hidden"
         }`}
       >
         <div className="pl-6">{children}</div>

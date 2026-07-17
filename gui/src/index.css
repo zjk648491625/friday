@@ -160,10 +160,10 @@ body {
 
 /* ===== Unified dropdown/list hover: subtle overlay, no blur ===== */
 
-/* --- Dropdown panels: always frosted glass --- */
+/* --- Dropdown panels: frosted glass, adapts to light/dark theme --- */
 [role="listbox"],
 [data-headlessui-state="open"] {
-  background: rgba(30, 30, 30, 0.88) !important;
+  background: var(--vscode-input-background, var(--vscode-sideBar-background, rgba(30, 30, 30, 0.88))) !important;
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
 }
@@ -228,4 +228,10 @@ body {
 /* --- TabBar tab hover --- */
 [class*="tab-hover"]:hover {
   background: rgba(128, 128, 128, 0.08) !important;
+}
+
+/* --- Splitter resize cursor (works in both VSCode webview & IntelliJ JCEF) --- */
+.cursor-col-resize {
+  cursor: col-resize !important;
+  user-select: none !important;
 }

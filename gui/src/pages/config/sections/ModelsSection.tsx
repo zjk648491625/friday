@@ -41,7 +41,7 @@ export function ModelsSection() {
   const config = useAppSelector((state) => state.config.config);
   const jetbrains = isJetBrains();
   const metaKey = getMetaKeyLabel();
-  const [showAdditionalRoles, setShowAdditionalRoles] = useState(false);
+  const [showAdditionalRoles, setShowAdditionalRoles] = useState(true);
 
   // Prompt optimize model - stored in localStorage, independent of config roles
   // finalToBrowserConfig doesn't include a flat `models` field,
@@ -164,38 +164,33 @@ export function ModelsSection() {
           setupURL={MODEL_DOCS_URLS.autocomplete.setup}
         />
 
-        {/* Jetbrains has a model selector inline */}
-        {!jetbrains && (
-          <>
-            <Divider />
-            <ModelRoleRow
-              role="edit"
-              displayName="Edit"
-              shortcut={
-                <span className="text-2xs text-description-muted">
-                  (<Shortcut>cmd I</Shortcut>)
-                </span>
-              }
-              description={
-                <span>
-                  {T("Used to transform a selected section of code")} (
-                  <a
-                    href={MODEL_DOCS_URLS.edit.learnMore}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-inherit underline hover:brightness-125"
-                  >{T("Learn more")}</a>
-                  )
-                </span>
-              }
-              models={config.modelsByRole.edit}
-              selectedModel={config.selectedModelByRole.edit ?? undefined}
-              onSelect={(model) => handleRoleUpdate("edit", model)}
-              onConfigure={handleConfigureModel}
-              setupURL={MODEL_DOCS_URLS.edit.setup}
-            />
-          </>
-        )}
+        <Divider />
+        <ModelRoleRow
+          role="edit"
+          displayName="Edit"
+          shortcut={
+            <span className="text-2xs text-description-muted">
+              (<Shortcut>cmd I</Shortcut>)
+            </span>
+          }
+          description={
+            <span>
+              {T("Used to transform a selected section of code")} (
+              <a
+                href={MODEL_DOCS_URLS.edit.learnMore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-inherit underline hover:brightness-125"
+              >{T("Learn more")}</a>
+              )
+            </span>
+          }
+          models={config.modelsByRole.edit}
+          selectedModel={config.selectedModelByRole.edit ?? undefined}
+          onSelect={(model) => handleRoleUpdate("edit", model)}
+          onConfigure={handleConfigureModel}
+          setupURL={MODEL_DOCS_URLS.edit.setup}
+        />
       </Card>
 
       <Card>
@@ -203,7 +198,7 @@ export function ModelsSection() {
           isOpen={showAdditionalRoles}
           onToggle={() => setShowAdditionalRoles(!showAdditionalRoles)}
           title={T("Additional model roles")}
-          subtitle={T("Apply, Embed, Rerank")}
+          subtitle={T("Apply, Embed, Rerank, Summarize, Subagent")}
         >
           <div className="flex flex-col">
             <ModelRoleRow
@@ -242,31 +237,58 @@ export function ModelsSection() {
               onConfigure={handleConfigureModel}
               setupURL="https://docs.friday.dev/customize/model-roles/reranking"
             />
+
+            <Divider />
+
+            <ModelRoleRow
+              role="summarize"
+              displayName="Summarize"
+              description={T("Used for summarizing chat history and context")}
+              models={config.modelsByRole.summarize}
+              selectedModel={config.selectedModelByRole.summarize ?? undefined}
+              onSelect={(model) => handleRoleUpdate("summarize", model)}
+              onConfigure={handleConfigureModel}
+              setupURL="https://docs.friday.dev/customize/model-roles/summarize"
+            />
+
+            <Divider />
+
+            <ModelRoleRow
+              role="subagent"
+              displayName="Subagent"
+              description={T("Used for autonomous sub-agent tasks")}
+              models={config.modelsByRole.subagent}
+              selectedModel={config.selectedModelByRole.subagent ?? undefined}
+              onSelect={(model) => handleRoleUpdate("subagent", model)}
+              onConfigure={handleConfigureModel}
+              setupURL="https://docs.friday.dev/customize/model-roles/subagent"
+            />
+
+            {promptOptInit && (
+              <>
+                <Divider />
+                <div className="py-6 first:pt-0 last:pb-0">
+                  <div className="mb-2">
+                    <span className="text-base font-medium text-foreground">{T("Prompt Optimization")}</span>
+                  </div>
+                  <p className="text-description mt-1 mb-2 text-xs">{T("Model used to optimize user prompts via the sparkle button in chat input")}</p>
+                  <ModelRoleSelector
+                    displayName={T("Prompt Optimization")}
+                    description={T("Select the model for prompt optimization")}
+                    models={allModels}
+                    selectedModel={promptOptModel}
+                    onSelect={(model) => {
+                      setPromptOptModel(model);
+                      setPromptOptimizeModel(model?.title ?? null);
+                    }}
+                    setupURL=""
+                  />
+                </div>
+              </>
+            )}
           </div>
         </Toggle>
       </Card>
-
-      {promptOptInit && (
-        <Card>
-          <div className="py-6 first:pt-0 last:pb-0">
-            <div className="mb-2">
-              <span className="text-base font-medium text-foreground">{T("Prompt Optimization")}</span>
-            </div>
-            <p className="text-description mt-1 mb-2 text-xs">{T("Model used to optimize user prompts via the sparkle button in chat input")}</p>
-            <ModelRoleSelector
-              displayName={T("Prompt Optimization")}
-              description={T("Select the model for prompt optimization")}
-              models={allModels}
-              selectedModel={promptOptModel}
-              onSelect={(model) => {
-                setPromptOptModel(model);
-                setPromptOptimizeModel(model?.title ?? null);
-              }}
-              setupURL=""
-            />
-          </div>
-        </Card>
-      )}
     </div>
   );
 }

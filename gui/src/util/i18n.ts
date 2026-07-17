@@ -704,6 +704,14 @@ const zh: Dict = {
   "Advanced Options": "高级选项",
   "Or configure custom model freely": "或自由配置自定义模型",
   "Role": "角色",
+  "Roles": "角色",
+  "Provider Display Name": "厂商名称",
+  "e.g. SiliconFlow, Tencent, Alibaba Bailian": "如 硅基流动、腾讯、阿里百炼",
+  "Shown in model list; leave empty to show provider type": "在模型列表中展示，留空则显示提供商类型",
+  "Available Models": "可用模型",
+  "No models found": "未找到模型",
+  "Fetched Models": "已加载模型",
+  "Click Refresh to fetch models": "点击刷新获取模型列表",
 };
 
 export function T(en: string): string {

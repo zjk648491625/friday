@@ -93,12 +93,16 @@ const ModelRoleSelector = ({
                       : ""}
                   </span>
                 ) : (
-                  <span
-                    className="line-clamp-1"
-                    style={{ fontSize: fontSize(-1) }}
-                  >
-                    {selectedModel?.title ?? Tfmt("Select {displayName} model", { displayName: T(displayName) })}
-                  </span>
+                  <div className="flex min-w-0 flex-col">
+                    <span className="line-clamp-1" style={{ fontSize: fontSize(-1) }}>
+                      {selectedModel?.title ?? Tfmt("Select {displayName} model", { displayName: T(displayName) })}
+                    </span>
+                    {(selectedModel?.providerName || selectedModel?.provider) && (
+                      <span className="text-description-muted mt-0.5 line-clamp-1 text-[10px]">
+                        {selectedModel.providerName || selectedModel.provider}
+                      </span>
+                    )}
+                  </div>
                 )}
 
                 {models.length > 0 && (
@@ -109,7 +113,7 @@ const ModelRoleSelector = ({
               </ListboxButton>
               <Transition>
                 <ListboxOptions
-                  style={{ borderRadius: defaultBorderRadius }}
+                  style={{ borderRadius: defaultBorderRadius, maxWidth: 320 }}
                   className="min-w-40"
                 >
                   {[...models]
@@ -145,17 +149,21 @@ const ModelRoleSelector = ({
                           <div className="flex w-full items-center justify-between gap-2">
                             <div className="flex min-w-0 flex-1 items-center gap-2">
                               <CubeIcon className="h-3 w-3 flex-shrink-0" />
-                              <span
-                                className="line-clamp-1 truncate"
-                                style={{ fontSize: fontSize(-1) }}
-                              >
-                                {option.title}
-                                {isConfigInvalid && (
-                                  <span className="ml-2 text-[10px] italic">
-                                    {invalidMessage}
+                              <div className="flex min-w-0 flex-col">
+                                <span className="line-clamp-1" style={{ fontSize: fontSize(-1) }}>
+                                  {option.title}
+                                  {isConfigInvalid && (
+                                    <span className="ml-2 text-[10px] italic">
+                                      {invalidMessage}
+                                    </span>
+                                  )}
+                                </span>
+                                {(option.providerName || option.provider) && (
+                                  <span className="text-description-muted mt-0.5 line-clamp-1 text-[10px]">
+                                    {option.providerName || option.provider}
                                   </span>
                                 )}
-                              </span>
+                              </div>
                             </div>
 
                             <div className="flex-shrink-0">

@@ -53,7 +53,7 @@ const ListboxOptions = React.forwardRef<HTMLUListElement, ListboxOptionsProps>(
           border: `1px solid ${vscCommandCenterInactiveBorder}`,
           fontSize,
           borderRadius: "0.5rem",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06)",
           zIndex: 200000,
           ...props.style,
         }}

@@ -18,7 +18,7 @@ export default function GUI() {
     dragging.current = true;
     startX.current = e.clientX;
     startW.current = sidebarRef.current;
-    document.body.style.cursor = "col-resize";
+    document.body.classList.add("cursor-col-resize");
     document.body.style.userSelect = "none";
   }, []);
 
@@ -31,7 +31,7 @@ export default function GUI() {
     const onMouseUp = () => {
       if (!dragging.current) return;
       dragging.current = false;
-      document.body.style.cursor = "";
+      document.body.classList.remove("cursor-col-resize");
       document.body.style.userSelect = "";
       try { localStorage.setItem("friday_sidebar_width", String(sidebarRef.current)); } catch {}
     };
@@ -52,10 +52,9 @@ export default function GUI() {
         <History />
       </aside>
       <div
-        className="4xl:flex hidden w-2 flex-shrink-0 rounded transition-colors"
-        style={{ cursor: "col-resize" }}
+        className="4xl:flex hidden w-2 flex-shrink-0 rounded transition-colors cursor-col-resize"
         onMouseDown={onMouseDown}
-        onMouseEnter={(e) => (e.currentTarget.style.background = "#3b82f6")}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "var(--vscode-focusBorder, #3b82f6)")}
         onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
       />
       <main className="no-scrollbar flex min-h-0 min-w-0 flex-1 flex-col">

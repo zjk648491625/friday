@@ -39,6 +39,8 @@ interface Option {
   apiKey?: string;
   sourceFile?: string;
   isAutoDetected?: boolean;
+  providerName?: string;
+  provider?: string;
 }
 
 function modelSelectTitle(model: any): string {
@@ -92,19 +94,26 @@ function ModelOption({
       <div className="flex w-full items-center justify-between gap-5">
         <div className="flex items-center gap-2 py-0.5">
           <CubeIcon className="h-3 w-3 flex-shrink-0" />
-          <span className="line-clamp-1">
-            {option.title}
-            {option.isAutoDetected && (
-              <span className="text-description-muted ml-1.5 text-[10px] italic">
-                {T("(autodetected)")}
+          <div className="flex min-w-0 flex-col">
+            <span className="line-clamp-1 text-xs">
+              {option.title}
+              {option.isAutoDetected && (
+                <span className="text-description-muted ml-1.5 text-[10px] italic">
+                  {T("(autodetected)")}
+                </span>
+              )}
+              {showMissingApiKeyMsg && (
+                <span className="ml-1.5 text-[10px] italic">
+                  {T("(Missing API key)")}
+                </span>
+              )}
+            </span>
+            {option.providerName && (
+              <span className="text-description-muted mt-0.5 line-clamp-1 text-[10px]">
+                {option.providerName}
               </span>
             )}
-            {showMissingApiKeyMsg && (
-              <span className="ml-1.5 text-[10px] italic">
-                {T("(Missing API key)")}
-              </span>
-            )}
-          </span>
+          </div>
         </div>
         <Button
           variant="ghost"
@@ -165,6 +174,8 @@ function ModelSelect() {
           apiKey: model.apiKey,
           sourceFile: model.sourceFile,
           isAutoDetected: model.isFromAutoDetect,
+          providerName: model.providerName || model.provider,
+          provider: model.provider,
         };
       }),
     );
