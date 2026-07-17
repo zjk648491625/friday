@@ -20,7 +20,6 @@ export function rectifySelectedModelsFromGlobalContext(
 
   let fellBack = false;
 
-  // summarize not implemented yet
   const roles: ModelRole[] = [
     "autocomplete",
     "apply",
@@ -28,6 +27,8 @@ export function rectifySelectedModelsFromGlobalContext(
     "embed",
     "rerank",
     "chat",
+    "summarize",
+    "subagent",
   ];
 
   for (const role of roles) {

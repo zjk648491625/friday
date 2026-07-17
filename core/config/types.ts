@@ -947,6 +947,8 @@ declare global {
     promptTemplates?: { [key: string]: string };
     capabilities?: ModelCapability;
     cacheBehavior?: CacheBehavior;
+    providerName?: string;
+    roles?: string[];
   }
   
   export interface JSONEmbedOptions {
@@ -1213,6 +1215,7 @@ declare global {
   
   export interface BrowserSerializedFridayConfig {
     models: ModelDescription[];
+    tools: Tool[];
     systemMessage?: string;
     completionOptions?: BaseCompletionOptions;
     requestOptions?: RequestOptions;
@@ -1225,7 +1228,10 @@ declare global {
     reranker?: RerankerDescription;
     experimental?: ExperimentalConfig;
     docs?: SiteIndexingConfig[];
-    tools: Tool[];
+    mcpServerStatuses?: any[];
+    tabAutocompleteOptions?: Partial<TabAutocompleteOptions>;
+    modelsByRole: Record<string, ModelDescription[]>;
+    selectedModelByRole: Record<string, ModelDescription | null>;
   }
   
   // DOCS SUGGESTIONS AND PACKAGE INFO

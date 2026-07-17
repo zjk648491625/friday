@@ -466,16 +466,16 @@ async function intermediateToFinalConfig({
       autocomplete: [...tabAutocompleteModels],
       embed: newEmbedder ? [newEmbedder] : [],
       rerank: newReranker ? [newReranker] : [],
-      subagent: [],
+      subagent: models,
     },
     selectedModelByRole: {
-      chat: null, // Not implemented (uses GUI defaultModel)
+      chat: null,
       edit: null,
       apply: null,
-      embed: newEmbedder ?? null,
+      summarize: null,
       autocomplete: null,
+      embed: newEmbedder ?? null,
       rerank: newReranker ?? null,
-      summarize: null, // Not implemented
       subagent: null,
     },
     rules: [],
@@ -592,6 +592,8 @@ function llmToSerializedModelDescription(llm: ILLM): ModelDescription {
     basePlanSystemMessage: llm.basePlanSystemMessage,
     baseChatSystemMessage: llm.baseChatSystemMessage,
     requestOptions: llm.requestOptions,
+    // Preserve user-defined display name from config (e.g. 硅基流动, 阿里百炼)
+    providerName: (llm as any).configProviderName || undefined,
     promptTemplates: serializePromptTemplates(llm.promptTemplates),
     capabilities: llm.capabilities,
     roles: llm.roles,

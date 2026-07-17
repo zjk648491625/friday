@@ -84,6 +84,8 @@ export function addModel(
         contextLength: model.contextLength,
         maxStopWords: model.maxStopWords,
         defaultCompletionOptions: model.completionOptions,
+        ...(model.cacheBehavior ? { cacheBehavior: model.cacheBehavior } : {}),
+        ...(model.providerName ? { providerName: model.providerName } : {}),
         ...(capabilities.length > 0 ? { capabilities } : {}),
         ...(roles && roles.length > 0 ? { roles: roles as any } : {}),
       };

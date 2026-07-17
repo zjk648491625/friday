@@ -140,6 +140,9 @@ async function modelConfigToBaseLLM({
   }
 
   const llm = new cls(options);
+  if (model.providerName) {
+    (llm as any).configProviderName = model.providerName;
+  }
   return llm;
 }
 

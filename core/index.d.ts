@@ -1253,6 +1253,8 @@ export interface ModelDescription {
   roles?: ModelRole[];
   configurationStatus?: LLMConfigurationStatuses;
 
+  providerName?: string;
+
   sourceFile?: string;
   isFromAutoDetect?: boolean;
 
