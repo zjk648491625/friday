@@ -2,53 +2,95 @@
 
 ![Friday logo](media/readme.png)
 
-<div align="center">
+<br>
 
-<a target="_blank" href="https://opensource.org/licenses/Apache-2.0" style="background:none">
-    <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" style="height: 22px;" />
-</a>
-<a target="_blank" href="https://docs.friday.dev" style="background:none">
-    <img src="https://img.shields.io/badge/Friday-docs-%23BE1B55.svg?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNiAyNCIgZmlsbD0id2hpdGUiPgogIDxwYXRoIGQ9Ik0yMC41Mjg2IDMuMjY4MTFMMTkuMTUxMiA1LjY1Njk0TDIyLjYzMjggMTEuNjg0OUMyMi42NTgyIDExLjczMDYgMjIuNjczNSAxMS43ODY2IDIyLjY3MzUgMTEuODM3NEMyMi42NzM1IDExLjg4ODIgMjIuNjU4MiAxMS45NDQxIDIyLjYzMjggMTEuOTg5OUwxOS4xNTEyIDE4LjAyMjlMMjAuNTI4NiAyMC40MTE3TDI1LjQ3OTEgMTEuODM3NEwyMC41Mjg2IDMuMjYzMDNWMy4yNjgxMVpNMTguNjE3NiA1LjM0NjlMMTkuOTk1IDIuOTU4MDdIMTcuMjQwMkwxNS44NjI4IDUuMzQ2OUgxOC42MjI3SDE4LjYxNzZaTTE1Ljg1NzcgNS45NjY5N0wxOS4wNzUgMTEuNTMyNEgyMS44Mjk4TDE4LjYxNzYgNS45NjY5N0gxNS44NTc3Wk0xOC42MTc2IDE3LjcxNzlMMjEuODI5OCAxMi4xNDc0SDE5LjA3NUwxNS44NTc3IDE3LjcxNzlIMTguNjE3NlpNMTUuODU3NyAxOC4zMzhMMTcuMjM1MSAyMC43MTY3SDE5Ljk4OTlMMTguNjEyNSAxOC4zMzhIMTUuODUyNkgxNS44NTc3Wk02LjUyMDk4IDIxLjMwNjNDNi40NjUwNyAyMS4zMDYzIDYuNDE0MjQgMjEuMjkxIDYuMzY4NSAyMS4yNjU2QzYuMzIyNzYgMjEuMjQwMiA2LjI4MjA5IDIxLjE5OTUgNi4yNTY2OCAyMS4xNTM4TDIuNzcwMDIgMTUuMTIwN0gwLjAxNTI0ODJMNC45NjU3IDIzLjY5SDE0Ljg2MTVMMTMuNDg0MSAyMS4zMDYzSDYuNTI2MDZINi41MjA5OFpNMTQuMDE3OCAyMC45OTYyTDE1LjM5NTIgMjMuMzhMMTYuNzcyNiAyMC45OTExTDE1LjM5NTIgMTguNjAyM0wxNC4wMTc4IDIwLjk5MTFWMjAuOTk2MlpNMTQuODYxNSAxOC4yOTc0SDguNDM3MTJMNy4wNTk3MyAyMC42ODYySDEzLjQ4NDFMMTQuODYxNSAxOC4yOTc0Wk03Ljg5ODM2IDE3Ljk5MjRMNC42ODEwOCAxMi40MjE5TDMuMzAzNjkgMTQuODEwN0w2LjUyMDk4IDIwLjM4MTJMNy44OTgzNiAxNy45OTI0Wk0wLjAxMDE2NTQgMTQuNTAwN0gyLjc2NDk0TDQuMTQyMzIgMTIuMTExOEgxLjM5MjYzTDAuMDEwMTY1NCAxNC41MDA3Wk02LjI0MTQzIDIuNTQxM0M2LjI2Njg1IDIuNDk1NTYgNi4zMDc1MSAyLjQ1NDkgNi4zNTMyNSAyLjQyOTQ4QzYuMzk5IDIuNDA0MDcgNi40NTQ5IDIuMzg4ODIgNi41MDU3MyAyLjM4ODgySDEzLjQ3NEwxNC44NTE0IDBINC45NTA0NUwwIDguNTc0MzVIMi43NTQ3N0w2LjIzMTI3IDIuNTQ2MzhMNi4yNDE0MyAyLjU0MTNaTTQuMTQyMzIgMTEuNTc4MkwyLjc2NDk0IDkuMTg5MzRIMC4wMTAxNjU0TDEuMzg3NTUgMTEuNTc4Mkg0LjE0MjMyWk02LjUxMDgxIDMuMzEzODZMMy4yOTg2MSA4Ljg3OTNMNC42NzU5OSAxMS4yNjgxTDcuODg4MiA1LjcwMjY4TDYuNTEwODEgMy4zMTM4NlpNMTMuNDc5MSAzLjAwMzgySDcuMDQ0NDhMOC40MjE4NyA1LjM5MjY0SDE0Ljg1NjRMMTMuNDc5MSAzLjAwMzgyWk0xNS4zOTUyIDUuMDgyNkwxNi43Njc1IDIuNjk4ODZMMTUuMzk1MiAwLjMxMDAzOEwxNC4wMTc4IDIuNjkzNzhMMTUuMzk1MiA1LjA4MjZaIi8+Cjwvc3ZnPg==" style="height: 22px;" />
-</a>
+# Friday AI / IronHero
 
-<p></p>
+**🚀 开源 AI 编程助手 | 本地优先 · 隐私至上**  
+**🚀 Open-Source AI Code Assistant | Local-First · Privacy-First**
+
+<br>
+
+<a target="_blank" href="https://opensource.org/licenses/Apache-2.0">
+  <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" />
+</a>
 
 </div>
 
-<h1 align="center">Friday</h1>
+---
 
-<div align="center">
+## 简介 / Introduction
 
-**[Source-controlled AI checks, enforceable in CI](https://docs.friday.dev)**
+Friday AI 将强大的 AI 编程能力直接嵌入你的 IDE，让你完全掌控数据和模型选择。  
+支持 OpenAI、Anthropic、Ollama 等主流模型，以及任意兼容 API，自带 Key 无需云账号。
 
-</div>
+Friday AI brings powerful AI coding directly into your IDE with full data control.  
+BYOK — works with OpenAI, Anthropic, Ollama, and any API-compatible model. No cloud account required.
 
-## VS Code Agent
+---
 
-[Agent](https://docs.friday.dev/ide-extensions/agent/quick-start) to work on development tasks together with AI
+## ✨ 核心特性 / Features
 
-![agent](docs/images/agent.gif)
+| 功能 | 说明 |
+|---|---|
+| 💬 **AI 对话 / Chat** | 与 AI 自由对话，理解代码、回答疑问 |
+| ⌨️ **代码补全 / Autocomplete** | 行内智能代码建议，支持 FIM (Fill-in-the-Middle) |
+| ✏️ **代码编辑 / Edit** | 自然语言描述修改，无需离开当前文件 |
+| 📎 **上下文感知 / Context** | 自动感知项目结构、当前文件、选中的代码 |
+| 🏠 **本地优先 / Local-First** | 数据不出本地，隐私至上 |
 
-## VS Code Chat
+---
 
-[Chat](https://docs.friday.dev/ide-extensions/chat/quick-start) to ask general questions and clarify code sections
+## 快速开始 / Quick Start
+
+1. 安装插件 / Install the extension
+2. 点击侧边栏 Friday 图标 / Click the Friday icon in the sidebar
+3. 配置模型（支持 OpenAI / Anthropic / Ollama / 自定义兼容 API）/ Configure your model
+4. 开始对话或使用 `Ctrl+L` 选中代码 / Start chatting or select code with `Ctrl+L`
+
+---
+
+## 功能预览 / Feature Preview
+
+### 💬 对话模式 / Chat Mode
+与 AI 自由对话，理解代码、生成文档、分析问题。  
+Chat freely with AI — understand code, generate docs, analyze problems.
 
 ![chat](docs/images/chat.gif)
 
-## VS Code Edit
-
-[Edit](https://docs.friday.dev/ide-extensions/edit/quick-start) to modify a code section without leaving your current file
+### ✏️ 编辑模式 / Edit Mode
+选中代码后用自然语言描述修改意图，AI 直接编辑。  
+Select code, describe the change in natural language, AI edits directly.
 
 ![edit](docs/images/edit.gif)
 
-## VS Code Autocomplete
-
-[Autocomplete](https://docs.friday.dev/ide-extensions/autocomplete/quick-start) to receive inline code suggestions as you type
+### ⌨️ 自动补全 / Autocomplete
+输入时自动提供行内代码建议，支持 Tab 补全。  
+Inline code suggestions as you type, press Tab to accept.
 
 ![autocomplete](docs/images/autocomplete.gif)
 
-</div>
+### 🤖 Agent 模式 / Agent Mode
+AI 自主完成多步骤开发任务。  
+AI autonomously completes multi-step development tasks.
+
+![agent](docs/images/agent.gif)
+
+---
+
+## 模型支持 / Supported Models
+
+- **OpenAI** (GPT-4o, GPT-4, GPT-3.5)
+- **Anthropic** (Claude Sonnet, Claude Opus, Claude Haiku)
+- **Ollama** (本地部署 Llama, Mistral, Qwen, DeepSeek 等)
+- **Mistral** (Codestral, Mistral Large)
+- **Google Gemini**
+- **Azure OpenAI**
+- **OpenRouter**
+- **自定义兼容 API / Custom Compatible API** — 任意 OpenAI/Anthropic 兼容端点
+
+---
 
 ## License
 
-[Apache 2.0 © 2023-2025 Friday AI, Inc.](./LICENSE)
+[Apache 2.0 © 2023-2025 IronHero](./LICENSE)

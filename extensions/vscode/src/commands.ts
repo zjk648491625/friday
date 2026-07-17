@@ -350,6 +350,9 @@ const getCommandsMap: (
         "If there are any grammar or spelling mistakes in this writing, fix them. Do not make other large changes to the writing.",
       );
     },
+    "friday.reloadGUI": () => {
+      sidebar.reloadWebview();
+    },
     "friday.clearConsole": async () => {
       consoleView.clearLog();
     },

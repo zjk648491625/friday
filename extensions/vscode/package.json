@@ -221,6 +221,13 @@
         "group": "Friday"
       },
       {
+        "command": "friday.reloadGUI",
+        "category": "Friday",
+        "title": "Reload Friday GUI",
+        "icon": "$(refresh)",
+        "group": "Friday"
+      },
+      {
         "command": "friday.toggleTabAutocompleteEnabled",
         "category": "Friday",
         "title": "Toggle Autocomplete Enabled",
@@ -499,6 +506,9 @@
     "menus": {
       "commandPalette": [
         {
+          "command": "friday.reloadGUI"
+        },
+        {
           "command": "friday.focusFridayInput"
         },
         {
@@ -561,6 +571,11 @@
         {
           "command": "friday.openConfigPage",
           "group": "navigation@4",
+          "when": "view == friday.fridayGUIView"
+        },
+        {
+          "command": "friday.reloadGUI",
+          "group": "navigation@3",
           "when": "view == friday.fridayGUIView"
         },
         {

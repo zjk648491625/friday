@@ -50,6 +50,15 @@ export class FridayGUIWebviewViewProvider
     this.webviewProtocol.webview = this._webview;
   }
 
+  public reloadWebview(): void {
+    if (!this._webviewView) return;
+    this._webviewView.webview.html = this.getSidebarContent(
+      this.extensionContext,
+      this._webviewView,
+    );
+    this.resetWebviewProtocolWebview();
+  }
+
   sendMainUserInput(input: string) {
     this.webview?.postMessage({
       type: "userInput",

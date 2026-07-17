@@ -90,6 +90,10 @@ try {
         __dirname,
         "../../packages/terminal-security/dist/index.js",
       ),
+      "@friday-ai/sdk": resolve(
+        __dirname,
+        "../../packages/sdk/typescript",
+      ),
     },
 
     // Add banner to create require for CommonJS packages
