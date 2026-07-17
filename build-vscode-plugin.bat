@@ -53,6 +53,12 @@ if exist "node_modules\lru-cache" (
     echo   lru-cache copied to out/node_modules/.
 )
 
+:: Copy tree-sitter.wasm
+if exist "%ROOT%core\vendor\tree-sitter.wasm" (
+    copy /Y "%ROOT%core\vendor\tree-sitter.wasm" "out\tree-sitter.wasm" >nul
+    echo   tree-sitter.wasm copied.
+)
+
 echo [4/4] Packaging VSIX...
 call npx vsce package --skip-license --no-dependencies
 if !ERRORLEVEL! neq 0 (
