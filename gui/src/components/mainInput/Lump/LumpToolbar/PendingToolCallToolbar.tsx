@@ -1,90 +1,184 @@
+import { ChevronUpIcon, EllipsisHorizontalIcon, ClockIcon, CheckBadgeIcon, ChatBubbleLeftIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { selectPendingToolCalls } from "../../../../redux/selectors/selectToolCalls";
 import { callToolById } from "../../../../redux/thunks/callToolById";
 import { cancelToolCallThunk } from "../../../../redux/thunks/cancelToolCall";
-import { getAltKeyLabel, getMetaKeyLabel, isJetBrains } from "../../../../util";
+import { getMetaKeyLabel } from "../../../../util";
 import { Button } from "../../../ui";
 import { useMainEditor } from "../../TipTapEditor";
 import { T } from "../../../../util/i18n";
 
-export const generateToolCallButtonTestId = (
-  action: "accept" | "reject",
-  toolCallId: string,
-) => {
-  return `${action}-tool-call-button-${toolCallId}`;
-};
+type SessionAction = "always_allow" | "always_ask" | "block_1min";
+
+interface SessionOverride {
+  action: SessionAction;
+  timestamp: number;
+}
+
+// Session-level overrides (component-life scoped, resets on reload)
+const sessionOverrides = new Map<string, SessionOverride>();
+const BLOCK_DURATION_MS = 60_000; // 1 minute
+
+export const generateToolCallButtonTestId = (action: "accept" | "reject", toolCallId: string) =>
+  `${action}-tool-call-button-${toolCallId}`;
 
 export function PendingToolCallToolbar() {
   const dispatch = useAppDispatch();
-  const jetbrains = isJetBrains();
   const pendingToolCalls = useAppSelector(selectPendingToolCalls);
   const editor = useMainEditor();
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const processedRef = useRef<Set<string>>(new Set());
 
-  if (pendingToolCalls.length === 0) {
-    return null;
-  }
+  // Auto-process pending tool calls based on session overrides
+  useEffect(() => {
+    const now = Date.now();
+    for (const tc of pendingToolCalls) {
+      if (processedRef.current.has(tc.toolCallId)) continue;
+      const toolName = tc.tool?.function.name ?? "";
+      const override = sessionOverrides.get(toolName);
+      if (!override) continue;
+
+      if (override.action === "always_allow") {
+        processedRef.current.add(tc.toolCallId);
+        void dispatch(callToolById({ toolCallId: tc.toolCallId }));
+      } else if (override.action === "block_1min" && now - override.timestamp < BLOCK_DURATION_MS) {
+        processedRef.current.add(tc.toolCallId);
+        void dispatch(cancelToolCallThunk({ toolCallId: tc.toolCallId }));
+      }
+    }
+  }, [pendingToolCalls, dispatch]);
+
+  if (pendingToolCalls.length === 0) return null;
 
   const handleAccept = (toolCallId: string) => {
     void dispatch(callToolById({ toolCallId }));
   };
 
   const handleReject = (toolCallId: string) => {
-    // put cursor in editor after last rejection
     if (pendingToolCalls.length === 1) {
       editor.mainEditor?.commands.focus();
     }
     void dispatch(cancelToolCallThunk({ toolCallId }));
   };
 
+  const handleSessionAction = (toolName: string, action: SessionAction, toolCallId: string) => {
+    if (action === "always_allow") {
+      sessionOverrides.set(toolName, { action, timestamp: Date.now() });
+      void dispatch(callToolById({ toolCallId }));
+    } else if (action === "block_1min") {
+      sessionOverrides.set(toolName, { action, timestamp: Date.now() });
+      void dispatch(cancelToolCallThunk({ toolCallId }));
+    } else {
+      // "always_ask" — reset to default (remove override)
+      sessionOverrides.delete(toolName);
+    }
+    setOpenIdx(null);
+  };
+
   return (
     <div className="flex w-full flex-col pb-0.5">
-      {pendingToolCalls.map((toolCall, index) => (
-        <div
-          key={toolCall.toolCallId}
-          className="border-input bg-input flex items-center gap-2 rounded border"
-        >
-          <span className="text-description flex-1 truncate text-xs italic">
-            {toolCall.tool?.displayTitle ?? toolCall.toolCall.function.name}
-          </span>
+      {pendingToolCalls.map((tc, idx) => {
+        const toolName = tc.tool?.function.name ?? "";
+        const override = sessionOverrides.get(toolName);
+        const isBlocked = override?.action === "block_1min"
+          && Date.now() - override.timestamp < BLOCK_DURATION_MS;
 
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-description-muted my-1 font-medium"
-              onClick={() => handleReject(toolCall.toolCallId)}
-              data-testid={generateToolCallButtonTestId(
-                "reject",
-                toolCall.toolCallId,
-              )}
-            >
-              {/* JetBrains overrides cmd+backspace, so we have to use another shortcut */}
-              {index === 0 && (
-                <span className="text-2xs mr-1">
-                  {jetbrains ? getAltKeyLabel() : getMetaKeyLabel()}⌫
-                </span>
-              )}
-              <span>{T("Reject")}</span>
-            </Button>
+        return (
+          <div key={tc.toolCallId} className="border-input bg-input flex items-center gap-2 rounded border">
+            <span className="text-description flex-1 truncate text-xs italic">
+              {tc.tool?.displayTitle ?? tc.toolCall.function.name}
+              {isBlocked && <span className="text-description-muted ml-1 text-[10px]">({T("blocked")})</span>}
+            </span>
 
-            <Button
-              variant="primary"
-              size="sm"
-              className="my-1 font-medium text-foreground"
-              onClick={() => handleAccept(toolCall.toolCallId)}
-              data-testid={generateToolCallButtonTestId(
-                "accept",
-                toolCall.toolCallId,
+            <div className="flex items-center gap-1">
+              {/* ⋮▴ dropdown: session-level controls */}
+              {!isBlocked && (
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-description-muted my-1 gap-0.5 !px-1.5 font-medium"
+                    onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+                  >
+                    <EllipsisHorizontalIcon className="h-3.5 w-3.5" />
+                    <ChevronUpIcon className="h-2.5 w-2.5" />
+                  </Button>
+
+                  {openIdx === idx && (
+                    <>
+                      <div className="fixed inset-0 z-10" onClick={() => setOpenIdx(null)} />
+                      <div
+                        className="absolute right-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-lg border py-1 shadow-lg"
+                        style={{
+                          background: "var(--vscode-input-background)",
+                          borderColor: "var(--vscode-panel-border)",
+                        }}
+                      >
+                        <button
+                          type="button"
+                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
+                          style={{ color: "var(--vscode-foreground)" }}
+                          onClick={() => handleSessionAction(toolName, "always_allow", tc.toolCallId)}
+                        >
+                          <CheckBadgeIcon className="h-3.5 w-3.5 text-green-400 flex-shrink-0" />
+                          <span className="flex-1 text-left">{T("Always allow this session")}</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
+                          style={{ color: "var(--vscode-foreground)" }}
+                          onClick={() => handleSessionAction(toolName, "always_ask", tc.toolCallId)}
+                        >
+                          <ChatBubbleLeftIcon className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
+                          <span className="flex-1 text-left">{T("Ask each time")}</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
+                          style={{ color: "var(--vscode-foreground)" }}
+                          onClick={() => handleSessionAction(toolName, "block_1min", tc.toolCallId)}
+                        >
+                          <ClockIcon className="h-3.5 w-3.5 text-amber-400 flex-shrink-0" />
+                          <span className="flex-1 text-left">{T("Block for 1 minute")}</span>
+                        </button>
+                        {/* Divider between session controls and one-time reject */}
+                        <div
+                          className="my-1 border-t"
+                          style={{ borderColor: "var(--vscode-panel-border)" }}
+                        />
+                        <button
+                          type="button"
+                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
+                          style={{ color: "var(--vscode-foreground)" }}
+                          onClick={() => { handleReject(tc.toolCallId); setOpenIdx(null); }}
+                        >
+                          <XMarkIcon className="h-3.5 w-3.5 text-red-400 flex-shrink-0" />
+                          <span className="flex-1 text-left">{T("Reject this time")}</span>
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               )}
-            >
-              {index === 0 && (
-                <span className="text-2xs mr-1">{getMetaKeyLabel()}⏎</span>
+
+              {/* Accept (one-time) */}
+              {!isBlocked && (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="my-1 font-medium text-foreground"
+                  onClick={() => handleAccept(tc.toolCallId)}
+                  data-testid={generateToolCallButtonTestId("accept", tc.toolCallId)}
+                >
+                  {idx === 0 && <span className="text-2xs mr-1">{getMetaKeyLabel()} + Enter</span>}
+                  <span>{T("Accept")}</span>
+                </Button>
               )}
-              <span>{T("Accept")}</span>
-            </Button>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
