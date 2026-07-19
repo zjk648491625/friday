@@ -63,13 +63,14 @@ export class SystemMessageToolCodeblocksFramework
     return toolDefinition.trim();
   }
 
-  systemMessagePrefix = `To call a tool, respond with EXACTLY the format shown below. Do not use XML, JSON, or any other format. Only call tools listed above — do not invent or guess tool names.`;
+  systemMessagePrefix = `To call a tool, respond with EXACTLY the format shown below. Do not use XML, JSON, or any other format. Only call tools listed above — do not invent or guess tool names. Every "required" argument MUST have a real value between BEGIN_ARG and END_ARG — leaving it empty will cause an error.`;
 
   systemMessageSuffix = `RULES FOR TOOL USE:
 1. NEVER use XML, JSON, or any other format — ONLY the tool code block format shown above.
 2. Tool call MUST be the last thing in your response. Stop immediately after the closing fence. Only call ONE tool at a time.
 3. CRITICAL: NEVER use the keywords END_ARG, BEGIN_ARG, TOOL_NAME, or TOOL_ARG in any text — these are ONLY for actual tool call code blocks. Violating this will break the system.
-4. If codebaseTool fails because LanceDB is missing, use runTerminalCommand to install dependencies (e.g., npm install, pip install, download native addons).`;
+4. CRITICAL: ALL required arguments MUST have a non-empty value between BEGIN_ARG and END_ARG. Empty or whitespace-only arguments will cause errors.
+5. If codebaseTool fails because LanceDB is missing, use runTerminalCommand to install dependencies (e.g., npm install, pip install, download native addons).`;
 
   exampleDynamicToolDefinition = `
 \`\`\`tool_definition
