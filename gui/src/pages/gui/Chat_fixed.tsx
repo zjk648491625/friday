@@ -228,7 +228,7 @@ export function Chat() {
     return isJetBrains();
   }, []);
 
-  useAutoScroll(stepsDivRef, history);
+  const { setUserHasScrolled } = useAutoScroll(stepsDivRef, history);
 
   useEffect(() => {
     // Cmd + Backspace to delete current step
@@ -535,15 +535,18 @@ export function Chat() {
 
   // ---- Scroll navigation helpers ----
   const scrollToTop = useCallback(() => {
+    setUserHasScrolled(true);
     stepsDivRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  }, [setUserHasScrolled]);
 
   const scrollToBottom = useCallback(() => {
+    setUserHasScrolled(false);
     const el = stepsDivRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, []);
+  }, [setUserHasScrolled]);
 
   const scrollToUserMsg = useCallback((dir: "prev" | "next") => {
+    setUserHasScrolled(true);
     const el = stepsDivRef.current;
     if (!el) return;
     const items = el.querySelectorAll("[data-user-msg]");
@@ -565,7 +568,7 @@ export function Chat() {
       ? Math.max(0, currentIdx - 1)
       : Math.min(items.length - 1, currentIdx + 1);
     (items[targetIdx] as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
+  }, [setUserHasScrolled]);
 
   const filteredHistory = useMemo(
     () => history.filter((item) => item.message.role !== "system"),

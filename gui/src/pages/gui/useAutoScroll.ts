@@ -16,6 +16,7 @@ export const useAutoScroll = (
   const [userHasScrolled, setUserHasScrolled] = useState(false);
   const numUserMsgs = useMemo(() => getNumUserMsgs(history), [history.length]);
 
+  // New user message → resume auto-scroll
   useEffect(() => {
     setUserHasScrolled(false);
   }, [numUserMsgs]);
@@ -58,4 +59,6 @@ export const useAutoScroll = (
       ref.current?.removeEventListener("scroll", handleScroll);
     };
   }, [ref, history.length, userHasScrolled]);
+
+  return { userHasScrolled, setUserHasScrolled };
 };
