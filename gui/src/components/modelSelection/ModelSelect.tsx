@@ -280,11 +280,18 @@ function ModelSelect() {
         <ListboxButton
           data-testid="model-select-button"
           ref={buttonRef}
-          className="text-description h-[18px] gap-1 border-none"
+          className="text-description h-auto gap-1 border-none"
         >
-          <span className="line-clamp-1 break-all hover:brightness-110">
-            {modelSelectTitle(selectedModel) || T("Select Model")}
-          </span>
+          <div className="flex min-w-0 flex-col items-start">
+            <span className="line-clamp-1 break-all text-xs hover:brightness-110">
+              {modelSelectTitle(selectedModel) || T("Select Model")}
+            </span>
+            {(selectedModel?.providerName || selectedModel?.provider) && (
+              <span className="text-description-muted line-clamp-1 text-[10px]">
+                {selectedModel.providerName || selectedModel.provider}
+              </span>
+            )}
+          </div>
           <ChevronDownIcon
             className="hidden h-2 w-2 flex-shrink-0 hover:brightness-110 min-[200px]:flex"
             aria-hidden="true"
