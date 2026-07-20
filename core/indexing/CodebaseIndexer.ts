@@ -151,8 +151,12 @@ export class CodebaseIndexer {
 
     const embeddingsModel = config.selectedModelByRole.embed;
     if (!embeddingsModel) {
+      console.log("[CodebaseIndexer] No embeddings model configured, skipping indexing");
       return [];
     }
+    console.log(
+      `[CodebaseIndexer] embeddings model present: ${embeddingsModel.title}, contextProviders count: ${config.contextProviders?.length ?? 0}`,
+    );
 
     const ideSettings = await this.ide.getIdeSettings();
     if (!ideSettings) {
@@ -171,6 +175,9 @@ export class CodebaseIndexer {
         .map((provider) => provider.description.dependsOnIndexing)
         .filter((indexType) => Array.isArray(indexType)) // remove undefined indexTypes
         .flat(),
+    );
+    console.log(
+      `[CodebaseIndexer] indexTypesToBuild: [${[...indexTypesToBuild].join(", ")}]`,
     );
 
     const indexTypeToIndexerMapping: Record<

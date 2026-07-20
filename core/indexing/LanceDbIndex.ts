@@ -13,10 +13,13 @@ import { getLanceDbPath, migrate } from "../util/paths";
 import { getUriPathBasename } from "../util/uri";
 import {
   ensureLanceDbNative,
-  getLanceDbNativePath,
-  isLanceDbNativeAvailable,
+  getDownloadedVectordbEntry,
 } from "../util/nativeAddon";
 
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
+import { pathToFileURL } from "url";
 import { basicChunker } from "./chunk/basic.js";
 import { chunkDocument, shouldChunk } from "./chunk/chunk.js";
 import { DatabaseConnection, SqliteDb } from "./refreshIndex.js";
@@ -30,6 +33,55 @@ import {
 
 import type * as LanceType from "vectordb";
 import { tagToString } from "./utils";
+
+/**
+ * 缓存原生模块探测结果，避免每次 create() 都做一次 connect 探针。
+ * undefined = 尚未探测；true = 可用；false = 原生模块不可用。
+ */
+let lanceNativeVerified: boolean | undefined = undefined;
+
+/**
+ * 轻量验证 vectordb 的原生模块（index.node）能否真正加载。
+ *
+ * 仅 `import("vectordb")` 成功并不足以证明原生模块可用：在打包插件里
+ * vectordb 可能被 inline 进 bundle，import 永远成功，但底层 index.node
+ * 缺失时会在首次 connect 时才抛错，且错误常被上层 try/catch 吞掉，
+ * 表现为「构建索引看似完成、codebase 查询却 No results」。
+ *
+ * 这里真正 connect 到一个临时目录并做一次最小操作，强制原生模块加载，
+ * 从而把「import 成功但原生缺失」的情况暴露出来，使其 fall through 到下载。
+ */
+async function verifyLanceDbNativeLoads(
+  lance: typeof LanceType,
+): Promise<boolean> {
+  if (lanceNativeVerified !== undefined) {
+    return lanceNativeVerified;
+  }
+  const probeDir = path.join(
+    os.tmpdir(),
+    `friday-lancedb-probe-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+  );
+  try {
+    const conn = await (lance as any).connect(probeDir);
+    // 触发一次最小原生调用，强制加载 index.node
+    await conn.tableNames();
+    lanceNativeVerified = true;
+    return true;
+  } catch (e: any) {
+    console.error(
+      "[LanceDbIndex] vectordb imported but native module failed to load:",
+      e?.message || e,
+    );
+    lanceNativeVerified = false;
+    return false;
+  } finally {
+    try {
+      fs.rmSync(probeDir, { recursive: true, force: true });
+    } catch {
+      // 忽略清理失败
+    }
+  }
+}
 
 interface LanceDbRow {
   uuid: string;
@@ -64,30 +116,47 @@ export class LanceDbIndex implements CodebaseIndex {
     embeddingsProvider: ILLM,
     readFile: (filepath: string) => Promise<string>,
   ): Promise<LanceDbIndex | null> {
+    console.log("[LanceDbIndex] create() called");
     if (!isSupportedLanceDbCpuTargetForLinux()) {
       return null;
     }
 
-    // Priority 1: bundled vectordb (npm import)
-    try {
-      this.lance = await import("vectordb");
-      return new LanceDbIndex(embeddingsProvider, readFile);
-    } catch {
-      // Priority 2: user's pre-downloaded native addon
-      if (isLanceDbNativeAvailable()) {
-        try {
-          this.lance = require(getLanceDbNativePath());
+    // Priority 1: 已下载到 ~/.friday/native/node_modules/vectordb 的完整包。
+    // 这是普通用户 / 打包插件的主路径——无需开发环境，原生模块由
+    // vectordb 包装器在该目录树下自行解析（见 nativeAddon.ts）。
+    const downloadedEntry = getDownloadedVectordbEntry();
+    if (downloadedEntry) {
+      try {
+        const lance = await import(pathToFileURL(downloadedEntry).href);
+        if (await verifyLanceDbNativeLoads(lance)) {
+          this.lance = lance;
           return new LanceDbIndex(embeddingsProvider, readFile);
-        } catch (e) {
-          console.error("[LanceDbIndex] Failed to load local native addon:", (e as Error).message);
         }
+      } catch (e: any) {
+        console.error(
+          "[LanceDbIndex] Failed to load downloaded vectordb:",
+          e?.message || e,
+        );
       }
-
-      // Not available — degrade gracefully, trigger async download
-      console.log("[LanceDbIndex] LanceDB not available, triggering background download...");
-      ensureLanceDbNative();
-      return null;
     }
+
+    // Priority 2: 开发环境内联 vectordb（node_modules 里有原生模块时直接用，省去下载）。
+    try {
+      const lance = await import("vectordb");
+      if (await verifyLanceDbNativeLoads(lance)) {
+        this.lance = lance;
+        return new LanceDbIndex(embeddingsProvider, readFile);
+      }
+    } catch {
+      // import 本身失败，继续走下载分支
+    }
+
+    // Priority 3: 无任何可用原生模块 → 后台下载完整 vectordb 包到 ~/.friday/native/node_modules/
+    console.log(
+      "[LanceDbIndex] vectordb not available, triggering background download to ~/.friday/native ...",
+    );
+    ensureLanceDbNative();
+    return null;
   }
 
   private constructor(

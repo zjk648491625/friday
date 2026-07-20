@@ -1,5 +1,6 @@
 import fs from "fs";
 import os from "os";
+import { execSync } from "child_process";
 
 import { ModelConfig } from "@friday-ai/config-yaml";
 import {
@@ -85,7 +86,9 @@ export function addModel(
         maxStopWords: model.maxStopWords,
         defaultCompletionOptions: model.completionOptions,
         ...(model.cacheBehavior ? { cacheBehavior: model.cacheBehavior } : {}),
-        ...(model.providerName ? { providerName: model.providerName } : {}),
+        ...(model.underlyingProviderName
+          ? { underlyingProviderName: model.underlyingProviderName }
+          : {}),
         ...(capabilities.length > 0 ? { capabilities } : {}),
         ...(roles && roles.length > 0 ? { roles: roles as any } : {}),
       };
@@ -131,6 +134,29 @@ export function getModelByRole<T extends keyof ExperimentalModelRoles>(
  *
  * See here for details: https://github.com/friday-ai/friday/issues/940
  */
+/**
+ * 检测当前 Linux 是否使用 musl C 库（Alpine 等轻量发行版）。
+ * 非 Linux 平台直接返回 false，避免无谓的 exec。
+ */
+function isMusl(): boolean {
+  if (os.platform() !== "linux") return false;
+  try {
+    const out = execSync("ldd --version 2>&1 || true", { encoding: "utf8" });
+    if (/musl/.test(out)) return true;
+  } catch {
+    // 忽略，继续走 process.report 检测
+  }
+  try {
+    const report = (process as any).report?.getReport?.();
+    if (report?.header && report.header.glibcVersionRuntime === undefined) {
+      return true;
+    }
+  } catch {
+    // 忽略
+  }
+  return false;
+}
+
 export function isSupportedLanceDbCpuTargetForLinux(ide?: IDE) {
   const CPU_FEATURES_TO_CHECK = ["avx2", "fma"] as const;
 
@@ -149,6 +175,16 @@ export function isSupportedLanceDbCpuTargetForLinux(ide?: IDE) {
   // This check only applies to x64
   //https://github.com/lancedb/lance/issues/2195#issuecomment-2057841311
   if (arch !== "x64") {
+    globalContext.update("isSupportedLanceDbCpuTargetForLinux", true);
+    return true;
+  }
+
+  // musl 环境（如 Alpine 容器）放宽 CPU 限制：LanceDB 提供独立的 musl 构建，
+  // 且容器内 /proc/cpuinfo 检测可能不可靠，允许下载对应原生包后由运行时验证。
+  if (isMusl()) {
+    console.log(
+      "[config] musl environment detected, relaxing LanceDB CPU target check",
+    );
     globalContext.update("isSupportedLanceDbCpuTargetForLinux", true);
     return true;
   }

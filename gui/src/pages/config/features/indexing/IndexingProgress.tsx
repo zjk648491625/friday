@@ -102,6 +102,7 @@ function IndexingProgress() {
         });
         break;
       case "done":
+      case "cancelled":
         ideMessenger.post("index/forceReIndex", undefined);
       default:
         break;
