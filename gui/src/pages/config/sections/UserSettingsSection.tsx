@@ -13,6 +13,7 @@ import { UserSetting } from "../components/UserSetting";
 import { T } from "../../../util/i18n";
 import { useLanguage } from "../../../context/Language";
 import { useSettings } from "../../../hooks/useSettings";
+import { useThemeMode } from "../../../context/ThemeMode";
 
 function DebugToggle() {
   const [on, setOn] = useState(() => {
@@ -40,6 +41,7 @@ export function UserSettingsSection() {
   const ideMessenger = useContext(IdeMessengerContext);
   const config = useAppSelector((state) => state.config.config);
   const { saveSetting } = useSettings();
+  const { themeMode, setThemeMode } = useThemeMode();
 
   const [showExperimental, setShowExperimental] = useState(false);
   const { language, setLanguage } = useLanguage();
@@ -175,6 +177,19 @@ export function UserSettingsSection() {
             <ConfigHeader title="Appearance" variant="sm" />
             <Card>
               <div className="flex flex-col gap-4">
+                <UserSetting
+                  type="select"
+                  title={T("Theme")}
+                  description={T("Choose your preferred theme appearance.")}
+                  value={themeMode}
+                  onChange={(val) => setThemeMode(val as any)}
+                  options={[
+                    { label: T("Follow IDE"), value: "follow-ide" },
+                    { label: T("Follow System"), value: "follow-system" },
+                    { label: T("Dark"), value: "dark" },
+                    { label: T("Light"), value: "light" },
+                  ]}
+                />
                 <UserSetting
                   type="select"
                   title={T("Language")}

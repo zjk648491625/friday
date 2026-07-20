@@ -360,6 +360,11 @@ export function Chat() {
     [history],
   );
 
+  
+  const filteredHistory = useMemo(
+    () => history.filter((item) => item.message.role !== "system"),
+    [history],
+  );
   const renderChatHistoryItem = useCallback(
     (item: ChatHistoryItemWithMessageId, index: number) => {
       const {
@@ -397,7 +402,7 @@ export function Chat() {
               )}
             </div>
             <div className="msg-avatar-col right">
-              <div className="msg-avatar-icon user" title="You">馃懁</div>
+              <div className="msg-avatar-icon user" title="You">👤</div>
               <span className="msg-avatar-label">{T("User")}</span>
             </div>
           </div>
@@ -466,18 +471,18 @@ export function Chat() {
               {/* Token usage summary */}
               {item.promptLogs && item.promptLogs.length > 0 && (() => {
                 const lastLog = item.promptLogs[item.promptLogs.length - 1];
-                const inputTokens = lastLog?.completionOptions?.promptTokens ?? lastLog?.tokens ?? 0;
-                const outputTokens = lastLog?.completionOptions?.completionTokens ?? 0;
+                const inputTokens = lastLog?.usage?.promptTokens ?? 0;
+                const outputTokens = lastLog?.usage?.completionTokens ?? 0;
                 return (
                   <div className="flex gap-2 mt-2 opacity-40 hover:opacity-80 transition-opacity" style={{ fontSize: "10px" }}>
                     <span className="rounded-full px-2 py-0.5" style={{background:"rgba(128,128,128,0.12)",color:"var(--vscode-descriptionForeground)"}}>
-                      猬?{Number(inputTokens).toLocaleString()}
+                      📥{Number(inputTokens).toLocaleString()}
                     </span>
                     <span className="rounded-full px-2 py-0.5" style={{background:"rgba(59,130,246,0.12)",color:"#93c5fd"}}>
-                      猬?{Number(outputTokens).toLocaleString()}
+                      📥{Number(outputTokens).toLocaleString()}
                     </span>
                     <span className="rounded-full px-2 py-0.5" style={{background:"rgba(128,128,128,0.12)",color:"var(--vscode-descriptionForeground)"}}>
-                      馃晲 {item.timestamp ? `${((Date.now() - item.timestamp) / 1000).toFixed(1)}s` : ""}
+                      ⏱️ {item.timestamp ? `${((Date.now() - item.timestamp) / 1000).toFixed(1)}s` : ""}
                     </span>
                   </div>
                 );
@@ -528,7 +533,7 @@ export function Chat() {
         </div>
       );
     },
-    [sendInput, isLastUserInput, history, stepsOpen, isStreaming],
+    [sendInput, isLastUserInput, history, stepsOpen, isStreaming, filteredHistory],
   );
 
   const showScrollbar = showChatScrollbar ?? window.innerHeight > 5000;
@@ -570,10 +575,6 @@ export function Chat() {
     (items[targetIdx] as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
   }, [setUserHasScrolled]);
 
-  const filteredHistory = useMemo(
-    () => history.filter((item) => item.message.role !== "system"),
-    [history],
-  );
   // ----
 
   return (
@@ -583,35 +584,35 @@ export function Chat() {
 
       <div className="relative flex min-h-0 flex-1">
         <StepsDiv
-          ref={stepsDivRef}
-          className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll overflow-x-hidden`}
+            ref={stepsDivRef}
+            className={`pt-[8px] ${showScrollbar ? "thin-scrollbar" : "no-scrollbar"} min-h-0 flex-1 overflow-y-scroll overflow-x-hidden`}
         >
-          <DeprecationBanner />
+          <DeprecationBanner/>
           {highlights}
           {history.length === 0 ? (
-            <EmptyChatBody showOnboardingCard={onboardingCard.show} />
+              <EmptyChatBody showOnboardingCard={onboardingCard.show}/>
           ) : (
-            history
-              .filter((item) => item.message.role !== "system")
-              .map((item, index: number) => (
-                <div
-                  key={item.message.id}
-                  {...(item.message.role === "user" ? { "data-user-msg": "true" } : {})}
-                  style={{
-                    minHeight: index === filteredHistory.length - 1 ? "200px" : 0,
-                  }}
-                >
-                  <ErrorBoundary
-                    FallbackComponent={fallbackRender}
-                    onReset={() => {
-                      dispatch(newSession());
-                    }}
-                  >
-                    {renderChatHistoryItem(item, index)}
-                  </ErrorBoundary>
-                  {index === filteredHistory.length - 1 && <InlineErrorMessage />}
-                </div>
-              ))
+              history
+                  .filter((item) => item.message.role !== "system")
+                  .map((item, index: number) => (
+                      <div
+                          key={item.message.id}
+                          {...(item.message.role === "user" ? {"data-user-msg": "true"} : {})}
+                          style={{
+                            minHeight: index === filteredHistory.length - 1 ? "200px" : 0,
+                          }}
+                      >
+                        <ErrorBoundary
+                            FallbackComponent={fallbackRender}
+                            onReset={() => {
+                              dispatch(newSession());
+                            }}
+                        >
+                          {renderChatHistoryItem(item, index)}
+                        </ErrorBoundary>
+                        {index === filteredHistory.length - 1 && <InlineErrorMessage/>}
+                      </div>
+                  ))
           )}
         </StepsDiv>
 
@@ -647,39 +648,47 @@ export function Chat() {
           .history-popup-item:hover { background:var(--vscode-list-hoverBackground, rgba(128,128,128,0.15)); }
         `}</style>
         {filteredHistory.length > 0 && (
-          <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1">
-            <button onClick={scrollToTop} data-tip={T("Scroll to top")} className="scroll-btn scroll-tip">馃敐</button>
-            <button onClick={() => scrollToUserMsg("prev")} data-tip={T("Previous user message")} className="scroll-btn scroll-tip">猬嗭笍</button>
-            <button onClick={() => setShowHistoryPopup(!showHistoryPopup)} data-tip={T("History")} className="scroll-btn scroll-tip" style={{fontSize:"16px",fontWeight:"bold"}}>鈽?/button>
-            <button onClick={() => scrollToUserMsg("next")} data-tip={T("Next user message")} className="scroll-btn scroll-tip">猬囷笍</button>
-            <button onClick={scrollToBottom} data-tip={T("Scroll to bottom")} className="scroll-btn scroll-tip">鈴?/button>
-            {showHistoryPopup && (
-              <div className="history-popup" ref={historyPopupRef}>
-                {filteredHistory
-                  .filter((item: ChatHistoryItemWithMessageId) => item.message.role === "user")
-                  .map((item: ChatHistoryItemWithMessageId, i: number) => (
-                    <div
-                      key={i}
-                      className="history-popup-item"
-                      onClick={() => {
-                        const el = document.querySelector(`[data-user-msg="true"]`);
-                        const all = document.querySelectorAll("[data-user-msg]");
-                        const userMsgs = Array.from(all);
-                        const targetIdx = userMsgs.findIndex(
-                          (m) => m instanceof HTMLElement && m.dataset.userMsg === "true"
-                        );
-                        if (all[i]) (all[i] as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
-                        setShowHistoryPopup(false);
-                      }}
-                    >
-                      {renderChatMessage(item.message).substring(0, 50)}
-                    </div>
-                  ))}
-              </div>                </div>PLACEHOLDER
+            <div className="absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1">
+              <button onClick={scrollToTop} data-tip={T("Scroll to top")} className="scroll-btn scroll-tip">🔝</button>
+              <button onClick={() => scrollToUserMsg("prev")} data-tip={T("Previous user message")}
+                      className="scroll-btn scroll-tip">⬆️
+              </button>
+              <button onClick={() => setShowHistoryPopup(!showHistoryPopup)} data-tip={T("History")}
+                      className="scroll-btn scroll-tip" style={{fontSize: "16px", fontWeight: "bold"}}>📋
+              </button>
+              <button onClick={() => scrollToUserMsg("next")} data-tip={T("Next user message")}
+                      className="scroll-btn scroll-tip">⬇️
+              </button>
+              <button onClick={scrollToBottom} data-tip={T("Scroll to bottom")} className="scroll-btn scroll-tip">🔽
+              </button>
+              {showHistoryPopup && (
+                  <div className="history-popup" ref={historyPopupRef}>
+                    {filteredHistory
+                        .filter((item: ChatHistoryItemWithMessageId) => item.message.role === "user")
+                        .map((item: ChatHistoryItemWithMessageId, i: number) => (
+                            <div
+                                key={i}
+                                className="history-popup-item"
+                                onClick={() => {
+                                  const el = document.querySelector(`[data-user-msg="true"]`);
+                                  const all = document.querySelectorAll("[data-user-msg]");
+                                  const userMsgs = Array.from(all);
+                                  const targetIdx = userMsgs.findIndex(
+                                      (m) => m instanceof HTMLElement && m.dataset.userMsg === "true"
+                                  );
+                                  if (all[i]) (all[i] as HTMLElement).scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start"
+                                  });
+                                  setShowHistoryPopup(false);
+                                }}
+                            >
+                              {renderChatMessage(item.message).substring(0, 50)}
+                            </div>
+                        ))}
+                  </div>
+              )}
             </div>
-            )}
-            <button onClick={scrollToBottom} data-tip={T("Scroll to bottom")} className="scroll-btn scroll-tip">鈴?/button>
-          </div>
         )}
       </div>
       <div className={"relative shrink-0"}>

@@ -62,6 +62,11 @@ const zh: Dict = {
   "Tool Policies": "工具策略", "Tool Group": "工具组",
   "MCP Servers": "MCP服务器", Servers: "服务器",
   "Global Rules": "全局规则", "Workspace Rules": "工作区规则",
+  "Follow IDE": "跟随IDE",
+  "Follow System": "跟随系统",
+  "Dark": "深色",
+  "Light": "浅色",
+  "Choose your preferred theme appearance.": "选择您偏好的主题外观。",
 
   // ═══════ 模型 ═══════
   "Configure Model": "配置模型", "Select Model": "选择模型",

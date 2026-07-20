@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import { MainEditorProvider } from "./components/mainInput/TipTapEditor";
 import { SubmenuContextProvidersProvider } from "./context/SubmenuContextProviders";
 import { VscThemeProvider } from "./context/VscTheme";
+import { ThemeModeProvider } from "./context/ThemeMode";
 import ParallelListeners from "./hooks/ParallelListeners";
 import ConfigPage from "./pages/config";
 import ErrorPage from "./pages/error";
@@ -52,14 +53,16 @@ const router = createMemoryRouter([
 */
 function App() {
   return (
-    <VscThemeProvider>
-      <MainEditorProvider>
-        <SubmenuContextProvidersProvider>
-          <RouterProvider router={router} />
-        </SubmenuContextProvidersProvider>
-      </MainEditorProvider>
-      <ParallelListeners />
-    </VscThemeProvider>
+    <ThemeModeProvider>
+      <VscThemeProvider>
+        <MainEditorProvider>
+          <SubmenuContextProvidersProvider>
+            <RouterProvider router={router} />
+          </SubmenuContextProvidersProvider>
+        </MainEditorProvider>
+        <ParallelListeners />
+      </VscThemeProvider>
+    </ThemeModeProvider>
   );
 }
 

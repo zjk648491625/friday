@@ -203,7 +203,7 @@ body {
 
 /* --- AtMention dropdown panel --- */
 .at-mention-dropdown {
-  background: rgba(30, 30, 30, 0.9) !important;
+  background: var(--vscode-input-background, var(--vscode-sideBar-background, var(--vscode-editor-background))) !important;
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
 }

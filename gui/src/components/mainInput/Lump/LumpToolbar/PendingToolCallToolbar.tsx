@@ -1,4 +1,4 @@
-import { ChevronUpIcon, EllipsisHorizontalIcon, ClockIcon, CheckBadgeIcon, ChatBubbleLeftIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronUpIcon, EllipsisHorizontalIcon, ClockIcon, CheckBadgeIcon, ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import { selectPendingToolCalls } from "../../../../redux/selectors/selectToolCalls";
@@ -109,57 +109,49 @@ export function PendingToolCallToolbar() {
                     <>
                       <div className="fixed inset-0 z-10" onClick={() => setOpenIdx(null)} />
                       <div
-                        className="absolute right-0 top-full z-20 mt-1 min-w-[180px] overflow-hidden rounded-lg border py-1 shadow-lg"
-                        style={{
-                          background: "var(--vscode-input-background)",
-                          borderColor: "var(--vscode-panel-border)",
-                        }}
+                        className="bg-vsc-input-background absolute right-0 top-full z-[200000] mt-1 flex w-max min-w-[160px] max-w-[400px] flex-col overflow-auto rounded-lg border border-command-border px-0 py-0.5 shadow-lg"
                       >
                         <button
                           type="button"
-                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
-                          style={{ color: "var(--vscode-foreground)" }}
+                          className="text-foreground hover:bg-gray-200/70 dark:hover:bg-gray-600/70 flex w-full items-center gap-2 px-2 py-1.5 text-xs transition-colors first:rounded-t-md"
                           onClick={() => handleSessionAction(toolName, "always_allow", tc.toolCallId)}
                         >
-                          <CheckBadgeIcon className="h-3.5 w-3.5 text-green-400 flex-shrink-0" />
+                          <CheckBadgeIcon className="h-3.5 w-3.5 flex-shrink-0 text-green-400" />
                           <span className="flex-1 text-left">{T("Always allow this session")}</span>
                         </button>
                         <button
                           type="button"
-                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
-                          style={{ color: "var(--vscode-foreground)" }}
+                          className="text-foreground hover:bg-gray-200/70 dark:hover:bg-gray-600/70 flex w-full items-center gap-2 px-2 py-1.5 text-xs transition-colors"
                           onClick={() => handleSessionAction(toolName, "always_ask", tc.toolCallId)}
                         >
-                          <ChatBubbleLeftIcon className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
+                          <ChatBubbleLeftIcon className="h-3.5 w-3.5 flex-shrink-0 text-blue-400" />
                           <span className="flex-1 text-left">{T("Ask each time")}</span>
                         </button>
                         <button
                           type="button"
-                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
-                          style={{ color: "var(--vscode-foreground)" }}
+                          className="text-foreground hover:bg-gray-200/70 dark:hover:bg-gray-600/70 flex w-full items-center gap-2 rounded-b-md px-2 py-1.5 text-xs transition-colors"
                           onClick={() => handleSessionAction(toolName, "block_1min", tc.toolCallId)}
                         >
-                          <ClockIcon className="h-3.5 w-3.5 text-amber-400 flex-shrink-0" />
+                          <ClockIcon className="h-3.5 w-3.5 flex-shrink-0 text-amber-400" />
                           <span className="flex-1 text-left">{T("Block for 1 minute")}</span>
-                        </button>
-                        {/* Divider between session controls and one-time reject */}
-                        <div
-                          className="my-1 border-t"
-                          style={{ borderColor: "var(--vscode-panel-border)" }}
-                        />
-                        <button
-                          type="button"
-                          className="hover:bg-list-active flex w-full items-center gap-2 px-3 py-1.5 text-xs"
-                          style={{ color: "var(--vscode-foreground)" }}
-                          onClick={() => { handleReject(tc.toolCallId); setOpenIdx(null); }}
-                        >
-                          <XMarkIcon className="h-3.5 w-3.5 text-red-400 flex-shrink-0" />
-                          <span className="flex-1 text-left">{T("Reject this time")}</span>
                         </button>
                       </div>
                     </>
                   )}
                 </div>
+              )}
+
+              {/* Reject (one-time) */}
+              {!isBlocked && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-description-muted my-1 font-medium hover:text-foreground"
+                  onClick={() => handleReject(tc.toolCallId)}
+                  data-testid={generateToolCallButtonTestId("reject", tc.toolCallId)}
+                >
+                  <span>{T("Reject")}</span>
+                </Button>
               )}
 
               {/* Accept (one-time) */}

@@ -182,6 +182,105 @@ export const THEME_COLORS = {
   },
 };
 
+// Light theme default color values (for "light" mode and "follow-system" when system is light)
+export const THEME_LIGHT_DEFAULTS: Record<string, string> = {
+  background: "#f3f3f3",
+  foreground: "#1e1e1e",
+  "editor-background": "#ffffff",
+  "editor-foreground": "#1e1e1e",
+  "primary-background": "#0078d4",
+  "primary-foreground": "#ffffff",
+  "primary-hover": "#1e8ae8",
+  "secondary-background": "#e8e8e8",
+  "secondary-foreground": "#1e1e1e",
+  "secondary-hover": "#dcdcdc",
+  border: "#e0e0e0",
+  "border-focus": "#0078d4",
+  "command-background": "#f6f6f6",
+  "command-foreground": "#1e1e1e",
+  "command-border": "#cccccc",
+  "command-border-focus": "#0078d4",
+  description: "#666666",
+  "description-muted": "#999999",
+  "input-background": "#ffffff",
+  "input-foreground": "#1e1e1e",
+  "input-border": "#cccccc",
+  "input-placeholder": "#9e9e9e",
+  "table-oddRow": "#f7f7f7",
+  "badge-background": "#e8e8e8",
+  "badge-foreground": "#333333",
+  info: "#2196f3",
+  success: "#4caf50",
+  warning: "#ffb74d",
+  error: "#f44336",
+  link: "#0078d4",
+  terminal: "#0dbc79",
+  textCodeBlockBackground: "#f5f5f5",
+  accent: "#0078d4",
+  "find-match": "#264f7840",
+  "find-match-selected": "#ffb74d40",
+  "list-hover": "#f0f0f0",
+  "list-active": "#0078d420",
+  "list-active-foreground": "#1e1e1e",
+};
+
+export type ThemeMode = "follow-ide" | "follow-system" | "dark" | "light";
+
+/** Apply light or dark default values to CSS variables */
+function _applyDefaultSet(defaults: Record<string, string>, isDark: boolean) {
+  for (const [colorName, colorVal] of Object.entries(defaults)) {
+    const settings = THEME_COLORS[colorName as keyof typeof THEME_COLORS];
+    if (!settings) continue;
+    for (const cssVar of settings.vars) {
+      document.documentElement.style.setProperty(cssVar, colorVal);
+      document.body.style.setProperty(cssVar, colorVal);
+    }
+  }
+  document.documentElement.setAttribute("data-color-mode", isDark ? "dark" : "light");
+  document.body.setAttribute("data-color-mode", isDark ? "dark" : "light");
+}
+
+/** Apply a theme mode by overriding CSS variables on the document. */
+export function applyThemeMode(mode: ThemeMode) {
+  if (mode === "follow-ide") {
+    for (const [colorName, settings] of Object.entries(THEME_COLORS)) {
+      for (const cssVar of settings.vars) {
+        document.documentElement.style.removeProperty(cssVar);
+        document.body.style.removeProperty(cssVar);
+      }
+    }
+    const cachedKeys = Object.keys(THEME_COLORS) as (keyof typeof THEME_COLORS)[];
+    for (const colorName of cachedKeys) {
+      const cached = localStorage.getItem(colorName);
+      if (cached) {
+        for (const cssVar of THEME_COLORS[colorName].vars) {
+          document.documentElement.style.setProperty(cssVar, cached);
+          document.body.style.setProperty(cssVar, cached);
+        }
+      }
+    }
+    document.documentElement.removeAttribute("data-color-mode");
+    document.body.removeAttribute("data-color-mode");
+    return;
+  }
+  if (mode === "dark") {
+    _applyDefaultSet(THEME_DEFAULTS, true);
+  } else if (mode === "light") {
+    _applyDefaultSet(THEME_LIGHT_DEFAULTS, false);
+  } else {
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    _applyDefaultSet(isDark ? THEME_DEFAULTS : THEME_LIGHT_DEFAULTS, isDark);
+  }
+}
+
+/** Listen to system color scheme changes when in follow-system mode. */
+export function listenToSystemTheme(onChange: (isDark: boolean) => void): () => void {
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  const handler = (e: MediaQueryListEvent) => onChange(e.matches);
+  mq.addEventListener("change", handler);
+  return () => mq.removeEventListener("change", handler);
+}
+
 // TODO: add fonts - GUI fonts in jetbrains differ from IDE:
 // --vscode-editor-font-family;
 // --vscode-font-family;
@@ -250,9 +349,6 @@ export const setDocumentStylesFromTheme = (
       }
     } else {
       missingColors.push(colorName);
-      // console.warn(
-      //   `Missing theme color: ${colorName}. Falling back to default ${colorVal}`,
-      // );
     }
 
     localStorage.setItem(colorName, colorVal);
@@ -261,6 +357,21 @@ export const setDocumentStylesFromTheme = (
       document.documentElement.style.setProperty(cssVar, colorVal);
     }
   });
+
+  // If a forced theme mode is active (dark/light/follow-system), re-apply its overrides
+  try {
+    const storedMode = localStorage.getItem("friday-theme-mode") as ThemeMode | null;
+    if (storedMode && storedMode !== "follow-ide") {
+      if (storedMode === "follow-system") {
+        const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        _applyDefaultSet(isDark ? THEME_DEFAULTS : THEME_LIGHT_DEFAULTS, isDark);
+      } else if (storedMode === "dark") {
+        _applyDefaultSet(THEME_DEFAULTS, true);
+      } else if (storedMode === "light") {
+        _applyDefaultSet(THEME_LIGHT_DEFAULTS, false);
+      }
+    }
+  } catch {}
 
   return missingColors;
 };
