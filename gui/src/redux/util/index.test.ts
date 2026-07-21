@@ -6,6 +6,7 @@ import {
   findToolCallById,
   hasCurrentToolCalls,
 } from "./index";
+import message from "../../components/console/Message";
 
 // Helper function to create a tool call state
 function createToolCallState(
@@ -48,8 +49,9 @@ function createChatHistoryItem(
   }
 
   const historyItem: ChatHistoryItemWithMessageId = {
+    timestamp: 0,
     message,
-    contextItems: [],
+    contextItems: []
   };
 
   if (options?.toolCallStates) {

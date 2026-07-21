@@ -45,7 +45,7 @@ export function AssistantAndOrgListbox({
   }
 
   function onNewAssistant() {
-    void ideMessenger.request("config/newAssistantFile", undefined);
+    void (ideMessenger as any).request("config/newAssistantFile", undefined);
     close();
   }
 

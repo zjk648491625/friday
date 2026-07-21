@@ -7,7 +7,9 @@
         <![CDATA[IronHero - AI-powered coding assistant]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.vcs</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Friday" anchor="right" icon="com.github.fridayai.fridayintellijextension.Icons.Friday"
@@ -46,6 +48,9 @@
                 displayName="Friday AI"/>
         <applicationService
                 serviceImplementation="com.github.fridayai.fridayintellijextension.services.FridayExtensionSettings"/>
+
+        <checkinHandlerFactory
+                implementation="com.github.fridayai.fridayintellijextension.friday.CommitMessageGeneratorFactory"/>
     </extensions>
 
     <actions>
@@ -183,6 +188,21 @@
                                first-keystroke="meta J"/>
             <add-to-group group-id="EditorPopupMenu"/>
             <override-text place="GoToAction" text="Friday: Add Highlighted Code to Context and Clear Chat"/>
+        </action>
+
+        <action id="friday.generateCommitMessage"
+                class="com.github.fridayai.fridayintellijextension.actions.GenerateCommitMessageAction"
+                text="AI 生成提交信息"
+                description="使用 Friday AI 根据 Git diff 自动生成提交信息"
+                icon="AllIcons.Actions.Lightning">
+            <keyboard-shortcut keymap="$default"
+                               first-keystroke="ctrl alt G"/>
+            <keyboard-shortcut keymap="Mac OS X"
+                               first-keystroke="meta shift G"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="VcsGlobalGroup" anchor="last"/>
+            <add-to-group group-id="Vcs.MessageActionGroup" anchor="last"/>
+            <override-text place="GoToAction" text="Friday: AI 生成提交信息"/>
         </action>
         <group id="FridayProjectViewPopUpMenuGroup" popup="true" text="Friday" icon="/icons/friday.svg">
             <action id="com.github.fridayai.fridayintellijextension.fridayintellijextension.actions.AddToChatAction"

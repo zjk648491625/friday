@@ -43,6 +43,7 @@ dependencies {
     intellijPlatform {
         intellijIdeaCommunity(platformVersion)
         bundledPlugin("org.jetbrains.plugins.terminal")
+        bundledPlugin("Git4Idea")
         testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.Starter, "243.21565.193", configurationName = "testIntegrationImplementation")
     }
