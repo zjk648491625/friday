@@ -393,8 +393,8 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
                           key={opt.key}
                           className={`flex cursor-pointer items-start gap-2 rounded border px-3 py-2 ${
                             checked
-                              ? "border-[var(--vscode-focusBorder,#3b82f6)] bg-[var(--vscode-list-activeSelectionBackground,rgba(128,128,128,0.1))]"
-                              : "border-[var(--vscode-panel-border,#555)]"
+                              ? "border-blue-500 bg-list-active"
+                              : "border-[var(--vscode-panel-border,rgba(128,128,128,0.25))]"
                           }`}
                         >
                           <input
