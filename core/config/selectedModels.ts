@@ -29,14 +29,20 @@ export function rectifySelectedModelsFromGlobalContext(
     "chat",
     "summarize",
     "subagent",
+    "commitMessage",
   ];
 
   for (const role of roles) {
+    // Skip roles not present in modelsByRole (e.g. roles added later
+    // that aren't yet populated by intermediateToFinalConfig).
+    const candidates = fridayConfig.modelsByRole[role];
+    if (!candidates) continue;
+
     let newModel: ILLM | null = null;
     const currentSelection = currentForProfile[role] ?? null;
 
     if (currentSelection) {
-      const match = fridayConfig.modelsByRole[role].find(
+      const match = candidates.find(
         (m) => m.title === currentSelection,
       );
       if (match) {
@@ -44,8 +50,8 @@ export function rectifySelectedModelsFromGlobalContext(
       }
     }
 
-    if (!newModel && fridayConfig.modelsByRole[role].length > 0) {
-      newModel = fridayConfig.modelsByRole[role][0];
+    if (!newModel && candidates.length > 0) {
+      newModel = candidates[0];
     }
 
     if (!(currentSelection === (newModel?.title ?? null))) {

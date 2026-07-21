@@ -467,6 +467,7 @@ async function intermediateToFinalConfig({
       embed: newEmbedder ? [newEmbedder] : [],
       rerank: newReranker ? [newReranker] : [],
       subagent: models,
+      commitMessage: models,
     },
     selectedModelByRole: {
       chat: null,
@@ -477,6 +478,7 @@ async function intermediateToFinalConfig({
       embed: newEmbedder ?? null,
       rerank: newReranker ?? null,
       subagent: null,
+      commitMessage: null,
     },
     rules: [],
   };
