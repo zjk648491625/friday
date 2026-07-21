@@ -132,6 +132,7 @@ class MessageTypes {
             "nextEdit/queue/abort",
             "tts/kill",
             "llm/complete",
+            "commitMessage/generate",
             "llm/streamChat",
             "llm/listModels",
             "llm/compileChat",

@@ -19,6 +19,10 @@ import {
 import * as vscode from "vscode";
 import * as YAML from "yaml";
 
+import { Change as GitChange } from "./otherExtensions/git";
+
+import { buildCommitMessagePrompt, cleanCommitMessage } from "./commitMessageConfig";
+
 import { convertJsonToYamlConfig } from "../../../packages/config-yaml/dist";
 
 import {
@@ -50,6 +54,10 @@ import { openEditorAndRevealRange } from "./util/vscode";
 import { VsCodeIde } from "./VsCodeIde";
 
 let fullScreenPanel: vscode.WebviewPanel | undefined;
+
+// Tracks in-progress commit message generation so the command can be
+// disabled (no-op) while a previous generation is still running.
+let commitMessageGenerating = false;
 
 function getFullScreenTab() {
   const tabs = vscode.window.tabGroups.all.flatMap((tabGroup) => tabGroup.tabs);
@@ -170,6 +178,108 @@ const getCommandsMap: (
   }
 
   return {
+    "friday.generateCommitMessage": async () => {
+      if (commitMessageGenerating) {
+        return;
+      }
+      try {
+        const gitExtension = vscode.extensions.getExtension("vscode.git");
+        if (!gitExtension || !gitExtension.isActive) {
+          vscode.window.showErrorMessage("Git extension not available.");
+          return;
+        }
+
+        const git = gitExtension.exports.getAPI(1);
+        const repo = git.repositories?.[0];
+        if (!repo) {
+          vscode.window.showErrorMessage("No Git repository found.");
+          return;
+        }
+
+        // Mark as generating and pre-fill the commit message box as immediate feedback.
+        commitMessageGenerating = true;
+        repo.inputBox.value = "Friday 生成提交信息中...";
+
+        // If files are selected (staged or checked in SCM), diff only those; otherwise full diff
+        const stagedPaths = repo.state.indexChanges.map((c: GitChange) => c.uri.fsPath);
+        const workingPaths = repo.state.workingTreeChanges.map((c: GitChange) => c.uri.fsPath);
+
+        let diff = "";
+        if (stagedPaths.length > 0) {
+          // Selected files in staged area — diff only those
+          const diffs = await Promise.all(
+            stagedPaths.map((p: string) => repo.diffIndexWithHEAD(p)),
+          );
+          diff = diffs.filter(Boolean).join("\n");
+        } else if (workingPaths.length > 0) {
+          // Selected files in working tree — diff only those
+          const diffs = await Promise.all(
+            workingPaths.map((p: string) => repo.diffWithHEAD(p)),
+          );
+          diff = diffs.filter(Boolean).join("\n");
+        }
+
+        // Fallback: no per-file diffs available
+        if (!diff) {
+          diff = await repo.diff(true);
+        }
+        if (!diff) {
+          diff = await repo.diff(false);
+        }
+        if (!diff) {
+          repo.inputBox.value = "";
+          vscode.window.showWarningMessage(
+            "No changes to generate commit message for.",
+          );
+          return;
+        }
+
+        // Collect recent commits if history reference is enabled
+        let recentCommits: string[] | undefined;
+        try {
+          const logResult = await repo.log({ maxEntries: 10 });
+          recentCommits = logResult.map((c: any) => c.message.split("\n")[0]);
+        } catch { /* skip */ }
+
+        const prompt = await buildCommitMessagePrompt(diff, recentCommits);
+
+        const result = await core.invoke("commitMessage/generate", {
+          prompt,
+        });
+
+        if (result && typeof result === "string") {
+          repo.inputBox.value = cleanCommitMessage(result);
+        } else {
+          repo.inputBox.value = "";
+          vscode.window.showErrorMessage(
+            "Failed to generate commit message.",
+          );
+        }
+      } catch (e: any) {
+        repo_inputBoxClearOnError();
+        vscode.window.showErrorMessage(
+          `Failed to generate commit message: ${e.message}`,
+        );
+      } finally {
+        commitMessageGenerating = false;
+      }
+
+      function repo_inputBoxClearOnError() {
+        // Best-effort: clear the placeholder if we still have a repo reference.
+        try {
+          const gitExtension = vscode.extensions.getExtension("vscode.git");
+          const git = gitExtension?.exports?.getAPI(1);
+          const repo = git?.repositories?.[0];
+          if (repo) {
+            repo.inputBox.value = "";
+          }
+        } catch { /* ignore */ }
+      }
+    },
+    "friday.openCommitMessageConfig": () => {
+      // Open Friday's built-in settings page (not a separate webview)
+      vscode.commands.executeCommand("friday.navigateTo", "/config", true);
+    },
     "friday.acceptDiff": async (newFileUri?: string, streamId?: string) => {
       void processDiff(
         "accept",

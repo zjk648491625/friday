@@ -148,10 +148,57 @@
           "default": 60,
           "description": "Friday AI runs in local-only mode. Sync is disabled.",
           "deprecationMessage": "Sync is not available in Friday AI local-only mode."
+        },
+        "friday.commitMessage.template": {
+          "type": "string",
+          "default": "conventional",
+          "enum": ["conventional", "angular", "simple", "gitmoji"],
+          "enumDescriptions": [
+            "Conventional Commits (type(scope): description)",
+            "Angular (type(scope): subject\\n\\nbody\\n\\nfooter)",
+            "Simple (description only)",
+            "Gitmoji (:emoji: type description)"
+          ],
+          "description": "Commit message template format"
+        },
+        "friday.commitMessage.language": {
+          "type": "string",
+          "default": "zh",
+          "enum": ["zh", "en"],
+          "enumDescriptions": ["中文", "English"],
+          "description": "Language for generated commit messages"
+        },
+        "friday.commitMessage.detailLevel": {
+          "type": "string",
+          "default": "standard",
+          "enum": ["concise", "standard", "detailed"],
+          "enumDescriptions": [
+            "Concise (single sentence)",
+            "Standard (title + bullet points)",
+            "Detailed (title + detailed description + bullet points)"
+          ],
+          "description": "Detail level for generated commit messages"
+        },
+        "friday.commitMessage.referenceHistory": {
+          "type": "boolean",
+          "default": false,
+          "description": "Reference recent commit message style when generating"
         }
       }
     },
     "commands": [
+      {
+        "command": "friday.generateCommitMessage",
+        "category": "Friday",
+        "title": "Generate Commit Message",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "friday.openCommitMessageConfig",
+        "category": "Friday",
+        "title": "Configure Commit Message (opens Friday Settings)",
+        "icon": "$(gear)"
+      },
       {
         "command": "friday.applyCodeFromChat",
         "category": "Friday",
@@ -506,6 +553,12 @@
     "menus": {
       "commandPalette": [
         {
+          "command": "friday.generateCommitMessage"
+        },
+        {
+          "command": "friday.openCommitMessageConfig"
+        },
+        {
           "command": "friday.reloadGUI"
         },
         {
@@ -594,6 +647,13 @@
           "command": "friday.viewHistory",
           "group": "navigation@2",
           "when": "activeWebviewPanelId == friday.fridayGUIView"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "friday.generateCommitMessage",
+          "group": "navigation",
+          "when": "scmProvider == git"
         }
       ],
       "terminal/context": [
