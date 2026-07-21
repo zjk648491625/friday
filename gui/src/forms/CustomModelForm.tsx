@@ -318,8 +318,7 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
                 <button
                   type="button"
                   onClick={handleToggleDropdown}
-                  className="absolute inset-y-0 right-0 flex items-center pr-2 border-0 bg-transparent cursor-pointer"
-                  style={{ color: "var(--vscode-descriptionForeground)" }}
+                  className="absolute inset-y-0 right-0 flex items-center pr-2 border-0 bg-transparent cursor-pointer text-description"
                 >
                   <ArrowDownIcon className={`h-3.5 w-3.5 transition-transform ${modelDropdownOpen ? "rotate-180" : ""}`} />
                 </button>
@@ -331,7 +330,7 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
                     <div className="bg-background border-border flex items-center rounded border pl-2">
                       <MagnifyingGlassIcon className="text-description-muted h-3.5 w-3.5 flex-shrink-0" />
                       <input type="text" placeholder={T("Search models...")} value={modelSearch} onChange={(e) => setModelSearch(e.target.value)}
-                        className="w-full border-0 bg-transparent px-2 py-1 text-xs outline-none" style={{ color: "var(--vscode-foreground)" }} autoFocus onClick={(e) => e.stopPropagation()} />
+                        className="w-full border-0 bg-transparent px-2 py-1 text-xs outline-none text-foreground" autoFocus onClick={(e) => e.stopPropagation()} />
                     </div>
                   </div>
                   <div className="flex-1 overflow-y-auto">
@@ -368,8 +367,7 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
             <button
               type="button"
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="flex w-full items-center justify-between border-none bg-transparent py-1 text-sm font-medium"
-              style={{ color: "var(--vscode-descriptionForeground)" }}
+              className="flex w-full items-center justify-between border-none bg-transparent py-1 text-sm font-medium text-description"
             >
               <span>{T("Advanced Options")}</span>
               {showAdvanced ? (
