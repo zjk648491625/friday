@@ -25,14 +25,14 @@ const PROVIDER_OPTIONS = [
 ];
 
 const ROLE_OPTIONS = [
-  { key: "chat", label: "Chat", desc: "对话模型，用于聊天和代码生成" },
-  { key: "autocomplete", label: "Autocomplete", desc: "代码补全（需模型支持 FIM / Fill-in-the-Middle）" },
-  { key: "edit", label: "Edit", desc: "行内编辑，用自然语言修改代码" },
-  { key: "apply", label: "Apply", desc: "应用差异/补丁到文件" },
-  { key: "embed", label: "Embed", desc: "生成嵌入向量，用于 @codebase 和 @docs 检索" },
-  { key: "rerank", label: "Rerank", desc: "对 @codebase 和 @docs 检索结果进行重排序" },
-  { key: "summarize", label: "Summarize", desc: "总结聊天历史和上下文" },
-  { key: "subagent", label: "Subagent", desc: "自主子代理任务执行" },
+  { key: "chat",       label: "Chat",             desc: "对话模型，用于聊天和代码生成" },
+  { key: "autocomplete",label: "Autocomplete",     desc: "代码补全（需模型支持 FIM / Fill-in-the-Middle）" },
+  { key: "edit",       label: "Edit",              desc: "行内编辑，用自然语言修改代码" },
+  { key: "apply",      label: "Apply",             desc: "应用差异/补丁到文件" },
+  { key: "embed",      label: "Embed",             desc: "生成嵌入向量，用于 @codebase 和 @docs 检索" },
+  { key: "rerank",     label: "Rerank",            desc: "对 @codebase 和 @docs 检索结果进行重排序" },
+  { key: "summarize",  label: "Summarize",         desc: "总结聊天历史和上下文" },
+  { key: "subagent",   label: "Subagent",          desc: "自主子代理任务执行" },
   { key: "commitMessage", label: "Commit Message", desc: "生成 Git 提交信息" },
 ];
 
@@ -391,15 +391,11 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
                       return (
                         <label
                           key={opt.key}
-                          className="flex cursor-pointer items-start gap-2 rounded border px-3 py-2"
-                          style={{
-                            borderColor: checked
-                              ? "var(--vscode-focusBorder, var(--vscode-textLink-foreground, #3b82f6))"
-                              : "var(--vscode-panel-border, var(--vscode-sideBar-border, #555))",
-                            background: checked
-                              ? "var(--vscode-list-activeSelectionBackground, color-mix(in srgb, var(--vscode-textLink-foreground, #3b82f6) 10%, transparent))"
-                              : "var(--vscode-sideBar-background, transparent)",
-                          }}
+                          className={`flex cursor-pointer items-start gap-2 rounded border px-3 py-2 ${
+                            checked
+                              ? "border-[var(--vscode-focusBorder,#3b82f6)] bg-[var(--vscode-list-activeSelectionBackground,rgba(128,128,128,0.1))]"
+                              : "border-[var(--vscode-panel-border,#555)]"
+                          }`}
                         >
                           <input
                             type="checkbox"
@@ -413,9 +409,9 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
                             className="mt-0.5 accent-blue-500"
                           />
                           <div>
-                            <span className="text-sm font-medium">{opt.label}</span>
-                            <span className="mt-0.5 block text-xs" style={{ color: "var(--vscode-descriptionForeground)" }}>
-                              {opt.desc}
+                            <span className="text-sm font-medium text-foreground">{T(opt.label)}</span>
+                            <span className="mt-0.5 block text-xs text-description">
+                              {T(opt.desc)}
                             </span>
                           </div>
                         </label>
