@@ -389,7 +389,11 @@ class OpenAI extends BaseLLM {
       signal,
       options,
     )) {
-      completion += chunk.content;
+      // Skip reasoning/thinking chunks (e.g. DeepSeek R1 reasoning_content)
+      // so that complete() only returns the actual assistant reply.
+      if (chunk.role === "assistant") {
+        completion += chunk.content;
+      }
     }
 
     return completion;
@@ -430,6 +434,7 @@ class OpenAI extends BaseLLM {
       signal,
       options,
     )) {
+      if (chunk.role === "thinking") continue;
       yield renderChatMessage(chunk);
     }
   }
