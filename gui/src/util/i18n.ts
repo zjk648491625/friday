@@ -6,14 +6,15 @@ type Dict = Record<string, string>;
 
 const zh: Dict = {
   // ═══════ 导航/标签 ═══════
-  Settings: "设置", Back: "返回", Models: "模型", Rules: "规则",
-  Tools: "工具", Prompts: "提示词", Configs: "配置", Indexing: "索引",
-  "Back to settings": "返回设置", Chat: "对话", Autocomplete: "自动补全",
-  Edit: "编辑", Apply: "应用", Embed: "嵌入", Rerank: "重排",
-  Appearance: "外观", Experimental: "实验性",
-  Resources: "资源", Documentation: "文档",
+  "Settings": "设置", "Back": "返回", "Models": "模型", "Rules": "规则",
+  "Tools": "工具", "Prompts": "提示词", "Configs": "配置", "Indexing": "索引",
+  "Back to settings": "返回设置", "Chat": "对话", "Autocomplete": "自动补全",
+  "Edit": "编辑", "Apply": "应用", "Embed": "嵌入", "Rerank": "重排",
+  "Summarize": "摘要", "Subagent": "子代理", "Commit Message": "提交信息",
+  "Appearance": "外观", "Experimental": "实验性",
+  "Resources": "资源", "Documentation": "文档",
   "Help Center": "帮助中心", "Keyboard Shortcuts": "快捷键",
-  History: "历史记录", "User Settings": "用户设置",
+  "History": "历史记录", "User Settings": "用户设置",
   "Main Config": "主配置", "Friday AI": "Friday AI",
 
   // ═══════ 按钮 ═══════
@@ -60,7 +61,7 @@ const zh: Dict = {
   "Show Experimental Settings": "显示实验性设置",
   "Additional model roles": "其他模型角色",
   "Tool Policies": "工具策略", "Tool Group": "工具组",
-  "MCP Servers": "MCP服务器", Servers: "服务器",
+  "MCP Servers": "MCP服务器", "Servers": "服务器",
   "Global Rules": "全局规则", "Workspace Rules": "工作区规则",
   "Follow IDE": "跟随IDE",
   "Follow System": "跟随系统",
@@ -101,9 +102,7 @@ const zh: Dict = {
   // ═══════ 对话 ═══════
   "New Chat": "新对话", "New Session": "新建会话",
   "Send Message": "发送消息", "Type a message...": "输入消息...",
-  "Send": "发送", "Enter": "发送", Thinking: "思考中",
-  "Send (⏎)": "发送 (⏎)",
-  "加入队列 (⏎)": "加入队列 (⏎)", "入队": "入队",
+  "Send": "发送", "Enter": "发送", "Thinking": "思考中",
   "Generating...": "生成中...", "Streaming...": "流式输出中...",
   "Loading...": "加载中...", "Please wait...": "请稍候...",
   "Empty": "空", "No items": "暂无内容",
@@ -261,16 +260,24 @@ const zh: Dict = {
 
   // ═══════ 批次1：模型页 ═══════
   "Apply, Embed, Rerank": "应用、嵌入、重排",
+  "Apply, Embed, Rerank, Summarize, Subagent": "应用、嵌入、重排、摘要、子代理",
+  "Apply, Embed, Rerank, Summarize, Subagent, Commit Message": "应用、嵌入、重排、摘要、子代理、提交信息",
   "Used in Chat, Plan, Agent mode": "用于对话、规划、代理模式",
   "Used in inline code completions as you type": "用于输入时的内联代码补全",
   "Used to transform a selected section of code": "用于转换选中代码段",
   "Used to apply generated codeblocks to files": "用于将生成的代码块应用到文件",
   "Used to generate and query embeddings for the @codebase and @docs context providers": "用于为@codebase和@docs上下文提供者生成和查询嵌入向量",
   "Used for reranking results from the @codebase and @docs context providers": "用于对@codebase和@docs上下文提供者的结果进行重排",
+  "Used for summarizing chat history and context": "用于摘要聊天历史和上下文",
+  "Used for autonomous sub-agent tasks": "用于自主子代理任务",
+  "Used for generating Git commit messages": "用于生成Git提交信息",
   "Configure model": "配置模型",
   "Select model": "选择模型",
   "No models": "暂无模型",
   "Error loading models": "加载模型失败",
+  "No {name} models": "暂无 {name} 模型",
+  "No valid {name} models": "暂无有效 {name} 模型",
+  "Configure": "配置",
   "Least recently used": "最近最少使用",
   "Most recently used": "最近使用",
 

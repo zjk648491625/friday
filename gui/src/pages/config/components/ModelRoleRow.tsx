@@ -4,6 +4,7 @@ import { ModelDescription } from "core";
 import { ReactNode } from "react";
 import { ToolTip } from "../../../components/gui/Tooltip";
 import { Button } from "../../../components/ui";
+import { T } from "../../../util/i18n";
 import ModelRoleSelector from "./ModelRoleSelector";
 
 interface ModelRoleRowProps {
@@ -51,7 +52,7 @@ export function ModelRoleRow({
           />
         </div>
         {selectedModel && (
-          <ToolTip content="Configure">
+          <ToolTip content={T("Configure")}>
             <Button
               variant="ghost"
               size="sm"

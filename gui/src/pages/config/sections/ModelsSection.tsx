@@ -115,7 +115,7 @@ export function ModelsSection() {
       <Card>
         <ModelRoleRow
           role="chat"
-          displayName="Chat"
+          displayName={T("Chat")}
           shortcut={
             <span className="text-2xs text-description-muted">
               (<Shortcut>{`cmd ${jetbrains ? "J" : "L"}`}</Shortcut>)
@@ -144,7 +144,7 @@ export function ModelsSection() {
 
         <ModelRoleRow
           role="autocomplete"
-          displayName="Autocomplete"
+          displayName={T("Autocomplete")}
           description={
             <span>
               {T("Used in inline code completions as you type")} (
@@ -167,7 +167,7 @@ export function ModelsSection() {
         <Divider />
         <ModelRoleRow
           role="edit"
-          displayName="Edit"
+          displayName={T("Edit")}
           shortcut={
             <span className="text-2xs text-description-muted">
               (<Shortcut>cmd I</Shortcut>)
@@ -198,12 +198,12 @@ export function ModelsSection() {
           isOpen={showAdditionalRoles}
           onToggle={() => setShowAdditionalRoles(!showAdditionalRoles)}
           title={T("Additional model roles")}
-          subtitle={T("Apply, Embed, Rerank, Summarize, Subagent")}
+          subtitle={T("Apply, Embed, Rerank, Summarize, Subagent, Commit Message")}
         >
           <div className="flex flex-col">
             <ModelRoleRow
               role="apply"
-              displayName="Apply"
+              displayName={T("Apply")}
               description={T("Used to apply generated codeblocks to files")}
               models={config.modelsByRole.apply}
               selectedModel={config.selectedModelByRole.apply ?? undefined}
@@ -216,7 +216,7 @@ export function ModelsSection() {
 
             <ModelRoleRow
               role="embed"
-              displayName="Embed"
+              displayName={T("Embed")}
               description={T("Used to generate and query embeddings for the @codebase and @docs context providers")}
               models={config.modelsByRole.embed}
               selectedModel={config.selectedModelByRole.embed ?? undefined}
@@ -229,7 +229,7 @@ export function ModelsSection() {
 
             <ModelRoleRow
               role="rerank"
-              displayName="Rerank"
+              displayName={T("Rerank")}
               description={T("Used for reranking results from the @codebase and @docs context providers")}
               models={config.modelsByRole.rerank}
               selectedModel={config.selectedModelByRole.rerank ?? undefined}
@@ -242,7 +242,7 @@ export function ModelsSection() {
 
             <ModelRoleRow
               role="summarize"
-              displayName="Summarize"
+              displayName={T("Summarize")}
               description={T("Used for summarizing chat history and context")}
               models={config.modelsByRole.summarize}
               selectedModel={config.selectedModelByRole.summarize ?? undefined}
@@ -255,13 +255,26 @@ export function ModelsSection() {
 
             <ModelRoleRow
               role="subagent"
-              displayName="Subagent"
+              displayName={T("Subagent")}
               description={T("Used for autonomous sub-agent tasks")}
               models={config.modelsByRole.subagent}
               selectedModel={config.selectedModelByRole.subagent ?? undefined}
               onSelect={(model) => handleRoleUpdate("subagent", model)}
               onConfigure={handleConfigureModel}
               setupURL="https://docs.friday.dev/customize/model-roles/subagent"
+            />
+
+            <Divider />
+
+            <ModelRoleRow
+              role="commitMessage"
+              displayName={T("Commit Message")}
+              description={T("Used for generating Git commit messages")}
+              models={config.modelsByRole.commitMessage ?? []}
+              selectedModel={config.selectedModelByRole.commitMessage ?? undefined}
+              onSelect={(model) => handleRoleUpdate("commitMessage", model)}
+              onConfigure={handleConfigureModel}
+              setupURL="https://docs.friday.dev/customize/model-roles"
             />
 
             {promptOptInit && (

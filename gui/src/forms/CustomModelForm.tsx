@@ -33,6 +33,7 @@ const ROLE_OPTIONS = [
   { key: "rerank", label: "Rerank", desc: "对 @codebase 和 @docs 检索结果进行重排序" },
   { key: "summarize", label: "Summarize", desc: "总结聊天历史和上下文" },
   { key: "subagent", label: "Subagent", desc: "自主子代理任务执行" },
+  { key: "commitMessage", label: "Commit Message", desc: "生成 Git 提交信息" },
 ];
 
 interface FetchedModel {
@@ -60,8 +61,16 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
   const formMethods = useForm({
     defaultValues: {
       provider: "openai",
-      roles: ["chat", "autocomplete", "edit", "apply", "embed", "rerank", "summarize", "subagent"],
+      roles: ["chat", "autocomplete", "edit", "apply", "embed", "rerank", "summarize", "subagent", "commitMessage"],
       enableCache: true,
+      apiBase: "",
+      apiKey: "",
+      modelName: "",
+      providerName: "",
+      contextLength: "",
+      maxTokens: "",
+      temperature: "",
+      topP: "",
     },
   });
   const ideMessenger = useContext(IdeMessengerContext);
@@ -165,15 +174,15 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
     if (contextLength) model.contextLength = contextLength;
     if (maxTokens)
       model.completionOptions = { ...(model.completionOptions || {}), maxTokens };
-    if (temperature !== undefined && temperature !== "")
+    if (temperature != null)
       model.completionOptions = { ...(model.completionOptions || {}), temperature };
-    if (topP !== undefined && topP !== "")
+    if (topP != null)
       model.completionOptions = { ...(model.completionOptions || {}), topP };
     if (enableCache)
       model.cacheBehavior = { cacheConversation: true, cacheSystemMessage: true };
 
-    ideMessenger.post("config/addModel", { model, roles });
-    ideMessenger.post("config/openProfile", { profileId: "local" });
+    (ideMessenger as any).post("config/addModel", { model, roles });
+    (ideMessenger as any).post("config/openProfile", { profileId: "local" });
     onDone();
   }
 
@@ -384,8 +393,12 @@ export function CustomModelForm({ onDone }: { onDone: () => void }) {
                           key={opt.key}
                           className="flex cursor-pointer items-start gap-2 rounded border px-3 py-2"
                           style={{
-                            borderColor: checked ? "var(--vscode-focusBorder, #3b82f6)" : "var(--vscode-panel-border, #ccc)",
-                            background: checked ? "var(--vscode-list-activeSelectionBackground, rgba(59,130,246,0.1))" : "transparent",
+                            borderColor: checked
+                              ? "var(--vscode-focusBorder, var(--vscode-textLink-foreground, #3b82f6))"
+                              : "var(--vscode-panel-border, var(--vscode-sideBar-border, #555))",
+                            background: checked
+                              ? "var(--vscode-list-activeSelectionBackground, color-mix(in srgb, var(--vscode-textLink-foreground, #3b82f6) 10%, transparent))"
+                              : "var(--vscode-sideBar-background, transparent)",
                           }}
                         >
                           <input

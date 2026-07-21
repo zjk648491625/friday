@@ -12,7 +12,7 @@ import { ConfigHeader } from "../components/ConfigHeader";
 import { UserSetting } from "../components/UserSetting";
 import { T } from "../../../util/i18n";
 import { useLanguage } from "../../../context/Language";
-import { useSettings } from "../../../hooks/useSettings";
+import { useSettings, loadSettings, saveSettings } from "../../../hooks/useSettings";
 import { useThemeMode } from "../../../context/ThemeMode";
 
 function DebugToggle() {
@@ -45,6 +45,28 @@ export function UserSettingsSection() {
 
   const [showExperimental, setShowExperimental] = useState(false);
   const { language, setLanguage } = useLanguage();
+
+  // Commit message settings
+  const [commitMsg, setCommitMsg] = useState({
+    template: "conventional",
+    language: "zh",
+    detailLevel: "standard",
+    referenceHistory: false,
+  });
+  useEffect(() => {
+    loadSettings(ideMessenger).then((s: any) => {
+      if (s.commitMessage) {
+        setCommitMsg((prev) => ({ ...prev, ...s.commitMessage }));
+      }
+    });
+  }, []);
+  const updateCommitMsg = (key: string, value: any) => {
+    const next = { ...commitMsg, [key]: value };
+    setCommitMsg(next);
+    loadSettings(ideMessenger).then((existing: any) => {
+      saveSettings(ideMessenger, { ...existing, commitMessage: next });
+    });
+  };
 
   function handleUpdate(sharedConfig: SharedConfigSchema) {
     // Optimistic update
@@ -272,6 +294,57 @@ export function UserSettingsSection() {
                     formDisableAutocomplete !== disableAutocompleteInFiles
                   }
                   isValid={formDisableAutocomplete.trim() !== ""}
+                />
+              </div>
+            </Card>
+          </div>
+
+          {/* Commit Message Settings */}
+          <div>
+            <ConfigHeader title="提交信息生成" variant="sm" />
+            <Card>
+              <div className="flex flex-col gap-4">
+                <UserSetting
+                  type="select"
+                  title="格式模板"
+                  description="提交信息的格式结构"
+                  value={commitMsg.template}
+                  onChange={(val) => updateCommitMsg("template", val)}
+                  options={[
+                    { label: "Conventional Commits", value: "conventional" },
+                    { label: "Gitmoji 风格", value: "gitmoji" },
+                    { label: "简单 (纯描述)", value: "simple" },
+                  ]}
+                />
+                <UserSetting
+                  type="select"
+                  title="详细程度"
+                  description="控制输出内容的多少"
+                  value={commitMsg.detailLevel}
+                  onChange={(val) => updateCommitMsg("detailLevel", val)}
+                  options={[
+                    { label: "精简 (一句话)", value: "concise" },
+                    { label: "标准 (标题+要点)", value: "standard" },
+                    { label: "详细 (完整描述)", value: "detailed" },
+                  ]}
+                />
+                <UserSetting
+                  type="select"
+                  title="生成语言"
+                  description="提交信息使用的语言"
+                  value={commitMsg.language}
+                  onChange={(val) => updateCommitMsg("language", val)}
+                  options={[
+                    { label: "中文", value: "zh" },
+                    { label: "English", value: "en" },
+                  ]}
+                />
+                <UserSetting
+                  type="toggle"
+                  title="参考历史提交信息"
+                  description="生成时参考最近 10 条 Git 提交记录的风格"
+                  value={commitMsg.referenceHistory}
+                  onChange={(val) => updateCommitMsg("referenceHistory", val)}
                 />
               </div>
             </Card>

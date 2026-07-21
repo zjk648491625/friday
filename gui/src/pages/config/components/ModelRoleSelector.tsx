@@ -89,7 +89,7 @@ const ModelRoleSelector = ({
                       : Tfmt("No valid {name} models", { name: T(displayName) })
                     }
                     {["Chat", "Apply", "Edit"].includes(displayName)
-                      ? T(". Using Chat model")
+                      ? Tfmt(". Using Chat model", {})
                       : ""}
                   </span>
                 ) : (

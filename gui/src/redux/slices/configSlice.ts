@@ -23,6 +23,7 @@ export const EMPTY_CONFIG: BrowserSerializedFridayConfig = {
     rerank: [],
     embed: [],
     subagent: [],
+    commitMessage: [],
   },
   selectedModelByRole: {
     chat: null,
@@ -33,6 +34,7 @@ export const EMPTY_CONFIG: BrowserSerializedFridayConfig = {
     rerank: null,
     embed: null,
     subagent: null,
+    commitMessage: null,
   },
   rules: [],
 };
