@@ -724,6 +724,43 @@ export class Core {
       console.log("[llm/complete] result length:", completion?.length ?? 0);
       return completion;
     });
+
+    on("commitMessage/generate", async (msg) => {
+      const { config } = await this.configHandler.loadConfig();
+      // Use dedicated commitMessage model if configured, fallback to chat
+      let model = config?.selectedModelByRole.commitMessage
+        ?? config?.selectedModelByRole.chat;
+      if (!model) {
+        throw new Error("No model available for commit message generation");
+      }
+
+      const abortController = this.addMessageAbortController(msg.messageId);
+
+      // Build chat messages: system instructs, user provides diff
+      const systemMsg = `你是 Git 提交信息生成工具。直接输出提交信息，不要任何解释、分析、JSON 或额外文字。`;
+      const userMsg = msg.data.prompt;
+
+      let result = "";
+      for await (const chunk of model.streamChat(
+        [
+          { role: "system" as const, content: systemMsg },
+          { role: "user" as const, content: userMsg },
+        ],
+        abortController.signal,
+        {
+          maxTokens: 1024,
+          temperature: 0,
+        },
+      )) {
+        if (chunk.role === "assistant") {
+          result += typeof chunk.content === "string"
+            ? chunk.content
+            : "";
+        }
+      }
+
+      return result.trim();
+    });
     on("llm/listModels", this.handleListModels.bind(this));
 
     on("llm/compileChat", async (msg) => {

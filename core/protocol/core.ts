@@ -231,6 +231,12 @@ export type ToCoreFromIdeOrWebviewProtocol = {
     },
     string,
   ];
+  "commitMessage/generate": [
+    {
+      prompt: string;
+    },
+    string,
+  ];
   "llm/listModels": [{ title: string }, string[] | undefined];
   "llm/streamChat": [
     {
