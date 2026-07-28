@@ -41,6 +41,9 @@ import com.intellij.ide.ui.LafManagerListener
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.Function
 
+import com.intellij.openapi.application.ApplicationInfo
+import com.intellij.openapi.util.registry.Registry
+
 fun showTutorial(project: Project) {
     val tutorialFileName = getTutorialFileName()
 
@@ -85,7 +88,21 @@ private fun getTutorialFileName(): String {
 
 class FridayPluginStartupActivity : StartupActivity, DumbAware {
 
+    /**
+     * Fix JCEF registry settings that may have been changed by other plugins (e.g. Tencent CodeBuddy).
+     * On 2026.2+, out-of-process mode is required for OSR rendering to work correctly.
+     * Setting out-of-process=false or gpu.disable=true causes AbstractMethodError in CefRenderHandler → blank screen.
+     */
+    private fun fixJcefRegistryFor2026() {
+        val build = ApplicationInfo.getInstance().build
+        if (build.baselineVersion < 262) return  // Only needed for 2026.2+
+
+        Registry.get("ide.browser.jcef.out-of-process.enabled").setValue(true)
+        Registry.get("ide.browser.jcef.gpu.disable").setValue(false)
+    }
+
     override fun runActivity(project: Project) {
+        fixJcefRegistryFor2026()
         ApplicationManager.getApplication().invokeLater {
             removeShortcutFromAction(getPlatformSpecificKeyStroke("J"))
             removeShortcutFromAction(getPlatformSpecificKeyStroke("shift J"))

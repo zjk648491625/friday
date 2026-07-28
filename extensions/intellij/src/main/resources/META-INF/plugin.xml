@@ -3,11 +3,15 @@
     <id>com.github.fridayai.fridayintellijextension</id>
     <name>Friday AI</name>
     <vendor url="https://www.IronHero.com/">IronHero</vendor>
+    <description><![CDATA[
+Friday AI is an AI-powered coding assistant that helps developers write better code faster with intelligent code completions and more.
+]]></description>
     <change-notes>
         <![CDATA[IronHero - AI-powered coding assistant]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.vcs</depends>
+    <depends optional="true" config-file="friday-jcef.xml">com.intellij.modules.jcef</depends>
     <depends>org.jetbrains.plugins.terminal</depends>
     <depends>Git4Idea</depends>
 

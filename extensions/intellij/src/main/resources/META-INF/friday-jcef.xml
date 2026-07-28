@@ -1,0 +1,5 @@
+<idea-plugin>
+    <!-- Loaded only when com.intellij.modules.jcef is available (IntelliJ 2026.2+) -->
+    <!-- In 2026.2+, JCEF classes were extracted from platform into a separate module -->
+    <!-- The optional depends + config-file pattern ensures classes are available without breaking 2025.x -->
+</idea-plugin>

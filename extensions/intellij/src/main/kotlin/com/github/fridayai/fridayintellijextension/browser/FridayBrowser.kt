@@ -12,7 +12,9 @@ import com.intellij.openapi.util.Disposer
 import com.intellij.ui.jcef.*
 import org.cef.CefApp
 import org.cef.browser.CefBrowser
-import org.cef.handler.CefLoadHandlerAdapter
+import org.cef.browser.CefFrame
+import org.cef.handler.CefLoadHandler
+import org.cef.network.CefRequest
 import java.util.Base64
 import javax.swing.JComponent
 
@@ -74,8 +76,6 @@ class FridayBrowser(
         project.service<FridayPluginService>().onProtocolClientInitialized {
             browser.loadURL(getGuiUrl())
         }
-
-        browser.createImmediately()
     }
 
     fun getComponent(): JComponent =
@@ -154,7 +154,7 @@ class FridayBrowser(
 
     private class OnPageLoad(
         private val onLoad: () -> Unit
-    ) : CefLoadHandlerAdapter() {
+    ) : CefLoadHandler {
         override fun onLoadingStateChange(
             browser: CefBrowser?,
             isLoading: Boolean,
@@ -164,6 +164,10 @@ class FridayBrowser(
             if (!isLoading)
                 onLoad()
         }
+
+        override fun onLoadStart(browser: CefBrowser?, frame: CefFrame?, transitionType: CefRequest.TransitionType?) {}
+        override fun onLoadEnd(browser: CefBrowser?, frame: CefFrame?, httpStatusCode: Int) {}
+        override fun onLoadError(browser: CefBrowser?, frame: CefFrame?, errorCode: CefLoadHandler.ErrorCode?, errorText: String?, failedUrl: String?) {}
     }
 
     internal data class ChunkScripts(
