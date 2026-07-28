@@ -42,7 +42,13 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.Function
 
 import com.intellij.openapi.application.ApplicationInfo
+import com.intellij.notification.NotificationAction
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.util.registry.Registry
+import com.intellij.openapi.diagnostic.Logger
+
+private val LOG = Logger.getInstance(FridayPluginStartupActivity::class.java)
 
 fun showTutorial(project: Project) {
     val tutorialFileName = getTutorialFileName()
@@ -89,20 +95,60 @@ private fun getTutorialFileName(): String {
 class FridayPluginStartupActivity : StartupActivity, DumbAware {
 
     /**
-     * Fix JCEF registry settings that may have been changed by other plugins (e.g. Tencent CodeBuddy).
-     * On 2026.2+, out-of-process mode is required for OSR rendering to work correctly.
-     * Setting out-of-process=false or gpu.disable=true causes AbstractMethodError in CefRenderHandler → blank screen.
+     * Checks whether JCEF out-of-process mode is enabled.
+     *
+     * On IntelliJ 2026.2+, JCEF requires out-of-process mode for off-screen rendering (OSR).
+     * Other plugins (e.g. Tencent CodeBuddy) may persist `ide.browser.jcef.out-of-process.enabled=false`
+     * and `ide.browser.jcef.gpu.disable=true` in the IDE registry, which causes
+     * AbstractMethodError in CefRenderHandler → blank Friday browser.
+     *
+     * Instead of silently modifying registry values (which is not a recommended practice),
+     * we detect the conflict and show a non-modal notification with a "Reset" action.
      */
-    private fun fixJcefRegistryFor2026() {
+    private fun checkJcefOutOfProcessMode(project: Project) {
         val build = ApplicationInfo.getInstance().build
-        if (build.baselineVersion < 262) return  // Only needed for 2026.2+
+        // Only needed for 2026.2+ where JCEF refactored OSR to depend on out-of-process mode
+        if (build.baselineVersion < 262) return
 
-        Registry.get("ide.browser.jcef.out-of-process.enabled").setValue(true)
-        Registry.get("ide.browser.jcef.gpu.disable").setValue(false)
+        // JBCefApp may not be initialized yet; check the registry directly
+        val outOfProcessEnabled = Registry.is("ide.browser.jcef.out-of-process.enabled", true)
+        val gpuNotDisabled = !Registry.is("ide.browser.jcef.gpu.disable", false)
+
+        if (outOfProcessEnabled && gpuNotDisabled) return
+
+        LOG.warn(
+            "JCEF out-of-process mode is disabled (ide.browser.jcef.out-of-process.enabled=false " +
+            "or ide.browser.jcef.gpu.disable=true). This may have been set by another plugin " +
+            "(e.g. CodeBuddy). Friday's OSR browser will fail on 2026.2+."
+        )
+
+        NotificationGroupManager.getInstance()
+            .getNotificationGroup("Friday")
+            .createNotification(
+                "Friday: JCEF configuration conflict detected",
+                "Out-of-process rendering is disabled. This may cause the Friday browser to show a blank screen. " +
+                "This is often caused by other plugins (e.g. CodeBuddy) that modify IDE registry settings.",
+                NotificationType.WARNING
+            )
+            .addAction(NotificationAction.createSimple("Reset JCEF settings") {
+                Registry.get("ide.browser.jcef.out-of-process.enabled").setValue(true)
+                Registry.get("ide.browser.jcef.gpu.disable").setValue(false)
+                com.intellij.notification.Notifications.Bus.notify(
+                    NotificationGroupManager.getInstance()
+                        .getNotificationGroup("Friday")
+                        .createNotification(
+                            "JCEF settings reset",
+                            "Please restart the IDE for changes to take effect.",
+                            NotificationType.INFORMATION
+                        )
+                )
+            })
+            .setImportant(true)
+            .notify(project)
     }
 
     override fun runActivity(project: Project) {
-        fixJcefRegistryFor2026()
+        checkJcefOutOfProcessMode(project)
         ApplicationManager.getApplication().invokeLater {
             removeShortcutFromAction(getPlatformSpecificKeyStroke("J"))
             removeShortcutFromAction(getPlatformSpecificKeyStroke("shift J"))
