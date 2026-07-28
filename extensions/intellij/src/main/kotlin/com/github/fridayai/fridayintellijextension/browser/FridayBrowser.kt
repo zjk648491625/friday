@@ -18,13 +18,37 @@ import org.cef.network.CefRequest
 import java.util.Base64
 import javax.swing.JComponent
 
+/**
+ * Returns true if JCEF remote (out-of-process) mode is enabled.
+ * On 2026.2+, this is required for off-screen rendering (OSR).
+ * Other plugins (e.g. Tencent CodeBuddy) may disable this via registry,
+ * in which case we must fall back to windowed rendering.
+ */
+private fun isJcefRemoteModeEnabled(): Boolean = try {
+    JBCefApp.getInstance().isRemoteEnabled()
+} catch (_: IllegalStateException) {
+    // JCEF not yet initialized — assume enabled (normal case)
+    true
+}
+
 class FridayBrowser(
     private val project: Project,
     private val gsonService: GsonService = service<GsonService>(),
 ): Disposable {
 
     private val log = Logger.getInstance(FridayBrowser::class.java.simpleName)
-    private val browser: JBCefBrowser = JBCefBrowser.createBuilder().setOffScreenRendering(true).build()
+    private val browser: JBCefBrowser = run {
+        val builder = JBCefBrowser.createBuilder()
+        if (isJcefRemoteModeEnabled()) {
+            builder.setOffScreenRendering(true)
+        } else {
+            log.warn("JCEF out-of-process mode is disabled; falling back to windowed rendering. " +
+                     "Friday browser may not integrate perfectly with the IDE tool window. " +
+                     "This is often caused by other plugins (e.g. CodeBuddy) that set " +
+                     "ide.browser.jcef.out-of-process.enabled=false in the IDE registry.")
+        }
+        builder.build()
+    }
     private val myJSQueryOpenInBrowser = JBCefJSQuery.create(browser as JBCefBrowserBase)
 
     init {
