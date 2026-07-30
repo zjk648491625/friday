@@ -4,12 +4,12 @@ import React, { useMemo } from "react";
 // Array of helpful tips for Friday CLI users
 const FRIDAY_CLI_TIPS = [
   "Use `/help` to learn keyboard shortcuts",
-  "Press escape to pause cn, and press enter to friday",
+  "Press escape to pause friday, and press enter to continue",
   "Use arrow keys (↑/↓) to navigate through your input history",
   'Multi-line input is supported by typing "\\" and pressing enter',
-  "Use `cn ls` or `/resume` to resume a previous conversation",
-  'Run `cn` with the `-p` flag for headless mode. For example: `cn -p "Generate a commit message for the current changes. Output _only_ the commit message and nothing else."`',
-  "Use the /init slash command to generate an AGENTS.md file. This will help `cn` understand your codebase and generate better responses.",
+  "Use `friday ls` or `/resume` to resume a previous conversation",
+  'Run `friday` with the `-p` flag for headless mode. For example: `friday -p "Generate a commit message for the current changes. Output _only_ the commit message and nothing else."`',
+  "Use the /init slash command to generate an AGENTS.md file. This will help `friday` understand your codebase and generate better responses.",
 ];
 
 interface TipsDisplayProps {

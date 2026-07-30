@@ -14,7 +14,7 @@ export interface SmokeTestContext {
  * Creates an isolated test directory and resolves the CLI entry point.
  */
 export async function createSmokeContext(): Promise<SmokeTestContext> {
-  const cliPath = path.resolve("dist/cn.js");
+  const cliPath = path.resolve("dist/friday.js");
 
   try {
     await fs.access(cliPath);
@@ -22,7 +22,7 @@ export async function createSmokeContext(): Promise<SmokeTestContext> {
     throw new Error(`CLI not found at ${cliPath}. Run 'npm run build' first.`);
   }
 
-  const testDir = await fs.mkdtemp(path.join(os.tmpdir(), "cn-smoke-"));
+  const testDir = await fs.mkdtemp(path.join(os.tmpdir(), "friday-smoke-"));
 
   // Create onboarding flag so the CLI skips onboarding flow
   const fridayDir = path.join(testDir, ".friday");
@@ -110,7 +110,7 @@ models:
 }
 
 /**
- * Runs `cn` (headless) and returns stdout/stderr/exitCode.
+ * Runs `friday` (headless) and returns stdout/stderr/exitCode.
  */
 export async function runHeadless(
   ctx: SmokeTestContext,
@@ -141,7 +141,7 @@ export async function runHeadless(
 }
 
 /**
- * Spawns `cn serve` as a background subprocess and returns it along with
+ * Spawns `friday serve` as a background subprocess and returns it along with
  * a helper to wait for the server to be ready.
  */
 export function spawnServe(

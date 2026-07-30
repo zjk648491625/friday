@@ -35,8 +35,9 @@ const optionalDevtoolsPlugin = {
 const skipLargeDirsPlugin = {
   name: "skip-large-dirs",
   setup(build) {
-    // Skip binary/, vendor/, __mocks__/ directories
-    build.onResolve({ filter: /[\/\\](binary|vendor|__mocks__)[\/\\]/ }, (args) => {
+    // Skip core/binary/, core/vendor/, core/__mocks__/ directories only
+    // Do NOT match node_modules/**/vendor/ (e.g. chalk's internal vendor/ansi-styles)
+    build.onResolve({ filter: /[\/\\]core[\/\\](binary|vendor|__mocks__)[\/\\]/ }, (args) => {
       return { external: true, path: args.path };
     });
     // Treat native addons as external
@@ -109,7 +110,7 @@ const require = __createRequire(import.meta.url);`,
   // Create wrapper script with shebang that explicitly runs the CLI
   // Note: We must call runCli(); a plain dynamic import will not execute the CLI.
   writeFileSync(
-    "dist/cn.js",
+    "dist/friday.js",
     "#!/usr/bin/env node\nimport { runCli } from './index.js';\nawait runCli();\n",
   );
   // Copy worker files needed by JSDOM
@@ -122,11 +123,14 @@ const require = __createRequire(import.meta.url);`,
     copyFileSync(workerSource, workerDest);
     console.log("✓ Copied xhr-sync-worker.js");
   } catch (error) {
-    console.warn("Warning: Could not copy xhr-sync-worker.js:", error.message);
+    // jsdom not installed (build-cli.bat uses minimal deps) → create stub
+    // xhr-sync-worker.js is only needed by JSDOM's synchronous XHR, not by CLI
+    writeFileSync(workerDest, "// stub - jsdom xhr-sync-worker not needed for CLI\n");
+    console.log("✓ Created xhr-sync-worker.js stub (jsdom not available)");
   }
 
   // Make the wrapper script executable
-  chmodSync("dist/cn.js", 0o755);
+  chmodSync("dist/friday.js", 0o755);
 
   // Calculate bundle size
   const bundleSize = result.metafile.outputs["dist/index.js"].bytes;

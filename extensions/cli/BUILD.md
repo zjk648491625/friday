@@ -21,7 +21,7 @@ The `build.mjs` script uses esbuild to:
 - Bundle all TypeScript/JavaScript code into a single ES module
 - Include local packages (`@friday-ai/config-yaml`, `@friday-ai/openai-adapters`) directly in the bundle
 - Keep problematic or native dependencies external (e.g., `winston`, `express`)
-- Create a wrapper script (`dist/cn.js`) with the proper shebang for CLI execution
+- Create a wrapper script (`dist/friday.js`) with the proper shebang for CLI execution
 
 ### Key Features
 
@@ -71,5 +71,5 @@ When publishing to npm:
 
 1. The bundled files in `dist/` are included
 2. Users install via `npm install -g @friday-ai/cli`
-3. The `cn` command becomes available globally
+3. The `friday` command becomes available globally
 4. No local file references or missing dependencies

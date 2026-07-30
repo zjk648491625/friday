@@ -31,8 +31,8 @@ export interface CLIRunResult {
  */
 export async function createTestContext(): Promise<CLITestContext> {
   // Use the wrapper script that invokes runCli(), not the raw bundle entry
-  const cliPath = path.resolve("dist/cn.js");
-  const testDir = await fs.mkdtemp(path.join(os.tmpdir(), "cn-test-"));
+  const cliPath = path.resolve("dist/friday.js");
+  const testDir = await fs.mkdtemp(path.join(os.tmpdir(), "friday-test-"));
 
   // Ensure the CLI file exists before returning the context
   try {

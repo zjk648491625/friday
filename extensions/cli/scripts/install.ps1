@@ -22,7 +22,7 @@ $ProgressPreference = 'SilentlyContinue'  # Faster downloads
 
 $script:RequiredNodeVersion = [version]"20.20.1"
 $script:PackageName = "@friday-ai/cli"
-$script:CliCommand = "cn"
+$script:CliCommand = "friday"
 $script:FnmInstalled = $false
 $script:FnmPath = "$env:LOCALAPPDATA\fnm"
 

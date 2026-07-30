@@ -58,7 +58,7 @@ export async function listSessionsCommand(
   // Handle empty sessions case
   if (sessions.length === 0) {
     console.log(
-      "No previous sessions found. Start a new conversation with: cn",
+      "No previous sessions found. Start a new conversation with: friday",
     );
     return;
   }

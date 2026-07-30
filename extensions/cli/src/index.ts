@@ -171,7 +171,7 @@ process.on("SIGINT", async () => {
 const program = new Command();
 
 program
-  .name("cn")
+  .name("friday")
   .description(
     "Friday CLI - AI-powered development assistant. Starts an interactive session by default, use -p/--print for non-interactive output.",
   )
@@ -238,7 +238,7 @@ addCommonOptions(program)
       ask: options.ask,
       exclude: options.exclude,
       isRootCommand: true,
-      commandName: "cn",
+      commandName: "friday",
     });
 
     if (!validation.isValid) {
@@ -281,12 +281,12 @@ addCommonOptions(program)
         "Error: A prompt is required when using the -p/--print flag, unless --prompt, --agent, or --resume is provided.\n\n",
       );
       safeStderr("Usage examples:\n");
-      safeStderr('  cn -p "please review my current git diff"\n');
-      safeStderr('  echo "hello" | cn -p\n');
-      safeStderr('  cn -p "analyze the code in src/"\n');
-      safeStderr("  cn -p --agent my-org/my-agent\n");
-      safeStderr("  cn -p --prompt my-org/my-prompt\n");
-      safeStderr("  cn -p --resume\n");
+      safeStderr('  friday -p "please review my current git diff"\n');
+      safeStderr('  echo "hello" | friday -p\n');
+      safeStderr('  friday -p "analyze the code in src/"\n');
+      safeStderr("  friday -p --agent my-org/my-agent\n");
+      safeStderr("  friday -p --prompt my-org/my-prompt\n");
+      safeStderr("  friday -p --resume\n");
       await gracefulExit(1);
     }
 
@@ -368,7 +368,7 @@ program.on("command:*", () => {
 });
 
 export async function runCli(): Promise<void> {
-  // Handle internal worker subprocess for cn review
+  // Handle internal worker subprocess for friday review
   if (process.argv.includes("--internal-review-worker")) {
     const { runReviewWorker } = await import(
       "./commands/review/reviewWorker.js"

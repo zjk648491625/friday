@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "bin": {
-    "cn": "dist/cn.js"
+    "friday": "dist/friday.js"
   },
   "scripts": {
     "test": "vitest run",
@@ -20,7 +20,7 @@
     "build:validate": "node validate-aliases.mjs",
     "build:bundle": "node build.mjs",
     "build": "npm run build:validate && npm run build:bundle",
-    "start": "node dist/cn.js",
+    "start": "node dist/friday.js",
     "dev": "tsx src/index.ts",
     "repomix:sdk": "npx repomix node_modules/@friday-ai/sdk --ignore **/api,cli-repomix.xml -o sdk-repomix.xml",
     "repomix:cli": "npx repomix --ignore sdk-repomix.xml -o cli-repomix.xml",
@@ -29,7 +29,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "watch:logs": "touch ~/.friday/logs/cn.log && tail -f ~/.friday/logs/cn.log",
+    "watch:logs": "touch ~/.friday/logs/friday.log && tail -f ~/.friday/logs/friday.log",
     "prepare": "npm run build",
     "semantic-release": "semantic-release",
     "semantic-release:dry-run": "semantic-release --dry-run"

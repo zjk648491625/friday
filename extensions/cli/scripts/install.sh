@@ -6,7 +6,7 @@ set -euo pipefail
 
 REQUIRED_NODE_VERSION="20.20.1"
 PACKAGE_NAME="@friday-ai/cli"
-CLI_COMMAND="cn"
+CLI_COMMAND="friday"
 NETWORK_TIMEOUT=60
 FNM_INSTALL_DIR="$HOME/.local/share/fnm"
 

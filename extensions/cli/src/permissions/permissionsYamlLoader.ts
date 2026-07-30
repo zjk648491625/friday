@@ -159,7 +159,7 @@ export async function ensurePermissionsYamlExists(): Promise<void> {
 
   // Create file if it doesn't exist
   if (!fs.existsSync(PERMISSIONS_YAML_PATH)) {
-    const defaultContent = `# cn tool permissions
+    const defaultContent = `# friday tool permissions
 
 # Tools that are automatically allowed without prompting
 allow: []

@@ -56,7 +56,7 @@ export const uploadArtifactTool: Tool = {
       if (!agentId) {
         throw new FridayError(
           FridayErrorReason.Unspecified,
-          "Agent ID is required. This tool only works with 'cn serve --id <agentId>'.",
+          "Agent ID is required. This tool only works with 'friday serve --id <agentId>'.",
         );
       }
 
