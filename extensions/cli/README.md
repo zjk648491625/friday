@@ -1,6 +1,6 @@
 # Friday CLI
 
-The Friday CLI (`cn`) is a customizable command line coding agent.
+The Friday CLI (`friday`) is a customizable command line coding agent.
 
 ![Friday CLI Demo](./media/demo.gif)
 
@@ -27,7 +27,7 @@ npm i -g @friday-ai/cli
 ## Usage
 
 ```bash
-cn
+friday
 ```
 
 ### Headless Mode
@@ -42,16 +42,16 @@ Headless mode (`-p` flag) runs without an interactive terminal UI, making it per
 
 ```bash
 # Basic usage
-cn -p "Generate a conventional commit name for the current git changes."
+friday -p "Generate a conventional commit name for the current git changes."
 
 # With piped input
-echo "Review this code" | cn -p
+echo "Review this code" | friday -p
 
 # JSON output for scripting
-cn -p "Analyze the code" --format json
+friday -p "Analyze the code" --format json
 
 # Silent mode (strips thinking tags)
-cn -p "Write a README" --silent
+friday -p "Write a README" --silent
 ```
 
 **TTY-less Environments**: Headless mode is designed to work in environments without a terminal (TTY), such as when called from VSCode/IntelliJ extensions using terminal commands. The CLI will not attempt to read stdin or initialize the interactive UI when running in headless mode with a supplied prompt.
@@ -62,13 +62,13 @@ The CLI automatically saves your chat history for each terminal session. You can
 
 ```bash
 # Resume the last session in this terminal
-cn --resume
+friday --resume
 
 # List recent sessions and choose one to resume
-cn ls
+friday ls
 
 # List sessions in JSON format (for scripting)
-cn ls --json
+friday ls --json
 ```
 
 ## Command Line Options
@@ -85,14 +85,14 @@ cn ls --json
 
 ## Commands
 
-- `cn`: Start an interactive chat session
-- `cn ls`: List recent sessions with TUI selector to choose one to resume
-- `cn login`: Authenticate with Friday
-- `cn logout`: Sign out of current session
-- `cn remote`: Launch a remote instance
-- `cn serve`: Start HTTP server mode
+- `friday`: Start an interactive chat session
+- `friday ls`: List recent sessions with TUI selector to choose one to resume
+- `friday login`: Authenticate with Friday
+- `friday logout`: Sign out of current session
+- `friday remote`: Launch a remote instance
+- `friday serve`: Start HTTP server mode
 
-### Session Listing (`cn ls`)
+### Session Listing (`friday ls`)
 
 Shows recent sessions, limited by screen height to ensure it fits on your terminal.
 
@@ -104,13 +104,13 @@ The CLI fully supports running in environments without a TTY (terminal):
 
 ```bash
 # From Docker without TTY allocation
-docker run --rm my-image cn -p "Generate docs"
+docker run --rm my-image friday -p "Generate docs"
 
 # From CI/CD pipeline
-cn -p "Review changes" --format json
+friday -p "Review changes" --format json
 
 # From VSCode/IntelliJ extension terminal tool
-cn -p "Analyze code" --silent
+friday -p "Analyze code" --silent
 ```
 
 The CLI automatically detects TTY-less environments and adjusts its behavior:

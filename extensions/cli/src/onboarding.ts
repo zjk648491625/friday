@@ -56,6 +56,18 @@ export async function runOnboardingFlow(
     return false;
   }
 
+  // Step 1.5: Check if ~/.friday/config.yaml already exists with models
+  // If user already has a config (e.g. from IDE setup), skip Anthropic prompt
+  if (fs.existsSync(CONFIG_PATH)) {
+    const existing = fs.readFileSync(CONFIG_PATH, "utf8");
+    if (existing.includes("provider:") && existing.includes("model:")) {
+      console.log(
+        chalk.blue("✓ Found existing config.yaml, skipping onboarding"),
+      );
+      return true;
+    }
+  }
+
   // Step 2: Check for FRIDAY_USE_BEDROCK environment variable first (before test env check)
   if (process.env.FRIDAY_USE_BEDROCK === "1") {
     console.log(
