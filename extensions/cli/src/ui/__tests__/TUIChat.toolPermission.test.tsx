@@ -39,10 +39,10 @@ describe("TUIChat - Tool Permission Tests", () => {
 
     // Verify ToolPermissionSelector is shown
     expect(frame).toContain("Edit");
-    expect(frame).toContain("Would you like to friday?");
-    expect(frame).toContain("Friday");
-    expect(frame).toContain("Friday + don't ask again");
-    expect(frame).toContain("No, and tell Friday what to do differently");
+    expect(frame).toContain("Would you like to Continue?");
+    expect(frame).toContain("Continue");
+    expect(frame).toContain("Continue + don't ask again");
+    expect(frame).toContain("No, and tell Continue what to do differently");
     expect(frame).toContain("(tab)");
     expect(frame).toContain("(shift+tab)");
     expect(frame).toContain("(esc)");

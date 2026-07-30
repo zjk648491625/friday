@@ -36,17 +36,17 @@ interface ToolPermissionSelectorProps {
 
 const getPermissionOptions = (): PermissionOption[] => {
   return [
-    { id: "approve", name: "Friday", color: "green", approved: true },
+    { id: "approve", name: "Continue", color: "green", approved: true },
     {
       id: "approve_policy",
-      name: "Friday + don't ask again",
+      name: "Continue + don't ask again",
       color: "cyan",
       approved: true,
       createPolicy: true,
     },
     {
       id: "deny_stop",
-      name: "No, and tell Friday what to do differently",
+      name: "No, and tell Continue what to do differently",
       color: "yellow",
       approved: false,
       stopStream: true,

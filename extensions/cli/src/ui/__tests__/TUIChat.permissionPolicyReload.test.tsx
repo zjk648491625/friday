@@ -138,7 +138,7 @@ describe("Permission Policy Reload Workflow", () => {
     };
 
     // BEFORE: User has to approve tool permission
-    // Simulate user choosing "Friday + don't ask again"
+    // Simulate user choosing "Continue + don't ask again"
     const approved = true;
     const createPolicy = true;
 
