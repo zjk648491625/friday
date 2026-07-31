@@ -653,15 +653,13 @@ export class LspClient {
     });
 
     // Also listen for stderr for diagnostic messages
-    const stderrStream = this.process?.stderr;
-    if (stderrStream) {
-      stderrStream.on("data", (data: Buffer) => {
-        const msg = data.toString().trim();
-        if (msg.includes("[Error]") || msg.includes("panic") || msg.includes("FATAL")) {
-          console.error(`[LSP stderr] ${msg}`);
-        }
-      });
-    }
+    const stderrStream = this.process?.stderr ?? undefined;
+    stderrStream?.on("data", (data: Buffer) => {
+      const msg = data.toString().trim();
+      if (msg.includes("[Error]") || msg.includes("panic") || msg.includes("FATAL")) {
+        console.error(`[LSP stderr] ${msg}`);
+      }
+    });
   }
 
   /**
@@ -714,15 +712,13 @@ export class LspClient {
     });
 
     // Also listen for stderr for diagnostic messages
-    const stderrStream = this.process?.stderr;
-    if (stderrStream) {
-      stderrStream.on("data", (data: Buffer) => {
-        const msg = data.toString().trim();
-        if (msg.includes("[Error]") || msg.includes("panic") || msg.includes("FATAL")) {
-          console.error(`[LSP stderr] ${msg}`);
-        }
-      });
-    }
+    const stderrStream = this.process?.stderr ?? undefined;
+    stderrStream?.on("data", (data: Buffer) => {
+      const msg = data.toString().trim();
+      if (msg.includes("[Error]") || msg.includes("panic") || msg.includes("FATAL")) {
+        console.error(`[LSP stderr] ${msg}`);
+      }
+    });
   }
 
   private handleMessage(body: string): void {
