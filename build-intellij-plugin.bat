@@ -21,6 +21,16 @@ if %NO_CACHE%==1 (
     echo [CLEAN] Done.
 )
 
+echo [0/3] Building Core binary...
+cd /d "%ROOT%binary"
+if not exist node_modules call npm install
+node build.js --esbuild-only
+if %ERRORLEVEL% neq 0 (
+    echo ERROR: Core build failed!
+    pause
+    exit /b 1
+)
+
 echo [1/3] Building GUI frontend...
 cd /d "%ROOT%gui"
 call npx vite build

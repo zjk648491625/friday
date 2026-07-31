@@ -13,6 +13,7 @@ import {
   CallHierarchyIncomingCall,
   LspClient,
 } from "./lsp/LspClient.js";
+import { GREP_FALLBACK_NOTE, grepCallers } from "./lsp/grepFallback.js";
 import { Tool } from "./types.js";
 
 const MAX_DEPTH = 3;
@@ -169,7 +170,23 @@ Maximum depth: 3 levels.`,
       client = LspClient.getInstance(path.dirname(filepath));
       await client.initialize();
     } catch (err: any) {
-      return `Error initializing LSP: ${err.message}\n\nCall hierarchy requires an LSP server like typescript-language-server, rust-analyzer, or gopls.`;
+      // LSP unavailable → approximate callers via textual grep (call sites).
+      const hits = grepCallers(symbolName, path.dirname(filepath));
+      if (hits.length === 0) {
+        return `No callers found for "${symbolName}" (textual scan).\n\n${GREP_FALLBACK_NOTE}`;
+      }
+      const lines: string[] = [
+        `Callers of "${symbolName}" (approximate, 1-level textual scan):`,
+        `  ${symbolName} (root) [${path.relative(process.cwd(), filepath)}]`,
+        "",
+      ];
+      for (const hit of hits) {
+        const relPath = path.relative(process.cwd(), hit.file) || hit.file;
+        lines.push(`  └── (call site) ${relPath}:${hit.lineNumber}`);
+        lines.push(`        | ${hit.line.substring(0, 120)}`);
+      }
+      lines.push("", GREP_FALLBACK_NOTE);
+      return lines.join("\n");
     }
 
     try {

@@ -41,19 +41,19 @@ choice /t 60 /d y /c yn /m "Build GUI? [Y/N] (default=Y after 60s)"
 if errorlevel 2 (echo [2/5] GUI: SKIPPED) else call :build_gui
 echo.
 
+:: --- CLI (default N) ---
+choice /t 60 /d n /c yn /m "Build CLI? [Y/N] (default=N after 60s)"
+if errorlevel 2 (echo [3/5] CLI: SKIPPED) else call :build_cli
+echo.
+
 :: --- IntelliJ (default N) ---
 choice /t 60 /d n /c yn /m "Build IntelliJ Plugin? [Y/N] (default=N after 60s)"
-if errorlevel 2 (echo [3/5] IntelliJ: SKIPPED) else call :build_intellij
+if errorlevel 2 (echo [4/5] IntelliJ: SKIPPED) else call :build_intellij
 echo.
 
 :: --- VSCode (default N) ---
 choice /t 60 /d n /c yn /m "Build VSCode Plugin? [Y/N] (default=N after 60s)"
-if errorlevel 2 (echo [4/5] VSCode: SKIPPED) else call :build_vscode
-echo.
-
-:: --- CLI (default N) ---
-choice /t 60 /d n /c yn /m "Build CLI? [Y/N] (default=N after 60s)"
-if errorlevel 2 (echo [5/5] CLI: SKIPPED) else call :build_cli
+if errorlevel 2 (echo [5/5] VSCode: SKIPPED) else call :build_vscode
 echo.
 
 goto :done
@@ -69,13 +69,13 @@ echo.
 call :build_gui
 if !ERRORLEVEL! neq 0 goto :done
 echo.
+call :build_cli
+if !ERRORLEVEL! neq 0 goto :done
+echo.
 call :build_intellij
 if !ERRORLEVEL! neq 0 goto :done
 echo.
 call :build_vscode
-if !ERRORLEVEL! neq 0 goto :done
-echo.
-call :build_cli
 if !ERRORLEVEL! neq 0 goto :done
 
 :done
@@ -216,9 +216,20 @@ dir "%ROOT%extensions\vscode\friday-ai-*.vsix" 2>nul
 goto :eof
 
 :build_cli
-echo [5/5] Building CLI...
+echo [CLI] Building CLI...
 call "%ROOT%build-cli.bat"
 if !ERRORLEVEL! neq 0 (
     echo [CLI] SKIPPED
+    goto :eof
 )
+echo [CLI] Copying CLI dist to binary output...
+if not exist "%ROOT%extensions\cli\dist\friday.js" (
+    echo [CLI] WARNING: CLI dist not found at extensions\cli\dist\friday.js
+    goto :eof
+)
+if not exist "%CORE_BIN%\cli" mkdir "%CORE_BIN%\cli"
+xcopy "%ROOT%extensions\cli\dist\*" "%CORE_BIN%\cli\" /E /Y /Q
+echo [CLI] Done.
 goto :eof
+
+

@@ -13,6 +13,7 @@ import {
   CallHierarchyOutgoingCall,
   LspClient,
 } from "./lsp/LspClient.js";
+import { GREP_FALLBACK_NOTE, grepCallees } from "./lsp/grepFallback.js";
 import { Tool } from "./types.js";
 
 const MAX_DEPTH = 3;
@@ -167,8 +168,25 @@ their callees, etc. Maximum depth: 3 levels.`,
     try {
       client = LspClient.getInstance(path.dirname(filepath));
       await client.initialize();
+      // prepareCallHierarchy may throw for unsupported languages; that's handled below
     } catch (err: any) {
-      return `Error initializing LSP: ${err.message}\n\nCall hierarchy requires an LSP server like typescript-language-server, rust-analyzer, or gopls.`;
+      // LSP unavailable → approximate callees via textual grep of the method body.
+      const hits = grepCallees(symbolName, filepath, path.dirname(filepath));
+      if (hits.length === 0) {
+        return `No callees found for "${symbolName}" (textual scan).\n\n${GREP_FALLBACK_NOTE}`;
+      }
+      const lines: string[] = [
+        `Callees of "${symbolName}" (approximate, 1-level textual scan):`,
+        `  ${symbolName} (root) [${path.relative(process.cwd(), filepath)}]`,
+        "",
+      ];
+      for (const hit of hits) {
+        const relPath = path.relative(process.cwd(), hit.file) || hit.file;
+        lines.push(`  └── (call site) ${relPath}:${hit.lineNumber}`);
+        lines.push(`        | ${hit.line.substring(0, 120)}`);
+      }
+      lines.push("", GREP_FALLBACK_NOTE);
+      return lines.join("\n");
     }
 
     try {

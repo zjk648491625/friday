@@ -259,15 +259,45 @@ export class LspClient {
 
   /**
    * Get or create an LspClient instance for the given workspace.
+   * If a file path is passed, walks up to find the project root.
    */
   static getInstance(workspaceDir: string): LspClient {
-    const key = path.resolve(workspaceDir);
+    let key = path.resolve(workspaceDir);
+    // If path is a file, walk up to find project root (package.json, etc.)
+    try {
+      if (fs.existsSync(key) && fs.statSync(key).isFile()) {
+        key = LspClient.findProjectRoot(path.dirname(key));
+      }
+    } catch {
+      /* keep original path */
+    }
     let instance = LspClient.instances.get(key);
     if (!instance || instance.shutdown) {
       instance = new LspClient(key);
       LspClient.instances.set(key, instance);
     }
     return instance;
+  }
+
+  /**
+   * Walk up directory tree to find project root by marker files.
+   */
+  private static findProjectRoot(startDir: string): string {
+    const markers = [
+      "package.json", "tsconfig.json", "Cargo.toml", "go.mod",
+      "pom.xml", "build.gradle", "CMakeLists.txt", "pyproject.toml",
+      "setup.py", "Gemfile", "composer.json", ".git",
+    ];
+    let dir = startDir;
+    for (let i = 0; i < 20; i++) {
+      for (const m of markers) {
+        if (fs.existsSync(path.join(dir, m))) return dir;
+      }
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+    return startDir;
   }
 
   /**
@@ -415,8 +445,115 @@ export class LspClient {
       }
     }
 
-    // Try npx as fallback
+    // Language-specific extra resolution (e.g. Java's jdtls is NOT an npm
+    // package, so `npx jdtls` can never work — we must locate a real install).
+    if (cmd === "jdtls") {
+      const jdtls = this.resolveJdtls();
+      if (jdtls) return [jdtls, ...command.slice(1)];
+    }
+
+    // Try npx as fallback (works for npm-distributed servers like
+    // typescript-language-server, pyright, etc.)
     return ["npx", "--yes", ...command];
+  }
+
+  /**
+   * Locate an installed Eclipse JDT Language Server without requiring it on
+   * PATH. jdtls ships inside IDE extensions (VS Code "Extension Pack for Java",
+   * IntelliJ, Eclipse, CodeBuddy/WorkBuddy, etc.) and as a standalone download.
+   * Returns the launcher command or null if nothing is found.
+   */
+  private resolveJdtls(): string | null {
+    const candidates: string[] = [];
+
+    if (process.platform === "win32") {
+      const home = process.env.USERPROFILE || process.env.HOME || "";
+      const appData = process.env.APPDATA || "";
+      // VS Code / VSCode Insiders / Cursor / WindSurf Java extension bundles
+      const vscodeRoots = [
+        path.join(home, ".vscode", "extensions"),
+        path.join(home, ".vscode-insiders", "extensions"),
+        path.join(home, ".cursor", "extensions"),
+        path.join(home, ".windsurf", "extensions"),
+        path.join(appData, "Code", "User", "globalStorage", "redhat.java"),
+        path.join(home, ".codebuddy", "plugins", "marketplaces", "codebuddy-plugins-official", "plugins", "jdtls-lsp"),
+      ];
+      for (const root of vscodeRoots) {
+        candidates.push(...this.findJdtlsUnder(root));
+      }
+      // Common standalone install locations
+      candidates.push(
+        path.join(home, "jdtls", "bin", "jdtls.bat"),
+        path.join("C:\\", "jdtls", "bin", "jdtls.bat"),
+      );
+    } else {
+      const home = process.env.HOME || "/root";
+      candidates.push(
+        path.join(home, ".vscode", "extensions", "*", "jdtls", "bin", "jdtls"),
+        path.join(home, ".cursor", "extensions", "*", "jdtls", "bin", "jdtls"),
+        path.join(home, ".jdtls", "bin", "jdtls"),
+        "/usr/local/jdtls/bin/jdtls",
+        "/opt/jdtls/bin/jdtls",
+      );
+    }
+
+    for (const c of candidates) {
+      // Support a single `*` glob segment for known extension dirs
+      if (c.includes("*")) {
+        const idx = c.indexOf("*");
+        const prefix = c.slice(0, idx);
+        const suffix = c.slice(idx + 1);
+        try {
+          const base = path.dirname(prefix);
+          if (fs.existsSync(base)) {
+            for (const entry of fs.readdirSync(base)) {
+              const concrete = path.join(base, entry, suffix);
+              if (fs.existsSync(concrete)) return concrete;
+            }
+          }
+        } catch {
+          /* ignore */
+        }
+        continue;
+      }
+      if (fs.existsSync(c)) return c;
+    }
+    return null;
+  }
+
+  /** Within a VS Code extension dir, jdtls lives under server/ or Binaries/. */
+  private findJdtlsUnder(root: string): string[] {
+    const out: string[] = [];
+    if (!fs.existsSync(root)) return out;
+    try {
+      const walk = (dir: string, depth: number) => {
+        if (depth > 6) return;
+        let entries: fs.Dirent[];
+        try {
+          entries = fs.readdirSync(dir, { withFileTypes: true });
+        } catch {
+          return;
+        }
+        for (const e of entries) {
+          const full = path.join(dir, e.name);
+          if (e.isDirectory()) {
+            if (e.name === "bin") {
+              const launcher =
+                process.platform === "win32" ? "jdtls.bat" : "jdtls";
+              const p = path.join(full, launcher);
+              if (fs.existsSync(p)) out.push(p);
+            }
+            walk(full, depth + 1);
+          } else if (e.name === "jdtls" || e.name === "jdtls.bat") {
+            out.push(full);
+          }
+        }
+      };
+      walk(root, 0);
+    } catch {
+      /* ignore */
+    }
+    return out;
   }
 
   private getNpmBinPaths(): string[] {
@@ -459,6 +596,9 @@ export class LspClient {
           cwd: this.workspaceDir,
           stdio: ["pipe", "pipe", "pipe"],
           env: { ...process.env },
+          // Windows: shell:true lets cmd.exe use PATHEXT to find .cmd wrappers
+          // (npx.cmd, typescript-language-server.cmd, etc.)
+          shell: process.platform === "win32",
         });
 
         this.process.on("error", (err) => {
@@ -513,8 +653,9 @@ export class LspClient {
     });
 
     // Also listen for stderr for diagnostic messages
-    if (this.process.stderr) {
-      this.process.stderr.on("data", (data: Buffer) => {
+    const stderrStream = this.process?.stderr;
+    if (stderrStream) {
+      stderrStream.on("data", (data: Buffer) => {
         const msg = data.toString().trim();
         if (msg.includes("[Error]") || msg.includes("panic") || msg.includes("FATAL")) {
           console.error(`[LSP stderr] ${msg}`);
@@ -573,8 +714,9 @@ export class LspClient {
     });
 
     // Also listen for stderr for diagnostic messages
-    if (this.process.stderr) {
-      this.process.stderr.on("data", (data: Buffer) => {
+    const stderrStream = this.process?.stderr;
+    if (stderrStream) {
+      stderrStream.on("data", (data: Buffer) => {
         const msg = data.toString().trim();
         if (msg.includes("[Error]") || msg.includes("panic") || msg.includes("FATAL")) {
           console.error(`[LSP stderr] ${msg}`);

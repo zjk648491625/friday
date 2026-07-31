@@ -1,6 +1,9 @@
 import chalk from "chalk";
+// @ts-ignore
 import type { ChatHistoryItem } from "core/index.js";
-import express, { Request, Response } from "express";
+// @ts-ignore
+import express, { type Request, type Response } from "express";
+import path from "path";
 
 import { ToolPermissionServiceState } from "src/services/ToolPermissionService.js";
 import { prependPrompt } from "src/util/promptProcessor.js";
@@ -243,7 +246,7 @@ export async function serve(prompt?: string, options: ServeOptions = {}) {
 
     // Process messages if not already processing
     if (!state.isProcessing) {
-      processMessages(state, llmApi);
+      await processMessages(state, llmApi);
     }
   });
 
@@ -385,6 +388,69 @@ export async function serve(prompt?: string, options: ServeOptions = {}) {
     setTimeout(handleExitResponse, 100);
   });
 
+  // --- Direct Tool Execution Endpoint (for GUI bridge) ---
+  app.post("/tools/call", async (req: Request, res: Response) => {
+    try {
+      const { toolName, args } = req.body as {
+        toolName: string;
+        args?: Record<string, unknown>;
+      };
+
+      if (!toolName) {
+        return res.status(400).json({ success: false, error: "toolName is required" });
+      }
+
+      // Find the tool in ALL_BUILT_IN_TOOLS
+      const { ALL_BUILT_IN_TOOLS } = await import("../tools/allBuiltIns.js");
+      const tool = ALL_BUILT_IN_TOOLS.find((t) => t.name === toolName);
+
+      if (!tool) {
+        const available = ALL_BUILT_IN_TOOLS.map((t) => t.name).join(", ");
+        return res.status(404).json({
+          success: false,
+          error: `Tool "${toolName}" not found. Available: ${available}`,
+        });
+      }
+
+      // Execute the tool directly (bypasses LLM agent loop)
+      const cwd = process.cwd();
+      const resolvedArgs = { ...args };
+
+      // Resolve relative paths with the server's working directory
+      if (resolvedArgs.target && typeof resolvedArgs.target === "string") {
+        if (!path.isAbsolute(resolvedArgs.target)) {
+          resolvedArgs.target = path.resolve(cwd, resolvedArgs.target);
+        }
+      }
+      if (resolvedArgs.filepath && typeof resolvedArgs.filepath === "string") {
+        if (!path.isAbsolute(resolvedArgs.filepath)) {
+          resolvedArgs.filepath = path.resolve(cwd, resolvedArgs.filepath);
+        }
+      }
+
+      const result = await tool.run(resolvedArgs);
+      return res.json({ success: true, data: { text: result } });
+    } catch (err: any) {
+      return res.json({ success: false, error: err.message || String(err) });
+    }
+  });
+
+  // --- List Tools Endpoint ---
+  app.get("/tools", async (_req: Request, res: Response) => {
+    try {
+      const { ALL_BUILT_IN_TOOLS } = await import("../tools/allBuiltIns.js");
+      const tools = ALL_BUILT_IN_TOOLS.map((t) => ({
+        name: t.name,
+        displayName: t.displayName,
+        description: t.description,
+        readonly: t.readonly,
+      }));
+      return res.json({ success: true, data: { tools } });
+    } catch (err: any) {
+      return res.json({ success: false, error: err.message || String(err) });
+    }
+  });
+
   const server = app.listen(port, async () => {
     console.log(chalk.green(`Server started on http://localhost:${port}`));
     console.log(chalk.dim("Endpoints:"));
@@ -393,6 +459,14 @@ export async function serve(prompt?: string, options: ServeOptions = {}) {
       chalk.dim(
         "  POST /message    - Send a message (body: { message: string })",
       ),
+    );
+    console.log(
+      chalk.dim(
+        "  POST /tools/call - Execute a tool directly (body: { toolName, args })"),
+    );
+    console.log(
+      chalk.dim(
+        "  GET  /tools      - List available tools"),
     );
     console.log(
       chalk.dim(

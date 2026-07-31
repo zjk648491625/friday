@@ -10,6 +10,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { LspClient } from "./lsp/LspClient.js";
+import { GREP_FALLBACK_NOTE, grepReferences } from "./lsp/grepFallback.js";
 import { Tool } from "./types.js";
 
 const MAX_REFERENCES = 100;
@@ -78,7 +79,22 @@ Maximum 100 results.`,
       client = LspClient.getInstance(searchDir);
       await client.initialize();
     } catch (err: any) {
-      return `Error initializing LSP: ${err.message}\n\nMake sure an LSP server is installed for your project language.`;
+      // LSP unavailable → textual grep fallback across the workspace.
+      const hits = grepReferences(symbolName, searchDir, MAX_REFERENCES);
+      if (hits.length === 0) {
+        return `No references found for "${symbolName}" (textual scan).\n\n${GREP_FALLBACK_NOTE}`;
+      }
+      const lines: string[] = [
+        `References to "${symbolName}" (${hits.length} approximate results via grep):`,
+        "",
+      ];
+      for (const hit of hits) {
+        const relPath = path.relative(process.cwd(), hit.file) || hit.file;
+        lines.push(`  ${relPath}:${hit.lineNumber}`);
+        lines.push(`    | ${hit.line.substring(0, 120)}`);
+      }
+      lines.push("", GREP_FALLBACK_NOTE);
+      return lines.join("\n");
     }
 
     try {

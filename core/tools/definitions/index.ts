@@ -3,19 +3,27 @@ export { createNewFileTool } from "./createNewFile";
 export { createRuleBlock } from "./createRuleBlock";
 export { editFileTool } from "./editFile";
 export { fetchUrlContentTool } from "./fetchUrlContent";
+export { fileDepsTool } from "./fileDeps";
+export { findReferencesTool } from "./findReferences";
 export { globSearchTool } from "./globSearch";
 export { grepSearchTool } from "./grepSearch";
+export { listSymbolsTool } from "./listSymbols";
 export { lsTool } from "./ls";
 export { multiEditTool } from "./multiEdit";
 export { readCurrentlyOpenFileTool } from "./readCurrentlyOpenFile";
 export { readFileTool } from "./readFile";
 
 export { readFileRangeTool } from "./readFileRange";
+export { readSymbolTool } from "./readSymbol";
 export { readSkillTool } from "./readSkill";
 export { requestRuleTool } from "./requestRule";
 export { runTerminalCommandTool } from "./runTerminalCommand";
 export { searchWebTool } from "./searchWeb";
 export { singleFindAndReplaceTool } from "./singleFindAndReplace";
+export { traceCalleesTool } from "./traceCallees";
+export { traceCallersTool } from "./traceCallers";
 export { viewDiffTool } from "./viewDiff";
 export { viewRepoMapTool } from "./viewRepoMap";
 export { viewSubdirectoryTool } from "./viewSubdirectory";
+
+export { CliBridgeToolNames, CLI_BRIDGE_GROUP_NAME } from "./cliBridgeDefs";

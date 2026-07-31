@@ -13,6 +13,13 @@ export const getBaseToolDefinitions = () => [
   toolDefinitions.lsTool,
   toolDefinitions.createRuleBlock,
   toolDefinitions.fetchUrlContentTool,
+  // LSP code graph tools (delegated to CLI via bridge)
+  toolDefinitions.listSymbolsTool,
+  toolDefinitions.findReferencesTool,
+  toolDefinitions.traceCallersTool,
+  toolDefinitions.traceCalleesTool,
+  toolDefinitions.fileDepsTool,
+  toolDefinitions.readSymbolTool,
 ];
 
 export const getConfigDependentToolDefinitions = async (

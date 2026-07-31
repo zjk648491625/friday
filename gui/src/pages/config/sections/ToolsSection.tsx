@@ -1,7 +1,9 @@
+import { JSONContent } from "@tiptap/core";
 import { ConfigYaml, parseConfigYaml } from "@friday-ai/config-yaml";
 import {
   ArrowPathIcon,
   ChevronDownIcon,
+  CheckCircleIcon,
   CircleStackIcon,
   CommandLineIcon,
   EllipsisVerticalIcon,
@@ -12,8 +14,9 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { MCPConnectionStatus, MCPServerStatus } from "core";
-import { BUILT_IN_GROUP_NAME } from "core/tools/builtIn";
-import { useContext, useMemo, useState } from "react";
+import { BUILT_IN_GROUP_NAME, CLI_BRIDGE_GROUP_NAME } from "core/tools/builtIn";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Alert from "../../../components/gui/Alert";
 import { ToolTip } from "../../../components/gui/Tooltip";
 import { useEditBlock } from "../../../components/mainInput/Lump/useEditBlock";
@@ -30,9 +33,40 @@ import { useAuth } from "../../../context/Auth";
 import { IdeMessengerContext } from "../../../context/IdeMessenger";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { updateConfig } from "../../../redux/slices/configSlice";
+import { newSession, setMainEditorContentTrigger } from "../../../redux/slices/sessionSlice";
+import { saveCurrentSession } from "../../../redux/thunks/session";
 import { ConfigHeader } from "../components/ConfigHeader";
 import { ToolPoliciesGroup } from "../components/ToolPoliciesGroup";
 import { T } from "../../../util/i18n";
+
+// Four-tier install fallback:
+//   1) "Install"      -> backend silently runs `npm i -g @friday-ai/cli`
+//   2) fail -> open terminal and run the command (user sees the error)
+//   3) fail -> jump to a new chat session with the command prefilled, let AI do it
+//   4) fail -> copy-command fallback
+// If already installed (detected via `friday --version`), hide the card / show a green check.
+type CliInstallStatus =
+  | "checking"
+  | "not-installed"
+  | "installing"
+  | "installed"
+  | "terminal"
+  | "ai"
+  | "copy";
+
+const CLI_INSTALL_CMD = "npm install -g @friday-ai/cli";
+
+function buildEditorState(text: string): JSONContent {
+  return {
+    type: "doc",
+    content: [
+      {
+        type: "paragraph",
+        content: [{ type: "text", text }],
+      },
+    ],
+  };
+}
 
 interface MCPServerStatusProps {
   allToolsOff: boolean;
@@ -412,7 +446,97 @@ export function ToolsSection() {
   );
   const { selectedProfile } = useAuth();
   const ideMessenger = useContext(IdeMessengerContext);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const disableMcp = false;
+
+  // Four-tier CLI install flow + live "is it already installed?" detection.
+  const [cliStatus, setCliStatus] = useState<CliInstallStatus>("checking");
+  const [cliError, setCliError] = useState<string | null>(null);
+
+  const detectInstalled = async () => {
+    try {
+      const [stdout] = await ideMessenger.ide.subprocess("friday --version");
+      if (stdout && stdout.trim().length > 0) {
+        setCliStatus("installed");
+        return;
+      }
+    } catch {
+      // not installed (or friday not on PATH) — fall through to not-installed
+    }
+    setCliStatus("not-installed");
+  };
+
+  useEffect(() => {
+    void detectInstalled();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const recheckAfterInstall = async () => {
+    // Give the install a moment, then re-detect so the green check can appear.
+    await new Promise((r) => setTimeout(r, 1500));
+    await detectInstalled();
+  };
+
+  // Tier 1: backend silently installs. On failure drop to terminal tier.
+  const installSilently = async () => {
+    setCliStatus("installing");
+    setCliError(null);
+    try {
+      const [stdout, stderr] = await ideMessenger.ide.subprocess(
+        CLI_INSTALL_CMD,
+      );
+      const out = `${stdout}\n${stderr}`.toLowerCase();
+      if (
+        stderr &&
+        stderr.trim().length > 0 &&
+        !out.includes("npm warn") &&
+        !out.includes("added") &&
+        !out.includes("up to date")
+      ) {
+        throw new Error(stderr || "install failed");
+      }
+      await recheckAfterInstall();
+      if ((await ideMessenger.ide.subprocess("friday --version"))[0]?.trim()) {
+        setCliStatus("installed");
+      } else {
+        setCliStatus("terminal");
+      }
+    } catch (e) {
+      setCliError(e instanceof Error ? e.message : String(e));
+      setCliStatus("terminal");
+    }
+  };
+
+  // Tier 2: open the IDE terminal and run the command (user watches the error).
+  const runInTerminal = () => {
+    void ideMessenger.ide.runCommand(CLI_INSTALL_CMD);
+    setCliStatus("ai");
+  };
+
+  // Tier 3: open a fresh chat session with the command prefilled so the AI can install it.
+  const installViaAi = () => {
+    navigate("/");
+    void dispatch(
+      saveCurrentSession({ openNewSession: true, generateTitle: true }),
+    );
+    void dispatch(newSession());
+    void dispatch(
+      setMainEditorContentTrigger(
+        buildEditorState(
+          `Please install the Friday CLI by running this command in the terminal: ${CLI_INSTALL_CMD}. ` +
+            `After it succeeds, tell me it's done.`,
+        ),
+      ),
+    );
+    setCliStatus("copy");
+  };
+
+  // Tier 4: copy-command fallback.
+  const copyCommand = () => {
+    void navigator.clipboard.writeText(CLI_INSTALL_CMD);
+    setCliStatus("copy");
+  };
 
   const duplicateDetection = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -488,6 +612,86 @@ export function ToolsSection() {
           allToolsOff={allToolsOff}
           duplicateDetection={duplicateDetection}
         />
+        <ToolPoliciesGroup
+          showIcon={false}
+          groupName={CLI_BRIDGE_GROUP_NAME}
+          displayName={"LSP Code Graph"}
+          allToolsOff={allToolsOff}
+          duplicateDetection={duplicateDetection}
+        />
+        {cliStatus !== "installed" && cliStatus !== "checking" && (
+          <div className="mb-4 mt-2 rounded-lg border border-blue-500/20 px-4 py-3 text-sm">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-description">
+                💡{" "}
+                {T(
+                  "Install Friday CLI for precise LSP-powered analysis (function definitions, call hierarchy, references). Without it, tools use text-based fallback.",
+                )}
+              </span>
+              {cliStatus === "not-installed" && (
+                <button
+                  onClick={() => void installSilently()}
+                  className="ml-3 shrink-0 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                >
+                  {T("Install")}
+                </button>
+              )}
+              {cliStatus === "installing" && (
+                <span className="ml-3 shrink-0 rounded-md bg-blue-600/80 px-3 py-1.5 text-xs font-medium text-white">
+                  {T("Installing...")}
+                </span>
+              )}
+              {cliStatus === "terminal" && (
+                <div className="ml-3 flex shrink-0 gap-2">
+                  <button
+                    onClick={() => runInTerminal()}
+                    className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                  >
+                    {T("Run in Terminal")}
+                  </button>
+                  <button
+                    onClick={() => installViaAi()}
+                    className="rounded-md border border-blue-500/40 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-blue-500/10"
+                  >
+                    {T("Let AI Install")}
+                  </button>
+                </div>
+              )}
+              {cliStatus === "ai" && (
+                <button
+                  onClick={() => installViaAi()}
+                  className="ml-3 shrink-0 rounded-md border border-blue-500/40 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-blue-500/10"
+                >
+                  {T("Let AI Install")}
+                </button>
+              )}
+              {cliStatus === "copy" && (
+                <button
+                  onClick={() => copyCommand()}
+                  className="ml-3 shrink-0 rounded-md border border-blue-500/40 px-3 py-1.5 text-xs font-medium text-foreground hover:bg-blue-500/10"
+                >
+                  {T("Copy Install Command")}
+                </button>
+              )}
+            </div>
+            {cliError && cliStatus === "terminal" && (
+              <p className="mt-1.5 text-xs text-error">{cliError}</p>
+            )}
+            <p className="mt-1.5 text-xs text-description-muted">
+              <code className="rounded bg-gray-500/10 px-1.5 py-0.5 font-mono text-xs">
+                {CLI_INSTALL_CMD}
+              </code>
+            </p>
+          </div>
+        )}
+        {cliStatus === "installed" && (
+          <div className="mb-4 mt-2 flex items-center gap-2 rounded-lg border border-success/30 bg-success/5 px-4 py-3 text-sm">
+            <CheckCircleIcon className="h-5 w-5 flex-shrink-0 text-success" />
+            <span className="text-foreground">
+              {T("Friday CLI is installed — LSP-powered analysis is active.")}
+            </span>
+          </div>
+        )}
         <ConfigHeader
           className="pr-2"
           title={T("MCP Servers")}

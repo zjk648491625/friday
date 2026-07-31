@@ -729,6 +729,11 @@ const zh: Dict = {
   "No models found": "未找到模型",
   "Fetched Models": "已加载模型",
   "Click Refresh to fetch models": "点击刷新获取模型列表",
+
+  // ═══════ CLI 桥接 ═══════
+  "Install Friday CLI for precise LSP-powered analysis (function definitions, call hierarchy, references). Without it, tools use text-based fallback.": "安装 Friday CLI 以获得精确的 LSP 驱动分析（函数定义、调用层次、引用查找）。未安装时将使用文本降级方案。",
+  "Copy Install Command": "复制安装命令",
+  "Copied!": "已复制！",
 };
 
 export function T(en: string): string {

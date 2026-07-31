@@ -18,12 +18,22 @@ export enum BuiltInToolNames {
   CodebaseTool = "codebase",
   ReadSkill = "read_skill",
 
+  // CLI bridge tools (LSP code graph, delegated to CLI process)
+  ListSymbols = "list_symbols",
+  FindReferences = "find_references",
+  TraceCallers = "trace_callers",
+  TraceCallees = "trace_callees",
+  FileDeps = "file_deps",
+  ReadSymbol = "read_symbol",
+
   // excluded from allTools for now
   ViewRepoMap = "view_repo_map",
   ViewSubdirectory = "view_subdirectory",
 }
 
 export const BUILT_IN_GROUP_NAME = "Built-In";
+
+export const CLI_BRIDGE_GROUP_NAME = "LSP Code Graph";
 
 export const CLIENT_TOOLS_IMPLS = [
   BuiltInToolNames.EditExistingFile,

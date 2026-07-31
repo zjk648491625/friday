@@ -23,6 +23,9 @@ import Ollama from "./llm/llms/Ollama";
 import { EditAggregator } from "./nextEdit/context/aggregateEdits";
 import { createNewPromptFileV2 } from "./promptFiles/createNewPromptFile";
 import { callTool } from "./tools/callTool";
+import {
+  initCliBridgeExecutor,
+} from "./cliBridge";
 import { ChatDescriber } from "./util/chatDescriber";
 import { compactConversation } from "./util/conversationCompaction";
 import { GlobalContext } from "./util/GlobalContext";
@@ -98,6 +101,7 @@ export class Core {
   private docsService: DocsService;
   private globalContext = new GlobalContext();
   llmLogger = new LLMLogger();
+  private _cliBridgeInitPromise: Promise<any> | undefined;
 
   private messageAbortControllers = new Map<string, AbortController>();
   private addMessageAbortController(id: string): AbortController {
@@ -267,6 +271,21 @@ export class Core {
         (..._) => Promise.resolve([]),
         "fineTuned",
       );
+
+      // Initialize CLI bridge (async — tries spawn, daemon, npm detection)
+      // Assign to this to prevent esbuild treeShaking from removing the call
+      this._cliBridgeInitPromise = initCliBridgeExecutor()
+        .then((cliExecutor) => {
+          if (!cliExecutor) {
+            Logger.warn(
+              "Friday CLI not found. LSP code graph tools will use built-in fallback (grep/read_file). " +
+                "For full LSP analysis, install: npm install -g @friday-ai/cli",
+            );
+          }
+        })
+        .catch((err) => {
+          Logger.warn(`CLI bridge init failed: ${err?.message || err}`);
+        });
 
       this.registerMessageHandlers(ideSettingsPromise);
     } catch (error) {

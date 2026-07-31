@@ -10,6 +10,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { LspClient } from "./lsp/LspClient.js";
+import { GREP_FALLBACK_NOTE, grepReadSymbol } from "./lsp/grepFallback.js";
 import { Tool } from "./types.js";
 
 export const readSymbolTool: Tool = {
@@ -77,7 +78,19 @@ the complete source code range.`,
       client = LspClient.getInstance(searchDir);
       await client.initialize();
     } catch (err: any) {
-      return `Error initializing LSP: ${err.message}`;
+      // LSP unavailable (e.g. jdtls not installed) → fall back to source grep
+      // so the user still gets a useful result instead of a hard error.
+      const fb = grepReadSymbol(symbolName, filepath, searchDir);
+      if (fb) {
+        const relPath = path.relative(process.cwd(), fb.file);
+        return (
+          `Symbol: "${symbolName}" in ${relPath} (lines ${fb.startLine}-${fb.endLine})\n` +
+          `${"=".repeat(60)}\n` +
+          fb.code +
+          `\n\n${GREP_FALLBACK_NOTE}`
+        );
+      }
+      return `Could not locate symbol "${symbolName}". ${GREP_FALLBACK_NOTE}`;
     }
 
     try {

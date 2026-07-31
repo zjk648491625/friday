@@ -25,7 +25,7 @@ import javax.swing.JComponent
  * in which case we must fall back to windowed rendering.
  */
 private fun isJcefRemoteModeEnabled(): Boolean = try {
-    JBCefApp.getInstance().isRemoteEnabled()
+    com.intellij.openapi.util.registry.Registry.get("ide.browser.jcef.out-of-process.enabled").asBoolean()
 } catch (_: IllegalStateException) {
     // JCEF not yet initialized — assume enabled (normal case)
     true

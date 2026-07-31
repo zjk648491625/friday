@@ -23,14 +23,20 @@ import { checkBackgroundJobTool } from "./checkBackgroundJob.js";
 import { editTool } from "./edit.js";
 import { exitTool } from "./exit.js";
 import { fetchTool } from "./fetch.js";
+import { fileDepsTool } from "./fileDeps.js";
+import { findReferencesTool } from "./findReferences.js";
 import { listFilesTool } from "./listFiles.js";
+import { listSymbolsTool } from "./listSymbols.js";
 import { multiEditTool } from "./multiEdit.js";
 import { readFileTool } from "./readFile.js";
+import { readSymbolTool } from "./readSymbol.js";
 import { reportFailureTool } from "./reportFailure.js";
 import { runTerminalCommandTool } from "./runTerminalCommand.js";
 import { checkIfRipgrepIsInstalled, searchCodeTool } from "./searchCode.js";
 import { skillsTool } from "./skills.js";
 import { subagentTool } from "./subagent.js";
+import { traceCalleesTool } from "./traceCallees.js";
+import { traceCallersTool } from "./traceCallers.js";
 import {
   isBetaSubagentToolEnabled,
   isBetaUploadArtifactToolEnabled,
@@ -80,6 +86,16 @@ export async function getAllAvailableTools(
   isHeadless: boolean,
 ): Promise<Tool[]> {
   const tools = [...BASE_BUILTIN_TOOLS];
+
+  // LSP Code Graph tools (readonly, with text fallback when LSP unavailable)
+  tools.push(
+    listSymbolsTool,
+    findReferencesTool,
+    readSymbolTool,
+    traceCallersTool,
+    traceCalleesTool,
+    fileDepsTool,
+  );
 
   const isRipgrepInstalled = await checkIfRipgrepIsInstalled();
   if (isRipgrepInstalled) {

@@ -80,6 +80,20 @@ async function buildWithEsbuild() {
 (async () => {
   if (esbuildOnly) {
     await buildWithEsbuild();
+    const outDir = path.resolve(__dirname, "out");
+    const outFile = path.join(outDir, "index.js");
+    if (fs.existsSync(outFile)) {
+      const kb = Math.round(fs.statSync(outFile).size / 1024);
+      console.log(`[Core] esbuild done (${kb}KB)`);
+      // Copy to IntelliJ binary location
+      const binDir = path.resolve(__dirname, "bin", "win32-x64");
+      fs.mkdirSync(binDir, { recursive: true });
+      fs.copyFileSync(outFile, path.join(binDir, "friday-binary.js"));
+      console.log("[Core] Copied to bin/win32-x64/friday-binary.js");
+    } else {
+      console.error("[Core] FAILED: output not found");
+      process.exit(1);
+    }
     return;
   }
 
