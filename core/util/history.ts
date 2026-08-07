@@ -167,6 +167,9 @@ export class HistoryManager {
     if (session.usage !== undefined) {
       orderedSession.usage = session.usage;
     }
+    if (session.forkedFrom !== undefined) {
+      orderedSession.forkedFrom = session.forkedFrom;
+    }
 
     fs.writeFileSync(
       getSessionFilePath(session.sessionId),

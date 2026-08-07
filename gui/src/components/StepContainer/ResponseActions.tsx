@@ -13,6 +13,27 @@ import { CopyIconButton } from "../gui/CopyIconButton";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 import { T } from "../../util/i18n";
 
+function ForkIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="6" cy="5" r="2" />
+      <circle cx="18" cy="5" r="2" />
+      <circle cx="12" cy="19" r="2" />
+      <path d="M12 17 V11" />
+      <path d="M12 11 L6.5 6.5" />
+      <path d="M12 11 L17.5 6.5" />
+    </svg>
+  );
+}
+
 export interface ResponseActionsProps {
   isTruncated: boolean;
   onFridayGeneration: () => void;
@@ -22,6 +43,7 @@ export interface ResponseActionsProps {
   isLast: boolean;
   timestamp?: number;
   leftSlot?: ReactNode;
+  onFork?: (index: number) => void;
 }
 
 export default function ResponseActions({
@@ -33,11 +55,13 @@ export default function ResponseActions({
   timestamp,
   isLast,
   leftSlot,
+  onFork,
 }: ResponseActionsProps) {
   const contextPercentage = useAppSelector(
     (state) => state.session.contextPercentage,
   );
   const isPruned = useAppSelector((state) => state.session.isPruned);
+  const isStreaming = useAppSelector((state) => state.session.isStreaming);
 
   const percent = Math.round((contextPercentage ?? 0) * 100);
   const buttonColorClass =
@@ -100,6 +124,17 @@ export default function ResponseActions({
         >
           <TrashIcon className="text-description-muted h-3.5 w-3.5" />
         </HeaderButtonWithToolTip>
+
+        {item.message.role === "assistant" && onFork && !isStreaming && (
+          <HeaderButtonWithToolTip
+            testId={`fork-button-${index}`}
+            text={T("Fork this conversation from here")}
+            tabIndex={-1}
+            onClick={() => onFork(index)}
+          >
+            <ForkIcon className="text-description-muted h-3.5 w-3.5" />
+          </HeaderButtonWithToolTip>
+        )}
 
         <CopyIconButton
           tabIndex={-1}

@@ -201,6 +201,20 @@ export type ChatHistoryItemWithMessageId = ChatHistoryItem & {
   timestamp: number;
 };
 
+// Maps a sessionId to its fork relationship: parent (the session it was
+// forked from) and children (sessions forked from it).
+export type ForkMap = Record<string, { parent?: string; children: string[] }>;
+
+function loadForkMap(): ForkMap {
+  try {
+    const raw = window.localStorage.getItem("friday-fork-map");
+    if (raw) return JSON.parse(raw) as ForkMap;
+  } catch {
+    // ignore corrupt/unavailable storage
+  }
+  return {};
+}
+
 type SessionState = {
   lastSessionId?: string;
   isSessionMetadataLoading: boolean;
@@ -226,6 +240,7 @@ type SessionState = {
   compactionLoading: Record<number, boolean>; // Track compaction loading by message index
   toolCallProgressById: Record<string, string>; // toolCallId -> progress message
   taskStatus: string | null; // Current agent task status for heartbeat display
+  forkMap: ForkMap;
 };
 
 export const INITIAL_SESSION_STATE: SessionState = {
@@ -248,6 +263,7 @@ export const INITIAL_SESSION_STATE: SessionState = {
   compactionLoading: {},
   toolCallProgressById: {},
   taskStatus: null,
+  forkMap: loadForkMap(),
 };
 
 export const sessionSlice = createSlice({
@@ -1025,6 +1041,22 @@ export const sessionSlice = createSlice({
     setContextPercentage: (state, action: PayloadAction<number>) => {
       state.contextPercentage = action.payload;
     },
+    recordFork: (
+      state,
+      action: PayloadAction<{ parentId: string; childId: string }>,
+    ) => {
+      const { parentId, childId } = action.payload;
+      if (!state.forkMap[parentId]) {
+        state.forkMap[parentId] = { children: [] };
+      }
+      if (!state.forkMap[parentId].children.includes(childId)) {
+        state.forkMap[parentId].children.push(childId);
+      }
+      state.forkMap[childId] = {
+        ...(state.forkMap[childId] || {}),
+        parent: parentId,
+      };
+    },
   },
   selectors: {
     selectIsGatheringContext: (state) => {
@@ -1116,6 +1148,7 @@ export const {
   setIsPruned,
   setContextPercentage,
   setCompactionLoading,
+  recordFork,
 } = sessionSlice.actions;
 
 export const { selectIsGatheringContext } = sessionSlice.selectors;

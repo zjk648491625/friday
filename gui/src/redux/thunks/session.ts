@@ -1,4 +1,6 @@
 import { createAsyncThunk, unwrapResult } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+import { T } from "../../util/i18n";
 import { BaseSessionMetadata, ChatMessage, Session } from "core";
 import { NEW_SESSION_TITLE } from "core/util/constants";
 import { renderChatMessage } from "core/util/messageContent";
@@ -8,11 +10,12 @@ import { selectSelectedProfile } from "../slices/profilesSlice";
 import {
   deleteSessionMetadata,
   newSession,
+  recordFork,
   setAllSessionMetadata,
   setIsSessionMetadataLoading,
   updateSessionMetadata,
 } from "../slices/sessionSlice";
-import { setTabs } from "../slices/tabsSlice";
+import { addTab, setTabs } from "../slices/tabsSlice";
 import { ThunkApiType } from "../store";
 import { updateSelectedModelByRole } from "../thunks/updateSelectedModelByRole";
 
@@ -120,6 +123,11 @@ export const loadSession = createAsyncThunk<
     const session = await getSession(extra.ideMessenger, sessionId);
     dispatch(newSession(session));
 
+    // Restore fork relationship (if this session was forked from another).
+    if (session.forkedFrom) {
+      dispatch(recordFork({ parentId: session.forkedFrom, childId: session.sessionId }));
+    }
+
     // Restore selected chat model from session, if present
     if (session.chatModelTitle) {
       void dispatch(selectChatModelForProfile(session.chatModelTitle));
@@ -177,6 +185,9 @@ export const loadLastSession = createAsyncThunk<void, void, ThunkApiType>(
       session = await getSession(extra.ideMessenger, lastSessionId);
     }
     dispatch(newSession(session));
+    if (session.forkedFrom) {
+      dispatch(recordFork({ parentId: session.forkedFrom, childId: session.sessionId }));
+    }
     if (session.chatModelTitle) {
       dispatch(selectChatModelForProfile(session.chatModelTitle));
     }
@@ -274,5 +285,119 @@ export const saveCurrentSession = createAsyncThunk<
 
     const result = await dispatch(updateSession(updatedSession));
     unwrapResult(result);
+  },
+);
+
+// Synchronously-reserved fork ids so two rapid forks of the same original
+// session never compute identical ids and overwrite each other.
+const reservedForkIds = new Set<string>();
+
+/**
+ * Fork the conversation up to (and including) the assistant reply at `index`
+ * into a brand-new session, leaving the original session completely intact.
+ *
+ * Order of operations matters:
+ *   1. Persist the ORIGINAL session first so it is never lost or altered.
+ *   2. Persist the forked session to disk (history/save + refresh metadata)
+ *      so it appears in History and can be reloaded later.
+ *   3. Record the parent/child relationship (redux + localStorage).
+ *   4. Open the fork as a NEW tab and switch the view to it, keeping the
+ *      original tab untouched.
+ */
+export const forkSession = createAsyncThunk<
+  void,
+  number,
+  ThunkApiType
+>(
+  "session/fork",
+  async (index, { dispatch, extra, getState }) => {
+    const state = getState().session;
+    const history = state.history;
+    if (index < 0 || index >= history.length) return;
+    const target = history[index];
+    // Only fork from a completed assistant reply.
+    if (target.message.role !== "assistant") return;
+    // Never fork while a response is still streaming: newSession() below
+    // aborts the current generation, which would kill the original session.
+    if (state.isStreaming) return;
+
+    const originalId = state.id;
+    const originalTitle = state.title;
+    const mode = state.mode;
+    const selectedChatModel = selectSelectedChatModel(getState());
+
+    const dirsResult = await extra.ideMessenger.request(
+      "getWorkspaceDirs",
+      undefined,
+    );
+    const workspaceDirectory =
+      dirsResult.status === "success"
+        ? dirsResult.content?.[0] || ""
+        : "";
+
+    // Deep clone the slice up to and including the clicked reply, and
+    // regenerate every message id so the fork never collides with the
+    // original (editor inputs, React keys, etc.).
+    const clone: typeof history =
+      typeof structuredClone === "function"
+        ? structuredClone(history.slice(0, index + 1))
+        : JSON.parse(JSON.stringify(history.slice(0, index + 1)));
+    clone.forEach((item) => {
+      item.message.id = uuidv4();
+    });
+
+    // Derive a fork id from the original: <originalId>_1, _2, ...
+    // Reserve the id synchronously (before any await) so two rapid clicks on
+    // the same original never compute the same id and overwrite each other.
+    const taken = new Set(state.allSessionMetadata.map((m) => m.sessionId));
+    let suffix = 1;
+    let candidate = `${originalId}_${suffix}`;
+    while (taken.has(candidate) || reservedForkIds.has(candidate)) {
+      suffix++;
+      candidate = `${originalId}_${suffix}`;
+    }
+    reservedForkIds.add(candidate);
+    const forkId = candidate;
+    const forkTitle = `${T("Fork")}: ${originalTitle}`;
+
+    const forkedSession: Session = {
+      sessionId: forkId,
+      title: forkTitle,
+      workspaceDirectory,
+      history: clone,
+      mode,
+      chatModelTitle: selectedChatModel?.title ?? null,
+      forkedFrom: originalId,
+    };
+
+    // 1) Persist the ORIGINAL session first.
+    await dispatch(
+      saveCurrentSession({ openNewSession: false, generateTitle: true }),
+    );
+
+    // 2) Persist the forked session to disk + refresh metadata.
+    await dispatch(updateSession(forkedSession));
+
+    // 3) Record relationship (in-memory + localStorage).
+    dispatch(recordFork({ parentId: originalId, childId: forkId }));
+    try {
+      window.localStorage.setItem(
+        "friday-fork-map",
+        JSON.stringify(getState().session.forkMap),
+      );
+    } catch {
+      // ignore storage errors
+    }
+
+    // 4) Open fork as a NEW tab and switch the view to it.
+    dispatch(
+      addTab({
+        id: Date.now().toString(36) + Math.random().toString(36).substring(2),
+        title: forkTitle,
+        isActive: true,
+        sessionId: forkId,
+      }),
+    );
+    dispatch(newSession(forkedSession));
   },
 );

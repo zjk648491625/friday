@@ -226,6 +226,12 @@ const zh: Dict = {
   "{mode} might not work well with this model.": "{mode}可能与此模型配合不佳。",
   "{key} . for next mode": "{key} . 切换模式",
   "Compact conversation": "压缩对话",
+  "Fork": "派生",
+  "Fork this conversation from here": "从此处派生对话",
+  "Forked from": "派生自",
+  "Forked into": "已派生至",
+  "Jump to original session": "跳转到原会话",
+  "Jump to forked session": "跳转到派生会话",
   "{percent}% of context filled.": "上下文已填充 {percent}%。",
   "Oldest messages are being removed.": "最早的消息正在被移除。",
 

@@ -18,6 +18,7 @@ interface StepContainerProps {
   latestSummaryIndex?: number;
   timestamp?: number;
   leftSlot?: React.ReactNode;
+  onFork?: (index: number) => void;
 }
 
 export default function StepContainer(props: StepContainerProps) {
@@ -124,6 +125,7 @@ export default function StepContainer(props: StepContainerProps) {
             item={props.item}
             isLast={props.isLast}
             timestamp={props.timestamp}
+            onFork={props.onFork}
           />
         </div>
       )}

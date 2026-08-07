@@ -287,6 +287,8 @@ export interface Session {
   chatModelTitle?: string | null;
   /** Optional: cumulative usage and cost for all LLM API calls in this session */
   usage?: SessionUsage;
+  /** Optional: session id this session was forked from */
+  forkedFrom?: string;
 }
 
 export interface BaseSessionMetadata {

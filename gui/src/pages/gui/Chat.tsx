@@ -39,7 +39,7 @@ import {
   updateToolCallOutput,
 } from "../../redux/slices/sessionSlice";
 import { streamEditThunk } from "../../redux/thunks/edit";
-import { loadLastSession } from "../../redux/thunks/session";
+import { forkSession, loadLastSession, loadSession } from "../../redux/thunks/session";
 import { streamResponseThunk } from "../../redux/thunks/streamResponse";
 import { isJetBrains, isMetaEquivalentKeyPressed } from "../../util";
 import { ToolTip } from "../../components/gui/Tooltip";
@@ -54,6 +54,7 @@ import InlineErrorMessage from "../../components/mainInput/InlineErrorMessage";
 import { resolveEditorContent } from "../../components/mainInput/TipTapEditor/utils/resolveEditorContent";
 import { setDialogMessage, setShowDialog } from "../../redux/slices/uiSlice";
 import { RootState } from "../../redux/store";
+import { setActiveTab } from "../../redux/slices/tabsSlice";
 import { cancelStream } from "../../redux/thunks/cancelStream";
 import { getLocalStorage, setLocalStorage } from "../../util/localStorage";
 import { EmptyChatBody } from "./EmptyChatBody";
@@ -373,6 +374,65 @@ function fallbackRender({ error, resetErrorBoundary }: any) {
   );
 }
 
+const ForkDivider = () => {
+  const dispatch = useAppDispatch();
+  const sessionId = useAppSelector((state) => state.session.id);
+  const forkMap = useAppSelector((state) => state.session.forkMap);
+  const tabs = useAppSelector((state) => state.tabs.tabs);
+  const metadata = useAppSelector((state) => state.session.allSessionMetadata);
+
+  const rel = forkMap[sessionId];
+  if (!rel) return null;
+
+  const jump = (targetId: string) => {
+    const tab = tabs.find((t) => t.sessionId === targetId);
+    // Mirror TabBar.handleTabClick: load the session content AND activate the
+    // tab. setActiveTab alone only moves the highlight — the chat would stay on
+    // the current session, i.e. the jump "doesn't go back".
+    if (tab) {
+      dispatch(loadSession({ sessionId: targetId, saveCurrentSession: true }));
+      dispatch(setActiveTab(tab.id));
+    } else {
+      dispatch(loadSession({ sessionId: targetId, saveCurrentSession: true }));
+    }
+  };
+
+  return (
+    <div
+      style={{
+        borderTop: "1px dashed var(--vscode-panel-border)",
+        margin: "12px 20px 4px",
+        paddingTop: 8,
+        fontSize: 11,
+        color: "var(--vscode-descriptionForeground)",
+      }}
+    >
+      {rel.parent && (
+        <div
+          style={{ cursor: "pointer" }}
+          onClick={() => jump(rel.parent!)}
+          title={T("Jump to original session")}
+        >
+          ↩ {T("Forked from")}:{" "}
+          {metadata.find((m) => m.sessionId === rel.parent)?.title ||
+            rel.parent}
+        </div>
+      )}
+      {rel.children?.map((childId) => (
+        <div
+          key={childId}
+          style={{ cursor: "pointer", marginTop: 4 }}
+          onClick={() => jump(childId)}
+          title={T("Jump to forked session")}
+        >
+          🍴 {T("Forked into")}:{" "}
+          {metadata.find((m) => m.sessionId === childId)?.title || childId}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export function Chat() {
   const dispatch = useAppDispatch();
   const ideMessenger = useContext(IdeMessengerContext);
@@ -579,6 +639,13 @@ export function Chat() {
     [dispatch, ideMessenger, reduxStore],
   );
   sendInputRef.current = sendInput;
+
+  const handleFork = useCallback(
+    (index: number) => {
+      dispatch(forkSession(index));
+    },
+    [dispatch],
+  );
 
   useWebviewListener(
     "newSession",
@@ -825,6 +892,7 @@ export function Chat() {
                           })()
                         : undefined
                     }
+                    onFork={handleFork}
                   />
                 </TimelineItem>
               </div>
@@ -876,6 +944,7 @@ export function Chat() {
               item={item}
               latestSummaryIndex={latestSummaryIndex}
               timestamp={item.timestamp}
+              onFork={handleFork}
             />
           </TimelineItem>
         </div>
@@ -961,6 +1030,8 @@ export function Chat() {
                 </div>
               ))
           )}
+
+          <ForkDivider />
         </StepsDiv>
 
         {/* Scroll navigation buttons — floating emoji */}
