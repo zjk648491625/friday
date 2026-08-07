@@ -109,11 +109,11 @@ export function PendingToolCallToolbar() {
                     <>
                       <div className="fixed inset-0 z-10" onClick={() => setOpenIdx(null)} />
                       <div
-                        className="bg-vsc-input-background absolute right-0 top-full z-[200000] mt-1 flex w-max min-w-[160px] max-w-[400px] flex-col overflow-auto rounded-lg border border-command-border px-0 py-0.5 shadow-lg"
+                        className="bg-vsc-background absolute right-0 bottom-full z-[200000] mb-1 flex w-max min-w-[160px] max-w-[400px] flex-col overflow-auto rounded-lg border border-command-border px-0 py-0.5 shadow-lg"
                       >
                         <button
                           type="button"
-                          className="text-foreground hover:bg-gray-200/70 dark:hover:bg-gray-600/70 flex w-full items-center gap-2 px-2 py-1.5 text-xs transition-colors first:rounded-t-md"
+                          className="bg-vsc-background text-vsc-foreground hover:bg-white/10 flex w-full items-center gap-2 px-2 py-1.5 text-xs transition-colors first:rounded-t-md"
                           onClick={() => handleSessionAction(toolName, "always_allow", tc.toolCallId)}
                         >
                           <CheckBadgeIcon className="h-3.5 w-3.5 flex-shrink-0 text-green-400" />
@@ -121,7 +121,7 @@ export function PendingToolCallToolbar() {
                         </button>
                         <button
                           type="button"
-                          className="text-foreground hover:bg-gray-200/70 dark:hover:bg-gray-600/70 flex w-full items-center gap-2 px-2 py-1.5 text-xs transition-colors"
+                          className="bg-vsc-background text-vsc-foreground hover:bg-white/10 flex w-full items-center gap-2 px-2 py-1.5 text-xs transition-colors"
                           onClick={() => handleSessionAction(toolName, "always_ask", tc.toolCallId)}
                         >
                           <ChatBubbleLeftIcon className="h-3.5 w-3.5 flex-shrink-0 text-blue-400" />
@@ -129,7 +129,7 @@ export function PendingToolCallToolbar() {
                         </button>
                         <button
                           type="button"
-                          className="text-foreground hover:bg-gray-200/70 dark:hover:bg-gray-600/70 flex w-full items-center gap-2 rounded-b-md px-2 py-1.5 text-xs transition-colors"
+                          className="bg-vsc-background text-vsc-foreground hover:bg-white/10 flex w-full items-center gap-2 rounded-b-md px-2 py-1.5 text-xs transition-colors"
                           onClick={() => handleSessionAction(toolName, "block_1min", tc.toolCallId)}
                         >
                           <ClockIcon className="h-3.5 w-3.5 flex-shrink-0 text-amber-400" />
