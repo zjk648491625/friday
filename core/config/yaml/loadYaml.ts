@@ -177,6 +177,7 @@ export async function configYamlToFridayConfig(options: {
       rerank: [],
       summarize: [],
       subagent: [],
+      commitMessage: [],
     },
     selectedModelByRole: {
       chat: null,
@@ -187,6 +188,7 @@ export async function configYamlToFridayConfig(options: {
       rerank: null,
       summarize: null,
       subagent: null,
+      commitMessage: null,
     },
     rules: [],
     requestOptions: { ...unrolledAssistant.requestOptions },
@@ -331,6 +333,10 @@ export async function configYamlToFridayConfig(options: {
 
       if (model.roles?.includes("subagent")) {
         fridayConfig.modelsByRole.subagent.push(...llms);
+      }
+
+      if (model.roles?.includes("commitMessage")) {
+        fridayConfig.modelsByRole.commitMessage.push(...llms);
       }
     } catch (e) {
       localErrors.push({

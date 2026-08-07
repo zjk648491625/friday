@@ -323,6 +323,7 @@ async function intermediateToFinalConfig({
     "apply",
     "edit",
     "summarize",
+    "commitMessage",
   ]); // Default to chat role if not specified
 
   // Tab autocomplete model
