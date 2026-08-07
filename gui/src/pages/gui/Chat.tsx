@@ -374,7 +374,7 @@ function fallbackRender({ error, resetErrorBoundary }: any) {
   );
 }
 
-const ForkDivider = () => {
+const ForkDivider = ({ forkPoint }: { forkPoint?: number }) => {
   const dispatch = useAppDispatch();
   const sessionId = useAppSelector((state) => state.session.id);
   const forkMap = useAppSelector((state) => state.session.forkMap);
@@ -383,6 +383,12 @@ const ForkDivider = () => {
 
   const rel = forkMap[sessionId];
   if (!rel) return null;
+  // When rendered at a specific fork point, show only the child(ren) forked
+  // there; otherwise (fallback) show every child of this session.
+  const childIds = (rel.children || []).filter(
+    (cid) => forkPoint == null || rel.forkPoints?.[cid] === forkPoint,
+  );
+  if (!childIds.length) return null;
 
   const jump = (targetId: string) => {
     const tab = tabs.find((t) => t.sessionId === targetId);
@@ -407,18 +413,7 @@ const ForkDivider = () => {
         color: "var(--vscode-descriptionForeground)",
       }}
     >
-      {rel.parent && (
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => jump(rel.parent!)}
-          title={T("Jump to original session")}
-        >
-          ↩ {T("Forked from")}:{" "}
-          {metadata.find((m) => m.sessionId === rel.parent)?.title ||
-            rel.parent}
-        </div>
-      )}
-      {rel.children?.map((childId) => (
+      {childIds.map((childId) => (
         <div
           key={childId}
           style={{ cursor: "pointer", marginTop: 4 }}
@@ -451,6 +446,8 @@ export function Chat() {
   const history = useAppSelector((state) => state.session.history);
 
   const currentSessionId = useAppSelector((state) => state.session.id);
+  const forkMap = useAppSelector((state) => state.session.forkMap);
+  const currentForkRel = forkMap[currentSessionId];
 
   // Message queue: persisted per session, auto-send when streaming ends
   type QueuedItem = { content: JSONContent; modifiers: InputModifiers };
@@ -1027,11 +1024,31 @@ export function Chat() {
                     {renderChatHistoryItem(item, index)}
                   </ErrorBoundary>
                   {index === filteredHistory.length - 1 && <InlineErrorMessage />}
+                  {/* One divider per fork point: each child fork keeps its own
+                      line under the exact message it was taken from, so forking
+                      at rounds 1/2/3 yields three lines at those positions.
+                      Fallback (no recorded fork points) draws all children at
+                      the end of the conversation. */}
+                  {(() => {
+                    const pts = currentForkRel?.forkPoints
+                      ? Object.values(currentForkRel.forkPoints)
+                      : null;
+                    if (pts && pts.includes(index)) {
+                      return <ForkDivider forkPoint={index} />;
+                    }
+                    if (
+                      !pts &&
+                      currentForkRel &&
+                      index === filteredHistory.length - 1
+                    ) {
+                      return <ForkDivider />;
+                    }
+                    return null;
+                  })()}
                 </div>
               ))
           )}
 
-          <ForkDivider />
         </StepsDiv>
 
         {/* Scroll navigation buttons — floating emoji */}

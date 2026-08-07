@@ -202,8 +202,15 @@ export type ChatHistoryItemWithMessageId = ChatHistoryItem & {
 };
 
 // Maps a sessionId to its fork relationship: parent (the session it was
-// forked from) and children (sessions forked from it).
-export type ForkMap = Record<string, { parent?: string; children: string[] }>;
+// forked from), children (sessions forked from it), and forkPoints — a map
+// from each child's id to the (system-filtered) index in THIS session where
+// that child was forked. Each child therefore gets its own divider line, so
+// forking at message 5, 10 and 15 yields three lines at those positions.
+export type ForkMap = Record<string, {
+  parent?: string;
+  children: string[];
+  forkPoints?: Record<string, number>;
+}>;
 
 function loadForkMap(): ForkMap {
   try {
@@ -1043,14 +1050,27 @@ export const sessionSlice = createSlice({
     },
     recordFork: (
       state,
-      action: PayloadAction<{ parentId: string; childId: string }>,
+      action: PayloadAction<{
+        parentId: string;
+        childId: string;
+        forkPoint?: number;
+      }>,
     ) => {
-      const { parentId, childId } = action.payload;
+      const { parentId, childId, forkPoint } = action.payload;
       if (!state.forkMap[parentId]) {
         state.forkMap[parentId] = { children: [] };
       }
       if (!state.forkMap[parentId].children.includes(childId)) {
         state.forkMap[parentId].children.push(childId);
+      }
+      // Record the child's fork point relative to THIS (parent) session. Each
+      // child keeps its own line; we never overwrite a previously recorded
+      // point, so forking at several positions yields several dividers.
+      if (typeof forkPoint === "number") {
+        if (!state.forkMap[parentId].forkPoints) {
+          state.forkMap[parentId].forkPoints = {};
+        }
+        state.forkMap[parentId].forkPoints[childId] = forkPoint;
       }
       state.forkMap[childId] = {
         ...(state.forkMap[childId] || {}),

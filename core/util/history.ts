@@ -170,6 +170,9 @@ export class HistoryManager {
     if (session.forkedFrom !== undefined) {
       orderedSession.forkedFrom = session.forkedFrom;
     }
+    if (session.forkPoint !== undefined) {
+      orderedSession.forkPoint = session.forkPoint;
+    }
 
     fs.writeFileSync(
       getSessionFilePath(session.sessionId),

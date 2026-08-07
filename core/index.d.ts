@@ -289,6 +289,10 @@ export interface Session {
   usage?: SessionUsage;
   /** Optional: session id this session was forked from */
   forkedFrom?: string;
+  /** Optional: index (system-filtered) in the parent session where the fork
+   *  was taken. Lets the UI draw the fork divider under that exact message
+   *  even after the IDE restarts. */
+  forkPoint?: number;
 }
 
 export interface BaseSessionMetadata {

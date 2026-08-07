@@ -21,6 +21,16 @@ import { updateSelectedModelByRole } from "../thunks/updateSelectedModelByRole";
 
 const MAX_TITLE_LENGTH = 100;
 
+// Compact local timestamp for fork titles, e.g. "20260807184900".
+// Appended so multiple forks of the same session get distinguishable names.
+function formatForkTimestamp(d: Date): string {
+  const p = (n: number) => String(n).padStart(2, "0");
+  return (
+    `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}` +
+    `${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`
+  );
+}
+
 // Async session functions live in thunks (because of IDE messaging mostly)
 // see sessionSlice for sync redux session functions
 
@@ -125,7 +135,7 @@ export const loadSession = createAsyncThunk<
 
     // Restore fork relationship (if this session was forked from another).
     if (session.forkedFrom) {
-      dispatch(recordFork({ parentId: session.forkedFrom, childId: session.sessionId }));
+      dispatch(recordFork({ parentId: session.forkedFrom, childId: session.sessionId, forkPoint: session.forkPoint }));
     }
 
     // Restore selected chat model from session, if present
@@ -186,7 +196,7 @@ export const loadLastSession = createAsyncThunk<void, void, ThunkApiType>(
     }
     dispatch(newSession(session));
     if (session.forkedFrom) {
-      dispatch(recordFork({ parentId: session.forkedFrom, childId: session.sessionId }));
+      dispatch(recordFork({ parentId: session.forkedFrom, childId: session.sessionId, forkPoint: session.forkPoint }));
     }
     if (session.chatModelTitle) {
       dispatch(selectChatModelForProfile(session.chatModelTitle));
@@ -310,10 +320,20 @@ export const forkSession = createAsyncThunk<
   ThunkApiType
 >(
   "session/fork",
-  async (index, { dispatch, extra, getState }) => {
+  async (filteredIndex, { dispatch, extra, getState }) => {
     const state = getState().session;
     const history = state.history;
-    if (index < 0 || index >= history.length) return;
+
+    // The index coming from the UI is the system-filtered index (Chat.tsx
+    // renders history sans system messages). Map it to the real index in
+    // state.history so slicing/cloning stays correct even when a system
+    // message is present. Also keep the filtered index as forkPoint so the
+    // divider renders in the same coordinate system the UI uses.
+    const nonSystemIndexes = history
+      .map((item, i) => (item.message.role !== "system" ? i : -1))
+      .filter((i) => i !== -1);
+    const index = nonSystemIndexes[filteredIndex];
+    if (index == null || index < 0 || index >= history.length) return;
     const target = history[index];
     // Only fork from a completed assistant reply.
     if (target.message.role !== "assistant") return;
@@ -358,7 +378,7 @@ export const forkSession = createAsyncThunk<
     }
     reservedForkIds.add(candidate);
     const forkId = candidate;
-    const forkTitle = `${T("Fork")}: ${originalTitle}`;
+    const forkTitle = `${T("Fork")}: ${originalTitle}-${formatForkTimestamp(new Date())}`;
 
     const forkedSession: Session = {
       sessionId: forkId,
@@ -368,6 +388,7 @@ export const forkSession = createAsyncThunk<
       mode,
       chatModelTitle: selectedChatModel?.title ?? null,
       forkedFrom: originalId,
+      forkPoint: filteredIndex,
     };
 
     // 1) Persist the ORIGINAL session first.
@@ -379,7 +400,7 @@ export const forkSession = createAsyncThunk<
     await dispatch(updateSession(forkedSession));
 
     // 3) Record relationship (in-memory + localStorage).
-    dispatch(recordFork({ parentId: originalId, childId: forkId }));
+    dispatch(recordFork({ parentId: originalId, childId: forkId, forkPoint: filteredIndex }));
     try {
       window.localStorage.setItem(
         "friday-fork-map",
