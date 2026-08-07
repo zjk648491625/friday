@@ -109,7 +109,7 @@ export default function ResponseActions({
         {isTruncated && (
           <HeaderButtonWithToolTip
             tabIndex={-1}
-            text={T("Friday generation")}
+            text={T("Continue generation")}
             onClick={onFridayGeneration}
           >
             <BarsArrowDownIcon className="text-description-muted h-3.5 w-3.5" />

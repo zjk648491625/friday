@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { selectUIConfig } from "../../redux/slices/configSlice";
+import { T } from "../../util/i18n";
 import { deleteMessage } from "../../redux/slices/sessionSlice";
 import ThinkingBlockPeek from "../mainInput/belowMainInput/ThinkingBlockPeek";
 import StyledMarkdownPreview from "../StyledMarkdownPreview";
@@ -70,7 +71,7 @@ export default function StepContainer(props: StepContainerProps) {
       {
         messageType: "userInput",
         data: {
-          input: "Friday your response exactly where you left off:",
+          input: T("Continue your response exactly where you left off:"),
         },
       },
       "*",
