@@ -10,15 +10,35 @@ export async function loadSettings(messenger: any): Promise<Record<string, any>>
   if (_settingsCache) return _settingsCache;
   try {
     const result = await messenger.request("settings/get", undefined);
-    _settingsCache = result || {};
+    // `request` returns a wrapped response `{ done, content, status }`; the
+    // actual settings object lives in `content`. Previously we cached the whole
+    // wrapper, which got written back into the file and nested infinitely.
+    const settings = (result && result.content) || {};
+    _settingsCache = settings;
     return _settingsCache;
   } catch { return {}; }
 }
 
+/** Unwrap a legacy `{ done, content }` wrapper if present, so we never write a
+ *  nested payload back into the settings file. */
+function unwrapSettings(obj: any): any {
+  let cur = obj;
+  while (
+    cur &&
+    typeof cur === "object" &&
+    cur.done === true &&
+    cur.content !== undefined
+  ) {
+    cur = cur.content;
+  }
+  return cur;
+}
+
 /** Save settings to ~/.friday/friday-settings.json via core process */
 export function saveSettings(messenger: any, settings: Record<string, any>): void {
-  _settingsCache = settings;
-  messenger.request("settings/save", settings);
+  const clean = unwrapSettings(settings);
+  _settingsCache = clean;
+  messenger.request("settings/save", clean);
 }
 
 export function useSettings() {

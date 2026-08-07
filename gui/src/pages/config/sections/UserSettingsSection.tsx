@@ -12,7 +12,7 @@ import { ConfigHeader } from "../components/ConfigHeader";
 import { UserSetting } from "../components/UserSetting";
 import { T } from "../../../util/i18n";
 import { useLanguage } from "../../../context/Language";
-import { useSettings, loadSettings, saveSettings } from "../../../hooks/useSettings";
+import { useSettings, loadSettings } from "../../../hooks/useSettings";
 import { useThemeMode } from "../../../context/ThemeMode";
 
 function DebugToggle() {
@@ -63,9 +63,7 @@ export function UserSettingsSection() {
   const updateCommitMsg = (key: string, value: any) => {
     const next = { ...commitMsg, [key]: value };
     setCommitMsg(next);
-    loadSettings(ideMessenger).then((existing: any) => {
-      saveSettings(ideMessenger, { ...existing, commitMessage: next });
-    });
+    saveSetting("commitMessage", next);
   };
 
   function handleUpdate(sharedConfig: SharedConfigSchema) {

@@ -46,7 +46,15 @@ object CommitPromptBuilder {
             val home = System.getProperty("user.home")
             val settingsFile = File(home, ".friday/friday-settings.json")
             if (settingsFile.exists()) {
-                val json = JsonParser.parseString(settingsFile.readText()).asJsonObject
+                var json = JsonParser.parseString(settingsFile.readText()).asJsonObject
+                // Defensive: unwrap legacy nested `{ done, content }` payloads that
+                // were accidentally written into the file, so we always reach the
+                // flat settings object.
+                while (json.has("done") && json.get("done").asBoolean &&
+                    json.has("content") && json.get("content").isJsonObject
+                ) {
+                    json = json.getAsJsonObject("content")
+                }
                 val commitMsg = json.getAsJsonObject("commitMessage")
                 if (commitMsg != null) {
                     gson.fromJson(commitMsg, Map::class.java) as? Map<String, Any?> ?: emptyMap()

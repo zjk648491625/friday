@@ -568,7 +568,21 @@ export class Core {
     on("settings/get", async () => {
       const file = path.join(os.homedir(), ".friday", "friday-settings.json");
       try {
-        if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, "utf8"));
+        if (fs.existsSync(file)) {
+          let parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+          // Defensive: unwrap legacy nested `{ done, content }` wrappers that
+          // were accidentally written into the file, so callers always get a
+          // flat settings object.
+          while (
+            parsed &&
+            typeof parsed === "object" &&
+            parsed.done === true &&
+            parsed.content !== undefined
+          ) {
+            parsed = parsed.content;
+          }
+          return parsed;
+        }
       } catch {}
       return {};
     });
@@ -577,7 +591,18 @@ export class Core {
       const file = path.join(os.homedir(), ".friday", "friday-settings.json");
       const dir = path.dirname(file);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(file, JSON.stringify(msg.data, null, 2), "utf8");
+      // Defensive: if a wrapped payload somehow reaches here, store the inner
+      // content instead of nesting it further.
+      let data = msg.data;
+      while (
+        data &&
+        typeof data === "object" &&
+        data.done === true &&
+        data.content !== undefined
+      ) {
+        data = data.content;
+      }
+      fs.writeFileSync(file, JSON.stringify(data, null, 2), "utf8");
     });
 
     on("config/refreshProfiles", async (msg) => {

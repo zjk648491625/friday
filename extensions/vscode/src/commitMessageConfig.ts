@@ -20,11 +20,26 @@ function getSettingsFilePath(): string {
   return path.join(os.homedir(), ".friday", "friday-settings.json");
 }
 
+// The settings file can historically be wrapped in `{ done, content }`
+// payloads (a bug that nested it on every save). Unwrap to the real object.
+function unwrapSettings(raw: any): any {
+  let obj = raw;
+  while (
+    obj &&
+    typeof obj === "object" &&
+    obj.done === true &&
+    obj.content !== undefined
+  ) {
+    obj = obj.content;
+  }
+  return obj;
+}
+
 function getSettings(): CommitMessageSettings {
   try {
     const filePath = getSettingsFilePath();
     if (fs.existsSync(filePath)) {
-      const raw = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+      const raw = unwrapSettings(JSON.parse(fs.readFileSync(filePath, "utf-8")));
       if (raw.commitMessage && typeof raw.commitMessage === "object") {
         return {
           template: raw.commitMessage.template ?? DEFAULT_SETTINGS.template,
