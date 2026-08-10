@@ -90,7 +90,7 @@ function labels() {
         exported: "Exported",
         count: "messages",
         user: "User",
-        assistant: "Assistant",
+        assistant: "Friday",
         tool: "Tool",
         summary: "Conversation summary",
         output: "Output",
@@ -102,7 +102,7 @@ function labels() {
         exported: "导出时间",
         count: "条消息",
         user: "用户",
-        assistant: "助手",
+        assistant: "Friday",
         tool: "工具",
         summary: "对话摘要",
         output: "输出",
@@ -118,6 +118,40 @@ function collapse(text: string, max: number): string {
 
 function escapeInline(text: string): string {
   return text.replace(/`/g, "'");
+}
+
+/**
+ * 去掉可能让 LLM 请求/解析失败的控制字符（NUL、退格、ESC 序列等），
+ * 但保留正常换行 / 制表符。终端工具输出常含此类脏字符。
+ */
+function sanitizeForPrompt(text: string): string {
+  let result = "";
+  for (const ch of text) {
+    const code = ch.codePointAt(0) ?? 0;
+    // 保留制表符(9)/换行(10)/回车(13)；其余控制字符(0-31, 127)剔除
+    if ((code < 32 && code !== 9 && code !== 10 && code !== 13) || code === 127) {
+      continue;
+    }
+    result += ch;
+  }
+  return result;
+}
+
+/** 判断是否为 UTF-16 高位代理（避免从代理对中间截断 emoji / 生僻 CJK） */
+function isHighSurrogate(code: number): boolean {
+  return code >= 0xd800 && code <= 0xdbff;
+}
+
+/** 从尾部截取 max 个字符，且不会把代理对（emoji 等）拦腰截断 */
+function tailSlice(text: string, max: number): string {
+  if (text.length <= max) {
+    return text;
+  }
+  let start = text.length - max;
+  while (start < text.length && isHighSurrogate(text.charCodeAt(start))) {
+    start++;
+  }
+  return text.slice(start);
 }
 
 function safeParseArgs(raw?: string): any {
@@ -230,16 +264,25 @@ export function toShareMarkdown(
     lines.push("");
   }
 
-  for (const entry of entries) {
+  entries.forEach((entry, idx) => {
+    // 复刻页面规则：一轮问话（user 后跟随的连续 assistant）只在开头展示一次头像/名称，
+    // 后续 assistant 块归属同一组，不再重复标题。
+    const isContinuation =
+      entry.kind === "assistant" &&
+      idx > 0 &&
+      entries[idx - 1].kind === "assistant";
+
     if (entry.kind === "summary") {
       lines.push(`### 📝 ${L.summary}`, "", entry.text, "", "---", "");
-      continue;
+      return;
     }
 
-    lines.push(
-      `### ${entry.kind === "user" ? `👤 ${L.user}` : `🤖 ${L.assistant}`}`,
-    );
-    lines.push("");
+    if (!isContinuation) {
+      lines.push(
+        `### ${entry.kind === "user" ? `👤 ${L.user}` : `🤖 ${L.assistant}`}`,
+      );
+      lines.push("");
+    }
 
     if (entry.thinking) {
       lines.push("<details><summary>thinking</summary>", "", entry.thinking, "", "</details>", "");
@@ -256,7 +299,7 @@ export function toShareMarkdown(
       }
       lines.push("");
     }
-  }
+  });
 
   return `${lines.join("\n").replace(/\n{3,}/g, "\n\n").trim()}\n`;
 }
@@ -288,13 +331,21 @@ export function toSharePlainText(
     lines.push(separator);
   }
 
-  for (const entry of entries) {
+  entries.forEach((entry, idx) => {
+    // 同页面：一轮问话只在开头展示一次「助手」标签，后续连续 assistant 块不再重复。
+    const isContinuation =
+      entry.kind === "assistant" &&
+      idx > 0 &&
+      entries[idx - 1].kind === "assistant";
+
     if (entry.kind === "summary") {
       lines.push(L.bracket(L.summary), stripMarkdown(entry.text), separator);
-      continue;
+      return;
     }
 
-    lines.push(L.bracket(entry.kind === "user" ? L.user : L.assistant));
+    if (!isContinuation) {
+      lines.push(L.bracket(entry.kind === "user" ? L.user : L.assistant));
+    }
     if (entry.text) {
       lines.push(stripMarkdown(entry.text));
     }
@@ -330,11 +381,19 @@ export function buildSummaryPrompt(
   const transcript = toShareMarkdown(items, {
     ...options,
     includeHeader: false,
+    includeThinking: false,
   });
+  // 清洗控制字符 + 从尾部安全截断（编程会话常见 Python 三引号/终端转义序列，
+  // 既会破坏提示词边界，也可能被 provider 直接拒绝）
+  const sanitized = sanitizeForPrompt(transcript);
   const clipped =
-    transcript.length > SUMMARY_TRANSCRIPT_LIMIT
-      ? `${L.omitted}\n\n${transcript.slice(-SUMMARY_TRANSCRIPT_LIMIT)}`
-      : transcript;
+    sanitized.length > SUMMARY_TRANSCRIPT_LIMIT
+      ? `${L.omitted}\n\n${tailSlice(sanitized, SUMMARY_TRANSCRIPT_LIMIT)}`
+      : sanitized;
+
+  // 用极不可能在代码中出现的哨兵做分隔，避免 `"""` 之类与转录内容冲突。
+  const startMarker = "===== TRANSCRIPT START =====";
+  const endMarker = "===== TRANSCRIPT END =====";
 
   if (getLanguage() === "en") {
     return `You are a senior engineering assistant. Read the AI coding session transcript below and write a concise, hand-off ready summary.
@@ -350,10 +409,9 @@ Requirements:
 - State only facts present in the transcript. Do not speculate or add advice that was never discussed.
 - Keep it under 300 words.
 
-Transcript:
-"""
+${startMarker}
 ${clipped}
-"""
+${endMarker}
 
 Summary:`;
   }
@@ -371,10 +429,9 @@ Summary:`;
 - 只陈述会话记录里出现过的事实，不要推测，不要补充记录之外的建议。
 - 控制在 400 字以内。
 
-会话记录：
-"""
+${startMarker}
 ${clipped}
-"""
+${endMarker}
 
 总结：`;
 }
