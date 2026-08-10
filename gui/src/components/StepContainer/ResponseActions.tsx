@@ -12,6 +12,7 @@ import { FeedbackButtons } from "../FeedbackButtons";
 import { CopyIconButton } from "../gui/CopyIconButton";
 import HeaderButtonWithToolTip from "../gui/HeaderButtonWithToolTip";
 import { T } from "../../util/i18n";
+import ShareButton from "./ShareButton";
 
 function ForkIcon({ className }: { className?: string }) {
   return (
@@ -144,6 +145,8 @@ export default function ResponseActions({
         />
 
         <FeedbackButtons item={item} />
+
+        <ShareButton index={index} />
       </div>
     </div>
   );

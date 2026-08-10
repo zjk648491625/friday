@@ -741,7 +741,30 @@ const zh: Dict = {
   "Install Friday CLI for precise LSP-powered analysis (function definitions, call hierarchy, references). Without it, tools use text-based fallback.": "安装 Friday CLI 以获得精确的 LSP 驱动分析（函数定义、调用层次、引用查找）。未安装时将使用文本降级方案。",
   "Copy Install Command": "复制安装命令",
   "Copied!": "已复制！",
+
+  // ═══════ 会话分享 ═══════
+  "Share conversation": "分享会话",
+  "Copy as Markdown": "复制为 Markdown",
+  "Copy as plain text": "复制为纯文本",
+  "Online link": "在线链接",
+  "Coming soon": "暂未开放",
+  "AI summary": "AI 总结",
+  "Generating summary...": "正在生成总结…",
+  "Up to here · {count} messages": "截至此处 · 共 {count} 条消息",
+  "Copied to clipboard": "已复制到剪贴板",
+  "Summary copied to clipboard": "总结已复制到剪贴板",
+  "No content to share": "没有可分享的内容",
+  "Failed to generate summary": "生成总结失败",
+  "Configure a chat model first": "请先配置对话模型",
 };
+
+export function getLanguage(): string {
+  try {
+    return localStorage.getItem("ironhero-language") || "zh";
+  } catch (_) {
+    return "zh";
+  }
+}
 
 export function T(en: string): string {
   try {
