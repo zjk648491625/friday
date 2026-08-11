@@ -358,7 +358,7 @@ export function toSharePlainText(
       }
     }
     lines.push(separator);
-  }
+  });
 
   return `${lines.join("\n").replace(/\n{3,}/g, "\n\n").trim()}\n`;
 }

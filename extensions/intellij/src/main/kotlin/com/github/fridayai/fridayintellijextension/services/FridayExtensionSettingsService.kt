@@ -8,39 +8,83 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.DumbAware
 import com.intellij.util.messages.Topic
+import com.github.fridayai.fridayintellijextension.utils.getFridayBinaryPath
+import com.github.fridayai.fridayintellijextension.utils.getFridayCorePath
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
+import java.awt.Font
+import java.awt.Insets
 import javax.swing.*
 
 class FridaySettingsComponent : DumbAware {
     val panel: JPanel = JPanel(GridBagLayout())
-    val enableTabAutocomplete: JCheckBox = JCheckBox("Enable Tab Autocomplete")
-    val displayEditorTooltip: JCheckBox = JCheckBox("Display Editor Tooltip")
-    val showIDECompletionSideBySide: JCheckBox = JCheckBox("Show IDE completions side-by-side")
+    val enableTabAutocomplete: JCheckBox = JCheckBox("启用 Tab 自动补全 (Enable Tab Autocomplete)")
+    val displayEditorTooltip: JCheckBox = JCheckBox("显示编辑器提示 (Display Editor Tooltip)")
+    val showIDECompletionSideBySide: JCheckBox = JCheckBox("并排显示 IDE 补全 (Show IDE completions side-by-side)")
 
     init {
-        val constraints = GridBagConstraints()
+        // 主面板布局：每一项独占一行，gridy 从 0 开始顺序递增，避免重叠
+        val gbc = GridBagConstraints()
+        gbc.fill = GridBagConstraints.HORIZONTAL
+        gbc.anchor = GridBagConstraints.NORTHWEST
+        gbc.weightx = 1.0
+        gbc.weighty = 0.0
+        gbc.gridx = 0
+        gbc.gridy = 0
+        gbc.insets = Insets(6, 4, 6, 4)
 
-        constraints.fill = GridBagConstraints.HORIZONTAL
-        constraints.weightx = 1.0
-        constraints.weighty = 0.0
-        constraints.gridx = 0
-        constraints.gridy = GridBagConstraints.RELATIVE
+        // 顶部“路径展示”区域，与下方配置项明显分隔，不会被覆盖
+        val pathPanel = JPanel(GridBagLayout())
+        val pathTitle = JLabel("Friday 安装路径 (Installation Path)")
+        pathTitle.font = pathTitle.font.deriveFont(Font.BOLD)
 
-        panel.add(JLabel("Friday AI runs in local-only mode. Remote config is disabled."), constraints)
-        constraints.gridy++
-        panel.add(enableTabAutocomplete, constraints)
-        constraints.gridy++
-        panel.add(displayEditorTooltip, constraints)
-        constraints.gridy++
-        panel.add(showIDECompletionSideBySide, constraints)
-        constraints.gridy++
+        val pgbc = GridBagConstraints()
+        pgbc.fill = GridBagConstraints.HORIZONTAL
+        pgbc.weightx = 1.0
+        pgbc.insets = Insets(2, 6, 2, 6)
 
-        // Add a "filler" component that takes up all remaining vertical space
-        constraints.weighty = 1.0
-        val filler = JPanel()
-        panel.add(filler, constraints)
+        val binaryPath = runCatching { getFridayBinaryPath() }.getOrDefault("N/A")
+        val corePath = runCatching { getFridayCorePath() }.getOrDefault("N/A")
+
+        pgbc.gridy = 0
+        pathPanel.add(pathTitle, pgbc)
+        pgbc.gridy = 1
+        pathPanel.add(JLabel("核心脚本 (Binary):"), pgbc)
+        pgbc.gridy = 2
+        pathPanel.add(makePathField(binaryPath), pgbc)
+        pgbc.gridy = 3
+        pathPanel.add(JLabel("核心目录 (Core):"), pgbc)
+        pgbc.gridy = 4
+        pathPanel.add(makePathField(corePath), pgbc)
+
+        panel.add(pathPanel, gbc)
+        gbc.gridy++
+
+        panel.add(
+            JLabel("Friday AI 以本地模式运行，远程配置已禁用。(Friday AI runs in local-only mode. Remote config is disabled.)"),
+            gbc
+        )
+        gbc.gridy++
+
+        panel.add(enableTabAutocomplete, gbc)
+        gbc.gridy++
+        panel.add(displayEditorTooltip, gbc)
+        gbc.gridy++
+        panel.add(showIDECompletionSideBySide, gbc)
+        gbc.gridy++
+
+        // 占位组件：占据剩余垂直空间，把上方内容顶到顶部
+        gbc.weighty = 1.0
+        panel.add(JPanel(), gbc)
     }
+
+    private fun makePathField(path: String): JTextField =
+        JTextField(path).apply {
+            isEditable = false
+            border = null
+            background = panel.background
+            toolTipText = path
+        }
 }
 
 @State(
@@ -127,5 +171,5 @@ class FridayExtensionConfigurable : Configurable {
     }
 
     override fun getDisplayName(): String =
-        "Friday AI Settings"
+        "Friday AI 设置 (Friday AI Settings)"
 }
