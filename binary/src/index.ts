@@ -15,6 +15,13 @@ const logFilePath = getCoreLogsPath();
 fs.appendFileSync(logFilePath, "[info] Starting Friday core...\n");
 
 const program = new Command();
+program
+  .name("friday")
+  .version(
+    process.env.FRIDAY_BUILD_VERSION || "1.0.0",
+    "-v, --version",
+    "output the version number",
+  );
 
 program.action(async () => {
   try {

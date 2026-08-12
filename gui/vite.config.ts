@@ -3,9 +3,25 @@ import { resolve } from "path";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vitest/config";
 
+function generateTimestampVersion() {
+  const now = new Date();
+  const yy = String(now.getFullYear()).slice(-2);
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const hh = String(now.getHours()).padStart(2, "0");
+  const min = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+  return `${yy}${mm}${dd}${hh}${min}${ss}`;
+}
+
+const BUILD_VERSION = process.env.FRIDAY_BUILD_VERSION || generateTimestampVersion();
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  define: {
+    "process.env.FRIDAY_BUILD_VERSION": JSON.stringify(BUILD_VERSION),
+  },
   build: {
     sourcemap: true,
 

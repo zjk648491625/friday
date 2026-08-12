@@ -7,6 +7,9 @@ import node_machine_id from "node-machine-id";
 import { logger } from "./util/logger.js";
 
 export function getVersion(): string {
+  if (process.env.FRIDAY_BUILD_VERSION) {
+    return process.env.FRIDAY_BUILD_VERSION;
+  }
   try {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);

@@ -126,7 +126,11 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
           {selectedModel?.title || "the model"}.
         </p>
         <p className="m-0 p-0">{T("Please try to submit your message again.")}</p>
-        <div className="mt-3">{resubmitButton}</div>
+        <div className="mt-3 flex flex-row flex-wrap gap-2">
+          {resubmitButton}
+          {checkKeysButton}
+          {configButton}
+        </div>
       </div>
     </div>
   );
@@ -195,6 +199,18 @@ const StreamErrorDialog = ({ error }: StreamErrorProps) => {
         <span>{`Likely cause: not authorized to access the model deployment.`}</span>
         <div className="flex flex-row flex-wrap gap-2">
           {checkKeysButton}
+          {configButton}
+        </div>
+      </div>
+    );
+  }
+
+  if (statusCode === 500 || statusCode === 502 || statusCode === 503) {
+    errorContent = (
+      <div className="flex flex-col gap-2">
+        <span>{`The model provider's server encountered an error (${statusCode}). This is usually temporary.`}</span>
+        <div className="flex flex-row flex-wrap justify-start gap-3 py-2">
+          {resubmitButton}
           {configButton}
         </div>
       </div>

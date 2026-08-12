@@ -36,24 +36,49 @@ export const streamThunkWrapper = createAsyncThunk<
       }
       return;
     } catch (e) {
-      // Get the selected model from the state for error analysis
-      const state = getState();
-      const selectedModel = selectSelectedChatModel(state);
-      const { message } = analyzeError(e, selectedModel);
+      try {
+        await dispatch(cancelStream());
 
-      const shouldRetry =
-        isOverloadedErrorMessage(message) && attempt < OVERLOADED_RETRIES;
+        const state = getState();
+        const selectedModel = selectSelectedChatModel(state);
+        const { message } = analyzeError(e, selectedModel);
 
-      if (shouldRetry) {
-        await dispatch(cancelStream());
-        const delayMs = OVERLOADED_DELAY_MS * 2 ** attempt;
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-        await dispatch(cancelStream());
-      } else {
-        await dispatch(cancelStream());
+        const shouldRetry =
+          isOverloadedErrorMessage(message) && attempt < OVERLOADED_RETRIES;
+
+        if (shouldRetry) {
+          const delayMs = OVERLOADED_DELAY_MS * 2 ** attempt;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+          await dispatch(cancelStream());
+          continue;
+        }
+
         dispatch(setDialogMessage(<StreamErrorDialog error={e} />));
         dispatch(setShowDialog(true));
-
+        return;
+      } catch (innerError) {
+        console.error(
+          "Failed to show error dialog:",
+          innerError,
+          "Original error:",
+          e,
+        );
+        dispatch(
+          setDialogMessage(
+            <div className="px-3 pb-3 pt-3">
+              <h3 className="text-error m-0 p-0 text-lg font-medium">
+                Error handling model response
+              </h3>
+              <div className="mb-1 mt-3">
+                <p className="m-0 mb-2 p-0">
+                  An error occurred while chatting:{" "}
+                  {(e as any)?.message || String(e)}
+                </p>
+              </div>
+            </div>,
+          ),
+        );
+        dispatch(setShowDialog(true));
         return;
       }
     }

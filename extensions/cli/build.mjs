@@ -5,11 +5,16 @@ import { chmodSync, copyFileSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 
+import { generateTimestampVersion } from "../../scripts/version.js";
+
 // Parse command line arguments
 const args = process.argv.slice(2);
 const noMinify = args.includes("--no-minify");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const BUILD_VERSION = generateTimestampVersion();
+console.log(`[info] Build version: ${BUILD_VERSION}`);
 
 // List of packages to mark as external (ONLY native modules that cannot be bundled)
 // Note: Everything else will be bundled to create a self-contained CLI
@@ -101,6 +106,10 @@ try {
     banner: {
       js: `import { createRequire as __createRequire } from 'module';
 const require = __createRequire(import.meta.url);`,
+    },
+
+    define: {
+      "process.env.FRIDAY_BUILD_VERSION": JSON.stringify(BUILD_VERSION),
     },
   });
 

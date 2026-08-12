@@ -164,6 +164,70 @@ export function analyzeError(
     customErrorMessage = `Your ${providerLabel} account appears to be out of credits. Add more credits to your account to friday using this model.`;
   }
 
+  // 500 Internal Server Error
+  if (statusCode === 500 || errorText.includes("internal server error")) {
+    customErrorMessage =
+      "The model provider's server encountered an internal error. This is usually temporary. Please try again in a few moments.";
+  }
+
+  // 502 Bad Gateway
+  if (statusCode === 502 || errorText.includes("bad gateway")) {
+    customErrorMessage =
+      "The model provider's server is temporarily unavailable (bad gateway). This is usually a transient issue. Please try again shortly.";
+  }
+
+  // 503 Service Unavailable
+  if (statusCode === 503 || errorText.includes("service unavailable")) {
+    customErrorMessage =
+      "The model provider's service is temporarily unavailable. This may be due to maintenance or overload. Please try again later.";
+  }
+
+  // Connection errors (network issues, DNS, etc.)
+  if (
+    errorText.includes("fetch failed") ||
+    errorText.includes("connection refused") ||
+    errorText.includes("econnrefused") ||
+    errorText.includes("enotfound") ||
+    errorText.includes("econnreset") ||
+    errorText.includes("network error") ||
+    errorText.includes("failed to fetch") ||
+    errorText.includes("connect etimedout") ||
+    errorText.includes("socket hang up")
+  ) {
+    customErrorMessage =
+      "Could not connect to the model provider. Please check your network connection and verify the API base URL is correct.";
+  }
+
+  // Timeout errors
+  if (
+    errorText.includes("timeout") ||
+    errorText.includes("timed out") ||
+    errorText.includes("request timed out")
+  ) {
+    customErrorMessage =
+      "The request to the model provider timed out. This could be due to slow network or the model taking too long to respond. You can try again or increase the timeout in your request options.";
+  }
+
+  // SSL/Certificate errors
+  if (
+    errorText.includes("ssl") ||
+    errorText.includes("certificate") ||
+    errorText.includes("self signed") ||
+    errorText.includes("unable to verify")
+  ) {
+    customErrorMessage =
+      "SSL certificate verification failed. If you're using a self-signed certificate or proxy, you may need to configure the CA bundle path in your model settings.";
+  }
+
+  // Proxy errors
+  if (
+    errorText.includes("proxy") ||
+    errorText.includes("tunnel")
+  ) {
+    customErrorMessage =
+      "Could not connect through the proxy. Please check your proxy settings in the model configuration.";
+  }
+
   return {
     parsedError,
     statusCode,

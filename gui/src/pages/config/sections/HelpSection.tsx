@@ -270,6 +270,9 @@ export function HelpSection() {
             </div>
           </Card>
         </div>
+        <div className="mt-8 text-center text-xs text-gray-400 dark:text-gray-600">
+          Friday AI v{process.env.FRIDAY_BUILD_VERSION || "dev"}
+        </div>
       </div>
     </div>
   );

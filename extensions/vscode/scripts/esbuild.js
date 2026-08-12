@@ -1,10 +1,14 @@
 const fs = require("fs");
 
 const { writeBuildTimestamp } = require("./utils");
+const { generateTimestampVersion } = require("../../../scripts/version");
 
 const esbuild = require("esbuild");
 
 const flags = process.argv.slice(2);
+
+const BUILD_VERSION = generateTimestampVersion();
+console.log(`[info] Build version: ${BUILD_VERSION}`);
 
 const esbuildConfig = {
   entryPoints: ["src/extension.ts"],
@@ -27,7 +31,10 @@ const esbuildConfig = {
   // To allow import.meta.path for transformers.js
   // https://github.com/evanw/esbuild/issues/1492#issuecomment-893144483
   inject: ["./scripts/importMetaUrl.js"],
-  define: { "import.meta.url": "importMetaUrl" },
+  define: {
+      "import.meta.url": "importMetaUrl",
+      "process.env.FRIDAY_BUILD_VERSION": JSON.stringify(BUILD_VERSION),
+    },
   supported: { "dynamic-import": false },
   metafile: true,
   plugins: [

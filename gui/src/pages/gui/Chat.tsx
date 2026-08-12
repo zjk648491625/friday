@@ -599,6 +599,19 @@ export function Chat() {
         : selectedModelByRole.chat;
 
       if (!model) {
+        dispatch(
+          setDialogMessage(
+            <div className="flex flex-col gap-1 p-3">
+              <h3 className="m-0 text-lg font-medium text-error">
+                {T("No model selected")}
+              </h3>
+              <p className="mt-2 text-sm">
+                {T("Please select a model in the model dropdown to start chatting.")}
+              </p>
+            </div>,
+          ),
+        );
+        dispatch(setShowDialog(true));
         return;
       }
 
