@@ -618,6 +618,67 @@ export const sessionSlice = createSlice({
             }
           }
 
+          // Handle "thinking" role messages: attach as reasoning to assistant message
+          // instead of creating a separate history item, so the full response is preserved
+          if (message.role === "thinking" && !message.redactedThinking) {
+            const thinkingContent = message.content
+              ? renderChatMessage(message)
+              : "";
+
+            // Create a new assistant history item if needed:
+            // - Last message is user/tool (start of a new response)
+            // - Last message is assistant with content but no active reasoning (new response)
+            if (
+              lastMessage.role === "user" ||
+              lastMessage.role === "tool" ||
+              (lastMessage.role === "assistant" &&
+                !lastItem.reasoning?.active &&
+                lastMessage.content.length > 0)
+            ) {
+              const historyItem: ChatHistoryItemWithMessageId = {
+                message: {
+                  role: "assistant",
+                  content: "",
+                  id: uuidv4(),
+                },
+                contextItems: [],
+                timestamp: Date.now(),
+              };
+              state.history.push(historyItem);
+              lastItem = state.history[state.history.length - 1];
+              lastMessage = lastItem.message;
+            }
+
+            // Set or append reasoning content
+            if (thinkingContent) {
+              if (!lastItem.reasoning) {
+                lastItem.reasoning = {
+                  startAt: Date.now(),
+                  active: true,
+                  text: thinkingContent,
+                };
+              } else {
+                lastItem.reasoning.text += thinkingContent;
+                lastItem.reasoning.active = true;
+              }
+            }
+
+            // Handle reasoning_details
+            if (message.reasoning_details) {
+              lastMessage.reasoning_details = mergeReasoningDetails(
+                lastMessage.reasoning_details || [],
+                message.reasoning_details,
+              );
+            }
+
+            // Handle signature
+            if (message.signature) {
+              lastMessage.signature = message.signature;
+            }
+
+            continue;
+          }
+
           // The remainder of this function handles streaming messages
           if (
             lastMessage.role !== message.role ||
@@ -657,7 +718,18 @@ export const sessionSlice = createSlice({
               lastItem.reasoning.endAt = Date.now();
               lastMessage.content += answerStart.trimStart();
             } else if (lastItem.reasoning?.active) {
-              if (
+              if (message.role === "assistant") {
+                // Assistant message received while reasoning is still active
+                // Close the reasoning block and append content to the message
+                lastItem.reasoning.active = false;
+                lastItem.reasoning.endAt = Date.now();
+                if (
+                  lastMessage.content.length > 0 ||
+                  messageContent.trim().length > 0
+                ) {
+                  lastMessage.content += messageContent;
+                }
+              } else if (
                 lastItem.reasoning.text.length > 0 ||
                 messageContent.trim().length > 0
               ) {

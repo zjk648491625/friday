@@ -299,10 +299,15 @@ export function fromChatResponse(response: ChatCompletion): ChatMessage[] {
   };
 
   // Check for reasoning content first (similar to fromChatCompletionChunk)
-  if (message.reasoning_content || message.reasoning) {
+  if (message.reasoning_content || message.reasoning || message.reasoning_details?.length) {
+    const reasoningTextFromDetails =
+      message.reasoning_details
+        ?.filter((d: any) => d.text && typeof d.text === "string")
+        .map((d: any) => d.text)
+        .join("") || "";
     const thinkingMessage: ChatMessage = {
       role: "thinking",
-      content: (message as any).reasoning_content || (message as any).reasoning,
+      content: (message as any).reasoning_content || (message as any).reasoning || reasoningTextFromDetails,
     };
 
     // Preserve reasoning_details if present
@@ -357,7 +362,7 @@ export function fromChatCompletionChunk(
       })
     | undefined;
 
-  if (delta?.content !== undefined && delta?.content !== null) {
+  if (delta?.content !== undefined && delta?.content !== null && delta?.content !== "") {
     return {
       role: "assistant",
       content: delta.content,
@@ -386,13 +391,25 @@ export function fromChatCompletionChunk(
     delta?.reasoning ||
     delta?.reasoning_details?.length
   ) {
+    const reasoningTextFromDetails =
+      delta?.reasoning_details
+        ?.filter((d: any) => d.text && typeof d.text === "string")
+        .map((d: any) => d.text)
+        .join("") || "";
     const message: ThinkingChatMessage = {
       role: "thinking",
-      content: delta.reasoning_content || delta.reasoning || "",
+      content: delta.reasoning_content || delta.reasoning || reasoningTextFromDetails || "",
       signature: delta?.reasoning_details?.[0]?.signature,
       reasoning_details: delta?.reasoning_details as any[],
     };
     return message;
+  }
+
+  if (delta?.content !== undefined && delta?.content !== null) {
+    return {
+      role: "assistant",
+      content: delta.content,
+    };
   }
 
   return undefined;

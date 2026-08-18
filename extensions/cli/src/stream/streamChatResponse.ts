@@ -1,8 +1,10 @@
 import { ModelConfig } from "@friday-ai/config-yaml";
 import { BaseLlmApi } from "@friday-ai/openai-adapters";
+// @ts-ignore
 import type { ChatHistoryItem } from "core/index.js";
 import { convertFromUnifiedHistoryWithSystemMessage } from "core/util/messageConversion.js";
 import * as dotenv from "dotenv";
+// @ts-ignore
 import type {
   ChatCompletionMessageParam,
   ChatCompletionTool,
@@ -166,6 +168,40 @@ function processChunk(options: ProcessChunkOptions): {
     updatedResponse = processChunkContent(
       choice.delta.content,
       aiResponse,
+      callbacks,
+      isHeadless,
+    );
+  }
+
+  // Handle reasoning_content (DeepSeek models return thinking content here)
+  if ((choice.delta as any).reasoning_content) {
+    updatedResponse = processChunkContent(
+      (choice.delta as any).reasoning_content,
+      updatedResponse,
+      callbacks,
+      isHeadless,
+    );
+  }
+
+  // Handle reasoning_details first (more specific, OpenRouter and some providers)
+  // If reasoning_details is present, use it instead of reasoning to avoid duplication
+  const reasoningDetails = (choice.delta as any).reasoning_details;
+  if (reasoningDetails && Array.isArray(reasoningDetails)) {
+    for (const detail of reasoningDetails) {
+      if (detail.text && typeof detail.text === "string") {
+        updatedResponse = processChunkContent(
+          detail.text,
+          updatedResponse,
+          callbacks,
+          isHeadless,
+        );
+      }
+    }
+  } else if ((choice.delta as any).reasoning) {
+    // Handle reasoning only if reasoning_details is not present (some providers only use this)
+    updatedResponse = processChunkContent(
+      (choice.delta as any).reasoning,
+      updatedResponse,
       callbacks,
       isHeadless,
     );
