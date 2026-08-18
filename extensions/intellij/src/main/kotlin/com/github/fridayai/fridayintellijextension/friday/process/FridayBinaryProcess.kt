@@ -38,12 +38,23 @@ class FridayBinaryProcess(
     }
     
     private fun findNodeExe(): String? {
-        // Try nvs-managed Node.js first
-        val nvsNode = listOf(
-            System.getenv("LOCALAPPDATA")?.let { "$it\\nvs\\default\\node.exe" },
-            System.getenv("LOCALAPPDATA")?.let { "$it\\nvs\\node\\20.20.1\\x64\\node.exe" },
-        ).firstOrNull { it != null && File(it).exists() }
-        if (nvsNode != null) return nvsNode
+        // Try nvs-managed Node.js: use the default symlink first
+        val localAppData = System.getenv("LOCALAPPDATA")
+        if (localAppData != null) {
+            val nvsDefault = "$localAppData\\nvs\\default\\node.exe"
+            if (File(nvsDefault).exists()) return nvsDefault
+
+            // Fallback: scan nvs/node directory for any installed version
+            val nvsNodeDir = File("$localAppData\\nvs\\node")
+            if (nvsNodeDir.exists() && nvsNodeDir.isDirectory) {
+                val nodeExe = nvsNodeDir.listFiles { file ->
+                    file.isDirectory && File(file, "x64\\node.exe").exists()
+                }?.firstOrNull()?.let { versionDir ->
+                    File(versionDir, "x64\\node.exe").absolutePath
+                }
+                if (nodeExe != null) return nodeExe
+            }
+        }
         
         // Try PATH
         return try {
