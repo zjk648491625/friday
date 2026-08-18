@@ -80,6 +80,24 @@ async function buildWithEsbuild() {
 (async () => {
   if (esbuildOnly) {
     await buildWithEsbuild();
+
+    // Copy over any worker files (mirrors the full build path)
+    const workerFiles = [
+      { src: "../core/node_modules/jsdom/lib/jsdom/living/xhr/xhr-sync-worker.js", dst: "out/xhr-sync-worker.js" },
+      { src: "../core/llm/tiktokenWorkerPool.mjs", dst: "out/tiktokenWorkerPool.mjs" },
+      { src: "../core/llm/llamaTokenizerWorkerPool.mjs", dst: "out/llamaTokenizerWorkerPool.mjs" },
+    ];
+    for (const { src, dst } of workerFiles) {
+      const srcPath = path.join(__dirname, src);
+      const dstPath = path.join(__dirname, dst);
+      if (fs.existsSync(srcPath)) {
+        fs.cpSync(srcPath, dstPath);
+        console.log(`[Core] Copied ${path.basename(dst)}`);
+      } else {
+        console.warn(`[Core] Warning: worker file not found: ${src}`);
+      }
+    }
+
     const outDir = path.resolve(__dirname, "out");
     const outFile = path.join(outDir, "index.js");
     if (fs.existsSync(outFile)) {
