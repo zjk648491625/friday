@@ -20,7 +20,23 @@ plugins {
 group = pluginGroup
 version = if (isEap) "$pluginVersion-eap" else pluginVersion
 
+// Local Maven repository location.
+//   1. M2_REPO  -> uses the path verbatim (takes precedence)
+//   2. M2_HOME  -> ${M2_HOME}/repository   (legacy Maven convention)
+//   3. default  -> ~/.m2/repository (standard Maven location)
+val localMavenRepo = provider {
+    val m2 = environment("M2_REPO").orNull?.takeIf { it.isNotBlank() }
+        ?: environment("M2_HOME").orNull?.takeIf { it.isNotBlank() }?.let { "$it/repository" }
+        ?: "${System.getProperty("user.home")}/.m2/repository"
+    file(m2).canonicalFile
+}
+
 repositories {
+    mavenLocal {
+        // Point at the local Maven repository declared above so that
+        // dependencies published there are picked up first.
+        url = uri(localMavenRepo.get())
+    }
     mavenCentral()
     intellijPlatform {
         defaultRepositories()
@@ -45,17 +61,13 @@ dependencies {
         bundledPlugin("org.jetbrains.plugins.terminal")
         bundledPlugin("Git4Idea")
         testFramework(TestFrameworkType.Platform)
-        testFramework(TestFrameworkType.Starter, "243.21565.193", configurationName = "testIntegrationImplementation")
     }
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("io.mockk:mockk:1.14.2") {
-        // this transitive dependency (1.6.4) conflicts with built-in version (1.7.3)
-        // otherwise e2e tests (runIdeForUiTests) will have linkage errors
-        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
-    }
-    testImplementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    testImplementation("com.automation-remarks:video-recorder-junit5:2.0")
+    implementation("org.yaml:snakeyaml:2.4")
+    implementation("com.google.code.gson:gson:2.12.1")
+    implementation("com.fifesoft:rsyntaxtextarea:3.6.0")
+    implementation("io.github.java-diff-utils:java-diff-utils:4.15")
+    implementation("com.automation-remarks:video-recorder-junit5:2.0")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.0") // required to run both JUnit 5 and JUnit 3
 
     testIntegrationImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
@@ -100,6 +112,14 @@ qodana {
 }
 
 tasks {
+    buildSearchableOptions {
+        // Disable on non-English locale systems (e.g. Chinese Windows) where
+        // the task fails with "Locale must be default". This is a known
+        // IntelliJ platform issue - the task is only needed for settings
+        // search indexing and does not affect plugin functionality.
+        enabled = java.util.Locale.getDefault() == java.util.Locale.ENGLISH
+    }
+
     withType<PrepareSandboxTask> {
         from("../../binary/bin") {
             into(pluginName.map { "$it/core" })
