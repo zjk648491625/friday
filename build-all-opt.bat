@@ -108,6 +108,16 @@ copy /Y "%CORE_OUT%\index.js" "%CORE_BIN%\friday-binary.js" >nul
 for %%f in (llamaTokenizerWorkerPool.mjs tiktokenWorkerPool.mjs xhr-sync-worker.js index.node) do (
     if exist "%CORE_OUT%\%%f" copy /Y "%CORE_OUT%\%%f" "%CORE_BIN%\%%f" >nul
 )
+:: Copy sqlite3 native binding if present
+if exist "%ROOT%binary\node_modules\sqlite3\build\Release\node_sqlite3.node" (
+    if not exist "%CORE_BIN%\build\Release" mkdir "%CORE_BIN%\build\Release"
+    copy /Y "%ROOT%binary\node_modules\sqlite3\build\Release\node_sqlite3.node" "%CORE_BIN%\build\Release\node_sqlite3.node" >nul
+)
+:: Create a minimal package.json so the 'bindings' npm package resolves
+:: module_root to the core binary directory instead of the project root.
+if not exist "%CORE_BIN%\package.json" (
+    echo {"name":"friday-core","version":"1.0.0"}> "%CORE_BIN%\package.json"
+)
 if exist "%BUNDLE%" rmdir /s /q "%BUNDLE%"
 if not exist "%CORE_BIN%\rg.exe" (
     if exist "%ROOT%extensions\vscode\node_modules\@vscode\ripgrep\bin\rg.exe" (
@@ -146,7 +156,140 @@ copy /Y "%ROOT%gui\dist\jetbrains_index.html" "%ROOT%extensions\intellij\src\mai
 copy /Y "%ROOT%gui\dist\jetbrains_editorInset_index.html" "%ROOT%extensions\intellij\src\main\resources\webview\jetbrains_editorInset_index.html" >nul
 xcopy "%ROOT%gui\dist\fonts" "%ROOT%extensions\intellij\src\main\resources\webview\fonts\" /E /Y /Q
 xcopy "%ROOT%gui\dist\logos" "%ROOT%extensions\intellij\src\main\resources\webview\logos\" /E /Y /Q
+
 echo [3/5] Building IntelliJ plugin...
+
+rem ---------------------------------------------------------------------------
+rem Detect a JDK 17+ for the Gradle daemon.
+rem
+rem Probe order (first match wins):
+rem   1. FRIDAY_JDK_HOME environment variable (explicit override)
+rem   2. IntelliJ IDEA bundled JBR (IDEA_HOME\jbr, LOCALAPPDATA install dirs)
+rem   3. Common install locations under Program Files, Eclipse Adoptium,
+rem      Microsoft, Zulu, and C:\soft\Java / D:\soft\Java / %%USERPROFILE%%\.jdks
+rem   4. PATH `where java` reverse lookup (java.exe -> bin -> jdk home)
+rem   5. Current JAVA_HOME, if it is already 17+
+rem ---------------------------------------------------------------------------
+
+set "FRIDAY_JDK_HOME_FOUND="
+
+rem --- 1. Explicit override via FRIDAY_JDK_HOME ---
+if defined FRIDAY_JDK_HOME (
+    if exist "%FRIDAY_JDK_HOME%\bin\java.exe" (
+        set "FRIDAY_JDK_HOME_FOUND=%FRIDAY_JDK_HOME%"
+        call :validate_jdk "%FRIDAY_JDK_HOME_FOUND%"
+        if "!FRIDAY_JDK_VALID!"=="0" (
+            echo [JDK] FRIDAY_JDK_HOME=%FRIDAY_JDK_HOME% is not JDK 17+, skipping...
+            set "FRIDAY_JDK_HOME_FOUND="
+        )
+    )
+)
+
+rem --- 2. IntelliJ IDEA bundled JBR ---
+if not defined FRIDAY_JDK_HOME_FOUND (
+    if defined IDEA_HOME (
+        if exist "%IDEA_HOME%\jbr\bin\java.exe" (
+            set "FRIDAY_JDK_HOME_FOUND=%IDEA_HOME%\jbr"
+            call :validate_jdk "%FRIDAY_JDK_HOME_FOUND%"
+            if "!FRIDAY_JDK_VALID!"=="0" set "FRIDAY_JDK_HOME_FOUND="
+        )
+    )
+)
+if not defined FRIDAY_JDK_HOME_FOUND (
+    if defined IDEA_JBR (
+        if exist "%IDEA_JBR%\bin\java.exe" (
+            set "FRIDAY_JDK_HOME_FOUND=%IDEA_JBR%"
+            call :validate_jdk "%FRIDAY_JDK_HOME_FOUND%"
+            if "!FRIDAY_JDK_VALID!"=="0" set "FRIDAY_JDK_HOME_FOUND="
+        )
+    )
+)
+if not defined FRIDAY_JDK_HOME_FOUND (
+    if defined LOCALAPPDATA (
+        for /d %%D in ("%LOCALAPPDATA%\Programs\IntelliJ IDEA*\jbr") do (
+            if not defined FRIDAY_JDK_HOME_FOUND if exist "%%D\bin\java.exe" (
+                set "FRIDAY_JDK_HOME_FOUND=%%D"
+                call :validate_jdk "%%D"
+                if "!FRIDAY_JDK_VALID!"=="0" set "FRIDAY_JDK_HOME_FOUND="
+            )
+        )
+    )
+)
+
+rem --- 3. Common install locations ---
+if not defined FRIDAY_JDK_HOME_FOUND (
+    for %%R in (
+        "C:\Program Files\Java"
+        "C:\Program Files\Eclipse Adoptium"
+        "C:\Program Files\Microsoft"
+        "C:\Program Files\Zulu"
+        "C:\Program Files\Amazon Corretto"
+        "C:\soft\Java"
+        "D:\soft\Java"
+        "%USERPROFILE%\.jdks"
+    ) do (
+        if not defined FRIDAY_JDK_HOME_FOUND if exist "%%~R" (
+            for /d %%D in ("%%~R\jdk-17*" "%%~R\jdk17*" "%%~R\jbr-17*") do (
+                if not defined FRIDAY_JDK_HOME_FOUND if exist "%%D\bin\java.exe" (
+                    set "FRIDAY_JDK_HOME_FOUND=%%D"
+                    call :validate_jdk "%%D"
+                    if "!FRIDAY_JDK_VALID!"=="0" set "FRIDAY_JDK_HOME_FOUND="
+                )
+            )
+        )
+    )
+)
+
+rem --- 4. PATH `where java` reverse lookup ---
+if not defined FRIDAY_JDK_HOME_FOUND (
+    set "WHERE_JAVA_LINE="
+    for /f "usebackq delims=" %%L in (`where java 2^>nul`) do (
+        if not defined WHERE_JAVA_LINE set "WHERE_JAVA_LINE=%%L"
+    )
+    if defined WHERE_JAVA_LINE (
+        for %%F in ("%WHERE_JAVA_LINE%") do set "WHERE_JAVA_BIN=%%~dpF"
+        if "!WHERE_JAVA_BIN:~-1!"=="\" set "WHERE_JAVA_BIN=!WHERE_JAVA_BIN:~0,-1!"
+        for %%P in ("!WHERE_JAVA_BIN!") do set "WHERE_JAVA_HOME=%%~dpP"
+        if "!WHERE_JAVA_HOME:~-1!"=="\" set "WHERE_JAVA_HOME=!WHERE_JAVA_HOME:~0,-1!"
+        if exist "!WHERE_JAVA_HOME!\bin\java.exe" (
+            set "FRIDAY_JDK_HOME_FOUND=!WHERE_JAVA_HOME!"
+            call :validate_jdk "!WHERE_JAVA_HOME!"
+            if "!FRIDAY_JDK_VALID!"=="0" (
+                echo [JDK] PATH java is at !WHERE_JAVA_HOME! but it is not JDK 17+, skipping...
+                set "FRIDAY_JDK_HOME_FOUND="
+            )
+        )
+    )
+)
+
+rem --- 5. Current JAVA_HOME (validated with java -version) ---
+if not defined FRIDAY_JDK_HOME_FOUND (
+    if defined JAVA_HOME if exist "%JAVA_HOME%\bin\java.exe" (
+        set "FRIDAY_JDK_HOME_FOUND=%JAVA_HOME%"
+        call :validate_jdk "%JAVA_HOME%"
+        if "!FRIDAY_JDK_VALID!"=="0" (
+            echo [JDK] JAVA_HOME=%JAVA_HOME% is not JDK 17+, skipping...
+            set "FRIDAY_JDK_HOME_FOUND="
+        )
+    )
+)
+
+if not defined FRIDAY_JDK_HOME_FOUND (
+    echo ERROR: No JDK 17+ found for the Gradle daemon.
+    echo.
+    echo Fix one of the following and re-run:
+    echo   - Set FRIDAY_JDK_HOME to a JDK 17+ install dir
+    echo   - Install a JDK 17+ under C:\Program Files\Java\jdk-17 or similar
+    echo   - Set JAVA_HOME to a JDK 17+ ^(will be detected automatically^)
+    pause
+    exit /b 1
+)
+
+if /i not "%JAVA_HOME%"=="%FRIDAY_JDK_HOME_FOUND%" (
+    echo [JDK] Using JDK at: %FRIDAY_JDK_HOME_FOUND%
+    set "JAVA_HOME=%FRIDAY_JDK_HOME_FOUND%"
+)
+
 cd /d "%ROOT%extensions\intellij"
 call gradlew buildPlugin
 if !ERRORLEVEL! neq 0 (
@@ -232,4 +375,33 @@ xcopy "%ROOT%extensions\cli\dist\*" "%CORE_BIN%\cli\" /E /Y /Q
 echo [CLI] Done.
 goto :eof
 
+rem ---------------------------------------------------------------------------
+rem Validate that a JDK home is actually Java 17+
+rem
+rem Usage: call :validate_jdk "C:\path\to\jdk"
+rem Returns: FRIDAY_JDK_VALID = 1 (valid) or 0 (invalid)
+rem ---------------------------------------------------------------------------
+:validate_jdk
+set "FRIDAY_JDK_VALID=0"
+if "%~1"=="" exit /b
+if not exist "%~1\bin\java.exe" exit /b
 
+rem java -version writes to stderr; redirect to stdout, capture first line with "version"
+"%~1\bin\java.exe" -version 2>&1 | findstr /i "version" > "%TEMP%\friday_jdk_ver.txt"
+for /f "usebackq tokens=1-3 delims= " %%a in ("%TEMP%\friday_jdk_ver.txt") do (
+    set "JDK_VER_RAW=%%~c"
+)
+del "%TEMP%\friday_jdk_ver.txt" 2>nul
+
+if not defined JDK_VER_RAW exit /b
+
+rem Extract major version: "17.0.2" -> 17, "1.8.0_202" -> 8
+for /f "tokens=1 delims=." %%a in ("!JDK_VER_RAW!") do set "JDK_MAJOR=%%a"
+
+rem Pre-Java 9 uses "1.X" format; extract the second token as major
+if "!JDK_MAJOR!"=="1" (
+    for /f "tokens=2 delims=." %%a in ("!JDK_VER_RAW!") do set "JDK_MAJOR=%%a"
+)
+
+if !JDK_MAJOR! geq 17 set "FRIDAY_JDK_VALID=1"
+exit /b
