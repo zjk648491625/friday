@@ -2,6 +2,7 @@ import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.PrepareSandboxTask
 import org.gradle.kotlin.dsl.intellijPlatform
+import java.util.Locale
 
 fun environment(key: String) = providers.environmentVariable(key)
 
@@ -117,7 +118,7 @@ tasks {
         // the task fails with "Locale must be default". This is a known
         // IntelliJ platform issue - the task is only needed for settings
         // search indexing and does not affect plugin functionality.
-        enabled = java.util.Locale.getDefault() == java.util.Locale.ENGLISH
+        enabled = Locale.getDefault() == Locale.ENGLISH
     }
 
     withType<PrepareSandboxTask> {
@@ -152,7 +153,7 @@ tasks {
     }
 }
 
-val testIntegration = task<Test>("testIntegration") {
+val testIntegration = tasks.register<Test>("testIntegration") {
     val integrationTestSourceSet = sourceSets.getByName("testIntegration")
     testClassesDirs = integrationTestSourceSet.output.classesDirs
     classpath = integrationTestSourceSet.runtimeClasspath
