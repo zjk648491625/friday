@@ -29,6 +29,7 @@ export async function* interceptSystemToolCalls(
 ): AsyncGenerator<ChatMessage[], PromptLog | undefined> {
   let buffer = "";
   let parseState: ToolCallParseState | undefined;
+  let toolNameParsed = false;
 
   while (true) {
     const result = await messageGenerator.next();
@@ -79,6 +80,7 @@ export async function* interceptSystemToolCalls(
             }
             if (isInToolCall) {
               parseState = getInitialToolCallParseState();
+              toolNameParsed = false;
               buffer = modifiedBuffer;
             }
           }
@@ -93,8 +95,12 @@ export async function* interceptSystemToolCalls(
             } catch (e) {
               // Malformed tool call (e.g. AI hallucinated END_ARG/BEGIN_ARG in text)
               // Discard the broken parse state and yield buffer as normal content
-              console.warn("[interceptSystemToolCalls] tool call parse error, resetting:", (e as Error).message);
+              console.warn(
+                "[interceptSystemToolCalls] tool call parse error, resetting:",
+                (e as Error).message,
+              );
               parseState = undefined;
+              toolNameParsed = false;
               yield [
                 {
                   ...message,
@@ -103,6 +109,10 @@ export async function* interceptSystemToolCalls(
               ];
               buffer = "";
               continue;
+            }
+            // Track if we've successfully parsed a tool name
+            if (delta && delta.function?.name && !toolNameParsed) {
+              toolNameParsed = true;
             }
             if (delta) {
               // Validate tool name against known tools — if AI hallucinated
@@ -114,6 +124,22 @@ export async function* interceptSystemToolCalls(
               ) {
                 console.warn("[interceptSystemToolCalls] unknown tool:", delta.function.name, "discarding fake tool call");
                 parseState = undefined;
+                toolNameParsed = false;
+                yield [
+                  {
+                    ...message,
+                    content: [{ type: "text", text: buffer }],
+                  },
+                ];
+                buffer = "";
+                continue;
+              }
+              // Additional protection: if we completed a tool call (parseState.done)
+              // but never successfully parsed a tool name, it's likely a false positive
+              if (parseState.done && !toolNameParsed) {
+                console.warn("[interceptSystemToolCalls] completed tool call without valid tool name, discarding");
+                parseState = undefined;
+                toolNameParsed = false;
                 yield [
                   {
                     ...message,
@@ -136,6 +162,7 @@ export async function* interceptSystemToolCalls(
             // call) can be handled.
             if (parseState.done) {
               parseState = undefined;
+              toolNameParsed = false;
             }
           } else {
             // Yield normal assistant message

@@ -219,9 +219,6 @@ export const streamNormalInput = createAsyncThunk<
       }
 
       let next: any;
-      let chunkCount = 0;
-      let lastStatusUpdate = 0;
-      let accumulatedText = "";
       let heartbeatTick = 0;
 
       // Helper: race gen.next() against heartbeat timeout
@@ -237,7 +234,7 @@ export const streamNormalInput = createAsyncThunk<
             if (!getState().session.isStreaming) break;
             heartbeatTick++;
             const dots = ".".repeat((heartbeatTick % 3) + 1);
-            dispatch(setTaskStatus(`${stepPrefix}💭 深度思考中${dots}`));
+            dispatch(setTaskStatus(`${stepPrefix}💭 思考中${dots}`));
           } else {
             return race.value;
           }
@@ -253,25 +250,6 @@ export const streamNormalInput = createAsyncThunk<
         }
 
         dispatch(streamUpdate(next.value as ChatMessage[]));
-
-        // Throttled status update (every 300ms) with streaming text + thinking
-        chunkCount++;
-        const now = Date.now();
-        if (now - lastStatusUpdate > 300 && (next.value as ChatMessage[])?.length) {
-          for (const msg of next.value as any[]) {
-            if ((msg.role === "assistant" || msg.role === "thinking") && msg.content) {
-              const content = Array.isArray(msg.content)
-                ? msg.content.map((c: any) => c.text || c.thinking || "").join("")
-                : String(msg.content || "");
-              if (content.trim()) accumulatedText += content;
-            }
-          }
-          if (accumulatedText.trim()) {
-            const preview = accumulatedText.replace(/\n/g, " ").slice(-60);
-            dispatch(setTaskStatus(`${stepPrefix}📝 ${preview}`));
-          }
-          lastStatusUpdate = now;
-        }
 
         next = await genNextWithHeartbeat(gen);
       }

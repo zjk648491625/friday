@@ -537,6 +537,8 @@ interface Reasoning {
   text: string;
   startAt: number;
   endAt?: number;
+  /** True when reasoning is streamed as literal <think>…</think> tags in assistant content. */
+  streamsWithThinkTags?: boolean;
 }
 
 export interface ChatHistoryItem {

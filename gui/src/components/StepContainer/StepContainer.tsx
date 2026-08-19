@@ -10,7 +10,6 @@ import ThinkingBlockPeek from "../mainInput/belowMainInput/ThinkingBlockPeek";
 import StyledMarkdownPreview from "../StyledMarkdownPreview";
 import ConversationSummary from "./ConversationSummary";
 import ResponseActions from "./ResponseActions";
-import ThinkingIndicator from "./ThinkingIndicator";
 
 interface StepContainerProps {
   item: ChatHistoryItem;
@@ -45,15 +44,17 @@ export default function StepContainer(props: StepContainerProps) {
   useEffect(() => {
     if (!isStreaming) {
       const content = renderChatMessage(props.item.message).trim();
-      const endingPunctuation = [".", "?", "!", "```", ":"];
-
-      // If not ending in punctuation or emoji, we assume the response got truncated
+      const endingPunctuation = [".", "?", "!", "```", ":", "END_ARG"];
+    
+      // A reply ending in punctuation, an emoji, or a completed tool-call block
+      // (END_ARG) is treated as complete and is not flagged as truncated.
+      const hasValidEnd = endingPunctuation.some(p => content.endsWith(p));
+      const endsWithEmoji = /\p{Emoji}/u.test(content.slice(-2));
+    
       if (
         content.trim() !== "" &&
-        !(
-          endingPunctuation.some((p) => content.endsWith(p)) ||
-          /\p{Emoji}/u.test(content.slice(-2))
-        )
+        !hasValidEnd &&
+        !endsWithEmoji
       ) {
         setIsTruncated(true);
       } else {
@@ -105,7 +106,6 @@ export default function StepContainer(props: StepContainerProps) {
             />
           </>
         )}
-        {props.isLast && <ThinkingIndicator historyItem={props.item} />}
       </div>
 
       {/* Token badge row — always visible, aligned with text */}

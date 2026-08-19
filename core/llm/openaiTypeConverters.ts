@@ -362,6 +362,33 @@ export function fromChatCompletionChunk(
       })
     | undefined;
 
+  // Reasoning MUST be checked before content: some providers (DeepSeek-R1,
+  // Qwen3-thinking, OpenRouter-proxied Anthropic) emit a chunk that carries
+  // BOTH `content` and `reasoning_content`/`reasoning` at the thinking→answer
+  // transition. If we returned the assistant content first, the reasoning
+  // delta for that chunk would be silently dropped, which manifests as the
+  // first few characters of the reply going missing. By preferring reasoning
+  // here, the content shows up on the next chunk (a sub-frame delay that is
+  // imperceptible in streaming UI) and nothing is lost.
+  if (
+    delta?.reasoning_content ||
+    delta?.reasoning ||
+    delta?.reasoning_details?.length
+  ) {
+    const reasoningTextFromDetails =
+      delta?.reasoning_details
+        ?.filter((d: any) => d.text && typeof d.text === "string")
+        .map((d: any) => d.text)
+        .join("") || "";
+    const message: ThinkingChatMessage = {
+      role: "thinking",
+      content: delta.reasoning_content || delta.reasoning || reasoningTextFromDetails || "",
+      signature: delta?.reasoning_details?.[0]?.signature,
+      reasoning_details: delta?.reasoning_details as any[],
+    };
+    return message;
+  }
+
   if (delta?.content !== undefined && delta?.content !== null && delta?.content !== "") {
     return {
       role: "assistant",
@@ -386,25 +413,10 @@ export function fromChatCompletionChunk(
         toolCalls,
       };
     }
-  } else if (
-    delta?.reasoning_content ||
-    delta?.reasoning ||
-    delta?.reasoning_details?.length
-  ) {
-    const reasoningTextFromDetails =
-      delta?.reasoning_details
-        ?.filter((d: any) => d.text && typeof d.text === "string")
-        .map((d: any) => d.text)
-        .join("") || "";
-    const message: ThinkingChatMessage = {
-      role: "thinking",
-      content: delta.reasoning_content || delta.reasoning || reasoningTextFromDetails || "",
-      signature: delta?.reasoning_details?.[0]?.signature,
-      reasoning_details: delta?.reasoning_details as any[],
-    };
-    return message;
   }
 
+  // Tail fallback: preserve original behaviour for empty-string content chunks
+  // (e.g. providers that send a leading `content: ""` to open the stream).
   if (delta?.content !== undefined && delta?.content !== null) {
     return {
       role: "assistant",

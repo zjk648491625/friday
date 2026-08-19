@@ -706,6 +706,7 @@ export const sessionSlice = createSlice({
                 startAt: Date.now(),
                 active: true,
                 text: messageContent.replace("<think>", "").trim(),
+                streamsWithThinkTags: true,
               };
             } else if (
               lastItem.reasoning?.active &&
@@ -716,11 +717,16 @@ export const sessionSlice = createSlice({
               lastItem.reasoning.text += reasoningEnd.trimEnd();
               lastItem.reasoning.active = false;
               lastItem.reasoning.endAt = Date.now();
+              lastItem.reasoning.streamsWithThinkTags = false;
               lastMessage.content += answerStart.trimStart();
             } else if (lastItem.reasoning?.active) {
-              if (message.role === "assistant") {
-                // Assistant message received while reasoning is still active
-                // Close the reasoning block and append content to the message
+              if (
+                message.role === "assistant" &&
+                !lastItem.reasoning.streamsWithThinkTags
+              ) {
+                // Assistant message received while reasoning is still active and the
+                // provider does not stream <think> tags: the reasoning has ended, so
+                // close the block and append content to the message.
                 lastItem.reasoning.active = false;
                 lastItem.reasoning.endAt = Date.now();
                 if (
@@ -733,6 +739,8 @@ export const sessionSlice = createSlice({
                 lastItem.reasoning.text.length > 0 ||
                 messageContent.trim().length > 0
               ) {
+                // While streaming <think>…</think> tags, assistant content between
+                // the markers is reasoning text, not the answer.
                 lastItem.reasoning.text += messageContent;
               }
             } else {
