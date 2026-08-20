@@ -351,7 +351,7 @@ export function fromChatResponse(response: ChatCompletion): ChatMessage[] {
 
 export function fromChatCompletionChunk(
   chunk: ChatCompletionChunk,
-): ChatMessage | undefined {
+): ChatMessage[] {
   const delta = chunk.choices?.[0]?.delta as
     | (ChatCompletionChunk.Choice.Delta & {
         reasoning?: string;
@@ -362,14 +362,12 @@ export function fromChatCompletionChunk(
       })
     | undefined;
 
-  // Reasoning MUST be checked before content: some providers (DeepSeek-R1,
-  // Qwen3-thinking, OpenRouter-proxied Anthropic) emit a chunk that carries
-  // BOTH `content` and `reasoning_content`/`reasoning` at the thinking→answer
-  // transition. If we returned the assistant content first, the reasoning
-  // delta for that chunk would be silently dropped, which manifests as the
-  // first few characters of the reply going missing. By preferring reasoning
-  // here, the content shows up on the next chunk (a sub-frame delay that is
-  // imperceptible in streaming UI) and nothing is lost.
+  const messages: ChatMessage[] = [];
+
+  // Reasoning and content may coexist in a single chunk at the thinking→answer
+  // transition (DeepSeek-R1, Qwen3-thinking, OpenRouter-proxied Anthropic).
+  // Emit both so neither the reasoning tail nor the first content token is
+  // dropped (preferring one over the other used to silently lose the other).
   if (
     delta?.reasoning_content ||
     delta?.reasoning ||
@@ -382,18 +380,19 @@ export function fromChatCompletionChunk(
         .join("") || "";
     const message: ThinkingChatMessage = {
       role: "thinking",
-      content: delta.reasoning_content || delta.reasoning || reasoningTextFromDetails || "",
+      content:
+        delta.reasoning_content || delta.reasoning || reasoningTextFromDetails || "",
       signature: delta?.reasoning_details?.[0]?.signature,
       reasoning_details: delta?.reasoning_details as any[],
     };
-    return message;
+    messages.push(message);
   }
 
   if (delta?.content !== undefined && delta?.content !== null && delta?.content !== "") {
-    return {
+    messages.push({
       role: "assistant",
       content: delta.content,
-    };
+    });
   } else if (delta?.tool_calls) {
     const toolCalls = delta?.tool_calls
       .filter((tool_call) => !tool_call.type || tool_call.type === "function")
@@ -407,24 +406,28 @@ export function fromChatCompletionChunk(
       }));
 
     if (toolCalls.length > 0) {
-      return {
+      messages.push({
         role: "assistant",
         content: "",
         toolCalls,
-      };
+      });
     }
   }
 
   // Tail fallback: preserve original behaviour for empty-string content chunks
   // (e.g. providers that send a leading `content: ""` to open the stream).
-  if (delta?.content !== undefined && delta?.content !== null) {
-    return {
+  if (
+    messages.length === 0 &&
+    delta?.content !== undefined &&
+    delta?.content !== null
+  ) {
+    messages.push({
       role: "assistant",
       content: delta.content,
-    };
+    });
   }
 
-  return undefined;
+  return messages;
 }
 
 function handleTextDeltaEvent(

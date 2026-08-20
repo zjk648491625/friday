@@ -313,7 +313,9 @@ class WatsonX extends BaseLLM {
     let accumulatedArgs = "";
 
     for await (const value of streamSse(response)) {
-      const message = fromChatCompletionChunk(value);
+      // WatsonX doesn't stream reasoning, so fromChatCompletionChunk returns at
+      // most one message here.
+      const message = fromChatCompletionChunk(value)[0];
       if (!!message) {
         if (
           (message as AssistantChatMessage)?.toolCalls &&

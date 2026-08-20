@@ -121,6 +121,13 @@ tasks {
         enabled = Locale.getDefault() == Locale.ENGLISH
     }
 
+    prepareJarSearchableOptions {
+        // Consumes buildSearchableOptions' output directory, so it must be
+        // disabled together with it on non-English locales; otherwise it fails
+        // because its input directory doesn't exist.
+        enabled = Locale.getDefault() == Locale.ENGLISH
+    }
+
     withType<PrepareSandboxTask> {
         from("../../binary/bin") {
             into(pluginName.map { "$it/core" })

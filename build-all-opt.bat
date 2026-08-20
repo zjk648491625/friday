@@ -93,6 +93,16 @@ exit /b 0
 
 :build_core
 echo [1/5] Building Core...
+echo [Core] Step 1/2: Compiling TypeScript (core -> core/dist)...
+cd /d "%ROOT%core"
+if not exist node_modules call npm install
+call npm run build
+if !ERRORLEVEL! neq 0 (
+    echo [Core] TypeScript compilation FAILED!
+    pause
+    exit /b 1
+)
+echo [Core] Step 2/2: Bundling binary (binary/out + binary/bin)...
 cd /d "%ROOT%binary"
 if not exist node_modules call npm install
 node build.js --esbuild-only

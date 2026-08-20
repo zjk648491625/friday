@@ -3,7 +3,7 @@
     <id>com.github.fridayai.fridayintellijextension</id>
     <name>Friday AI</name>
     <vendor url="https://www.IronHero.com/">IronHero</vendor>
-    <description><![CDATA[
+    <description>Friday AI<![CDATA[
 Friday AI is an AI-powered coding assistant that helps developers write better code faster with intelligent code completions and more.
 ]]></description>
     <change-notes>

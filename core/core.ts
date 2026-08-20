@@ -593,7 +593,7 @@ export class Core {
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       // Defensive: if a wrapped payload somehow reaches here, store the inner
       // content instead of nesting it further.
-      let data = msg.data;
+      let data: any = msg.data;
       while (
         data &&
         typeof data === "object" &&
