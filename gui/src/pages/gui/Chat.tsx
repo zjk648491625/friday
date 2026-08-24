@@ -283,7 +283,7 @@ const StepsDiv = styled.div`
 
   .msg-row.no-avatar {
     gap: 0;
-    margin-left: 20px;
+    margin-left: 38px;
   }
 
   /* User message row — right side, auto-width */
