@@ -305,6 +305,7 @@ export function fromChatResponse(response: ChatCompletion): ChatMessage[] {
         ?.filter((d: any) => d.text && typeof d.text === "string")
         .map((d: any) => d.text)
         .join("") || "";
+
     const thinkingMessage: ChatMessage = {
       role: "thinking",
       content: (message as any).reasoning_content || (message as any).reasoning || reasoningTextFromDetails,
@@ -378,6 +379,7 @@ export function fromChatCompletionChunk(
         ?.filter((d: any) => d.text && typeof d.text === "string")
         .map((d: any) => d.text)
         .join("") || "";
+
     const message: ThinkingChatMessage = {
       role: "thinking",
       content:

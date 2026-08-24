@@ -63,6 +63,24 @@ echo ==================================================
 echo   Friday Build -a (auto all, no prompts)
 echo ==================================================
 echo.
+
+:: Clean caches first
+echo [CLEAN] Removing caches...
+if exist "%ROOT%gui\node_modules\.vite" rmdir /s /q "%ROOT%gui\node_modules\.vite"
+if exist "%ROOT%gui\dist" rmdir /s /q "%ROOT%gui\dist"
+if exist "%ROOT%extensions\intellij\build" rmdir /s /q "%ROOT%extensions\intellij\build"
+if exist "%CORE_OUT%\index.js" del /f /q "%CORE_OUT%\index.js"
+:: Clean package dist directories
+for %%p in (config-yaml config-types fetch openai-adapters llm-info terminal-security) do (
+    if exist "%ROOT%packages\%%p\dist" rmdir /s /q "%ROOT%packages\%%p\dist"
+)
+:: Clean CLI dist
+if exist "%ROOT%extensions\cli\dist" rmdir /s /q "%ROOT%extensions\cli\dist"
+:: Clean core dist
+if exist "%ROOT%core\dist" rmdir /s /q "%ROOT%core\dist"
+echo [CLEAN] Done.
+echo.
+
 call :build_core
 if !ERRORLEVEL! neq 0 goto :done
 echo.
@@ -91,8 +109,50 @@ exit /b 0
 :: SUBROUTINES
 :: =============================================
 
+:build_packages
+echo [PKG] Building dependent packages (topological order)...
+for %%p in (config-types llm-info terminal-security) do (
+    echo   Building packages/%%p...
+    cd /d "%ROOT%packages\%%p"
+    if not exist node_modules call npm install
+    call npx tsc
+    if !ERRORLEVEL! neq 0 (
+        echo   [%%p] Build FAILED!
+        pause
+        exit /b 1
+    )
+    echo   %%p built OK.
+)
+for %%p in (config-yaml fetch) do (
+    echo   Building packages/%%p...
+    cd /d "%ROOT%packages\%%p"
+    if not exist node_modules call npm install
+    call npx tsc
+    if !ERRORLEVEL! neq 0 (
+        echo   [%%p] Build FAILED!
+        pause
+        exit /b 1
+    )
+    echo   %%p built OK.
+)
+echo   Building packages/openai-adapters...
+cd /d "%ROOT%packages\openai-adapters"
+if not exist node_modules call npm install
+call npx tsc
+if !ERRORLEVEL! neq 0 (
+    echo   [openai-adapters] Build FAILED!
+    pause
+    exit /b 1
+)
+echo   openai-adapters built OK.
+echo [PKG] All packages built.
+goto :eof
+
 :build_core
 echo [1/5] Building Core...
+echo [Core] Step 0/2: Building dependent packages first...
+call :build_packages
+if !ERRORLEVEL! neq 0 exit /b 1
 echo [Core] Step 1/2: Compiling TypeScript (core -> core/dist)...
 cd /d "%ROOT%core"
 if not exist node_modules call npm install

@@ -7,7 +7,46 @@ echo ========================================
 echo   Friday CLI Build Script
 echo ========================================
 
-echo [1/3] Building config-yaml (packages/config-yaml)...
+echo [1/8] Building config-types (packages/config-types)...
+cd /d "%ROOT%packages\config-types"
+call npm install
+echo   Building config-types...
+call npx tsc
+if !ERRORLEVEL! neq 0 (
+    echo   [config-types] Build FAILED!
+    cd /d "%ROOT%"
+    endlocal
+    exit /b 1
+)
+echo   config-types built OK.
+
+echo [2/8] Building llm-info (packages/llm-info)...
+cd /d "%ROOT%packages\llm-info"
+call npm install
+echo   Building llm-info...
+call npx tsc
+if !ERRORLEVEL! neq 0 (
+    echo   [llm-info] Build FAILED!
+    cd /d "%ROOT%"
+    endlocal
+    exit /b 1
+)
+echo   llm-info built OK.
+
+echo [3/8] Building terminal-security (packages/terminal-security)...
+cd /d "%ROOT%packages\terminal-security"
+call npm install
+echo   Building terminal-security...
+call npx tsc
+if !ERRORLEVEL! neq 0 (
+    echo   [terminal-security] Build FAILED!
+    cd /d "%ROOT%"
+    endlocal
+    exit /b 1
+)
+echo   terminal-security built OK.
+
+echo [4/8] Building config-yaml (packages/config-yaml)...
 cd /d "%ROOT%packages\config-yaml"
 call npm install
 echo   Building config-yaml...
@@ -20,7 +59,33 @@ if !ERRORLEVEL! neq 0 (
 )
 echo   config-yaml built OK.
 
-echo [2/3] Building SDK (packages/sdk/typescript)...
+echo [5/8] Building fetch (packages/fetch)...
+cd /d "%ROOT%packages\fetch"
+call npm install
+echo   Building fetch...
+call npx tsc
+if !ERRORLEVEL! neq 0 (
+    echo   [fetch] Build FAILED!
+    cd /d "%ROOT%"
+    endlocal
+    exit /b 1
+)
+echo   fetch built OK.
+
+echo [6/8] Building openai-adapters (packages/openai-adapters)...
+cd /d "%ROOT%packages\openai-adapters"
+call npm install
+echo   Building openai-adapters...
+call npx tsc
+if !ERRORLEVEL! neq 0 (
+    echo   [openai-adapters] Build FAILED!
+    cd /d "%ROOT%"
+    endlocal
+    exit /b 1
+)
+echo   openai-adapters built OK.
+
+echo [7/8] Building SDK (packages/sdk/typescript)...
 cd /d "%ROOT%packages\sdk\typescript"
 call npm install
 
@@ -59,7 +124,7 @@ endlocal
 exit /b 1
 
 :build_cli
-echo [3/3] Building CLI (extensions/cli)...
+echo [8/8] Building CLI (extensions/cli)...
 cd /d "%ROOT%extensions\cli"
 
 :: npm 10.x file: dep bug on Windows -> install with minimal package.json

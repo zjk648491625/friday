@@ -173,7 +173,10 @@ function processChunk(options: ProcessChunkOptions): {
     );
   }
 
-  // Handle reasoning_content (DeepSeek models return thinking content here)
+  // Handle reasoning fields with proper priority to avoid duplication
+  // Priority: reasoning_content > reasoning_details > reasoning
+  // Some models (e.g., @cf/zai-org/glm-4.7-flash) return both reasoning_content
+  // and reasoning with identical content, so we must only process one.
   if ((choice.delta as any).reasoning_content) {
     updatedResponse = processChunkContent(
       (choice.delta as any).reasoning_content,
@@ -181,30 +184,27 @@ function processChunk(options: ProcessChunkOptions): {
       callbacks,
       isHeadless,
     );
-  }
-
-  // Handle reasoning_details first (more specific, OpenRouter and some providers)
-  // If reasoning_details is present, use it instead of reasoning to avoid duplication
-  const reasoningDetails = (choice.delta as any).reasoning_details;
-  if (reasoningDetails && Array.isArray(reasoningDetails)) {
-    for (const detail of reasoningDetails) {
-      if (detail.text && typeof detail.text === "string") {
-        updatedResponse = processChunkContent(
-          detail.text,
-          updatedResponse,
-          callbacks,
-          isHeadless,
-        );
+  } else {
+    const reasoningDetails = (choice.delta as any).reasoning_details;
+    if (reasoningDetails && Array.isArray(reasoningDetails)) {
+      for (const detail of reasoningDetails) {
+        if (detail.text && typeof detail.text === "string") {
+          updatedResponse = processChunkContent(
+            detail.text,
+            updatedResponse,
+            callbacks,
+            isHeadless,
+          );
+        }
       }
+    } else if ((choice.delta as any).reasoning) {
+      updatedResponse = processChunkContent(
+        (choice.delta as any).reasoning,
+        updatedResponse,
+        callbacks,
+        isHeadless,
+      );
     }
-  } else if ((choice.delta as any).reasoning) {
-    // Handle reasoning only if reasoning_details is not present (some providers only use this)
-    updatedResponse = processChunkContent(
-      (choice.delta as any).reasoning,
-      updatedResponse,
-      callbacks,
-      isHeadless,
-    );
   }
 
   // Handle tool calls

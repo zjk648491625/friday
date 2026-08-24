@@ -42,6 +42,15 @@ import { streamResponseThunk } from "../thunks/streamResponse";
 import { findChatHistoryItemByToolCallId, findToolCallById } from "../util";
 
 /**
+ * Warning text injected when a completed turn produced no visible content,
+ * tool calls, or reasoning — i.e. the model returned an empty or non-standard
+ * response. Exported so the message view can detect it and offer the raw
+ * response for inspection.
+ */
+export const EMPTY_RESPONSE_WARNING =
+  "⚠️ 模型返回了空响应。可能原因：模型返回了非标准格式的内容，或流被提前终止。请尝试其他模型或重新发送。";
+
+/**
  * Helper function to filter out duplicate edit/search-replace tool calls.
  * Only keeps the first occurrence of edit tools.
  *
@@ -544,6 +553,22 @@ export const sessionSlice = createSlice({
 
       if (curMessage) {
         curMessage.isGatheringContext = false;
+      }
+
+      // Detect a genuinely empty response: the turn finished normally (a
+      // PromptLog was captured, so the stream completed rather than errored or
+      // was cancelled) but produced no content, tool calls, or reasoning. Only
+      // then do we show the warning — error/cancel paths have their own
+      // handling (the stream error dialog) and never populate promptLogs.
+      if (
+        curMessage &&
+        curMessage.message.role === "assistant" &&
+        !curMessage.message.content &&
+        !curMessage.message.toolCalls?.length &&
+        !curMessage.reasoning?.text &&
+        curMessage.promptLogs?.length
+      ) {
+        curMessage.message.content = EMPTY_RESPONSE_WARNING;
       }
 
       state.isStreaming = false;
