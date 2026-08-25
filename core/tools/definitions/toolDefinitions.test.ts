@@ -23,7 +23,15 @@ describe("Tool Definitions", () => {
   };
 
   it("should have all required parameters defined in properties for each tool", async () => {
-    const exportedTools = Object.values(toolDefinitions);
+    // The module also exports non-tool constants (e.g. CLI bridge names,
+    // the LSP code-graph name); keep only actual tool definitions.
+    const exportedTools: (Tool | GetTool)[] = Object.values(
+      toolDefinitions,
+    ).filter(
+      (t): t is Tool | GetTool =>
+        typeof t === "function" ||
+        (typeof t === "object" && t !== null && "type" in t),
+    );
 
     for (const toolDefinition of exportedTools) {
       const tool = await getToolObject(toolDefinition);

@@ -104,7 +104,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: mockConfig,
     });
@@ -133,7 +132,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: mockConfig,
     });
@@ -163,7 +161,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: configWithoutOptions,
     });
@@ -196,7 +193,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: configWithEmptyHeaders,
     });
@@ -227,7 +223,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: mockConfig,
     });
@@ -260,7 +255,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: mockConfig,
     });
@@ -287,7 +281,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: mockConfig,
     });
@@ -340,7 +333,6 @@ describe("llmsFromModelConfig requestOptions merging", () => {
 
     const result = await llmsFromModelConfig({
       model,
-      uniqueId: "test-id",
       llmLogger: mockLLMLogger,
       config: configWithMoreHeaders,
     });

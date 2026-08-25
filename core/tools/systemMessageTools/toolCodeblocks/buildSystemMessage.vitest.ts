@@ -1,13 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { Tool } from "../../..";
 import {
-  TOOL_INSTRUCTIONS_TAG,
   addSystemMessageToolsToSystemMessage,
   generateToolsSystemMessage,
 } from "../buildToolsSystemMessage";
 
 import { SystemMessageToolCodeblocksFramework } from ".";
-import { closeTag } from "../systemToolUtils";
 
 const SHARED_TOOL_FIELDS = {
   displayTitle: "DUD",
@@ -94,9 +92,11 @@ describe("generateToolsSystemMessage", () => {
     const result = generateToolsSystemMessage(tools, framework);
 
     // Check structure rather than exact text
-    expect(result).includes(TOOL_INSTRUCTIONS_TAG);
+    // (the framework wraps instructions with a fixed prefix/suffix instead of
+    // an XML-style tag)
+    expect(result.includes(framework.systemMessagePrefix)).toBe(true);
     expect(result).includes(customDescription);
-    expect(result).includes(closeTag(TOOL_INSTRUCTIONS_TAG));
+    expect(result.includes(framework.systemMessageSuffix)).toBe(true);
 
     // Check for general section about available tools without requiring exact wording
     const hasToolsAvailableSection = /tools are available to you/i.test(result);
@@ -266,7 +266,7 @@ describe("addSystemMessageToolsToSystemMessage", () => {
     );
 
     expect(result.startsWith(baseMessage)).toBe(true);
-    expect(result).includes(TOOL_INSTRUCTIONS_TAG);
+    expect(result.includes(framework.systemMessagePrefix)).toBe(true);
     expect(result).includes(`TOOL_NAME: ${toolName}`);
   });
 });
