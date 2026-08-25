@@ -259,4 +259,35 @@ Rule 3: Third rule`;
       "which means that your goal is to help the user investigate their ideas",
     );
   });
+
+  it("should include rich environment info in the env block", async () => {
+    const result = await constructSystemMessage("normal");
+
+    expect(result).toContain("Platform:");
+    // Friendly OS name instead of a bare process.platform string
+    expect(result).toMatch(/Platform: (Windows (10|11)|macOS|Linux)/);
+    expect(result).toMatch(/Default terminal\/shell: /);
+    expect(result).toContain("Home directory:");
+    expect(result).toContain("Working directory:");
+  });
+
+  it("should expose the current permission mode via cliMode context", async () => {
+    const normal = await constructSystemMessage("normal");
+    expect(normal).toContain('<context name="cliMode">');
+    expect(normal).toContain("Friday CLI");
+    expect(normal).toContain("Agent Mode (normal)");
+
+    const plan = await constructSystemMessage("plan");
+    expect(plan).toContain("Plan Mode (read-only tools)");
+  });
+
+  it("should flag headless runs in cliMode context", async () => {
+    const result = await constructSystemMessage(
+      "normal",
+      undefined,
+      undefined,
+      true,
+    );
+    expect(result).toContain("Running headless (non-interactive)");
+  });
 });

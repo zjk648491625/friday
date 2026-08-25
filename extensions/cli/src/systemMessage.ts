@@ -1,5 +1,6 @@
 import { execSync } from "child_process";
 import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
 
 import { parseMarkdownRule, RuleObject } from "@friday-ai/config-yaml";
@@ -40,6 +41,31 @@ function getGitStatus(): string {
   }
 }
 
+/**
+ * Human-friendly operating system description for the env block.
+ * Windows builds >= 22000 are Windows 11.
+ */
+function getFriendlyOsName(): string {
+  const release = os.release();
+  if (process.platform === "win32") {
+    const build = parseInt(release.split(".")[2] ?? "0", 10);
+    return build >= 22000
+      ? "Windows 11 (build " + release + ")"
+      : "Windows 10 (build " + release + ")";
+  }
+  if (process.platform === "darwin") {
+    return "macOS (" + release + ")";
+  }
+  return "Linux (" + release + ")";
+}
+
+function getDefaultShell(): string {
+  if (process.platform === "win32") {
+    return process.env.ComSpec ?? "cmd.exe";
+  }
+  return process.env.SHELL ?? "/bin/sh";
+}
+
 const baseSystemMessage = `You are an agent in the Friday CLI. Given the user's prompt, you should use the tools available to you to answer the user's question.
 
 Notes:
@@ -49,7 +75,9 @@ Here is useful information about the environment you are running in:
 <env>
 Working directory: ${process.cwd()}
 Is directory a git repo: ${isGitRepo()}
-Platform: ${process.platform}
+Platform: ${getFriendlyOsName()} (${os.arch()})
+Default terminal/shell: ${getDefaultShell()}
+Home directory: ${os.homedir()}
 Today's date: ${new Date().toISOString().split("T")[0]}
 </env>
 
@@ -247,6 +275,18 @@ Example response format:
   "property": "value"
 }`;
   }
+
+  // Runtime environment context: permission mode + headless flag. These are
+  // per-invocation, unlike the module-level <env> block above.
+  const modeLabel =
+    mode === "plan" ? "Plan Mode (read-only tools)" : "Agent Mode (" + mode + ")";
+  systemMessage +=
+    '\n<context name="cliMode">Current interface: Friday CLI (terminal). ' +
+    "Permission mode: " +
+    modeLabel +
+    "." +
+    (headless ? " Running headless (non-interactive)." : "") +
+    "</context>";
 
   // Add rules section if we have any rules or agent content
   if (agentContent || processedRules.length > 0) {
