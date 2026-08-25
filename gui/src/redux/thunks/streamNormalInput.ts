@@ -47,6 +47,24 @@ import { streamResponseAfterToolCall } from "./streamResponseAfterToolCall";
  * @param model - The selected model with provider and completion options
  * @returns Completion options with reasoning configuration
  */
+
+/**
+ * Detects whether a streamed message batch contains any user-visible output.
+ * Used by the auto-retry logic: a stream that ends without producing any of
+ * these is considered "empty" and eligible for retry.
+ */
+function hasVisibleStreamOutput(m: ChatMessage): boolean {
+  if (m.role === "thinking") return true;
+  if (m.role !== "assistant") return false;
+  if (m.toolCalls?.length) return true;
+  if (Array.isArray(m.content)) {
+    return m.content.some(
+      (part) => part.type === "text" && !!part.text.trim(),
+    );
+  }
+  return !!String(m.content ?? "").trim();
+}
+
 function buildReasoningCompletionOptions(
   baseOptions: LLMFullCompletionOptions,
   hasReasoningEnabled: boolean | undefined,
@@ -215,7 +233,26 @@ export const streamNormalInput = createAsyncThunk<
 
     const start = Date.now();
     const streamAborter = state.session.streamAborter;
-    try {
+
+    // Auto-retry on stream error or fully-empty response.
+    // Configured via config.json: experimental.maxAutoRetries (default 2, 0 disables).
+    // Never retries after a user abort. If partial output already streamed
+    // before the error, we do NOT retry to avoid duplicated transcript content.
+    const maxAutoRetries = Math.max(
+      0,
+      state.config.config.experimental?.maxAutoRetries ?? 2,
+    );
+
+    let sawAnyOutput = false;
+    let attempt = 0;
+    let completedPromptLog: PromptLog | undefined = undefined;
+
+    while (true) {
+      attempt++;
+      let heartbeatTick = 0;
+      let sawOutputThisAttempt = false;
+      let pendingNext: Promise<any> | null = null;
+
       let gen = extra.ideMessenger.llmStreamChat(
         {
           completionOptions,
@@ -235,9 +272,6 @@ export const streamNormalInput = createAsyncThunk<
         );
       }
 
-      let next: any;
-      let heartbeatTick = 0;
-
       // Helper: race gen.next() against heartbeat timeout.
       // IMPORTANT: keep a reference to the in-flight next() promise and reuse
       // it across heartbeats. Issuing a fresh gen.next() after every heartbeat
@@ -247,7 +281,6 @@ export const streamNormalInput = createAsyncThunk<
       // beginning of responses (first-token latency > 600ms), random middle
       // chunks during thinking pauses, and entire non-streamed responses
       // (the "empty response" bug).
-      let pendingNext: Promise<any> | null = null;
       const genNextWithHeartbeat = async (gen: any) => {
         while (true) {
           if (!pendingNext) {
@@ -275,74 +308,120 @@ export const streamNormalInput = createAsyncThunk<
         }
       };
 
-      next = await genNextWithHeartbeat(gen);
-      while (!next.done) {
-        if (!getState().session.isStreaming) {
-          dispatch(abortStream());
+      try {
+        let next = await genNextWithHeartbeat(gen);
+        while (!next.done) {
+          if (!getState().session.isStreaming) {
+            dispatch(abortStream());
+            break;
+          }
+
+          const msgs = next.value as ChatMessage[];
+          if (msgs.some(hasVisibleStreamOutput)) {
+            sawOutputThisAttempt = true;
+          }
+          dispatch(streamUpdate(msgs));
+
+          next = await genNextWithHeartbeat(gen);
+        }
+
+        if (next.done && next.value) {
+          completedPromptLog = next.value as PromptLog;
+        }
+        sawAnyOutput = sawAnyOutput || sawOutputThisAttempt;
+
+        // Empty-response retry: nothing visible produced this attempt and
+        // nothing earlier either. User aborts never retry.
+        const abortedAfterStream =
+          streamAborter.signal.aborted || !getState().session.isStreaming;
+        if (
+          !sawAnyOutput &&
+          !abortedAfterStream &&
+          attempt <= maxAutoRetries
+        ) {
+          console.warn(
+            `[stream] empty response, auto-retry ${attempt}/${maxAutoRetries}`,
+          );
+          dispatch(setTaskStatus(`${stepPrefix}⚠️ 空响应，自动重试 ${attempt}/${maxAutoRetries}...`));
+          await new Promise((r) => setTimeout(r, 300 * attempt));
+          continue;
+        }
+        break;
+      } catch (e) {
+        const toolCallsToCancel = selectCurrentToolCalls(getState());
+        if (
+          toolCallsToCancel.length > 0 &&
+          e instanceof Error &&
+          e.message.toLowerCase().includes("premature close")
+        ) {
+          for (const tc of toolCallsToCancel) {
+            dispatch(
+              errorToolCall({
+                toolCallId: tc.toolCallId,
+                output: [
+                  {
+                    name: "Tool Call Error",
+                    description: "Premature Close",
+                    content: `"Premature Close" error: this tool call was aborted mid-stream because the arguments took too long to stream or there were network issues. Please re-attempt by breaking the operation into smaller chunks or trying something else`,
+                    icon: "problems",
+                  },
+                ],
+              }),
+            );
+          }
           break;
         }
 
-        dispatch(streamUpdate(next.value as ChatMessage[]));
-
-        next = await genNextWithHeartbeat(gen);
-      }
-
-      // Attach prompt log and end thinking for reasoning models
-      if (next.done && next.value) {
-        dispatch(addPromptCompletionPair([next.value as PromptLog]));
-
-        try {
-          const log = next.value as PromptLog;
-          extra.ideMessenger.post("devdata/log", {
-            name: "chatInteraction",
-            data: {
-              prompt: log.prompt,
-              completion: log.completion,
-              modelProvider: selectedChatModel.underlyingProviderName,
-              modelName: selectedChatModel.title,
-              modelTitle: selectedChatModel.title,
-              sessionId: state.session.id,
-              ...(!!activeTools.length && {
-                tools: activeTools.map((tool) => tool.function.name),
-              }),
-              ...(appliedRules.length > 0 && {
-                rules: appliedRules.map((rule) => ({
-                  id: getRuleId(rule),
-                  slug: rule.slug,
-                })),
-              }),
-            },
-          });
-        } catch (e) {
-          console.error("Failed to send dev data interaction log", e);
-        }
-      }
-    } catch (e) {
-      const toolCallsToCancel = selectCurrentToolCalls(getState());
-      if (
-        toolCallsToCancel.length > 0 &&
-        e instanceof Error &&
-        e.message.toLowerCase().includes("premature close")
-      ) {
-        for (const tc of toolCallsToCancel) {
-          dispatch(
-            errorToolCall({
-              toolCallId: tc.toolCallId,
-              output: [
-                {
-                  name: "Tool Call Error",
-                  description: "Premature Close",
-                  content: `"Premature Close" error: this tool call was aborted mid-stream because the arguments took too long to stream or there were network issues. Please re-attempt by breaking the operation into smaller chunks or trying something else`,
-                  icon: "problems",
-                },
-              ],
-            }),
+        const abortedOnError =
+          streamAborter.signal.aborted || !getState().session.isStreaming;
+        if (
+          !sawOutputThisAttempt &&
+          !abortedOnError &&
+          attempt <= maxAutoRetries
+        ) {
+          console.warn(
+            `[stream] attempt ${attempt} failed, auto-retrying:`,
+            e,
           );
+          dispatch(setTaskStatus(`${stepPrefix}⚠️ 流式出错，自动重试 ${attempt}/${maxAutoRetries}...`));
+          await new Promise((r) => setTimeout(r, 500 * attempt));
+          continue;
         }
-      } else {
         throw e;
       }
     }
+
+    // Attach prompt log and end thinking for reasoning models
+    if (completedPromptLog) {
+      dispatch(addPromptCompletionPair([completedPromptLog]));
+
+      try {
+        const log = completedPromptLog;
+        extra.ideMessenger.post("devdata/log", {
+          name: "chatInteraction",
+          data: {
+            prompt: log.prompt,
+            completion: log.completion,
+            modelProvider: selectedChatModel.underlyingProviderName,
+            modelName: selectedChatModel.title,
+            modelTitle: selectedChatModel.title,
+            sessionId: state.session.id,
+            ...(!!activeTools.length && {
+              tools: activeTools.map((tool) => tool.function.name),
+            }),
+            ...(appliedRules.length > 0 && {
+              rules: appliedRules.map((rule) => ({
+                id: getRuleId(rule),
+                slug: rule.slug,
+              })),
+            }),
+          },
+        });
+      } catch (e) {
+        console.error("Failed to send dev data interaction log", e);
+      }
+    }
+
 
     // Tool call sequence:
     // 1. Mark generating tool calls as generated

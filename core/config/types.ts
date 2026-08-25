@@ -1124,6 +1124,13 @@ declare global {
      */
     useChromiumForDocsCrawling?: boolean;
     modelContextProtocolServers?: MCPOptions[];
+
+    /**
+     * Number of automatic retries when a chat stream fails with an error
+     * or completes without producing any visible output.
+     * Default: 2 (set 0 to disable)
+     */
+    maxAutoRetries?: number;
   }
   
   // config.json
