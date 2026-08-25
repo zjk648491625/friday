@@ -189,8 +189,11 @@ export const TabBar = React.forwardRef<HTMLDivElement>((_, ref) => {
   const handleTabClick = async (id: string) => {
     const targetTab = tabs.find((tab) => tab.id === id);
     if (!targetTab) return;
+    // Capture into a const so TS keeps the narrowed string type inside
+    // the async onConfirm closure below.
+    const targetSessionId = targetTab.sessionId;
 
-    if (targetTab.sessionId && isStreaming) {
+    if (targetSessionId && isStreaming) {
       dispatch(
         setDialogMessage(
           <ConfirmationDialog
@@ -199,7 +202,7 @@ export const TabBar = React.forwardRef<HTMLDivElement>((_, ref) => {
             onConfirm={async () => {
               await dispatch(
                 loadSession({
-                  sessionId: targetTab.sessionId,
+                  sessionId: targetSessionId,
                   saveCurrentSession: hasHistory,
                 }),
               );
@@ -212,11 +215,11 @@ export const TabBar = React.forwardRef<HTMLDivElement>((_, ref) => {
       return;
     }
 
-    if (targetTab.sessionId) {
+    if (targetSessionId) {
       // Switch to existing session
       await dispatch(
         loadSession({
-          sessionId: targetTab.sessionId,
+          sessionId: targetSessionId,
           saveCurrentSession: hasHistory,
         }),
       );

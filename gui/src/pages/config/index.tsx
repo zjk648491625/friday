@@ -80,7 +80,7 @@ function ConfigPage() {
 
         {/* Tab Content for larger screens (md and above) */}
         <div className="thin-scrollbar relative hidden flex-1 overflow-y-auto sm:block">
-          <DeprecationBanner dismissable={true} />
+          <DeprecationBanner />
           <div className="space-y-6 px-4 py-4">
             {allTabs.find((tab) => tab.id === activeTab)?.component}
           </div>

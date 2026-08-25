@@ -48,6 +48,10 @@ interface InputToolbarProps {
   toolbarOptions?: ToolbarOptions;
   disabled?: boolean;
   isMainInput?: boolean;
+  /** Click handler for the whole toolbar row (used by nested inputs to focus the editor) */
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  /** Opens the context picker when the @ button is clicked */
+  onAddContextItem?: React.MouseEventHandler<HTMLElement>;
 }
 
 function InputToolbar(props: InputToolbarProps) {

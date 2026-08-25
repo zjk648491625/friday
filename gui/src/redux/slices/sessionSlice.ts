@@ -696,17 +696,25 @@ export const sessionSlice = createSlice({
               lastItem.modelName = (message as any).model;
             }
 
+            // Thinking-specific fields ride on the assistant history message.
+            // TS cannot correlate the drafted message union's role with the
+            // narrowed role of `message`, so widen explicitly here.
+            const draft = lastMessage as typeof lastMessage & {
+              reasoning_details?: any[];
+              signature?: string;
+            };
+
             // Handle reasoning_details
             if (message.reasoning_details) {
-              lastMessage.reasoning_details = mergeReasoningDetails(
-                lastMessage.reasoning_details || [],
+              draft.reasoning_details = mergeReasoningDetails(
+                draft.reasoning_details || [],
                 message.reasoning_details,
               );
             }
 
             // Handle signature
             if (message.signature) {
-              lastMessage.signature = message.signature;
+              draft.signature = message.signature;
             }
 
             continue;

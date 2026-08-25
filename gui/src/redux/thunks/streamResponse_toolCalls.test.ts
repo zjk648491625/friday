@@ -95,6 +95,7 @@ describe("streamResponseThunk - tool calls", () => {
           content: "Please search the codebase",
         },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     initialState.ui.toolSettings = {
@@ -558,6 +559,7 @@ describe("streamResponseThunk - tool calls", () => {
           content: "Please search the codebase",
         },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     initialState.session.id = "session-123";
@@ -1064,6 +1066,7 @@ describe("streamResponseThunk - tool calls", () => {
           content: "Please search the codebase for test functions",
         },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     initialState.ui.toolSettings = {
@@ -1886,6 +1889,7 @@ describe("streamResponseThunk - tool calls", () => {
         {
           message: { id: "1", role: "user", content: "Run echo hello" },
           contextItems: [],
+          timestamp: Date.now(),
         },
       ];
       initialState.ui.toolSettings = {
@@ -1977,6 +1981,7 @@ describe("streamResponseThunk - tool calls", () => {
         {
           message: { id: "1", role: "user", content: "Run ls" },
           contextItems: [],
+          timestamp: Date.now(),
         },
       ];
       initialState.ui.toolSettings = {
@@ -2079,6 +2084,7 @@ describe("streamResponseThunk - tool calls", () => {
         {
           message: { id: "1", role: "user", content: "Do something" },
           contextItems: [],
+          timestamp: Date.now(),
         },
       ];
       const someTool = {

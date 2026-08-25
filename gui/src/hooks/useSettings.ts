@@ -13,9 +13,9 @@ export async function loadSettings(messenger: any): Promise<Record<string, any>>
     // `request` returns a wrapped response `{ done, content, status }`; the
     // actual settings object lives in `content`. Previously we cached the whole
     // wrapper, which got written back into the file and nested infinitely.
-    const settings = (result && result.content) || {};
+    const settings = ((result && result.content) || {}) as Record<string, any>;
     _settingsCache = settings;
-    return _settingsCache;
+    return settings;
   } catch { return {}; }
 }
 

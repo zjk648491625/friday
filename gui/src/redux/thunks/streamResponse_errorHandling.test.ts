@@ -75,6 +75,7 @@ describe("streamResponseThunk", () => {
       {
         message: { id: "1", role: "user", content: "Hello" },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
 
@@ -223,6 +224,7 @@ describe("streamResponseThunk", () => {
       {
         message: { id: "1", role: "user", content: "Hello" },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     initialState.session.id = "session-123";
@@ -566,6 +568,7 @@ describe("streamResponseThunk", () => {
       {
         message: { id: "1", role: "user", content: "Hello" },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     const mockStore = createMockStore(initialState);

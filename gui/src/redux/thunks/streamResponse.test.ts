@@ -107,6 +107,7 @@ describe("streamResponseThunk", () => {
       {
         message: { id: "1", role: "user", content: "Hello" },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     initialState.session.id = "session-123";
@@ -478,6 +479,7 @@ describe("streamResponseThunk", () => {
           content: "Please search the codebase",
         },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     const grepTool = serializeTool(grepSearchTool);
@@ -884,6 +886,7 @@ describe("streamResponseThunk", () => {
       {
         message: { id: "1", role: "user", content: "Hello" },
         contextItems: [],
+        timestamp: Date.now(),
       },
     ];
     abortState.session.id = "session-123";
