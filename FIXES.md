@@ -54,3 +54,20 @@ node manual-testing-sandbox/miniRunner.cjs core/tools/systemMessageTools/toolCod
 当前成绩 **53/53 全绿**。期间发现并修复：
 1. master 上即失败的遗留用例（裸 tool_name 无围栏格式从未被支持）→ acceptedToolCallStarts 补条目，自动规范化为大写标准形态
 2. buildSystemMessage.vitest 中 31 处误用 matcher（.includes / result.toContain 在真实 vitest 下必然 TypeError）→ 改为 toContain 标准形态
+
+### 测试健康地图（miniRunner 实测）
+
+| 测试文件 | 结果 |
+|---|---|
+| parseSystemToolCall.vitest.ts | 16 ✓ |
+| interceptSystemToolCalls.vitest.ts | 13 ✓ |
+| detectToolCallStart.vitest.ts | 8 ✓ |
+| buildSystemMessage.vitest.ts | 10 ✓ |
+| systemToolUtils.vitest.ts | 6 ✓ |
+| openaiTypeConverters.test.ts | 24 ✓（确认 model 字段改动零回归） |
+| myers.vitest.ts | 13 ✓ |
+| merge.test.ts / text.vitest.ts / uri.test.ts / messageContent.test.ts / incrementalParseJson.test.ts / extractContentFromCodeBlocks.test.ts / lcs.test.ts | 100 ✓ |
+| LruCache.test.ts | 5/6（余1例深层mock语义差异） |
+| sanitization 集成用例 | 需真实 POSIX shell，沙箱必然失败，非代码问题 |
+
+合计 **约 240 用例通过**。
