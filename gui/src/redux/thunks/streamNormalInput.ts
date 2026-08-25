@@ -33,6 +33,7 @@ import {
   selectPendingToolCalls,
 } from "../selectors/selectToolCalls";
 import { getBaseSystemMessage } from "../util/getBaseSystemMessage";
+import { getEnvironmentSection } from "../util/environmentInfo";
 import { callToolById } from "./callToolById";
 import { evaluateToolPolicies } from "./evaluateToolPolicies";
 import { preprocessToolCalls } from "./preprocessToolCallArgs";
@@ -134,11 +135,26 @@ export const streamNormalInput = createAsyncThunk<
     );
 
     // Construct messages (excluding system message)
-    const baseSystemMessage = getBaseSystemMessage(
+    let baseSystemMessage = getBaseSystemMessage(
       state.session.mode,
       selectedChatModel,
       activeTools,
     );
+
+    // Append real machine/environment info (OS, shell, IDE, mode) so the
+    // model makes correct assumptions about paths and command syntax.
+    // Fetched once and cached; failure never blocks the chat.
+    try {
+      const envSection = await getEnvironmentSection(
+        extra.ideMessenger,
+        state.session.mode,
+      );
+      if (envSection) {
+        baseSystemMessage += "\n\n" + envSection;
+      }
+    } catch (e) {
+      console.warn("Failed to append environment info:", e);
+    }
 
     const systemMessage = systemToolsFramework
       ? addSystemMessageToolsToSystemMessage(
@@ -215,31 +231,48 @@ export const streamNormalInput = createAsyncThunk<
           gen,
           streamAborter,
           systemToolsFramework,
+          activeTools.map((tool) => tool.function.name),
         );
       }
 
       let next: any;
       let heartbeatTick = 0;
 
-      // Helper: race gen.next() against heartbeat timeout
+      // Helper: race gen.next() against heartbeat timeout.
+      // IMPORTANT: keep a reference to the in-flight next() promise and reuse
+      // it across heartbeats. Issuing a fresh gen.next() after every heartbeat
+      // queues an extra request on the async generator; queued requests consume
+      // stream chunks FIFO, so every heartbeat that fires before a chunk
+      // arrives silently DROPPED that chunk. That is what used to eat the
+      // beginning of responses (first-token latency > 600ms), random middle
+      // chunks during thinking pauses, and entire non-streamed responses
+      // (the "empty response" bug).
+      let pendingNext: Promise<any> | null = null;
       const genNextWithHeartbeat = async (gen: any) => {
         while (true) {
+          if (!pendingNext) {
+            pendingNext = gen.next();
+          }
+          // Non-null by construction; TS cannot narrow a closure-captured let
+          const activeNext = pendingNext as Promise<any>;
           const race: { type: string; value?: any } = await Promise.race([
-            gen.next().then((r: any) => ({ type: "done", value: r })),
+            activeNext.then((r: any) => ({ type: "done", value: r })),
             new Promise<{ type: string }>((resolve) =>
               setTimeout(() => resolve({ type: "hb" }), 600),
             ),
           ]);
           if (race.type === "hb") {
-            if (!getState().session.isStreaming) break;
+            if (!getState().session.isStreaming) {
+              return { done: true, value: undefined };
+            }
             heartbeatTick++;
             const dots = ".".repeat((heartbeatTick % 3) + 1);
             dispatch(setTaskStatus(`${stepPrefix}💭 思考中${dots}`));
-          } else {
-            return race.value;
+            continue;
           }
+          pendingNext = null;
+          return race.value;
         }
-        return { done: true, value: undefined };
       };
 
       next = await genNextWithHeartbeat(gen);

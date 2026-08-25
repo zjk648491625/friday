@@ -278,4 +278,58 @@ describe("handleToolCallBuffer", () => {
       id: expect.any(String),
     });
   });
+// ---- Regression tests: keyword safety, full-width colons (see bugRepro) ----
+
+  it("does not terminate an arg whose VALUE line contains END_ARG", () => {
+    state.currentLineIndex = 3;
+    state.currentArgName = "content";
+    state.currentArgChunks = [];
+
+    // A code sample that merely contains the keyword must NOT close the arg
+    handleToolCallBuffer('const s = "END_ARG";', state);
+    const notClosed = handleToolCallBuffer("\n", state);
+    expect(notClosed).toBeUndefined();
+    expect(state.currentArgName).toBe("content");
+
+    handleToolCallBuffer("// more code", state);
+    handleToolCallBuffer("\n", state);
+
+    // Only a bare END_ARG line closes it
+    handleToolCallBuffer("END_ARG", state);
+    const closed = handleToolCallBuffer("\n", state);
+
+    expect(closed).toEqual({
+      type: "function",
+      function: {
+        name: "",
+        arguments: JSON.stringify('const s = "END_ARG";\n// more code'),
+      },
+      id: expect.any(String),
+    });
+  });
+
+  it("parses tool names with full-width colon", () => {
+    state.currentLineIndex = 1;
+
+    handleToolCallBuffer("TOOL_NAME\uff1a test_tool", state);
+    const newLineResult = handleToolCallBuffer("\n", state);
+
+    expect(newLineResult?.function?.name).toBe("test_tool");
+  });
+
+  it("begins args with full-width colon", () => {
+    state.currentLineIndex = 2;
+
+    handleToolCallBuffer("BEGIN_ARG\uff1atest_arg", state);
+    const newLineResult = handleToolCallBuffer("\n", state);
+
+    expect(newLineResult).toEqual({
+      type: "function",
+      function: {
+        name: "",
+        arguments: '{"test_arg":',
+      },
+      id: expect.any(String),
+    });
+  });
 });

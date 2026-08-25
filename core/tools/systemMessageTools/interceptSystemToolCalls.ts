@@ -21,6 +21,15 @@ import {
     3. Parses tool calls line by line and generates proper tool call deltas
     4. Once the tool call is complete, resets state for potential future tool calls
 */
+
+// Rebuilds the raw text consumed by an aborted/discarded tool-call parse so it
+// can be surfaced as normal content instead of being silently swallowed.
+function parseStateToText(state: ToolCallParseState): string {
+  // Each completed row already ends with its "\n"; joining directly
+  // reconstructs the original text exactly.
+  return state.lineChunks.map((row) => row.join("")).join("");
+}
+
 export async function* interceptSystemToolCalls(
   messageGenerator: AsyncGenerator<ChatMessage[], PromptLog | undefined>,
   abortController: AbortController,
@@ -45,6 +54,19 @@ export async function* interceptSystemToolCalls(
         ];
       }
 
+      // Case: stream ended while holding a partial start sequence (e.g. a
+      // trailing "```" fence). Never flush it and the tail of the response
+      // would be silently lost.
+      if (!parseState && buffer.length > 0) {
+        yield [
+          {
+            role: "assistant",
+            content: [{ type: "text", text: buffer }],
+          },
+        ];
+        buffer = "";
+      }
+
       return result.value;
     } else {
       for await (const message of result.value) {
@@ -65,8 +87,15 @@ export async function* interceptSystemToolCalls(
           continue;
         }
 
+        // Normalize Windows CRLF (and stray CR) newlines before splitting:
+        // otherwise "END_ARG\r" / "```\r" never match the parser's
+        // line comparisons and entire tool calls leak through as plain text.
         const chunks = (parts as TextMessagePart[])
-          .map((part) => splitAtCodeblocksAndNewLines(part.text))
+          .map((part) =>
+            splitAtCodeblocksAndNewLines(
+              part.text.replace(/\r\n?/g, "\n"),
+            ),
+          )
           .flat();
 
         for (const chunk of chunks) {
@@ -94,17 +123,22 @@ export async function* interceptSystemToolCalls(
               );
             } catch (e) {
               // Malformed tool call (e.g. AI hallucinated END_ARG/BEGIN_ARG in text)
-              // Discard the broken parse state and yield buffer as normal content
+              // Discard the broken parse state and surface everything that was
+              // already consumed by the parser as normal content — otherwise the
+              // beginning of the model's output would be silently swallowed.
               console.warn(
                 "[interceptSystemToolCalls] tool call parse error, resetting:",
                 (e as Error).message,
               );
+              const consumedText = parseState
+                ? parseStateToText(parseState)
+                : buffer;
               parseState = undefined;
               toolNameParsed = false;
               yield [
                 {
                   ...message,
-                  content: [{ type: "text", text: buffer }],
+                  content: [{ type: "text", text: consumedText }],
                 },
               ];
               buffer = "";
@@ -123,12 +157,13 @@ export async function* interceptSystemToolCalls(
                 !knownToolNames.includes(delta.function.name)
               ) {
                 console.warn("[interceptSystemToolCalls] unknown tool:", delta.function.name, "discarding fake tool call");
+                const consumedText = parseStateToText(parseState);
                 parseState = undefined;
                 toolNameParsed = false;
                 yield [
                   {
                     ...message,
-                    content: [{ type: "text", text: buffer }],
+                    content: [{ type: "text", text: consumedText }],
                   },
                 ];
                 buffer = "";
@@ -138,12 +173,13 @@ export async function* interceptSystemToolCalls(
               // but never successfully parsed a tool name, it's likely a false positive
               if (parseState.done && !toolNameParsed) {
                 console.warn("[interceptSystemToolCalls] completed tool call without valid tool name, discarding");
+                const consumedText = parseStateToText(parseState);
                 parseState = undefined;
                 toolNameParsed = false;
                 yield [
                   {
                     ...message,
-                    content: [{ type: "text", text: buffer }],
+                    content: [{ type: "text", text: consumedText }],
                   },
                 ];
                 buffer = "";

@@ -564,49 +564,90 @@ export async function executeStreamedToolCalls(
               arguments: call.arguments,
             });
 
-            const toolResult = await executeToolCall(call, {
-              parallelToolCallCount,
-            });
-            const entry: ToolResultWithStatus = {
-              role: "tool",
-              tool_call_id: call.id,
-              content: toolResult,
-              status: "done",
-            };
-            entriesByIndex.set(index, entry);
-            callbacks?.onToolResult?.(toolResult, call.name, "done");
-            // Immediate service update for UI feedback
-            try {
-              services.chatHistory.addToolResult(
-                call.id,
-                String(toolResult),
-                "done",
-              );
-            } catch {}
-          } catch (error) {
-            const errorMessage = `Error executing tool ${call.name}: ${
-              error instanceof Error ? error.message : String(error)
-            }`;
-            logger.error("Tool execution failed", {
-              name: call.name,
-              error: errorMessage,
-            });
-            entriesByIndex.set(index, {
-              role: "tool",
-              tool_call_id: call.id,
-              content: errorMessage,
-              status: "errored",
-            });
-            callbacks?.onToolError?.(errorMessage, call.name);
-            // Immediate service update for UI feedback
-            try {
-              services.chatHistory.addToolResult(
-                call.id,
-                errorMessage as string,
-                "errored",
-              );
-            } catch {}
-          }
+            // RETRY LOOP: execute with up to 2 retries (3 attempts total)
+            const MAX_RETRIES = 2;
+            const BASE_DELAY = 500;
+            let toolResult = "";
+            let lastError: any = null;
+            let attempt = 0;
+            let executedSuccessfully = false;
+
+            while (attempt <= MAX_RETRIES && !executedSuccessfully) {
+              try {
+                if (attempt > 0) {
+                  logger.info(`Retrying tool ${call.name}`, {
+                    attempt: attempt + 1,
+                    maxRetries: MAX_RETRIES,
+                    delayMs: BASE_DELAY * Math.pow(2, attempt - 1),
+                  });
+                  await new Promise((r) =>
+                    setTimeout(r, BASE_DELAY * Math.pow(2, attempt - 1)),
+                  );
+                }
+                toolResult = await executeToolCall(call, {
+                  parallelToolCallCount,
+                });
+                executedSuccessfully = true;
+              } catch (error) {
+                lastError = error;
+                const errorMsg =
+                  error instanceof Error ? error.message : String(error);
+                const isRetryable =
+                  /timeout|ECONNREFUSED|ETIMEDOUT|not found|找不到|missing|invalid/i.test(
+                    errorMsg,
+                  ) && !/blocked by security policy/i.test(errorMsg);
+                if (!isRetryable || attempt >= MAX_RETRIES) {
+                  break;
+                }
+                attempt++;
+                logger.debug(`Tool retry scheduled`, {
+                  name: call.name,
+                  attempt,
+                  reason: errorMsg,
+                });
+              }
+            }
+
+            if (!executedSuccessfully) {
+              const errorMessage = `Error executing tool ${call.name} (after ${MAX_RETRIES + 1} attempts): ${
+                lastError instanceof Error ? lastError.message : String(lastError)
+              }`;
+              logger.error("Tool execution failed after retries", {
+                name: call.name,
+                attempts: MAX_RETRIES + 1,
+                error: errorMessage,
+              });
+              entriesByIndex.set(index, {
+                role: "tool",
+                tool_call_id: call.id,
+                content: errorMessage,
+                status: "errored",
+              });
+              callbacks?.onToolError?.(errorMessage, call.name);
+              try {
+                services.chatHistory.addToolResult(
+                  call.id,
+                  errorMessage as string,
+                  "errored",
+                );
+              } catch {}
+            } else {
+              const entry: ToolResultWithStatus = {
+                role: "tool",
+                tool_call_id: call.id,
+                content: toolResult,
+                status: "done",
+              };
+              entriesByIndex.set(index, entry);
+              callbacks?.onToolResult?.(toolResult, call.name, "done");
+              try {
+                services.chatHistory.addToolResult(
+                  call.id,
+                  String(toolResult),
+                  "done",
+                );
+              } catch {}
+            }
         })(),
       );
     } catch (error) {

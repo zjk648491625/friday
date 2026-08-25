@@ -3,6 +3,8 @@ import { SystemMessageToolCodeblocksFramework } from ".";
 import { AssistantChatMessage, ChatMessage, PromptLog } from "../../..";
 import { interceptSystemToolCalls } from "../interceptSystemToolCalls";
 
+const BT = "```";
+
 describe("interceptSystemToolCalls", () => {
   let abortController: AbortController;
   let framework = new SystemMessageToolCodeblocksFramework();
@@ -419,5 +421,144 @@ describe("interceptSystemToolCalls", () => {
       (result?.value as AssistantChatMessage[])[0].toolCalls?.[0].function
         ?.arguments,
     ).toBe("true");
+  });
+// ---- Regression tests: CRLF, keyword-in-value, content preservation ----
+
+  it("parses tool calls streamed with Windows CRLF line endings", async () => {
+    const messages: ChatMessage[][] = [
+      [{ role: "assistant", content: "I'll read that.\r\n" }],
+      [{ role: "assistant", content: BT + "tool\r\n" }],
+      [{ role: "assistant", content: "TOOL_NAME: test_tool\r\n" }],
+      [{ role: "assistant", content: "BEGIN_ARG: arg1\r\n" }],
+      [{ role: "assistant", content: "value1\r\n" }],
+      [{ role: "assistant", content: "END_ARG\r\n" }],
+      [{ role: "assistant", content: BT }],
+    ];
+
+    const generator = interceptSystemToolCalls(
+      createAsyncGenerator(messages),
+      abortController,
+      framework,
+    );
+
+    const deltas: any[] = [];
+    let result = await generator.next();
+    while (!result.done) {
+      for (const msg of result.value as AssistantChatMessage[]) {
+        if (msg.toolCalls?.length) deltas.push(msg.toolCalls[0].function);
+        else if (typeof (msg as any).content === "string") {
+          // no plain-string content expected inside the tool block
+        }
+      }
+      result = await generator.next();
+    }
+
+    const name = deltas.find((d) => d.name)?.name;
+    expect(name).toBe("test_tool");
+    const args = deltas.map((d) => d.arguments ?? "").join("");
+    expect(JSON.parse(args)).toEqual({ arg1: "value1" });
+  });
+
+  it("does not terminate an argument when its value contains END_ARG", async () => {
+    const messages: ChatMessage[][] = [
+      [{ role: "assistant", content: BT + "tool\n" }],
+      [{ role: "assistant", content: "TOOL_NAME: test_tool\n" }],
+      [{ role: "assistant", content: "BEGIN_ARG: code\n" }],
+      [{ role: "assistant", content: 'const s = "END_ARG";\n' }],
+      [{ role: "assistant", content: "// more code\n" }],
+      [{ role: "assistant", content: "END_ARG\n" }],
+      [{ role: "assistant", content: BT }],
+    ];
+
+    const generator = interceptSystemToolCalls(
+      createAsyncGenerator(messages),
+      abortController,
+      framework,
+    );
+
+    const deltas: any[] = [];
+    let result = await generator.next();
+    while (!result.done) {
+      for (const msg of result.value as AssistantChatMessage[]) {
+        if (msg.toolCalls?.length) deltas.push(msg.toolCalls[0].function);
+      }
+      result = await generator.next();
+    }
+
+    const args = deltas.map((d) => d.arguments ?? "").join("");
+    expect(JSON.parse(args)).toEqual({
+      code: 'const s = "END_ARG";\n// more code',
+    });
+  });
+
+  it("parses tool calls that use full-width colons", async () => {
+    const messages: ChatMessage[][] = [
+      [{ role: "assistant", content: BT + "tool\n" }],
+      [{ role: "assistant", content: "TOOL_NAME\uff1atest_tool\n" }],
+      [{ role: "assistant", content: "BEGIN_ARG\uff1aarg1\n" }],
+      [{ role: "assistant", content: "value1\n" }],
+      [{ role: "assistant", content: "END_ARG\n" }],
+      [{ role: "assistant", content: BT }],
+    ];
+
+    const generator = interceptSystemToolCalls(
+      createAsyncGenerator(messages),
+      abortController,
+      framework,
+    );
+
+    const deltas: any[] = [];
+    let result = await generator.next();
+    while (!result.done) {
+      for (const msg of result.value as AssistantChatMessage[]) {
+        if (msg.toolCalls?.length) deltas.push(msg.toolCalls[0].function);
+      }
+      result = await generator.next();
+    }
+
+    const name = deltas.find((d) => d.name)?.name;
+    expect(name).toBe("test_tool");
+    const args = deltas.map((d) => d.arguments ?? "").join("");
+    expect(JSON.parse(args)).toEqual({ arg1: "value1" });
+  });
+
+  it("preserves already-consumed text when discarding a hallucinated tool name", async () => {
+    const messages: ChatMessage[][] = [
+      [{ role: "assistant", content: "Working on it...\n" }],
+      [{ role: "assistant", content: BT + "tool\n" }],
+      [{ role: "assistant", content: "TOOL_NAME: fake_hallucinated_tool\n" }],
+      [{ role: "assistant", content: "BEGIN_ARG: x\n" }],
+      [{ role: "assistant", content: "1\n" }],
+      [{ role: "assistant", content: "END_ARG\n" }],
+      [{ role: "assistant", content: BT }],
+    ];
+
+    const generator = interceptSystemToolCalls(
+      createAsyncGenerator(messages),
+      abortController,
+      framework,
+      ["test_tool"], // known tools — fake_hallucinated_tool is not among them
+    );
+
+    const texts: string[] = [];
+    let result = await generator.next();
+    while (!result.done) {
+      for (const msg of result.value as AssistantChatMessage[]) {
+        const parts = Array.isArray(msg.content)
+          ? msg.content
+          : [{ type: "text", text: String((msg as any).content ?? "") }];
+        for (const part of parts as any[]) {
+          if (part.type === "text") texts.push(part.text);
+        }
+      }
+      result = await generator.next();
+    }
+
+    const all = texts.join("");
+    expect(all).toContain("Working on it...");
+    // The consumed portion of the discarded block must NOT be swallowed
+    expect(all).toContain(BT + "tool");
+    expect(all).toContain("fake_hallucinated_tool");
+    expect(all).toContain("END_ARG");
   });
 });

@@ -8,6 +8,16 @@ import { ToolCallParseState } from "../types";
   For now, this parser collects entire arg before
   This is because support for JSON booleans is tricky otherwise
 */
+
+// Structural tag lines must match the WHOLE line. Substring matching made any
+// arg value that merely CONTAINS "END_ARG"/"BEGIN_ARG:" (e.g. code samples)
+// prematurely terminate the argument and corrupt the generated JSON.
+const END_ARG_LINE = /^end_?arg\s*$/i;
+const BEGIN_ARG_LINE = /^begin_?arg\s*[:\uff1a]/i;
+// Tolerate full-width colons (\uff1a) which Chinese-localized models emit often
+const TOOL_NAME_SPLIT = /tool_?name\s*[:\uff1a]/i;
+const BEGIN_ARG_SPLIT = /begin_?arg\s*[:\uff1a]/i;
+
 export function handleToolCallBuffer(
   chunk: string,
   state: ToolCallParseState,
@@ -42,7 +52,7 @@ export function handleToolCallBuffer(
     // Tool name line - process once line 2 is reached
     case 1:
       if (isNewLine) {
-        const name = (line.split(/tool_?name:/i)[1] ?? "").trim();
+        const name = (line.split(TOOL_NAME_SPLIT)[1] ?? "").trim();
         if (!name) {
           throw new Error("Invalid tool name");
         }
@@ -52,7 +62,7 @@ export function handleToolCallBuffer(
     default:
       if (state.isWithinArgStart) {
         if (isNewLine) {
-          const argName = (line.split(/begin_?arg:/i)[1] ?? "").trim();
+          const argName = (line.split(BEGIN_ARG_SPLIT)[1] ?? "").trim();
           if (!argName) {
             throw new Error("Invalid begin arg line");
           }
@@ -63,7 +73,9 @@ export function handleToolCallBuffer(
         }
       } else if (state.currentArgName) {
         if (isNewLine) {
-          const isEndArgTag = line.match(/end_?arg/i);
+          // Anchored match: only a bare END_ARG line closes the argument,
+          // not a value line that merely contains the keyword
+          const isEndArgTag = END_ARG_LINE.test(line);
           if (isEndArgTag) {
             let trimmedValue = state.currentArgChunks.join("").trim();
             state.currentArgChunks.length = 0;
@@ -102,8 +114,8 @@ export function handleToolCallBuffer(
           }
         }
       } else {
-        // Check for entry into arg
-        const isBeginArgLine = line.match(/begin_?arg:/i);
+        // Check for entry into arg (anchored to whole line)
+        const isBeginArgLine = BEGIN_ARG_LINE.test(line);
         if (isBeginArgLine) {
           state.isWithinArgStart = true;
         }
