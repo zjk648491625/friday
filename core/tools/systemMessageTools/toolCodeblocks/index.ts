@@ -7,6 +7,10 @@ export class SystemMessageToolCodeblocksFramework
 {
   acceptedToolCallStarts: [string, string][] = [
     ["```tool\n", "```tool\n"],
+    // Non-standard but observed in the wild: the model skips the codeblock
+    // fence and starts directly with the tool-name line. Normalize it into
+    // the canonical shape so the parser can take over from there.
+    ["tool_name:", "```tool\ntool_name:"],
   ];
 
   toolCallStateToSystemToolCall(state: ToolCallState): string {
