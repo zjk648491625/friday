@@ -636,6 +636,9 @@ export const sessionSlice = createSlice({
               });
               lastItem = state.history[state.history.length - 1];
               lastMessage = lastItem.message;
+              if ((message as any).model) {
+                lastItem.modelName = (message as any).model;
+              }
 
               handleToolCallsInMessage(message, lastItem);
 
@@ -688,6 +691,11 @@ export const sessionSlice = createSlice({
               }
             }
 
+            // Capture the real model name reported by the API, if present
+            if ((message as any).model) {
+              lastItem.modelName = (message as any).model;
+            }
+
             // Handle reasoning_details
             if (message.reasoning_details) {
               lastMessage.reasoning_details = mergeReasoningDetails(
@@ -722,6 +730,11 @@ export const sessionSlice = createSlice({
             state.history.push(historyItem);
             lastItem = state.history[state.history.length - 1];
             lastMessage = lastItem.message;
+          }
+
+          // Capture the real model name reported by the API, if present
+          if ((message as any).model) {
+            lastItem.modelName = (message as any).model;
           }
 
           // Add to the existing message

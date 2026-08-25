@@ -905,6 +905,24 @@ export function Chat() {
                     onFork={handleFork}
                   />
                 </TimelineItem>
+
+                {(item as any).modelName && (
+                  <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 4px 2px" }}>
+                    <span
+                      title="本次回答的真实模型（来自 API 返回的 model 字段）"
+                      style={{
+                        fontSize: "10px",
+                        opacity: 0.7,
+                        padding: "1px 8px",
+                        borderRadius: "10px",
+                        background: "rgba(128,128,128,0.08)",
+                        color: "var(--vscode-descriptionForeground)",
+                      }}
+                    >
+                      ⚡ {(item as any).modelName}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {toolCallStates && (
@@ -957,6 +975,24 @@ export function Chat() {
               onFork={handleFork}
             />
           </TimelineItem>
+
+          {(item as any).modelName && (
+            <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 4px 2px" }}>
+              <span
+                title="本次回答的真实模型（来自 API 返回的 model 字段）"
+                style={{
+                  fontSize: "10px",
+                  opacity: 0.7,
+                  padding: "1px 8px",
+                  borderRadius: "10px",
+                  background: "rgba(128,128,128,0.08)",
+                  color: "var(--vscode-descriptionForeground)",
+                }}
+              >
+                ⚡ {(item as any).modelName}
+              </span>
+            </div>
+          )}
         </div>
       );
     },

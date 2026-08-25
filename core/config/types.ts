@@ -327,6 +327,8 @@ declare global {
     role: "assistant";
     content: MessageContent;
     toolCalls?: ToolCallDelta[];
+    /** Real model name as reported by the API response ("model" field) */
+    model?: string;
   }
   
   export interface SystemChatMessage {

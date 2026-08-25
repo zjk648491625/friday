@@ -402,6 +402,8 @@ export interface ThinkingChatMessage {
     signature?: string;
     [key: string]: any;
   }[];
+  /** Real model name as reported by the API response ("model" field), if available */
+  model?: string;
   /** Arbitrary per-message metadata (IDs, provider-specific info, etc.) */
   metadata?: Record<string, unknown>;
 }
@@ -433,6 +435,8 @@ export interface AssistantChatMessage {
   content: MessageContent;
   toolCalls?: ToolCallDelta[];
   usage?: Usage;
+  /** Real model name as reported by the API response ("model" field), if available */
+  model?: string;
   /** Arbitrary per-message metadata (IDs, provider-specific info, etc.) */
   metadata?: Record<string, unknown>;
 }
@@ -553,6 +557,8 @@ export interface ChatHistoryItem {
   appliedRules?: RuleMetadata[];
   conversationSummary?: string;
   timestamp?: number;
+  /** Real model name reported by the API for this response, if available */
+  modelName?: string;
 }
 
 export interface LLMFullCompletionOptions extends BaseCompletionOptions {

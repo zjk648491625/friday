@@ -363,6 +363,15 @@ export function fromChatCompletionChunk(
       })
     | undefined;
 
+  // OpenAI-compatible APIs echo the REAL model name in every chunk's "model"
+  // field (differs from the configured title for proxies/OpenRouter/local
+  // runtimes). Attach it to each emitted message so the UI can show which
+  // model actually answered.
+  const realModel =
+    (chunk as { model?: string }).model ? { model: chunk.model } : {};
+  const withModel = <T extends object>(m: T): T =>
+    Object.keys(realModel).length ? ({ ...m, ...realModel } as T) : m;
+
   const messages: ChatMessage[] = [];
 
   // Reasoning and content may coexist in a single chunk at the thinking→answer
@@ -380,21 +389,23 @@ export function fromChatCompletionChunk(
         .map((d: any) => d.text)
         .join("") || "";
 
-    const message: ThinkingChatMessage = {
+    const message: ThinkingChatMessage = withModel({
       role: "thinking",
       content:
         delta.reasoning_content || delta.reasoning || reasoningTextFromDetails || "",
       signature: delta?.reasoning_details?.[0]?.signature,
       reasoning_details: delta?.reasoning_details as any[],
-    };
+    });
     messages.push(message);
   }
 
   if (delta?.content !== undefined && delta?.content !== null && delta?.content !== "") {
-    messages.push({
-      role: "assistant",
-      content: delta.content,
-    });
+    messages.push(
+      withModel({
+        role: "assistant" as const,
+        content: delta.content,
+      }),
+    );
   } else if (delta?.tool_calls) {
     const toolCalls = delta?.tool_calls
       .filter((tool_call) => !tool_call.type || tool_call.type === "function")
@@ -408,11 +419,13 @@ export function fromChatCompletionChunk(
       }));
 
     if (toolCalls.length > 0) {
-      messages.push({
-        role: "assistant",
-        content: "",
-        toolCalls,
-      });
+      messages.push(
+        withModel({
+          role: "assistant" as const,
+          content: "",
+          toolCalls,
+        }),
+      );
     }
   }
 
@@ -423,10 +436,12 @@ export function fromChatCompletionChunk(
     delta?.content !== undefined &&
     delta?.content !== null
   ) {
-    messages.push({
-      role: "assistant",
-      content: delta.content,
-    });
+    messages.push(
+      withModel({
+        role: "assistant" as const,
+        content: delta.content,
+      }),
+    );
   }
 
   return messages;
