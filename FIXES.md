@@ -40,3 +40,17 @@ cd extensions/cli && npm run lint                        # 需先 npm install �
 
 - extensions/cli 的 node_modules 为残缺安装（@types/* 缺失、core/sdk 未构建），导致其 lint 有遗留报错；`npm install && npm run build:local-deps` 后即可收敛
 - GUI 存在少量先前遗留的类型告警与本修复无关（详见各 chore(types) 提交说明）
+
+## 真实仓库测试的沙箱内执行（miniRunner.cjs）
+
+沙箱禁止 Node 子进程孵化（child_process EPERM），vitest/jest 均无法启动。替代方案：
+`manual-testing-sandbox/miniRunner.cjs` 内置 vitest 兼容 shim + TypeScript 内存转译加载器，
+直接运行仓库中的真实 `*.vitest.ts` 测试文件：
+
+```bash
+node manual-testing-sandbox/miniRunner.cjs core/tools/systemMessageTools/toolCodeblocks/parseSystemToolCall.vitest.ts core/tools/systemMessageTools/toolCodeblocks/interceptSystemToolCalls.vitest.ts core/tools/systemMessageTools/toolCodeblocks/detectToolCallStart.vitest.ts core/tools/systemMessageTools/toolCodeblocks/buildSystemMessage.vitest.ts core/tools/systemMessageTools/systemToolUtils.vitest.ts
+```
+
+当前成绩 **53/53 全绿**。期间发现并修复：
+1. master 上即失败的遗留用例（裸 tool_name 无围栏格式从未被支持）→ acceptedToolCallStarts 补条目，自动规范化为大写标准形态
+2. buildSystemMessage.vitest 中 31 处误用 matcher（.includes / result.toContain 在真实 vitest 下必然 TypeError）→ 改为 toContain 标准形态
