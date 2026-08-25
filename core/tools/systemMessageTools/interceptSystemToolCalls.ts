@@ -39,6 +39,10 @@ export async function* interceptSystemToolCalls(
   let buffer = "";
   let parseState: ToolCallParseState | undefined;
   let toolNameParsed = false;
+  // Track the most recent assistant message that contributed to `buffer` so
+  // the done-branch trailing-fence flush can preserve per-message fields
+  // (e.g. the API-reported model name) instead of emitting a bare object.
+  let lastBufferSource: any = undefined;
 
   while (true) {
     const result = await messageGenerator.next();
@@ -59,10 +63,15 @@ export async function* interceptSystemToolCalls(
       // would be silently lost.
       if (!parseState && buffer.length > 0) {
         yield [
-          {
-            role: "assistant",
-            content: [{ type: "text", text: buffer }],
-          },
+          lastBufferSource
+            ? {
+                ...lastBufferSource,
+                content: [{ type: "text", text: buffer }],
+              }
+            : {
+                role: "assistant",
+                content: [{ type: "text", text: buffer }],
+              },
         ];
         buffer = "";
       }
@@ -100,6 +109,7 @@ export async function* interceptSystemToolCalls(
 
         for (const chunk of chunks) {
           buffer += chunk;
+          lastBufferSource = message;
           if (!parseState) {
             const { isInPartialStart, isInToolCall, modifiedBuffer } =
               detectToolCallStart(buffer, systemToolFramework);
