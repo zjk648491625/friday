@@ -91,6 +91,15 @@ const DEFAULT_MOCK_CORE_RESPONSES: MockResponses = {
   "tools/preprocessArgs": {
     preprocessedArgs: undefined,
   },
+  "system/getEnvironmentInfo": {
+    platform: "linux",
+    osRelease: "mock",
+    arch: "x64",
+    defaultShell: "/bin/bash",
+    homeDir: "/home/test",
+    ideType: null,
+    nodeVersion: "v0.0.0-mock",
+  },
   "llm/compileChat": {
     compiledChatMessages: [],
     didPrune: false,
