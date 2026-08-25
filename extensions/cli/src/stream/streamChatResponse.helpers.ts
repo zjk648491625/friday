@@ -648,6 +648,29 @@ export async function executeStreamedToolCalls(
                 );
               } catch {}
             }
+          } catch (error) {
+            const errorMessage = `Error executing tool ${call.name}: ${
+              error instanceof Error ? error.message : String(error)
+            }`;
+            logger.error("Tool execution failed", {
+              name: call.name,
+              error: errorMessage,
+            });
+            entriesByIndex.set(index, {
+              role: "tool",
+              tool_call_id: call.id,
+              content: errorMessage,
+              status: "errored",
+            });
+            callbacks?.onToolError?.(errorMessage, call.name);
+            try {
+              services.chatHistory.addToolResult(
+                call.id,
+                errorMessage as string,
+                "errored",
+              );
+            } catch {}
+          }
         })(),
       );
     } catch (error) {
