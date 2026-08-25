@@ -75,6 +75,18 @@ export type ToCoreFromIdeOrWebviewProtocol = {
   "history/clear": [undefined, void];
   "history/clearWorkspace": [{ workspaceDirectory: string }, void];
   "devdata/log": [DevDataLogEvent, void];
+  "system/getEnvironmentInfo": [
+    undefined,
+    {
+      platform: string;
+      osRelease: string;
+      arch: string;
+      defaultShell: string;
+      homeDir: string;
+      ideType: string | null;
+      nodeVersion: string;
+    },
+  ];
   "config/addOpenAiKey": [string, void];
   "config/addModel": [
     {

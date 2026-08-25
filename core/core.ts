@@ -1331,6 +1331,31 @@ export class Core {
       }
     });
 
+    on("system/getEnvironmentInfo", async () => {
+      // Runs in the extension host (Node), so this reflects the real machine
+      // the IDE/user shell operates on — exactly what the model should know.
+      const os = await import("os");
+      const isWindows = os.platform() === "win32";
+      const defaultShell = isWindows
+        ? (process.env.ComSpec ?? "cmd.exe")
+        : (process.env.SHELL ?? "/bin/bash");
+      let ideType: string | null = null;
+      try {
+        ideType = (await this.ide.getIdeInfo()).ideType ?? null;
+      } catch (e) {
+        // IDE info unavailable (e.g. CLI headless) — report null
+      }
+      return {
+        platform: os.platform(),
+        osRelease: os.release(),
+        arch: os.arch(),
+        defaultShell,
+        homeDir: os.homedir(),
+        ideType,
+        nodeVersion: process.version,
+      };
+    });
+
     on("isItemTooBig", async ({ data: { item } }) => {
       return this.isItemTooBig(item);
     });

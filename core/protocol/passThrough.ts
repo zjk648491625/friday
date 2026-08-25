@@ -17,6 +17,7 @@ export const WEBVIEW_TO_CORE_PASS_THROUGH: (keyof ToCoreFromWebviewProtocol)[] =
     "history/clear",
     "history/clearWorkspace",
     "devdata/log",
+    "system/getEnvironmentInfo",
     "config/addModel",
     "config/newPromptFile",
     "config/newAssistantFile",
