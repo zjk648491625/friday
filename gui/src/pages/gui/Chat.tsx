@@ -281,11 +281,6 @@ const StepsDiv = styled.div`
     margin-top: 20px;
   }
 
-  .msg-row.no-avatar {
-    gap: 0;
-    margin-left: 38px;
-  }
-
   /* User message row — right side, auto-width */
   .msg-row.user {
     justify-content: flex-end;
@@ -335,6 +330,7 @@ const StepsDiv = styled.div`
     margin-top: 2px;
     color: var(--vscode-foreground);
     white-space: nowrap;
+    text-align: center;
   }
 
   /* Message body */
@@ -754,15 +750,19 @@ export function Chat() {
         }
 
         return (
-          <div className={`msg-row ${showAvatar ? "with-avatar" : "no-avatar"}`}>
-            {showAvatar && (
-              <div className="msg-avatar-col">
-                <div className="msg-avatar-icon ai" title="Friday AI">🤖</div>
-              </div>
-            )}
-            {showAvatar && (
-              <span className="msg-avatar-label" style={{ fontSize: configFontSize || undefined }}>Friday</span>
-            )}
+          <div className="msg-row with-avatar">
+            <div
+              className="msg-avatar-col"
+              style={{ visibility: showAvatar ? "visible" : "hidden" }}
+            >
+              <div className="msg-avatar-icon ai" title="Friday AI">🤖</div>
+              <span
+                className="msg-avatar-label"
+                style={{ fontSize: configFontSize || undefined }}
+              >
+                Friday
+              </span>
+            </div>
             <div className="msg-body ai-body">
               {/* Always render assistant content through normal path */}
               <div className="thread-message">
@@ -785,9 +785,8 @@ export function Chat() {
                     latestSummaryIndex={latestSummaryIndex}
                     timestamp={item.timestamp}
                     leftSlot={
-                      item.promptLogs && item.promptLogs.length > 0
-                        ? (() => {
-                            const logs = item.promptLogs;
+                      (() => {
+                        const logs = item.promptLogs ?? [];
                             const lastUsg = logs[logs.length - 1]?.usage;
                             const inp = lastUsg?.promptTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.prompt?.length || 0), 0) / 3.5);
                             const out = lastUsg?.completionTokens ?? Math.round(logs.reduce((s: number, l: any) => s + (l.completion?.length || 0), 0) / 3.5);
@@ -797,7 +796,8 @@ export function Chat() {
                             const total = inp + out;
                             const prevUser = filteredHistory.slice(0, index).reverse().find((x: any) => x?.message?.role === "user");
                             const elapsed = prevUser?.timestamp && item.timestamp ? ((item.timestamp - prevUser.timestamp) / 1000).toFixed(1) : "";
-                            if (total === 0) return null;
+                            const modelName = (item as any).modelName;
+                            if (total === 0 && !modelName) return null;
                             const isOpen = tokenHoverIndex === index;
                             const cacheMiss = Math.max(0, inp - ((cached ?? 0) + (cacheWrite ?? 0)));
                             const contentTokens = Math.max(0, out - (reasoning ?? 0));
@@ -820,6 +820,18 @@ export function Chat() {
                                 {elapsed && (
                                   <span style={{ padding: "1px 8px", borderRadius: "10px", background: "rgba(128,128,128,0.06)", color: "var(--vscode-descriptionForeground)", fontSize: "10px", opacity: 0.6 }}>
                                     🕐 耗时: {elapsed}s
+                                  </span>
+                                )}
+                                {modelName && (
+                                  <span
+                                    title="本次回答的真实模型（来自 API 返回的 model 字段）"
+                                    style={{
+                                      padding: "1px 8px", borderRadius: "10px",
+                                      background: "rgba(245,158,11,0.08)", color: "#f59e0b",
+                                      fontSize: "10px", opacity: 0.85,
+                                    }}
+                                  >
+                                    ⚡ {modelName}
                                   </span>
                                 )}
                                 {isOpen && (
@@ -899,30 +911,11 @@ export function Chat() {
                                 )}
                               </div>
                             );
-                          })()
-                        : undefined
+                      })()
                     }
                     onFork={handleFork}
                   />
                 </TimelineItem>
-
-                {(item as any).modelName && (
-                  <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 4px 2px" }}>
-                    <span
-                      title="本次回答的真实模型（来自 API 返回的 model 字段）"
-                      style={{
-                        fontSize: "10px",
-                        opacity: 0.7,
-                        padding: "1px 8px",
-                        borderRadius: "10px",
-                        background: "rgba(128,128,128,0.08)",
-                        color: "var(--vscode-descriptionForeground)",
-                      }}
-                    >
-                      ⚡ {(item as any).modelName}
-                    </span>
-                  </div>
-                )}
               </div>
 
               {toolCallStates && (
@@ -973,26 +966,24 @@ export function Chat() {
               latestSummaryIndex={latestSummaryIndex}
               timestamp={item.timestamp}
               onFork={handleFork}
+              leftSlot={
+                (item as any).modelName ? (
+                  <div style={{ position: "relative", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    <span
+                      title="本次回答的真实模型（来自 API 返回的 model 字段）"
+                      style={{
+                        padding: "1px 8px", borderRadius: "10px",
+                        background: "rgba(245,158,11,0.08)", color: "#f59e0b",
+                        fontSize: "10px", opacity: 0.85,
+                      }}
+                    >
+                      ⚡ {(item as any).modelName}
+                    </span>
+                  </div>
+                ) : undefined
+              }
             />
           </TimelineItem>
-
-          {(item as any).modelName && (
-            <div style={{ display: "flex", justifyContent: "flex-end", padding: "0 4px 2px" }}>
-              <span
-                title="本次回答的真实模型（来自 API 返回的 model 字段）"
-                style={{
-                  fontSize: "10px",
-                  opacity: 0.7,
-                  padding: "1px 8px",
-                  borderRadius: "10px",
-                  background: "rgba(128,128,128,0.08)",
-                  color: "var(--vscode-descriptionForeground)",
-                }}
-              >
-                ⚡ {(item as any).modelName}
-              </span>
-            </div>
-          )}
         </div>
       );
     },
