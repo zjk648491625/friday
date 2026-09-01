@@ -7,6 +7,7 @@ import { T } from "../../util/i18n";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import {
   EMPTY_RESPONSE_WARNING,
+  THINKING_ONLY_WARNING,
   deleteMessage,
 } from "../../redux/slices/sessionSlice";
 import { streamResponseThunk } from "../../redux/thunks/streamResponse";
@@ -50,7 +51,8 @@ export default function StepContainer(props: StepContainerProps) {
   // model response (stored in promptLogs) for diagnosis.
   const isEmptyResponse =
     props.item.message.role === "assistant" &&
-    props.item.message.content === EMPTY_RESPONSE_WARNING;
+    (props.item.message.content === EMPTY_RESPONSE_WARNING ||
+      props.item.message.content === THINKING_ONLY_WARNING);
 
   // Resubmit the user/tool message that preceded this empty assistant reply.
   function handleEmptyResponseRetry() {

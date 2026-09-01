@@ -49,12 +49,24 @@ import { streamResponseAfterToolCall } from "./streamResponseAfterToolCall";
  */
 
 /**
- * Detects whether a streamed message batch contains any user-visible output.
- * Used by the auto-retry logic: a stream that ends without producing any of
- * these is considered "empty" and eligible for retry.
+ * Stream-output classification helpers for the auto-retry logic.
+ *
+ * A stream is only considered "complete" when it produced an ANSWER
+ * (assistant text content or a tool call). Reasoning ("thinking") is a
+ * preliminary phase, not an answer: a response that ends after thinking alone
+ * is interrupted and must be retried / warned about, not silently accepted.
  */
-function hasVisibleStreamOutput(m: ChatMessage): boolean {
-  if (m.role === "thinking") return true;
+function isThinkingMessage(m: ChatMessage): boolean {
+  return m.role === "thinking";
+}
+
+// An "answer" is user-visible assistant content or a tool call. Reasoning
+// ("thinking") alone is NOT an answer: a stream that ends after only producing
+// reasoning is an interrupted/incomplete response. It must be retried, not
+// silently accepted — previously thinking counted as output, so a stream that
+// died mid-thinking neither retried nor warned, producing the "no reaction"
+// symptom with no error.
+function hasAnswerOutput(m: ChatMessage): boolean {
   if (m.role !== "assistant") return false;
   if (m.toolCalls?.length) return true;
   if (Array.isArray(m.content)) {
@@ -243,14 +255,16 @@ export const streamNormalInput = createAsyncThunk<
       state.config.config.experimental?.maxAutoRetries ?? 2,
     );
 
-    let sawAnyOutput = false;
+    let sawAnyAnswer = false;
+    let sawAnyThinking = false;
     let attempt = 0;
     let completedPromptLog: PromptLog | undefined = undefined;
 
     while (true) {
       attempt++;
       let heartbeatTick = 0;
-      let sawOutputThisAttempt = false;
+      let sawAnswerThisAttempt = false;
+      let sawThinkingThisAttempt = false;
       let pendingNext: Promise<any> | null = null;
 
       let gen = extra.ideMessenger.llmStreamChat(
@@ -317,8 +331,11 @@ export const streamNormalInput = createAsyncThunk<
           }
 
           const msgs = next.value as ChatMessage[];
-          if (msgs.some(hasVisibleStreamOutput)) {
-            sawOutputThisAttempt = true;
+          if (msgs.some(hasAnswerOutput)) {
+            sawAnswerThisAttempt = true;
+          }
+          if (msgs.some(isThinkingMessage)) {
+            sawThinkingThisAttempt = true;
           }
           dispatch(streamUpdate(msgs));
 
@@ -328,21 +345,24 @@ export const streamNormalInput = createAsyncThunk<
         if (next.done && next.value) {
           completedPromptLog = next.value as PromptLog;
         }
-        sawAnyOutput = sawAnyOutput || sawOutputThisAttempt;
+        sawAnyAnswer = sawAnyAnswer || sawAnswerThisAttempt;
+        sawAnyThinking = sawAnyThinking || sawThinkingThisAttempt;
 
         // Empty-response retry: nothing visible produced this attempt and
         // nothing earlier either. User aborts never retry.
         const abortedAfterStream =
           streamAborter.signal.aborted || !getState().session.isStreaming;
         if (
-          !sawAnyOutput &&
+          !sawAnyAnswer &&
           !abortedAfterStream &&
           attempt <= maxAutoRetries
         ) {
+          const kind = sawAnyThinking ? "thinking-only" : "empty";
+          const label = sawAnyThinking ? "思考后无回答" : "空响应";
           console.warn(
-            `[stream] empty response, auto-retry ${attempt}/${maxAutoRetries}`,
+            `[stream] ${kind} response, auto-retry ${attempt}/${maxAutoRetries}`,
           );
-          dispatch(setTaskStatus(`${stepPrefix}⚠️ 空响应，自动重试 ${attempt}/${maxAutoRetries}...`));
+          dispatch(setTaskStatus(`${stepPrefix}⚠️ ${label}，自动重试 ${attempt}/${maxAutoRetries}...`));
           await new Promise((r) => setTimeout(r, 300 * attempt));
           continue;
         }
@@ -375,7 +395,7 @@ export const streamNormalInput = createAsyncThunk<
         const abortedOnError =
           streamAborter.signal.aborted || !getState().session.isStreaming;
         if (
-          !sawOutputThisAttempt &&
+          !sawAnswerThisAttempt &&
           !abortedOnError &&
           attempt <= maxAutoRetries
         ) {

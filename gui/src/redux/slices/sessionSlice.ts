@@ -50,6 +50,9 @@ import { findChatHistoryItemByToolCallId, findToolCallById } from "../util";
 export const EMPTY_RESPONSE_WARNING =
   "⚠️ 模型返回了空响应。可能原因：模型返回了非标准格式的内容，或流被提前终止。请尝试其他模型或重新发送。";
 
+export const THINKING_ONLY_WARNING =
+  "⚠️ 模型只输出了思考过程，未产生回答（流在思考阶段被中断）。请重试或重新发送。";
+
 /**
  * Helper function to filter out duplicate edit/search-replace tool calls.
  * Only keeps the first occurrence of edit tools.
@@ -555,20 +558,24 @@ export const sessionSlice = createSlice({
         curMessage.isGatheringContext = false;
       }
 
-      // Detect a genuinely empty response: the turn finished normally (a
-      // PromptLog was captured, so the stream completed rather than errored or
-      // was cancelled) but produced no content, tool calls, or reasoning. Only
-      // then do we show the warning — error/cancel paths have their own
-      // handling (the stream error dialog) and never populate promptLogs.
+      // Detect responses that finished "normally" (a PromptLog was captured,
+      // so the stream completed rather than errored or cancelled) yet produced
+      // no answer. Two distinct cases:
+      // - reasoning present but no content/tool calls → interrupted mid-thinking
+      // - no reasoning and no content/tool calls → fully empty
+      // Error/cancel paths never populate promptLogs and are handled elsewhere.
       if (
         curMessage &&
         curMessage.message.role === "assistant" &&
         !curMessage.message.content &&
         !curMessage.message.toolCalls?.length &&
-        !curMessage.reasoning?.text &&
         curMessage.promptLogs?.length
       ) {
-        curMessage.message.content = EMPTY_RESPONSE_WARNING;
+        if (curMessage.reasoning?.text) {
+          curMessage.message.content = THINKING_ONLY_WARNING;
+        } else {
+          curMessage.message.content = EMPTY_RESPONSE_WARNING;
+        }
       }
 
       state.isStreaming = false;
