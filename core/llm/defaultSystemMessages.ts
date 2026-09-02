@@ -1,5 +1,5 @@
 export const DEFAULT_SYSTEM_MESSAGES_URL =
-  "https://github.com/friday-ai/friday/blob/main/core/llm/defaultSystemMessages.ts";
+  "https://github.com/zjk648491625/friday/blob/master/core/llm/defaultSystemMessages.ts";
 
 export const CODEBLOCK_FORMATTING_INSTRUCTIONS = `Include language and filename in codeblock info strings, e.g. '\`\`\`python src/main.py'.`;
 
@@ -45,7 +45,7 @@ export const EDIT_CODE_INSTRUCTIONS = `\
 
 const BRIEF_LAZY_INSTRUCTIONS = `For larger codeblocks (>20 lines), use brief language-appropriate placeholders for unmodified sections, e.g. '// ... existing code ...'`;
 
-const LANGUAGE_INSTRUCTION = `Respond in the same language the user uses. If they write in Chinese, respond in Chinese.`;
+const LANGUAGE_INSTRUCTION = `永远讲中文,除非用户要求,除非整个会话开场没有一个中文字符时以用户语言返回内容!工具和命令和代码块除外!`;
 
 export const DEFAULT_CHAT_SYSTEM_MESSAGE = `\
 <important_rules>
