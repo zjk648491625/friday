@@ -1,6 +1,10 @@
 import { ChatMessage, PromptLog, TextMessagePart } from "../..";
 import { normalizeToMessageParts } from "../../util/messageContent";
 import { detectToolCallStart } from "./detectToolCallStart";
+import {
+  parseKimiToolCallSection,
+  sanitizeAssistantText,
+} from "./sanitizeToolCallLeaks";
 import { createDelta, splitAtCodeblocksAndNewLines } from "./systemToolUtils";
 import {
   getInitialToolCallParseState,
@@ -35,7 +39,20 @@ export async function* interceptSystemToolCalls(
   abortController: AbortController,
   systemToolFramework: SystemMessageToolsFramework,
   knownToolNames?: string[],
+  options: {
+    /** Parse the legacy codeblock text-protocol (```tool ... END_ARG) into tool calls. */
+    parseSystemToolCalls?: boolean;
+    /** Recover leaked Kimi/GLM native <|tool_...|> sections into tool calls. */
+    recoverKimiLeaks?: boolean;
+  } = {},
 ): AsyncGenerator<ChatMessage[], PromptLog | undefined> {
+  const parseSystemToolCalls = options.parseSystemToolCalls !== false;
+  const recoverKimiLeaks = options.recoverKimiLeaks !== false;
+  console.debug("[interceptSystemToolCalls] options:", {
+    parseSystemToolCalls,
+    recoverKimiLeaks,
+    knownTools: knownToolNames?.length ?? 0,
+  });
   let buffer = "";
   let parseState: ToolCallParseState | undefined;
   let toolNameParsed = false;
@@ -43,10 +60,24 @@ export async function* interceptSystemToolCalls(
   // the done-branch trailing-fence flush can preserve per-message fields
   // (e.g. the API-reported model name) instead of emitting a bare object.
   let lastBufferSource: any = undefined;
+  // Accumulates a leaked Kimi/GLM native tool-call section (<|tool_calls_section_begin|>...).
+  let kimiSection: string | undefined = undefined;
 
   while (true) {
     const result = await messageGenerator.next();
     if (result.done) {
+      // Flush any unclosed leaked Kimi tool section as sanitized text.
+      if (recoverKimiLeaks && kimiSection !== undefined) {
+        const leakedText = sanitizeAssistantText(kimiSection);
+        if (leakedText) {
+          yield [
+            lastBufferSource
+              ? { ...lastBufferSource, content: [{ type: "text", text: leakedText }] }
+              : { role: "assistant", content: [{ type: "text", text: leakedText }] },
+          ];
+        }
+        kimiSection = undefined;
+      }
       // Case: non-standard tool termination causes hanging args
       if (parseState && !parseState.done && parseState.processedArgNames.size) {
         yield [
@@ -108,9 +139,47 @@ export async function* interceptSystemToolCalls(
           .flat();
 
         for (const chunk of chunks) {
+          // -- Kimi/GLM native tool-call leak recovery --
+          if (recoverKimiLeaks && kimiSection !== undefined) {
+            kimiSection += chunk;
+            if (kimiSection.includes("<|tool_calls_section_end|>")) {
+              const section = kimiSection;
+              kimiSection = undefined;
+              const calls = parseKimiToolCallSection(section, knownToolNames);
+              if (calls && calls.length) {
+                yield [{ ...message, content: "", toolCalls: calls }];
+              } else {
+                yield [{ ...message, content: [{ type: "text", text: sanitizeAssistantText(section) }] }];
+              }
+              buffer = "";
+            }
+            continue;
+          }
+          const kimiStartIdx = recoverKimiLeaks
+            ? chunk.indexOf("<|tool_calls_section_begin|>")
+            : -1;
+          if (kimiStartIdx !== -1) {
+            const prefix = chunk.slice(0, kimiStartIdx);
+            if (prefix) {
+              yield [{ ...message, content: [{ type: "text", text: prefix }] }];
+            }
+            kimiSection = chunk.slice(kimiStartIdx);
+            if (kimiSection.includes("<|tool_calls_section_end|>")) {
+              const section = kimiSection;
+              kimiSection = undefined;
+              const calls = parseKimiToolCallSection(section, knownToolNames);
+              if (calls && calls.length) {
+                yield [{ ...message, content: "", toolCalls: calls }];
+              } else {
+                yield [{ ...message, content: [{ type: "text", text: sanitizeAssistantText(section) }] }];
+              }
+            }
+            buffer = "";
+            continue;
+          }
           buffer += chunk;
           lastBufferSource = message;
-          if (!parseState) {
+          if (parseSystemToolCalls && !parseState) {
             const { isInPartialStart, isInToolCall, modifiedBuffer } =
               detectToolCallStart(buffer, systemToolFramework);
 

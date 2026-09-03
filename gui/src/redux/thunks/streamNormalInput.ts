@@ -22,7 +22,6 @@ import {
 import { ThunkApiType } from "../store";
 import { constructMessages } from "../util/constructMessages";
 
-import { modelSupportsNativeTools } from "core/llm/toolSupport";
 import { applyToolOverrides } from "core/tools/applyToolOverrides";
 import { addSystemMessageToolsToSystemMessage } from "core/tools/systemMessageTools/buildToolsSystemMessage";
 import { interceptSystemToolCalls } from "core/tools/systemMessageTools/interceptSystemToolCalls";
@@ -141,11 +140,14 @@ export const streamNormalInput = createAsyncThunk<
       }
     }
 
-    // Use the centralized selector to determine if system message tools should be used
-    const useNativeTools = state.config.config.experimental
-      ?.onlyUseSystemMessageTools
-      ? false
-      : modelSupportsNativeTools(selectedChatModel);
+    // Native OpenAI tools (tool_use) are enabled BY DEFAULT and do NOT depend on
+    // the model's yml `capabilities` entry or a provider/model-name heuristic.
+    // Sessions that carry tools (plan & agent modes) always use the native tool
+    // channel; `chat` mode never attaches tools (see selectActiveTools).
+    // The only escape hatch is the experimental `onlyUseSystemMessageTools`
+    // flag, which forces the legacy codeblock text-protocol instead.
+    const useNativeTools = !state.config.config.experimental
+      ?.onlyUseSystemMessageTools;
     const systemToolsFramework = !useNativeTools
       ? new SystemMessageToolCodeblocksFramework()
       : undefined;
@@ -277,12 +279,18 @@ export const streamNormalInput = createAsyncThunk<
         },
         streamAborter.signal,
       );
-      if (systemToolsFramework && activeTools.length > 0) {
+      // Wrap the stream whenever tools are attached so leaked native
+      // <|tool_...|> sections are recovered into real tool calls in BOTH
+      // channels: the legacy text-protocol path also parses \`\`\`tool codeblocks,
+      // while the native (default) path only recovers Kimi-style leaks and
+      // leaves code fences alone.
+      if (activeTools.length > 0) {
         gen = interceptSystemToolCalls(
           gen,
           streamAborter,
-          systemToolsFramework,
+          systemToolsFramework ?? new SystemMessageToolCodeblocksFramework(),
           activeTools.map((tool) => tool.function.name),
+          useNativeTools ? { parseSystemToolCalls: false } : {},
         );
       }
 

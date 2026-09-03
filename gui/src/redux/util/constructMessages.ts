@@ -1,4 +1,5 @@
 import {
+  AssistantChatMessage,
   ChatHistoryItem,
   ChatMessage,
   ContextItemWithId,
@@ -18,6 +19,7 @@ import {
   NO_TOOL_CALL_OUTPUT_MESSAGE,
 } from "core/tools/constants";
 import { convertToolCallStatesToSystemCallsAndOutput } from "core/tools/systemMessageTools/convertSystemTools";
+import { sanitizeAssistantMessage } from "core/tools/systemMessageTools/sanitizeToolCallLeaks";
 import { SystemMessageToolsFramework } from "core/tools/systemMessageTools/types";
 import { findLast, findLastIndex } from "core/util/findLast";
 import {
@@ -103,16 +105,39 @@ export function constructMessages(
         message: item.message,
       });
     } else if (item.message.role === "assistant") {
+      // Strip leaked model control tokens (<|tool...|> / think markers) from
+      // assistant text before replaying it into the next request, so past
+      // leaks do not keep reinforcing model drift.
+      const assistantMessage = sanitizeAssistantMessage(
+        item.message as AssistantChatMessage,
+      );
+      // If sanitization emptied the whole assistant message (e.g. a message
+      // that was ONLY leaked <|tool...|> markers) and it carries no tool
+      // calls, drop it instead of sending an empty assistant message.
+      const hasAssistantText = (msg: AssistantChatMessage) =>
+        typeof msg.content === "string"
+          ? !!msg.content.trim()
+          : ((msg.content as any[]) || []).some(
+              (part) =>
+                part?.type === "text" && typeof part.text === "string" && !!part.text.trim(),
+            );
+      if (
+        !hasAssistantText(assistantMessage) &&
+        !(item.message as any).toolCalls?.length &&
+        !item.toolCallStates?.length
+      ) {
+        continue;
+      }
       // When using system message tools, convert tool calls/states to text content
       if (item.toolCallStates?.length && useSystemToolsFramework) {
-        const { userMessage, assistantMessage } =
+        const { userMessage, assistantMessage: convertedAssistantMessage } =
           convertToolCallStatesToSystemCallsAndOutput(
-            item.message,
+            assistantMessage,
             item.toolCallStates ?? [],
             useSystemToolsFramework,
           );
         msgs.push({
-          message: assistantMessage,
+          message: convertedAssistantMessage,
           ctxItems: [],
         });
         msgs.push({
@@ -124,7 +149,7 @@ export function constructMessages(
 
       msgs.push({
         ctxItems: item.contextItems,
-        message: item.message,
+        message: assistantMessage,
       });
 
       // Add a tool message for each tool call

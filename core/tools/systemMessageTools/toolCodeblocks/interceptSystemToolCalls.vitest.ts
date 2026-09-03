@@ -562,3 +562,179 @@ describe("interceptSystemToolCalls", () => {
     expect(all).toContain("END_ARG");
   });
 });
+
+describe("interceptSystemToolCalls - Kimi native tool-call leak recovery", () => {
+  let abortController: AbortController;
+  let framework = new SystemMessageToolCodeblocksFramework();
+
+  beforeEach(() => {
+    abortController = new AbortController();
+  });
+
+  const createAsyncGenerator = async function* (
+    messages: ChatMessage[][],
+  ): AsyncGenerator<ChatMessage[], PromptLog | undefined> {
+    for (const messageGroup of messages) {
+      yield messageGroup;
+    }
+    return undefined;
+  };
+
+  const collect = async (generator: AsyncGenerator<ChatMessage[]>) => {
+    const msgs: ChatMessage[] = [];
+    let res = await generator.next();
+    while (!res.done) {
+      msgs.push(...(res.value as ChatMessage[]));
+      res = await generator.next();
+    }
+    return msgs;
+  };
+
+  const textOf = (m: ChatMessage) =>
+    typeof m.content === "string"
+      ? (m.content as string)
+      : ((m.content as any[]) || [])
+          .filter((part) => part.type === "text")
+          .map((part) => part.text)
+          .join("");
+
+  it("converts a leaked kimi section into a real tool call (same chunk)", async () => {
+    const leak =
+      "修改完成。我再读一下文件确认下。<|tool_calls_section_begin|><|tool_call_begin|>functions.read_file:0<|tool_call_argument_begin|>{\"filepath\": \"D:/Microservice/friday/package.json\"}<|tool_call_end|><|tool_calls_section_end|>";
+    const gen = interceptSystemToolCalls(
+      createAsyncGenerator([[{ role: "assistant", content: leak }]]),
+      abortController,
+      framework,
+      ["read_file", "write_file"],
+    );
+    const msgs = await collect(gen as any);
+    const joined = msgs.map(textOf).join("|");
+    expect(joined).toContain("修改完成");
+    expect(joined).not.toContain("<|tool");
+    const callMsg = (msgs as any[]).find((m) => m.toolCalls?.length);
+    expect(callMsg).toBeDefined();
+    expect(callMsg.toolCalls[0].function.name).toBe("read_file");
+    expect(
+      JSON.parse(callMsg.toolCalls[0].function.arguments).filepath,
+    ).toBe("D:/Microservice/friday/package.json");
+  });
+
+  it("converts a leaked kimi section split across stream chunks", async () => {
+    const chunk1 =
+      "修改完成。<|tool_calls_section_begin|><|tool_call_begin|>functions.read_file:0<|tool_call_argument_begin|>{\"fi";
+    const chunk2 =
+      'lepath": "b.java"}<|tool_call_end|><|tool_calls_section_end|>';
+    const gen = interceptSystemToolCalls(
+      createAsyncGenerator([
+        [{ role: "assistant", content: chunk1 }],
+        [{ role: "assistant", content: chunk2 }],
+      ]),
+      abortController,
+      framework,
+      ["read_file"],
+    );
+    const msgs = await collect(gen as any);
+    const callMsg = (msgs as any[]).find((m) => m.toolCalls?.length);
+    expect(callMsg).toBeDefined();
+    expect(JSON.parse(callMsg.toolCalls[0].function.arguments).filepath).toBe(
+      "b.java",
+    );
+  });
+
+  it("falls back to sanitized text for unknown leaked tool names", async () => {
+    const leak =
+      "<|tool_calls_section_begin|><|tool_call_begin|>functions.mystery_tool:0<|tool_call_argument_begin|>{\"a\":1}<|tool_call_end|><|tool_calls_section_end|>";
+    const gen = interceptSystemToolCalls(
+      createAsyncGenerator([[{ role: "assistant", content: leak }]]),
+      abortController,
+      framework,
+      ["read_file"],
+    );
+    const msgs = await collect(gen as any);
+    const joined = msgs.map(textOf).join("|");
+    expect(joined).not.toContain("<|tool");
+    expect((msgs as any[]).some((m) => m.toolCalls?.length)).toBe(false);
+  });
+});
+
+describe("interceptSystemToolCalls - native channel (parseSystemToolCalls:false)", () => {
+  let abortController: AbortController;
+  let framework = new SystemMessageToolCodeblocksFramework();
+  beforeEach(() => {
+    abortController = new AbortController();
+  });
+  const createAsyncGenerator = async function* (
+    messages: ChatMessage[][],
+  ): AsyncGenerator<ChatMessage[], PromptLog | undefined> {
+    for (const messageGroup of messages) yield messageGroup;
+    return undefined;
+  };
+  const collect = async (g: any) => {
+    const msgs: ChatMessage[] = [];
+    let res = await g.next();
+    while (!res.done) {
+      msgs.push(...(res.value as ChatMessage[]));
+      res = await g.next();
+    }
+    return msgs;
+  };
+  const textOf = (m: ChatMessage) =>
+    typeof m.content === "string"
+      ? (m.content as string)
+      : ((m.content as any[]) || [])
+          .filter((p) => p.type === "text")
+          .map((p) => p.text)
+          .join("");
+  const LEAK =
+    "<|tool_calls_section_begin|><|tool_call_begin|>functions.read_file:0<|tool_call_argument_begin|>{\"filepath\": \"a.java\"}<|tool_call_end|><|tool_calls_section_end|>";
+
+  it("passes codeblock fences through as text (no fake tool call)", async () => {
+    const fence =
+      "说明：\n```tool\nTOOL_NAME: read_file\nBEGIN_ARG: filepath\nx\nEND_ARG\n```";
+    const msgs = await collect(
+      interceptSystemToolCalls(
+        createAsyncGenerator([[{ role: "assistant", content: fence }]]),
+        abortController,
+        framework,
+        ["read_file"],
+        { parseSystemToolCalls: false },
+      ),
+    );
+    const j = msgs.map(textOf).join("");
+    expect(j).toContain("```tool");
+    expect((msgs as any[]).some((m) => m.toolCalls?.length)).toBe(false);
+  });
+
+  it("still recovers leaked kimi sections into tool calls in native mode", async () => {
+    const msgs = await collect(
+      interceptSystemToolCalls(
+        createAsyncGenerator([[{ role: "assistant", content: "读一下。" + LEAK }]]),
+        abortController,
+        framework,
+        ["read_file"],
+        { parseSystemToolCalls: false },
+      ),
+    );
+    const call = (msgs as any[]).find((m) => m.toolCalls?.length);
+    expect(call).toBeDefined();
+    expect(call.toolCalls[0].function.name).toBe("read_file");
+    expect(JSON.parse(call.toolCalls[0].function.arguments).filepath).toBe(
+      "a.java",
+    );
+  });
+
+  it("does not emit tool calls for unknown leaked names in native mode", async () => {
+    const msgs = await collect(
+      interceptSystemToolCalls(
+        createAsyncGenerator([
+          [{ role: "assistant", content: LEAK.replace("read_file", "mystery_tool") }],
+        ]),
+        abortController,
+        framework,
+        ["read_file"],
+        { parseSystemToolCalls: false },
+      ),
+    );
+    expect((msgs as any[]).some((m) => m.toolCalls?.length)).toBe(false);
+  });
+});
